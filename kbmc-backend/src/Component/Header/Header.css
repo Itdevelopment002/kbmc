@@ -1,0 +1,7 @@
+.navbar {
+  height: auto;
+    position: sticky !important; /* Make the navbar sticky */
+    top: 0; /* Stick to the top */
+    z-index: 1000; /* Ensure it's on top of other content */
+  }
+  

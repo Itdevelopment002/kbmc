@@ -1,0 +1,34 @@
+.news-section {
+    padding: 10px 0; /* Vertical padding */
+    overflow: hidden; /* Hide overflow for marquee */
+    position: relative; /* Position relative for absolute children */
+    white-space: nowrap; /* Prevent line breaks */
+}
+  
+.marquee {
+    display: flex; /* Align items horizontally */
+    overflow: hidden; /* Hide overflow */
+    position: relative; /* Position relative for absolute positioning */
+    height: 50px; /* Set height to accommodate the items */
+    align-items: center; /* Vertically center items */
+}
+  
+.marquee-content {
+    display: flex; /* Flex container for items */
+    animation: scroll 100s linear infinite; /* Start scrolling after 5 seconds */
+}
+  
+.marquee-item {
+    padding: 0 50px; /* Space between items */
+    font-size: 16px; /* Font size */
+    line-height: 50px; /* Vertically center text */
+}
+  
+@keyframes scroll {
+    0% {
+        transform: translateX(100%); /* Start off-screen to the right */
+    }
+    100% {
+        transform: translateX(-100%); /* Move to the left off-screen */
+    }
+}
