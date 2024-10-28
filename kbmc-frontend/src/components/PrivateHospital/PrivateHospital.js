@@ -1,18 +1,38 @@
-import React from "react";
-
-// Import the banner image
-import bannerImage from "../../assets/images/banner/inner-banner.jpg"; // Adjust this path based on your project structure
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import bannerImage from "../../assets/images/banner/inner-banner.jpg"; 
 
 const PrivateHospital = () => {
+  const [eastHospitals, setEastHospitals] = useState([]);
+  const [westHospitals, setWestHospitals] = useState([]);
+
+  const fetchHospitals = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/private-hospital");
+      const hospitals = response.data;
+      const eastDivisionHospitals = hospitals.filter(hospital => hospital.division === "East");
+      const westDivisionHospitals = hospitals.filter(hospital => hospital.division === "West");
+      setEastHospitals(eastDivisionHospitals);
+      setWestHospitals(westDivisionHospitals);
+
+    } catch (error) {
+      console.error("Error fetching hospital data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchHospitals();
+  }, []);
+
+
   return (
     <div>
-      {/* Page Title Section */}
+     
       <section className="page-title">
         <div
           className="bg-layer"
           style={{ backgroundImage: `url(${bannerImage})` }}
         ></div>
-        {/* <div className="pattern-layer" style={{ backgroundImage: 'url(assets/images/shape/shape-25.png)' }}></div> */}
         <div className="line-box">
           <div className="line-1"></div>
           <div className="line-2"></div>
@@ -33,7 +53,6 @@ const PrivateHospital = () => {
       </section>
       <br />
 
-      {/* Service Style Section */}
       <section className="service-style-four mt-5">
         <div className="auto-container">
           <h5>
@@ -104,49 +123,51 @@ const PrivateHospital = () => {
                 </tr>
               </thead>
 
-              {/* East Division Hospitals */}
               <tbody>
                 <tr>
                   <td colSpan="7">
                     <b>Names of East Division Hospital</b>
                   </td>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td>K. B. S. Dube Hospital, KBMC</td>
-                  <td>Dr. Rajesh Ankur, MBBS.</td>
+                {eastHospitals.map((east,index) =>(
+                  <tr key={east.id}>
+                  <td>{index+1}</td>
+                  <td>{east.hospital_name}</td>
+                  <td>{east.principal_doctor}</td>
                   <td>
-                    Near Adharsh Vidhyamandhir, Station Road, Kulgaon Badlapur.
+                    {east.address}
                   </td>
-                  <td>0251-2690920 / 8380007056</td>
-                  <td>05</td>
+                  <td>{east.phone_no} / {east.mobile_no}</td>
+                  <td>{east.beds}</td>
                   <td>
-                    Outpatient, leprosy, Tuberculosis treatment, blood test,
-                    vaccination. <br />
-                    <span>hosp.kbmc@gmail.com</span>
+                    {east.facility}
                   </td>
                 </tr>
+                ))}
               </tbody>
 
-              {/* West Division Hospitals */}
+          
               <tbody>
                 <tr>
                   <td colSpan="7">
                     <b>Names of West Division Hospital</b>
                   </td>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td>Primary Health Center Badlapur Village (PHC)</td>
-                  <td>Dr. Prashant Kanojiya / Dr. Ashwini Kodilkar</td>
-                  <td>Badlapur Village</td>
-                  <td>0251-2665915 / 9822740508</td>
-                  <td>06</td>
+                {westHospitals.map((west,index) =>(
+                  <tr key={west.id}>
+                  <td>{index+1}</td>
+                  <td>{west.hospital_name}</td>
+                  <td>{west.principal_doctor}</td>
                   <td>
-                    Outpatient department, maternity facility, family planning
-                    surgery facility
+                    {west.address}
+                  </td>
+                  <td>{west.phone_no} / {west.mobile_no}</td>
+                  <td>{west.beds}</td>
+                  <td>
+                    {west.facility}
                   </td>
                 </tr>
+                ))}
               </tbody>
             </table>
           </div>
