@@ -15,19 +15,19 @@ router.get('/departments', (req, res) => {
 
 // Add a new department
 router.post('/departments', (req, res) => {
-    const { name, hod } = req.body;
-    const sql = 'INSERT INTO departments (name, hod) VALUES (?, ?)';
-    db.query(sql, [name, hod], (err, result) => {
+    const { name, hod, link } = req.body;
+    const sql = 'INSERT INTO departments (name, hod, link) VALUES (?, ?, ?)';
+    db.query(sql, [name, hod, link], (err, result) => {
         if (err) throw err;
-        res.json({ id: result.insertId, name, hod });
+        res.json({ id: result.insertId, name, hod, link });
     });
 });
 
 // Update a department
 router.put('/departments/:id', (req, res) => {
-    const { name, hod } = req.body;
-    const sql = 'UPDATE departments SET name = ?, hod = ? WHERE id = ?';
-    db.query(sql, [name, hod, req.params.id], (err, result) => {
+    const { name, hod, link } = req.body;
+    const sql = 'UPDATE departments SET name = ?, hod = ?, link = ? WHERE id = ?';
+    db.query(sql, [name, hod, link, req.params.id], (err, result) => {
         if (err) throw err;
         res.json({ success: true });
     });
