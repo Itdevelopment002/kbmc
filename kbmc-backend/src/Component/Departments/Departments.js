@@ -10,8 +10,9 @@ const Departments = () => {
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [editedName, setEditedName] = useState('');
   const [editedHod, setEditedHod] = useState('');
+  const [editedLink, setEditedLink] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [departmentsPerPage] = useState(5); // Pagination limit
+  const [departmentsPerPage] = useState(5); 
 
   useEffect(() => {
     fetchDepartments();
@@ -46,6 +47,7 @@ const Departments = () => {
     setSelectedDepartment(department.id);
     setEditedName(department.name);
     setEditedHod(department.hod);
+    setEditedLink(department.link);
     setShowEditModal(true);
   };
 
@@ -54,6 +56,7 @@ const Departments = () => {
       await axios.put(`http://localhost:5000/api/departments/${selectedDepartment}`, {
         name: editedName,
         hod: editedHod,
+        link: editedLink,
       });
       console.log(`Edited department with ID: ${selectedDepartment}`);
       fetchDepartments(); // Refresh the department list after editing
@@ -101,6 +104,7 @@ const Departments = () => {
                           <th width="10%">Sr. No.</th>
                           <th>Departments Name</th>
                           <th>Name of HOD</th>
+                          <th>Department Link</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -110,6 +114,7 @@ const Departments = () => {
                             <td>{indexOfFirstDepartment + index + 1}</td>
                             <td>{department.name}</td>
                             <td>{department.hod}</td>
+                            <td>{department.link}</td>
                             <td>
                               <Button
                                 variant="danger"
@@ -190,6 +195,16 @@ const Departments = () => {
                   className="form-control"
                   value={editedHod}
                   onChange={(e) => setEditedHod(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="departmentLink" className="form-label">Department Link</label>
+                <input
+                  type="text"
+                  id="departmentLink"
+                  className="form-control"
+                  value={editedLink}
+                  onChange={(e) => setEditedLink(e.target.value)}
                 />
               </div>
             </Modal.Body>

@@ -58,7 +58,7 @@ const Departments = () => {
                       </h3>
                       <p>Name of HOD : {department.hod}</p>
                       <div className="link-box">
-                        <a href="/general-admin-department">
+                        <a href={department.link}>
                           <span>Read More</span>
                         </a>
                       </div>
@@ -67,93 +67,6 @@ const Departments = () => {
                 </div>
               </div>
             ))}
-            <div className="col-lg-4 col-md-12 col-sm-12 departments-block">
-              <div className="departments-block-two">
-                <div className="inner-box">
-                  <div className="content-box">
-                    <h3>
-                      <a href="/general-admin-department">
-                        General Admin Department
-                      </a>
-                    </h3>
-                    <p>Name of HOD : Mangesh Sonar</p>
-                    <div className="link-box">
-                      <a href="/general-admin-department">
-                        <span>Read More</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-12 col-sm-12 departments-block">
-              <div className="departments-block-two">
-                <div className="inner-box">
-                  <div className="content-box">
-                    <h3>
-                      <a href="/audit-department">Audit Department</a>
-                    </h3>
-                    <p>Name of HOD : Subhash Nagap</p>
-                    <div className="link-box">
-                      <a href="/audit-department">
-                        <span>Read More</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-12 col-sm-12 departments-block">
-              <div className="departments-block-two">
-                <div className="inner-box">
-                  <div className="content-box">
-                    <h3>
-                      <a href="/tax-department">Tax Department</a>
-                    </h3>
-                    <p>Name of HOD : Pratiksha Sawant</p>
-                    <div className="link-box">
-                      <a href="/tax-department">
-                        <span>Read More</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-12 col-sm-12 departments-block">
-              <div className="departments-block-two">
-                <div className="inner-box">
-                  <div className="content-box">
-                    <h3>
-                      <a href="/account-department">Account Department</a>
-                    </h3>
-                    <p>Name of HOD : Vikas Chavan</p>
-                    <div className="link-box">
-                      <a href="/account-department">
-                        <span>Read More</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-12 col-sm-12 departments-block">
-              <div className="departments-block-two">
-                <div className="inner-box">
-                  <div className="content-box">
-                    <h3>
-                      <a href="/town-planning">Town Planning</a>
-                    </h3>
-                    <p>Name of HOD : Amar Gadge</p>
-                    <div className="link-box">
-                      <a href="/town-planning">
-                        <span>Read More</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className="col-lg-4 col-md-12 col-sm-12 departments-block">
               <div className="departments-block-two">
                 <div className="inner-box">
