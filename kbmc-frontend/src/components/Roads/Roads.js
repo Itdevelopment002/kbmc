@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
 
 const Roads = () => {
+  const [roads, setRoads] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchRoads = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/roads'); // Adjust API endpoint as needed
+        setRoads(response.data);
+      } catch (err) {
+        setError('Error fetching road data');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRoads();
+  }, []);
+
   return (
     <>
       <section className="page-title">
@@ -29,7 +49,6 @@ const Roads = () => {
           </div>
         </div>
       </section>
-      {/* page-title end */}
       <br />
       <br />
       <br />
@@ -68,21 +87,27 @@ const Roads = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Total Road Length</td>
-                  <td>149.35 Km</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Asphalt Road Length</td>
-                  <td>23.75 Km</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Cement Road Length</td>
-                  <td>125.60 Km</td>
-                </tr>
+                {loading ? (
+                  <tr>
+                    <td colSpan="3" className="text-center">
+                      Loading...
+                    </td>
+                  </tr>
+                ) : error ? (
+                  <tr>
+                    <td colSpan="3" className="text-center">
+                      {error}
+                    </td>
+                  </tr>
+                ) : (
+                  roads.map((road, index) => (
+                    <tr key={road.id}>
+                      <td>{index + 1}</td>
+                      <td>{road.description}</td>
+                      <td>{road.length}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

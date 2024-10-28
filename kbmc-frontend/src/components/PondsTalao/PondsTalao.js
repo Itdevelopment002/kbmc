@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 
@@ -13,7 +14,25 @@ import talaoImg7 from "../../assets/images/talao/img7.jpg";
 import talaoImg8 from "../../assets/images/talao/img8.jpg";
 
 const PondsTalao = () => {
+  const [ponds, setPonds] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
+    // Fetch ponds data from the API
+    const fetchPonds = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/ponds-talao'); // Update the endpoint as needed
+        setPonds(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPonds();
+
     // Initialize GLightbox
     const lightbox = GLightbox({
       selector: ".glightbox",
@@ -25,6 +44,9 @@ const PondsTalao = () => {
     // Cleanup function to destroy the lightbox when the component unmounts
     return () => lightbox.destroy();
   }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
@@ -81,34 +103,20 @@ const PondsTalao = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mahalaxmi Talao</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Badlapur Gaon Talao</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Gaondevi Talao</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>Katrap Talao</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>Dagari Talao Badlapur Gaon</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>Near Juveli Shivshankar Talao</td>
-              </tr>
-              <tr>
-                <td>7</td>
-                <td>Wadwali Talao</td>
-              </tr>
+              {ponds.length > 0 ? (
+                ponds.map((pond, index) => (
+                  <tr key={pond.id}>
+                    <td>{index + 1}</td>
+                    <td>{pond.name}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2" className="text-center">
+                    No ponds available
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
