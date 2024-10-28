@@ -9,7 +9,7 @@ const Ward = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedWard, setSelectedWard] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const wardsPerPage = 5; 
+    const wardsPerPage = 10; 
 
     useEffect(() => {
         fetchWards();

@@ -16,7 +16,6 @@ const AddWard = () => {
                 ward_no: wardNo,
                 ward_name: wardName,
             });
-            console.log('Response:', response.data);
             setSuccessMessage('Ward added successfully!');
             // Reset form
             setWardNo('');
