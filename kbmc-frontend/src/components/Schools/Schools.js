@@ -1,109 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import GLightbox from "glightbox";
-import "glightbox/dist/css/glightbox.css"; // Import GLightbox CSS
-import "./lightbox-custom.css";
+import "glightbox/dist/css/glightbox.min.css";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import img1 from "../../assets/images/schools/img1.jpg";
-import img2 from "../../assets/images/schools/img2.jpg";
-import img3 from "../../assets/images/schools/img3.jpg";
-import img4 from "../../assets/images/schools/img4.jpg";
-import img5 from "../../assets/images/schools/img5.jpg";
-import img6 from "../../assets/images/schools/img6.jpg";
-import img7 from "../../assets/images/schools/img7.jpg";
-import img8 from "../../assets/images/schools/img8.jpg";
-import img9 from "../../assets/images/schools/img9.jpg";
-import img10 from "../../assets/images/schools/img10.jpg";
-import img11 from "../../assets/images/schools/img11.jpg";
-import img12 from "../../assets/images/schools/img12.jpg";
-import img13 from "../../assets/images/schools/img13.jpg";
-import img14 from "../../assets/images/schools/img14.jpg";
-import img15 from "../../assets/images/schools/img15.jpg";
-import img16 from "../../assets/images/schools/img16.jpg";
-import img17 from "../../assets/images/schools/img17.jpg";
-
-const schoolsData = [
-  { id: 1, name: "KBMC School No. 1", address: "Kulgaon", medium: "Marathi" },
-  { id: 2, name: "KBMC School No. 2", address: "Kulgaon", medium: "Urdu" },
-  { id: 3, name: "KBMC School No. 3", address: "Juveli", medium: "Marathi" },
-  { id: 4, name: "KBMC School No. 4", address: "Mankivali", medium: "Marathi" },
-  { id: 5, name: "KBMC School No. 5", address: "Vajpe", medium: "Marathi" },
-  {
-    id: 6,
-    name: "KBMC School No. 6",
-    address: "Shirgaon Aptewadi",
-    medium: "Marathi",
-  },
-  { id: 7, name: "KBMC School No. 7", address: "Katrap", medium: "Marathi" },
-  {
-    id: 8,
-    name: "KBMC School No. 8",
-    address: "Katrap Mohpada",
-    medium: "Marathi",
-  },
-  {
-    id: 9,
-    name: "KBMC School No. 9",
-    address: "Hendrepada",
-    medium: "Marathi",
-  },
-  { id: 10, name: "KBMC School No. 10", address: "Badlapur", medium: "Urdu" },
-  {
-    id: 11,
-    name: "KBMC School No. 11",
-    address: "Sonivali",
-    medium: "Marathi",
-  },
-  {
-    id: 12,
-    name: "KBMC School No. 12",
-    address: "Valivali",
-    medium: "Marathi",
-  },
-  { id: 13, name: "KBMC School No. 13", address: "Eranjad", medium: "Marathi" },
-  {
-    id: 14,
-    name: "KBMC School No. 14",
-    address: "Belavali",
-    medium: "Marathi",
-  },
-  {
-    id: 15,
-    name: "KBMC School No. 15",
-    address: "Vadavali",
-    medium: "Marathi",
-  },
-  {
-    id: 16,
-    name: "KBMC School No. 16",
-    address: "Manjarli",
-    medium: "Marathi",
-  },
-];
-
-const schoolImages = [
-  img1,
-  img2,
-  img3,
-  img4,
-  img5,
-  img6,
-  img7,
-  img8,
-  img9,
-  img10,
-  img11,
-  img12,
-  img13,
-  img14,
-  img15,
-  img16,
-  img17,
-];
+import axios from "axios";
 
 const Schools = () => {
+  const [schools, setSchools] = useState([]);
+  const [schoolPhotos, setSchoolPhotos] = useState([]);
+
   useEffect(() => {
     const lightbox = GLightbox({
-      selector: ".glightbox", // Selector for the lightbox
+      selector: ".glightbox",
+    });
+
+    return () => {
+      lightbox.destroy();
+    };
+  }, [schoolPhotos]);
+
+  const fetchSchools = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/schools");
+      setSchools(response.data);
+    } catch (error) {
+      console.error("Error fetching school data");
+    }
+  };
+
+  const fetchSchoolPhotos = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/school-images");
+      setSchoolPhotos(response.data);
+    } catch (error) {
+      console.error("Error fetching school images data");
+    }
+  };
+
+  useEffect(() => {
+    fetchSchools();
+    fetchSchoolPhotos();
+  }, []);
+
+
+
+  useEffect(() => {
+    const lightbox = GLightbox({
+      selector: ".glightbox", 
     });
   }, []);
 
@@ -171,10 +113,10 @@ const Schools = () => {
                 </tr>
               </thead>
               <tbody>
-                {schoolsData.map((school) => (
+                {schools.map((school,index) => (
                   <tr key={school.id}>
-                    <td>{school.id}</td>
-                    <td>{school.name}</td>
+                    <td>{index+1}</td>
+                    <td>{school.schoolName}</td>
                     <td>{school.address}</td>
                     <td>{school.medium}</td>
                   </tr>
@@ -202,11 +144,16 @@ const Schools = () => {
                     <div className="content-box">
                       <div className="content-box department-section">
                         <div className="row">
-                          {schoolImages.map((image, index) => (
+                          {schoolPhotos.map((image, index) => (
                             <div className="col-sm-2" key={index}>
-                              <a href={image} className="glightbox">
+                              <a
+                              href={`http://localhost:5000${image.image_path}`}
+                              className="glightbox"
+                              data-gallery="slider-images"
+                            >
                                 <img
-                                  src={image}
+                                  width="200px"
+                                  src={`http://localhost:5000${image.image_path}`}
                                   alt={`img${index + 1}`}
                                   className="img-fluid"
                                 />
