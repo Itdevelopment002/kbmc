@@ -91,7 +91,7 @@ const AddTreeCensus = () => {
                     <label className="col-form-label col-md-3 mb-3">Total <span className="text-danger">*</span></label>
                     <div className="col-md-5">
                       <input
-                        type="number"
+                        type="text"
                         className="form-control form-control-lg"
                         name="total"
                         value={formData.total}

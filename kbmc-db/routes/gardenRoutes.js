@@ -5,7 +5,6 @@ const fs = require('fs');
 const router = express.Router();
 const db = require('../config/db.js');
 
-
 // Configure multer for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -54,12 +53,12 @@ router.get('/gardens', (req, res) => {
     });
 });
 
-// API to get garden by ID
-router.get('/gardens/:id', (req, res) => {
-    const { id } = req.params;
+// API to get garden images by heading
+router.get('/gardens/heading/:heading', (req, res) => {
+    const { heading } = req.params;
 
-    const sql = 'SELECT * FROM gardens WHERE id = ?';
-    db.query(sql, [id], (err, result) => {
+    const sql = 'SELECT * FROM gardens WHERE heading = ?';
+    db.query(sql, [heading], (err, result) => {
         if (err) {
             return res.status(500).json({ message: 'Database error', error: err });
         }

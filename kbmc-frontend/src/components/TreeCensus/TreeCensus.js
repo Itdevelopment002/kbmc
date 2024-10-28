@@ -1,7 +1,26 @@
-import React from "react";
-import innerBanner from '../../assets/images/banner/inner-banner.jpg'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import innerBanner from '../../assets/images/banner/inner-banner.jpg';
 
 const TreeCensus = () => {
+  const [treeData, setTreeData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch Tree Census data from the API
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/tree-census')
+      .then(response => {
+        setTreeData(response.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching tree census data:', err);
+        setError('Error loading data');
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <>
       <section className="page-title">
@@ -70,52 +89,23 @@ const TreeCensus = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Area of Kulgaon-Badlapur Municipal Council</td>
-                  <td>35.68 Sq. Km.</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>No. of Wards in Kulgaon-Badlapur Municipal Council</td>
-                  <td>47</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>
-                    No. of Trees counted in Jurisdiction of Kulgaon-Badlapur
-                    Municipal Council
-                  </td>
-                  <td>1,96,466</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>
-                    No. of Tree species counted in Jurisdiction of
-                    Kulgaon-Badlapur Municipal Council
-                  </td>
-                  <td>198</td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Fruiting Trees</td>
-                  <td>72,558</td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>Medicinal Trees</td>
-                  <td>6,613</td>
-                </tr>
-                <tr>
-                  <td>7</td>
-                  <td>Ornamental Trees</td>
-                  <td>1,17,295</td>
-                </tr>
-                <tr>
-                  <td>8</td>
-                  <td>Heritage Trees</td>
-                  <td>137</td>
-                </tr>
+                {loading ? (
+                  <tr>
+                    <td colSpan="3" className="text-center">Loading data...</td>
+                  </tr>
+                ) : error ? (
+                  <tr>
+                    <td colSpan="3" className="text-center text-danger">{error}</td>
+                  </tr>
+                ) : (
+                  treeData.map((item, index) => (
+                    <tr key={item.id}>
+                      <td>{index + 1}</td>
+                      <td>{item.description}</td>
+                      <td>{item.total}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

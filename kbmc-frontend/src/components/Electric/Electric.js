@@ -1,7 +1,21 @@
-import React from "react";
-import innerBanner from  '../../assets/images/banner/inner-banner.jpg'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import innerBanner from '../../assets/images/banner/inner-banner.jpg';
 
 const Electric = () => {
+  const [electricData, setElectricData] = useState([]);
+
+  useEffect(() => {
+    // Fetch electric data from the API
+    axios.get('http://localhost:5000/api/electric')
+      .then(response => {
+        setElectricData(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching electric data:", error);
+      });
+  }, []);
+
   return (
     <>
       <section className="page-title">
@@ -11,7 +25,6 @@ const Electric = () => {
             backgroundImage: `url(${innerBanner})`,
           }}
         ></div>
-        {/* <div className="pattern-layer" style={{ backgroundImage: 'url(assets/images/shape/shape-25.png)' }}></div> */}
         <div className="line-box">
           <div className="line-1"></div>
           <div className="line-2"></div>
@@ -30,9 +43,7 @@ const Electric = () => {
           </div>
         </div>
       </section>
-      {/* page-title end */}
       <br /> <br />
-      {/* service-style-four */}
       <section className="service-style-four">
         <div className="auto-container">
           <h5 className="pb-4 fs-5 fw-none">
@@ -82,18 +93,20 @@ const Electric = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Citizens Grievance Redressal No.</td>
-                  <td>8263936484</td>
-                  <td>M/s Hi-Tech Construction, East Division</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Citizens Grievance Redressal No.</td>
-                  <td>7757840944</td>
-                  <td>M/s Sagar Sai Construction, Western Division</td>
-                </tr>
+                {electricData.length > 0 ? (
+                  electricData.map((item, index) => (
+                    <tr key={item.id}>
+                      <td>{index + 1}</td>
+                      <td>{item.description}</td>
+                      <td>{item.mobileNo}</td>
+                      <td>{item.vendorName}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" className="text-center">No data available</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
