@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import img1 from "../../assets/images/banner/inner-banner.jpg";
+import axios from "axios";
 
 const PropertyHolder = () => {
+  const [property, setProperty] = useState([]);
+
+  const fetchProperty = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/property_holder"
+      );
+      setProperty(response.data);
+    } catch (error) {
+      console.error("Error fetching property data");
+    }
+  };
+
+  useEffect(() => {
+    fetchProperty();
+  }, []);
+
   return (
     <>
       <section className="page-title">
@@ -68,26 +86,13 @@ const PropertyHolder = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Residential Property</td>
-                  <td>123213</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Commercial Property</td>
-                  <td>14365</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Industrial Property</td>
-                  <td>642</td>
-                </tr>
-                <tr>
-                  <th>4</th>
-                  <th>Total Property</th>
-                  <th>138299</th>
-                </tr>
+                {property.map((property, index) => (
+                  <tr key={property.id}>
+                    <td>{index + 1}</td>
+                    <td>{property.description}</td>
+                    <td>{property.property}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

@@ -1,10 +1,24 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './Awards.css'
 import bannerImage from '../../assets/images/banner/inner-banner.jpg'; 
-import awardImage1 from '../../assets/images/awards/img1.jpg';
-import awardImage2 from '../../assets/images/awards/img2.jpg';
+import axios from 'axios';
 
 const Awards = () => {
+  const [awards, setAwards] = useState([]);
+
+  const fetchAwards = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/awards");
+      setAwards(response.data);
+    } catch (error) {
+      console.error("Error fetching awards data");
+    }
+  };
+
+  useEffect(() => {
+    fetchAwards();
+  }, []);
+
   return (
     <div>
       <section className="page-title">
@@ -29,21 +43,19 @@ const Awards = () => {
           <div className="content-two">
             <h5 className="mb-3">Awards received at National / State level</h5>
             <ul className="nuhm_list">
-              <li>In Swachh Bharat Abhiyan Swachh Survekshan 2021, Kulgaon Badlapur Municipal Council is ranked 14th at the national level and 2nd at the state level in the group of Amrit Cities. This is the best performance of the city till date in Swachh Survey.</li>
-              <li>Swachh Survekshan 2022 under Swachh Bharat Abhiyaan has ranked 33rd in the Amrit Cities group at the country level and 7th at the state level.</li>
-              <li>Swachh Survekshan 2023 under Swachh Bharat Abhiyaan has ranked 183rd in the Amrit Cities group at the country level and 36th at the state level.</li>
-              <li>The city has achieved ODF++ status in Recertification in ODF City (Hagandari Free City).</li>
-              <li>Achieved 3 star rating in GFC Rating (Garbage Free Star City).</li>
+              {awards.map((award,index) => (
+                <li key={index}>{award.description}</li>
+              ))}
             </ul>
           </div>
-          <div className="row mt-3 pmay_img">
+          {/* <div className="row mt-3 pmay_img">
             <div className="col-md-3">
               <img src={awardImage1} alt="Award 1" />
             </div>
             <div className="col-md-3">
               <img src={awardImage2} alt="Award 2" />
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </div>
