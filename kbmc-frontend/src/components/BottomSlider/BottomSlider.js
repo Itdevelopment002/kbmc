@@ -1,17 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import logo1 from '../../assets/images/footerlogo/01.png';
-import logo2 from '../../assets/images/footerlogo/02.png';
-import logo3 from '../../assets/images/footerlogo/03.png';
-import logo4 from '../../assets/images/footerlogo/04.png';
-import logo5 from '../../assets/images/footerlogo/05.png';
-import logo6 from '../../assets/images/footerlogo/06.png';
-import logo7 from '../../assets/images/footerlogo/07.png';
-import logo8 from '../../assets/images/footerlogo/08.png';
 import './BottomSlider.css'
+import axios from 'axios';
 
 
 // Custom Next Arrow
@@ -35,6 +28,21 @@ const PrevArrow = (props) => {
 };
 
 const BottomSlider = () => {
+  const [websites, setWebsites] = useState([]);
+
+  const fetchWebsites = async ()=>{
+    try{
+      const response = await axios.get("http://localhost:5000/api/websitelinks");
+      setWebsites(response.data);
+    } catch(error){
+      console.error("Error fetching website data");
+    }
+  }
+
+  useEffect(() => {
+    fetchWebsites();
+  }, [])
+  
   const settings = {
     dots: false,
     infinite: true,
@@ -79,10 +87,10 @@ const BottomSlider = () => {
       <div className="content-box">
         <div className="inner-box">
           <Slider {...settings}>
-            {[logo5, logo1, logo6, logo7, logo8, logo1, logo2, logo3, logo4].map((logo, index) => (
+            {websites.map((website, index) => (
               <div key={index}  className="logo-slide">
-                <a href={getLogoLink(index)} target="_blank" rel="noopener noreferrer">
-                  <img src={logo} alt={`logo-${index + 1}`} />
+                <a href={website.websitelink} target="_blank" rel="noopener noreferrer">
+                  <img src={`http://localhost:5000${website.websitelogo}`} alt={`logo-${index + 1}`} />
                 </a>
               </div>
             ))}
@@ -93,19 +101,5 @@ const BottomSlider = () => {
   );
 };
 
-const getLogoLink = (index) => {
-  const links = [
-    'https://www.mpcb.gov.in/',
-    'https://divcomkonkan.gov.in/',
-    'https://aaplesarkar.mahaonline.gov.in/',
-    'https://thane.nic.in/',
-    'https://www.eci.gov.in/',
-    'https://urban.maharashtra.gov.in/',
-    'https://www.mygov.in/',
-    'https://www.midcindia.org/',
-    'https://mmrda.maharashtra.gov.in/',
-  ];
-  return links[index % links.length];
-};
 
 export default BottomSlider;

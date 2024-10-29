@@ -33,6 +33,7 @@ const righttoservicesRoutes = require ('./routes/righttoservicesRoutes');
 const pdfRToSRoutes = require('./routes/pdfRToSRoutes');
 const citizenCharterRoutes = require('./routes/citizenCharterRoutes');
 const AwardRoutes = require('./routes/AwardRoutes');
+const awardImageRoutes = require('./routes/awardImageRoutes');
 const GeneraladminaddyearRoutes = require('./routes/GeneraladminaddyearRoutes');
 const GeneraladmindepartmentRoutes = require('./routes/GeneraladmindepartmentRoutes');
 const NewsupdateRoutes = require('./routes/NewsupdateRoutes');
@@ -90,6 +91,7 @@ app.use('/api', treatmentRoutes);
 app.use('/api', litigationRoutes);
 app.use('/api', healthPhotoRoutes);
 app.use('/api', mainMenuRoutes);
+app.use('/api', awardImageRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

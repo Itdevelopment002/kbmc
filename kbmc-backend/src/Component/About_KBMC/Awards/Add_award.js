@@ -4,45 +4,37 @@ import { Link, useNavigate } from 'react-router-dom';
 const Add_award = () => {
     const [heading, setHeading] = useState('');
     const [description, setDescription] = useState('');
-    const [awardImage, setAwardImage] = useState(null);
-    const navigate = useNavigate(); // Using useNavigate instead of useHistory
+    const navigate = useNavigate(); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Create a FormData object to send the form data
-        const formData = new FormData();
-        formData.append('heading', heading);
-        formData.append('description', description);
-        formData.append('awardimage', awardImage);
-
+    
         try {
-            // Make a POST request to the API
+            // Make a POST request to the API with JSON content
             const response = await fetch('http://localhost:5000/api/awards', {
                 method: 'POST',
-                body: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ heading, description }),
             });
-
-            if (!response.ok) {
+    
+            if (response.status !== 201) {
                 throw new Error('Failed to add award');
             }
-
+    
             // Reset form fields after successful submission
             setHeading('');
             setDescription('');
-            setAwardImage(null);
-
+    
             // Navigate to awards page
             navigate('/Award'); // Change this path if needed
         } catch (error) {
             console.error('Error:', error);
-            // You may want to handle errors more gracefully (e.g., show a message to the user)
+            // Display a user-friendly error message here if needed
         }
     };
-
-    const handleImageChange = (e) => {
-        setAwardImage(e.target.files[0]);
-    };
+    
 
     return (
         <div className="page-wrapper">
@@ -93,17 +85,6 @@ const Add_award = () => {
                                                 placeholder="Enter a brief description"
                                                 rows="3"
                                                 style={{ resize: 'none' }}
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="form-group row mt-3">
-                                        <label className="col-form-label col-md-2">Upload Award Image <span className="text-danger">*</span></label>
-                                        <div className="col-md-5">
-                                            <input
-                                                type="file"
-                                                className="form-control"
-                                                onChange={handleImageChange}
                                                 required
                                             />
                                         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import "malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js";
 import "malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css";
@@ -6,69 +6,85 @@ import img1 from "../../assets/images/satymev-jayate-3.png";
 import img2 from "../../assets/images/icons/icon-25.png";
 import img3 from "../../assets/images/kbmc_logo.jpg";
 import img5 from "../../assets/images/icons/icon-4.png";
-import nulm from "../../assets/documents/Nulm_mahiti.pdf"
-import areas from "../../assets/documents/KBMC CIRCULATION A3 COLOR-Brown-24 (1).pdf"
+import nulm from "../../assets/documents/Nulm_mahiti.pdf";
+import areas from "../../assets/documents/KBMC CIRCULATION A3 COLOR-Brown-24 (1).pdf";
 import "./Header.css";
+import axios from "axios";
 
 const Header = () => {
+  const [menuData, setMenuData] = useState([]);
+  const fetchMenuData = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/main-menus");
+      setMenuData(response.data);
+    } catch (error) {
+      console.error("Error fetching menu data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenuData();
+  }, []);
+
   useEffect(() => {
     if ($(".mobile-menu").length) {
-        const mobileMenuContent = $(".main-header .menu-area .main-menu").html();
-        $(".mobile-menu .menu-box .menu-outer").append(mobileMenuContent);
-        $(".sticky-header .main-menu").append(mobileMenuContent);
+      const mobileMenuContent = $(".main-header .menu-area .main-menu").html();
+      $(".mobile-menu .menu-box .menu-outer").append(mobileMenuContent);
+      $(".sticky-header .main-menu").append(mobileMenuContent);
 
-        $(".mobile-menu li.dropdown .dropdown-btn").each(function () {
-            const $this = $(this);
-            $this.addClass("open"); 
-            $this.prev("ul").slideDown(0);
-            $this.find(".fas").addClass("rotate-icon");
-        });
+      $(".mobile-menu li.dropdown .dropdown-btn").each(function () {
+        const $this = $(this);
+        $this.addClass("open");
+        $this.prev("ul").slideDown(0);
+        $this.find(".fas").addClass("rotate-icon");
+      });
 
-        $(".mobile-menu li.dropdown .dropdown-btn").on("click", function (e) {
-            e.stopPropagation();
+      $(".mobile-menu li.dropdown .dropdown-btn").on("click", function (e) {
+        e.stopPropagation();
 
-            const $this = $(this);
-            const $dropdownMenu = $this.prev("ul");
+        const $this = $(this);
+        const $dropdownMenu = $this.prev("ul");
 
-            if ($this.hasClass("open")) {
-                return;
-            } else {
-                $(".mobile-menu li.dropdown .dropdown-btn.open").each(function () {
-                    $(this).removeClass("open");
-                    $(this).prev("ul").slideUp(500);
-                    $(this).find(".fas").removeClass("rotate-icon");
-                });
+        if ($this.hasClass("open")) {
+          return;
+        } else {
+          $(".mobile-menu li.dropdown .dropdown-btn.open").each(function () {
+            $(this).removeClass("open");
+            $(this).prev("ul").slideUp(500);
+            $(this).find(".fas").removeClass("rotate-icon");
+          });
 
-                $this.addClass("open");
-                $dropdownMenu.slideDown(500);
-                $this.find(".fas").addClass("rotate-icon");
-            }
-        });
+          $this.addClass("open");
+          $dropdownMenu.slideDown(500);
+          $this.find(".fas").addClass("rotate-icon");
+        }
+      });
 
-        $(".mobile-nav-toggler").on("click", function () {
-            $("body").addClass("mobile-menu-visible");
-            $(".mobile-menu").addClass("visible");
-        });
+      $(".mobile-nav-toggler").on("click", function () {
+        $("body").addClass("mobile-menu-visible");
+        $(".mobile-menu").addClass("visible");
+      });
 
-        $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").on("click", function () {
-            $("body").removeClass("mobile-menu-visible");
-            $(".mobile-menu").removeClass("visible");
+      $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").on(
+        "click",
+        function () {
+          $("body").removeClass("mobile-menu-visible");
+          $(".mobile-menu").removeClass("visible");
 
-            $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
-            $(".mobile-menu li.dropdown li.dropdown-btn ul").slideUp(500);
-        });
+          $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
+          $(".mobile-menu li.dropdown li.dropdown-btn ul").slideUp(500);
+        }
+      );
 
-        $(document).on("click", function () {
-            $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
-            $(".mobile-menu li.dropdown ul").slideUp(500);
-        });
+      $(document).on("click", function () {
+        $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
+        $(".mobile-menu li.dropdown ul").slideUp(500);
+      });
     }
-}, []);
-
+  }, []);
 
   return (
     <>
-    
       <div className="boxed_wrapper">
         <div id="search-popup" className="search-popup">
           <div className="popup-inner">
@@ -196,7 +212,7 @@ const Header = () => {
                   <i className="icon-bar"></i>
                   <i className="icon-bar"></i>
                 </div>
-                <nav className="main-menu navbar-expand-md navbar-light">
+                {/* <nav className="main-menu navbar-expand-md navbar-light">
                   <div
                     className="collapse navbar-collapse show clearfix"
                     id="navbarSupportedContent"
@@ -412,6 +428,34 @@ const Header = () => {
                           </li>
                         </ul>
                       </li>
+                    </ul>
+                  </div>
+                </nav> */}
+                <nav className="main-menu navbar-expand-md navbar-light">
+                  <div
+                    className="collapse navbar-collapse show clearfix"
+                    id="navbarSupportedContent"
+                  >
+                    <ul className="navigation clearfix">
+                      {menuData.map((menuItem, index) => (
+                        <li
+                          key={index}
+                          className={menuItem.subMenu ? "dropdown" : ""}
+                        >
+                          <a href={menuItem.link || "/"}>{menuItem.mainMenu}</a>
+                          {menuItem.subMenu && (
+                            <ul>
+                              {menuItem.subMenu.map((subMenuItem, subIndex) => (
+                                <li key={subIndex}>
+                                  <a href={subMenuItem.link || "/"}>
+                                    {subMenuItem.title}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </nav>
