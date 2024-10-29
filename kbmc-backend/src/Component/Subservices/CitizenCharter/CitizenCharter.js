@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { FaFilePdf, FaTimes } from 'react-icons/fa'; // Importing icons
+import { FaFilePdf } from 'react-icons/fa'; // Importing icons
 import axios from 'axios'; // Make sure to install axios
 
 const CitizenCharter = () => {
@@ -27,25 +27,27 @@ const CitizenCharter = () => {
         setNewDepartment({ ...newDepartment, pdf: e.target.files[0] });
     };
 
-   const handleAddDepartment = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', newDepartment.name);
-    formData.append('pdf', newDepartment.pdf);
+    const handleAddDepartment = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('name', newDepartment.name);
+        if (newDepartment.pdf) {
+            formData.append('pdf', newDepartment.pdf);
+        }
 
-    try {
-        await axios.post('http://localhost:5000/api/citizen-charter', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        // Reset the form fields after successful submission
-        setNewDepartment({ name: '', pdf: null });
-        fetchDepartments(); 
-    } catch (error) {
-        console.error('Error adding department:', error);
-    }
-};
+        try {
+            await axios.post('http://localhost:5000/api/citizen-charter', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            // Reset the form fields after successful submission
+            setNewDepartment({ name: '', pdf: null });
+            fetchDepartments(); 
+        } catch (error) {
+            console.error('Error adding department:', error);
+        }
+    };
 
     const handleOpenDeleteModal = (id) => {
         setSelectedDepartmentId(id);
@@ -107,27 +109,25 @@ const CitizenCharter = () => {
                                 <Form onSubmit={handleAddDepartment}>
                                     <Form.Group controlId="formDepartmentName" className="row">
                                         <Form.Label className="col-form-label col-md-2">
-                                            Department Name <span className="text-danger">*</span>
+                                            Department Name
                                         </Form.Label>
                                         <div className="col-md-4">
                                             <Form.Control
                                                 type="text"
                                                 value={newDepartment.name}
                                                 onChange={(e) => setNewDepartment({ ...newDepartment, name: e.target.value })}
-                                                required
                                             />
                                         </div>
                                     </Form.Group>
                                     <Form.Group controlId="formFile" className="row mt-3">
                                         <Form.Label className="col-form-label col-lg-2">
-                                            Upload PDF <span className="text-danger">*</span>
+                                            Upload PDF
                                         </Form.Label>
                                         <div className="col-md-4">
                                             <Form.Control
                                                 type="file"
                                                 accept=".pdf"
-                                                onChange={handleFileChange}
-                                                required
+                                                onChange={handleFileChange}   
                                             />
                                         </div>
                                     </Form.Group>
@@ -185,7 +185,6 @@ const CitizenCharter = () => {
                                 type="text"
                                 value={newDepartment.name}
                                 onChange={(e) => setNewDepartment({ ...newDepartment, name: e.target.value })}
-                                required
                             />
                         </Form.Group>
                         <Form.Group controlId="editFormFile" className="mb-3">
@@ -202,7 +201,6 @@ const CitizenCharter = () => {
                         </div>
                     </Form>
                 </Modal.Body>
-
             </Modal>
 
             {/* Delete Confirmation Modal */}
