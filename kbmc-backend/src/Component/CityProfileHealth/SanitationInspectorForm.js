@@ -59,8 +59,8 @@ const SanitationInspectorForm = ({ onSubmit, initialData }) => {
     }
 
     // Validate ward_no
-    if (!ward_no) newErrors.ward_no = 'Ward No. is required';
-    if (isNaN(ward_no)) newErrors.ward_no = 'Ward No. must be a number';
+    // if (!ward_no) newErrors.ward_no = 'Ward No. is required';
+    // if (isNaN(ward_no)) newErrors.ward_no = 'Ward No. must be a number';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Return true if no errors
@@ -124,9 +124,9 @@ const SanitationInspectorForm = ({ onSubmit, initialData }) => {
           onChange={handleChange}
           required
         />
-        {isSubmitted && errors.ward_no && (
+        {/* {isSubmitted && errors.ward_no && (
           <Alert variant="danger">{errors.ward_no}</Alert>
-        )}
+        )} */}
       </Form.Group>
       <Button variant="primary" className='mt-3' type="submit">Submit</Button>
     </Form>

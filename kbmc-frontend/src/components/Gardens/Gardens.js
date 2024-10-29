@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
-import innerBanner from "../../assets/images/banner/inner-banner.jpg"; // Adjust path as necessary
-
+import innerBanner from "../../assets/images/banner/inner-banner.jpg"; 
 const Gardens = () => {
   const [activeTab, setActiveTab] = useState("#tab-1");
   const [gardenData, setGardenData] = useState([]);

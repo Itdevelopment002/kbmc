@@ -189,7 +189,7 @@ const TreatmentFacilities = () => {
                 </Form.Group>
                 <Form.Group controlId="formBasicOutput">
                   <Form.Label>Output</Form.Label>
-                  <Form.Control type="number" value={output} onChange={e => setOutput(e.target.value)} required />
+                  <Form.Control type="text" value={output} onChange={e => setOutput(e.target.value)} required />
                 </Form.Group>
               </Form>
             </Modal.Body>

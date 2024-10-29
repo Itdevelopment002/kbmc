@@ -61,7 +61,7 @@ const AddMainPage = () => {
   const handleCloseCancelModal = () => setShowCancelModal(false);
 
   const handleConfirmCancel = () => {
-    window.location.reload(); // Refresh the page
+    window.location.reload(); 
   };
 
   return (
