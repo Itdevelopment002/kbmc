@@ -77,12 +77,14 @@ const Services = () => {
   const handleSaveEdit = async () => {
     const formData = new FormData();
   
-    // Only append non-empty values to the formData
     if (selectedService.service_heading) {
       formData.append('serviceHeading', selectedService.service_heading);
     }
-    if (selectedService.icon) {
-      formData.append('mainIcon', selectedService.icon);
+    if (selectedService.service_link) {
+      formData.append('serviceLink', selectedService.service_link);
+    }
+    if (selectedService.mainIcon) {
+      formData.append('mainIcon', selectedService.mainIcon);
     }
     if (selectedService.hoverIcon) {
       formData.append('hoverIcon', selectedService.hoverIcon);
@@ -148,6 +150,7 @@ const Services = () => {
                       <tr>
                         <th width="10%">Sr. No.</th>
                         <th>Service Heading</th>
+                        <th>Service Link</th>
                         <th>Service Icon</th>
                         <th>Action</th>
                       </tr>
@@ -157,6 +160,7 @@ const Services = () => {
                         <tr key={service.id}>
                           <td>{index + 1}</td>
                           <td>{service.service_heading}</td>
+                          <td>{service.service_link}</td>
                           <td>
                             <a href={`http://localhost:5000/${service.main_icon_path}`} className="glightbox" data-gallery="slider-images" >
                               <img width="35px" src={`http://localhost:5000/${service.main_icon_path}`} alt={service.service_heading} />
@@ -206,6 +210,17 @@ const Services = () => {
                         value={selectedService.service_heading || ''} // Handle undefined
                         onChange={(e) =>
                           setSelectedService({ ...selectedService, service_heading: e.target.value, })
+                        }
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Service Link</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={selectedService.service_link || ''}
+                        onChange={(e) =>
+                          setSelectedService({ ...selectedService, service_link: e.target.value, })
                         }
                       />
                     </div>

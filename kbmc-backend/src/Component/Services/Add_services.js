@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const AddServices = () => {
   const [serviceHeading, setServiceHeading] = useState('');
+  const [serviceLink, setServiceLink] = useState('');
   const [mainIcon, setMainIcon] = useState(null);
   const [hoverIcon, setHoverIcon] = useState(null);
   const navigate = useNavigate(); // Initialize useNavigate
@@ -19,14 +20,22 @@ const AddServices = () => {
   };
 
   const handleChange = (e) => {
-    setServiceHeading(e.target.value);
+    const { name, value } = e.target;
+    
+    if (name === "serviceHeading") {
+      setServiceHeading(value);
+    } else if (name === "serviceLink") {
+      setServiceLink(value);
+    }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append('serviceHeading', serviceHeading);
+    formData.append('serviceLink', serviceLink);
     if (mainIcon) {
       formData.append('mainIcon', mainIcon);
     }
@@ -45,6 +54,7 @@ const AddServices = () => {
       
       // Reset the form
       setServiceHeading('');
+      setServiceLink('');
       setMainIcon(null);
       setHoverIcon(null);
 
@@ -88,6 +98,21 @@ const AddServices = () => {
                         className="form-control form-control-lg"
                         placeholder="Enter service heading"
                         value={serviceHeading}
+                        name="serviceHeading"
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-form-label col-md-3">Service Link <span className="text-danger">*</span></label>
+                    <div className="col-md-4 mb-3">
+                      <input
+                        type="text"
+                        className="form-control form-control-lg"
+                        placeholder="Enter service link"
+                        value={serviceLink}
+                        name="serviceLink"
                         onChange={handleChange}
                         required
                       />

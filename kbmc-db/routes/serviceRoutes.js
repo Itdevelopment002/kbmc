@@ -29,29 +29,80 @@ const deleteFileIfExists = async (filePath) => {
 };
 
 // API to add a new service
-router.post('/services', upload.fields([{ name: 'mainIcon' }, { name: 'hoverIcon' }]), async (req, res) => {
-    const { serviceHeading } = req.body;
-
-    // Check if icons were uploaded
-    if (!req.files['mainIcon'] || !req.files['hoverIcon']) {
-        return res.status(400).json({ message: 'Both icons are required' });
+// API to update a service by ID (name and optional icons)
+router.put('/services/:id', upload.fields([{ name: 'mainIcon' }, { name: 'hoverIcon' }]), async (req, res) => {
+    const { id } = req.params;
+    const { serviceHeading, serviceLink } = req.body;
+  
+    let updateSql = 'UPDATE services SET';
+    const updateParams = [];
+  
+    // Update the service heading if it's provided
+    if (serviceHeading) {
+        updateSql += ' service_heading = ?';
+        updateParams.push(serviceHeading);
     }
 
-    const mainIconPath = path.join('uploads', req.files['mainIcon'][0].filename);
-    const hoverIconPath = path.join('uploads', req.files['hoverIcon'][0].filename);
-
-    if (!serviceHeading) {
-        return res.status(400).json({ message: 'Service heading is required' });
+    // Add a comma if there's a previous field to separate the assignments
+    if (serviceLink) {
+        updateSql += updateParams.length > 0 ? ', service_link = ?' : ' service_link = ?';
+        updateParams.push(serviceLink);
     }
+  
+    // Handle the uploaded files (new icons)
+    if (req.files['mainIcon']) {
+        const newMainIconPath = path.join('uploads', req.files['mainIcon'][0].filename);
+        updateSql += updateParams.length > 0 ? ', main_icon_path = ?' : ' main_icon_path = ?';
+        updateParams.push(newMainIconPath);
+    }
+  
+    if (req.files['hoverIcon']) {
+        const newHoverIconPath = path.join('uploads', req.files['hoverIcon'][0].filename);
+        updateSql += updateParams.length > 0 ? ', hover_icon_path = ?' : ' hover_icon_path = ?';
+        updateParams.push(newHoverIconPath);
+    }
+  
+    // Ensure we have at least one field to update
+    if (updateParams.length === 0) {
+        return res.status(400).json({ message: 'No fields to update' });
+    }
+  
+    updateSql += ' WHERE id = ?';
+    updateParams.push(id);
 
-    const sql = 'INSERT INTO services (service_heading, main_icon_path, hover_icon_path) VALUES (?, ?, ?)';
-    db.query(sql, [serviceHeading, mainIconPath, hoverIconPath], (err) => {
+    // First, get the current file paths to delete the old images if needed
+    const selectSql = 'SELECT main_icon_path, hover_icon_path FROM services WHERE id = ?';
+    db.query(selectSql, [id], async (err, result) => {
         if (err) {
             return res.status(500).json({ message: 'Database error', error: err });
         }
-        res.status(201).json({ message: 'Service added successfully' });
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'Service not found' });
+        }
+
+        const { main_icon_path: oldMainIconPath, hover_icon_path: oldHoverIconPath } = result[0];
+
+        // Update the service
+        db.query(updateSql, updateParams, async (err) => {
+            if (err) {
+                return res.status(500).json({ message: 'Database error', error: err });
+            }
+
+            // If new files were uploaded, delete the old images
+            if (req.files['mainIcon']) {
+                await deleteFileIfExists(path.join(__dirname, '../', oldMainIconPath));
+            }
+
+            if (req.files['hoverIcon']) {
+                await deleteFileIfExists(path.join(__dirname, '../', oldHoverIconPath));
+            }
+
+            res.status(200).json({ message: 'Service updated successfully' });
+        });
     });
 });
+
 
 // API to get all services
 router.get('/services', (req, res) => {
@@ -84,7 +135,7 @@ router.get('/services/:id', (req, res) => {
 // API to update a service by ID (name and optional icons)
 router.put('/services/:id', upload.fields([{ name: 'mainIcon' }, { name: 'hoverIcon' }]), async (req, res) => {
     const { id } = req.params;
-    const { serviceHeading } = req.body;
+    const { serviceHeading, serviceLink } = req.body;
   
     let updateSql = 'UPDATE services SET';
     const updateParams = [];
@@ -94,6 +145,11 @@ router.put('/services/:id', upload.fields([{ name: 'mainIcon' }, { name: 'hoverI
       updateSql += ' service_heading = ?';
       updateParams.push(serviceHeading);
     }
+
+    if (serviceLink) {
+        updateSql += ' service_link = ?';
+        updateParams.push(serviceLink);
+      }
   
     // Handle the uploaded files (new icons)
     if (req.files['mainIcon']) {

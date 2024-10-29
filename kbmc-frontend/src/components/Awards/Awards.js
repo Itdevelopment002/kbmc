@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const Awards = () => {
   const [awards, setAwards] = useState([]);
+  const [awardimages, setAwardImages] = useState([]);
 
   const fetchAwards = async () => {
     try {
@@ -15,8 +16,18 @@ const Awards = () => {
     }
   };
 
+  const fetchAwardImages = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/award-images");
+      setAwardImages(response.data);
+    } catch (error) {
+      console.error("Error fetching award images data");
+    }
+  };
+
   useEffect(() => {
     fetchAwards();
+    fetchAwardImages();
   }, []);
 
   return (
@@ -48,14 +59,13 @@ const Awards = () => {
               ))}
             </ul>
           </div>
-          {/* <div className="row mt-3 pmay_img">
-            <div className="col-md-3">
-              <img src={awardImage1} alt="Award 1" />
+          <div className="row mt-3 pmay_img">
+            {awardimages.map((image,index) => (
+              <div className="col-md-3">
+              <img src={`http://localhost:5000${image.image_path}`} alt={`image-${index+1}`} />
             </div>
-            <div className="col-md-3">
-              <img src={awardImage2} alt="Award 2" />
-            </div>
-          </div> */}
+            ))}
+          </div>
         </div>
       </section>
     </div>

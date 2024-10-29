@@ -76,6 +76,7 @@ import Add_websitelink from '../Websitelink/Add_websitelink';
 import GeneralDepartment from '../Subservices/PublicDisclosure/Generaladmindepartment';
 import Add_gernaldepyear from '../Subservices/PublicDisclosure/Add_gernaldepyear';
 import Generaladmindepartment from '../Subservices/PublicDisclosure/Generaladmindepartment';
+import AddAwardImage from '../About_KBMC/Awards/AddAwardImage';
 
 
 const Dashboard = () => {
@@ -126,6 +127,7 @@ const Dashboard = () => {
               <Route path="/add-schools" element={<AddSchools />} />
               <Route path="/add-school-images" element={<AddSchoolImages />} />
               <Route path="/health" element={<CityProfileHealth />} />
+              <Route path="/add-award-images" element={<AddAwardImage />} />
 
 
               //Manoj
