@@ -3,6 +3,63 @@ const router = express.Router();
 const db = require('../config/db.js');
 
 // API Route to handle form submission for adding a main menu and its submenus
+
+router.get('/main-menus', (req, res) => {
+    const mainMenuQuery = 'SELECT * FROM main_menu';
+    const subMenuQuery = 'SELECT * FROM sub_menu WHERE mainMenuId = ?';
+
+    db.query(mainMenuQuery, (err, mainMenus) => {
+        if (err) return res.status(500).send(err);
+
+        const menuPromises = mainMenus.map(menu => {
+            return new Promise((resolve, reject) => {
+                db.query(subMenuQuery, [menu.id], (err, subMenus) => {
+                    if (err) reject(err);
+                    else {
+                        menu.subMenus = subMenus;
+                        resolve();
+                    }
+                });
+            });
+        });
+
+        Promise.all(menuPromises)
+            .then(() => res.status(200).json(mainMenus))
+            .catch(error => res.status(500).send(error));
+    });
+});
+
+// DELETE a main menu and its submenus by main menu ID
+router.delete('/delete-main-menu/:id', (req, res) => {
+    const mainMenuId = req.params.id;
+
+    const deleteSubMenuQuery = 'DELETE FROM sub_menu WHERE mainMenuId = ?';
+    const deleteMainMenuQuery = 'DELETE FROM main_menu WHERE id = ?';
+
+    db.beginTransaction(err => {
+        if (err) return res.status(500).send(err);
+
+        // Delete associated submenus
+        db.query(deleteSubMenuQuery, [mainMenuId], error => {
+            if (error) {
+                return db.rollback(() => res.status(500).send(error));
+            }
+
+            // Delete the main menu
+            db.query(deleteMainMenuQuery, [mainMenuId], error => {
+                if (error) {
+                    return db.rollback(() => res.status(500).send(error));
+                }
+
+                db.commit(err => {
+                    if (err) return db.rollback(() => res.status(500).send(err));
+                    res.status(200).send({ message: 'Main menu and associated submenus deleted successfully' });
+                });
+            });
+        });
+    });
+});
+
 router.post('/add-main-menu', (req, res) => {
     const { menuItems } = req.body;
 
@@ -11,7 +68,7 @@ router.post('/add-main-menu', (req, res) => {
     }
 
     const mainMenuQuery = 'INSERT INTO main_menu (mainMenu) VALUES (?)';
-    const submenuQuery = 'INSERT INTO sub_menu (mainMenuId, subMenu) VALUES (?, ?)';
+    const submenuQuery = 'INSERT INTO sub_menu (mainMenuId, subMenu, subLink) VALUES (?, ?, ?)';
 
     db.beginTransaction((err) => {
         if (err) return res.status(500).send(err);
@@ -27,7 +84,7 @@ router.post('/add-main-menu', (req, res) => {
             // Insert submenus
             const subMenuPromises = menuItems[0].subMenus.map((subMenu) => {
                 return new Promise((resolve, reject) => {
-                    db.query(submenuQuery, [mainMenuId, subMenu], (err) => {
+                    db.query(submenuQuery, [mainMenuId, subMenu.subMenu, subMenu.subLink], (err) => {
                         if (err) reject(err);
                         else resolve();
                     });
@@ -50,39 +107,6 @@ router.post('/add-main-menu', (req, res) => {
     });
 });
 
-// API Route to get all main menus with their submenus
-router.get('/main-menus', (req, res) => {
-    const query = `
-        SELECT mm.id AS mainMenuId, mm.mainMenu, sm.id AS subMenuId, sm.subMenu 
-        FROM main_menu mm 
-        LEFT JOIN sub_menu sm ON mm.id = sm.mainMenuId
-    `;
-
-    db.query(query, (error, results) => {
-        if (error) return res.status(500).send(error);
-        
-        const menus = {};
-        
-        results.forEach(row => {
-            if (!menus[row.mainMenuId]) {
-                menus[row.mainMenuId] = {
-                    id: row.mainMenuId,
-                    mainMenu: row.mainMenu,
-                    subMenus: []
-                };
-            }
-            if (row.subMenuId) {
-                menus[row.mainMenuId].subMenus.push({
-                    subMenuId: row.subMenuId,
-                    subMenu: row.subMenu
-                });
-            }
-        });
-
-        res.status(200).send(Object.values(menus));
-    });
-});
-
 // API Route to update a main menu item
 router.put('/update-main-menu/:id', (req, res) => {
     const mainMenuId = req.params.id;
@@ -90,7 +114,7 @@ router.put('/update-main-menu/:id', (req, res) => {
 
     const updateMainMenuQuery = 'UPDATE main_menu SET mainMenu = ? WHERE id = ?';
     const deleteOldSubMenusQuery = 'DELETE FROM sub_menu WHERE mainMenuId = ?';
-    const insertSubMenuQuery = 'INSERT INTO sub_menu (mainMenuId, subMenu) VALUES (?, ?)';
+    const insertSubMenuQuery = 'INSERT INTO sub_menu (mainMenuId, subMenu, subLink) VALUES (?, ?, ?)';
 
     db.beginTransaction((err) => {
         if (err) return res.status(500).send(err);
@@ -111,7 +135,7 @@ router.put('/update-main-menu/:id', (req, res) => {
                     // Insert new submenus
                     const subMenuPromises = subMenus.map((subMenu) => {
                         return new Promise((resolve, reject) => {
-                            db.query(insertSubMenuQuery, [mainMenuId, subMenu], (err) => {
+                            db.query(insertSubMenuQuery, [mainMenuId, subMenu.subMenu, subMenu.subLink], (err) => {
                                 if (err) reject(err);
                                 else resolve();
                             });
@@ -138,38 +162,5 @@ router.put('/update-main-menu/:id', (req, res) => {
         });
     });
 });
-
-// API Route to delete a submenu
-router.delete('/delete-main-menu/:id', (req, res) => {
-    const mainMenuId = req.params.id;
-
-    const deleteSubMenusQuery = 'DELETE FROM sub_menu WHERE mainMenuId = ?';
-    const deleteMainMenuQuery = 'DELETE FROM main_menu WHERE id = ?';
-
-    db.beginTransaction((err) => {
-        if (err) return res.status(500).send(err);
-
-        // Delete all submenus associated with the main menu
-        db.query(deleteSubMenusQuery, [mainMenuId], (error) => {
-            if (error) {
-                return db.rollback(() => res.status(500).send(error));
-            }
-
-            // Now delete the main menu
-            db.query(deleteMainMenuQuery, [mainMenuId], (error) => {
-                if (error) {
-                    return db.rollback(() => res.status(500).send(error));
-                }
-
-                db.commit((err) => {
-                    if (err) return db.rollback(() => res.status(500).send(err));
-                    res.status(200).send({ message: 'Main menu and all associated submenus deleted successfully' });
-                });
-            });
-        });
-    });
-});
-
-
 
 module.exports = router;

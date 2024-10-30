@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import pdficon from "../../assets/images/icons/PDF-Icons.png";
-import v1 from "../../assets/images/home/online-tax.jpg";
-import v2 from "../../assets/images/gallery/ceo-kbmc.jpg";
+import { Modal, Button } from "react-bootstrap";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import axios from "axios";
@@ -10,6 +9,9 @@ import image from "../../assets/images/icons/new-icon1.gif";
 const DepartmentDetails = () => {
   const [gallerys, setGallerys] = useState([]);
   const [tenders, setTenders] = useState([]);
+  const [videos, setVideos] = useState([]);
+  const [showVideoModal, setShowVideoModal] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
   const FetchImages = async () => {
     try {
@@ -29,9 +31,19 @@ const DepartmentDetails = () => {
     }
   };
 
+  const FetchVideos = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/home-videos");
+      setVideos(response.data);
+    } catch (error) {
+      console.log("Error fetching videos data");
+    }
+  };
+
   useEffect(() => {
     FetchImages();
     FetchTenders();
+    FetchVideos();
   }, []);
 
   useEffect(() => {
@@ -43,6 +55,25 @@ const DepartmentDetails = () => {
       lightbox.destroy();
     };
   }, [gallerys]);
+
+  const getYouTubeVideoId = (url) => {
+    const regExp =
+      /^.*(youtu.be\/|v\/|\/u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  };
+
+  const handleOpenVideoModal = (video) => {
+    setSelectedVideo(
+      `https://www.youtube.com/embed/${getYouTubeVideoId(video.video_url)}`
+    );
+    setShowVideoModal(true);
+  };
+
+  const handleCloseVideoModal = () => {
+    setShowVideoModal(false);
+    setSelectedVideo(null); // Clear the video URL to prevent autoplay on reopen
+  };
 
   return (
     <>
@@ -56,51 +87,48 @@ const DepartmentDetails = () => {
                     <div className="">
                       <div className="row">
                         <div className="col-md-6">
-                          <div className="row" id="video-01">
-                            <div className="col-4 col-md-3">
-                              <a
-                                href="https://www.youtube.com/watch?v=RiWpJkYSnNE"
-                                data-toggle="lightbox"
-                              >
-                                <img
-                                  src={v1}
-                                  alt="ceo-video2"
-                                  className="img-fluid"
-                                />
-                              </a>
-                            </div>
-                            <div className="col-8 col-md-9 px-0">
-                              <p className="h6 video-title">
-                                Online Tax Filling procedure by KBMC
-                              </p>
-                              <p className="video-desc">Date: 01 May, 2023.</p>
-                            </div>
-                          </div>
-                          <hr />
-                          <div className="row" id="video-02">
-                            <div className="col-4 col-md-3">
-                              <a
-                                href="https://www.youtube.com/watch?v=OhWuHjMXBkM"
-                                data-toggle="lightbox"
-                                data-gallery="youtubevideos"
-                              >
-                                <img
-                                  src={v2}
-                                  alt="v-img5"
-                                  className="img-fluid"
-                                />
-                              </a>
-                            </div>
-                            <div className="col-8 col-md-9 px-0">
-                              <p className="h6 video-title">
-                                Meeting with the newly elected Chief Officer
-                                of... Kulgaon Badlapur Municipal Council, Yogesh
-                                Godse Sir.
-                              </p>
-                              <p className="video-desc">Date: 25 June, 2023.</p>
-                            </div>
-                          </div>
-                          <hr />
+                          {videos.map((video, index) => (
+                            <React.Fragment key={index}>
+                              <div className="row" id="video-01">
+                                <div className="col-4 col-md-3">
+                                  <a
+                                    onClick={() => handleOpenVideoModal(video)} // Open modal on click
+                                    className="lightbox"
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    <img
+                                      src={`https://img.youtube.com/vi/${getYouTubeVideoId(
+                                        video.video_url
+                                      )}/0.jpg`} // Get thumbnail
+                                      alt={video.description}
+                                      style={{
+                                        width: "100px",
+                                        height: "56px",
+                                        cursor: "pointer",
+                                        objectFit: "cover",
+                                      }}
+                                    />
+                                  </a>
+                                </div>
+                                <div className="col-8 col-md-9 px-0">
+                                  <p className="h6 video-title">
+                                    {video.description}
+                                  </p>
+                                  <p className="video-desc">
+                                    Date:{" "}
+                                    {new Date(
+                                      video.publish_date
+                                    ).toLocaleDateString("en-US", {
+                                      day: "2-digit",
+                                      month: "long",
+                                      year: "numeric",
+                                    })}
+                                  </p>
+                                </div>
+                              </div>
+                              <hr />
+                            </React.Fragment>
+                          ))}
                         </div>
                         <div className="col-md-6 col-12">
                           <div className="map-style">
@@ -323,6 +351,29 @@ const DepartmentDetails = () => {
           </div>
         </div>
       </section>
+
+      {/* Video Modal */}
+      <Modal
+        show={showVideoModal}
+        onHide={handleCloseVideoModal}
+        centered
+        size="lg"
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          {selectedVideo && (
+            <iframe
+              width="100%"
+              height="400"
+              objectFit="cover"
+              src={selectedVideo} // Using selectedVideo state for src
+              frameBorder="0"
+              allowFullScreen
+              title="YouTube video"
+            ></iframe>
+          )}
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

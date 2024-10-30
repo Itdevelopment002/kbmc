@@ -7,35 +7,33 @@ import {useNavigate } from 'react-router-dom'; // Import useNavigate
 
 
 const AddMainPage = () => {
-  const initialMenuItems = [{ mainMenu: '', subMenus: [''] }];
+  const initialMenuItems = [{ mainMenu: '', subMenus: [{ subMenu: '', subLink: '' }] }];
   const [menuItems, setMenuItems] = useState(initialMenuItems);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
-  const [error, setError] = useState(null); // State to hold error messages
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); // Reset any previous error
+    setError(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/add-main-menu', {
-        menuItems,
-      });
+      const response = await axios.post('http://localhost:5000/api/add-main-menu', { menuItems });
       navigate('/');
       setMenuItems(initialMenuItems);
     } catch (err) {
-      setError(err.response ? err.response.data.message : 'An error occurred.'); // Handle error
+      setError(err.response ? err.response.data.message : 'An error occurred.');
     }
   };
 
   const handleCancel = () => {
-    setShowCancelModal(true); // Show cancel modal
+    setShowCancelModal(true);
   };
 
   const handleAddMoreSubMenu = (index) => {
     const newMenuItems = [...menuItems];
-    newMenuItems[index].subMenus.push(''); // Add an empty submenu
+    newMenuItems[index].subMenus.push({ subMenu: '', subLink: '' });
     setMenuItems(newMenuItems);
   };
 
@@ -45,15 +43,15 @@ const AddMainPage = () => {
     setMenuItems(newMenuItems);
   };
 
-  const handleSubMenuChange = (index, subIndex, value) => {
+  const handleSubMenuChange = (index, subIndex, field, value) => {
     const newMenuItems = [...menuItems];
-    newMenuItems[index].subMenus[subIndex] = value; // Update the specific submenu
+    newMenuItems[index].subMenus[subIndex][field] = value;
     setMenuItems(newMenuItems);
   };
 
   const handleDeleteSubMenu = (index, subIndex) => {
     const newMenuItems = [...menuItems];
-    newMenuItems[index].subMenus.splice(subIndex, 1); // Remove the specific submenu
+    newMenuItems[index].subMenus.splice(subIndex, 1);
     setMenuItems(newMenuItems);
   };
 
@@ -83,7 +81,7 @@ const AddMainPage = () => {
                       <button type="button" className="btn btn-primary" onClick={() => handleAddMoreSubMenu(menuItems.length - 1)}>Add More</button>
                     </div>
                   </div>
-                  {error && <div className="alert alert-danger">{error}</div>} {/* Display error message */}
+                  {error && <div className="alert alert-danger">{error}</div>}
                   <form onSubmit={handleSubmit}>
                     {menuItems.map((item, index) => (
                       <div key={index}>
@@ -96,12 +94,15 @@ const AddMainPage = () => {
                         {item.subMenus.map((subMenu, subIndex) => (
                           <div className="form-group row" style={{ marginBottom: "10px" }} key={subIndex}>
                             <label className="col-form-label col-md-3">Sub Menu <span className="text-danger">*</span></label>
-                            <div className="col-md-4">
-                              <input type="text" className="form-control form-control-lg" value={subMenu} onChange={(e) => handleSubMenuChange(index, subIndex, e.target.value)} />
+                            <div className="col-md-3">
+                              <input type="text" className="form-control form-control-lg" value={subMenu.subMenu} onChange={(e) => handleSubMenuChange(index, subIndex, 'subMenu', e.target.value)} />
+                            </div>
+                            <div className="col-md-3">
+                              <input type="text" className="form-control form-control-lg" placeholder="Sub Link" value={subMenu.subLink} onChange={(e) => handleSubMenuChange(index, subIndex, 'subLink', e.target.value)} />
                             </div>
                             <div className="col-md-1">
                               <button type="button" className="btn btn-danger" onClick={() => handleDeleteSubMenu(index, subIndex)}>
-                                <FaTimes /> {/* Cross icon for deleting submenu */}
+                                <FaTimes />
                               </button>
                             </div>
                           </div>
