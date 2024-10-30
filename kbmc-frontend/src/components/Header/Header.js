@@ -212,225 +212,6 @@ const Header = () => {
                   <i className="icon-bar"></i>
                   <i className="icon-bar"></i>
                 </div>
-                {/* <nav className="main-menu navbar-expand-md navbar-light">
-                  <div
-                    className="collapse navbar-collapse show clearfix"
-                    id="navbarSupportedContent"
-                  >
-                    <ul className="navigation clearfix">
-                      <li className="current">
-                        <a href="/">Home</a>{" "}
-                      </li>
-                      <li className="dropdown">
-                        <a href="#.">About KBMC</a>
-                        <ul>
-                          <li>
-                            <a href="/history">History</a>
-                          </li>
-                          <li>
-                            <a href="/ward">Wards</a>
-                          </li>
-                          <li>
-                            <a href="/elected-member">Elected Wing</a>
-                          </li>
-                          <li>
-                            <a href="/org-structure">Organization Structure</a>
-                          </li>
-                          <li>
-                            <a href="/functions">Functions</a>
-                          </li>
-                          <li>
-                            <a href="/departments">Departments</a>
-                          </li>
-                          <li>
-                            <a href="/elected-pre-officer">
-                              Previous Chief Officers
-                            </a>
-                          </li>
-                          <li>
-                            <a href="/elected-pre-representative">
-                              Previous Presidents
-                            </a>
-                          </li>
-                          <li>
-                            <a href="/awards">Awards</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li className="dropdown">
-                        <a href="#.">City Profile</a>
-                        <ul>
-                          <li>
-                            <a
-                              href={areas}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Areas{" "}
-                            </a>
-                          </li>
-                          <li>
-                            <a href="/property-holder">Property Holder</a>
-                          </li>
-                          <li>
-                            <a href="/properties-milkat">Muncipal Properties</a>
-                          </li>
-                          <li>
-                            <a href="/schools">Schools</a>
-                          </li>
-                          <li>
-                            <a href="/gardens">Gardens</a>
-                          </li>
-                          <li>
-                            <a href="/electric">Electric</a>
-                          </li>
-                          <li>
-                            <a href="/roads">Roads</a>
-                          </li>
-                          <li>
-                            <a href="/tree-census">Tree Census</a>
-                          </li>
-                          <li>
-                            <a href="/health">Health</a>
-                          </li>
-                          <li>
-                            <a href="/ponds-talao">Ponds / Talao</a>
-                          </li>
-                          <li>
-                            <a href="/fire-station">Fire Station</a>
-                          </li>
-                          <li>
-                            <a href="/private-hospital">Private Hospital</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li className="dropdown">
-                        <a href="#.">Online Services</a>
-                        <ul>
-                          <li>
-                            <a
-                              href="https://mahaulb.in/MahaULB/property/propertyOnlinePay"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Property Tax Payment
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://mahaulb.in/MahaULB/property/onlineReceiptReprint"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Property Tax Receipt
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://mjp.maharashtra.gov.in/pay-water-bill-online/"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Water Tax Payment
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://crsorgi.gov.in/web/index.php/auth/login"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Birth &amp; Death Search{" "}
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://mahatenders.gov.in/nicgep/app"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Online Tenders
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://maha.autodcr.com/BPAMSClient/Default.aspx"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Auto DCR
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li className="dropdown">
-                        <a href="#.">Schemes</a>
-                        <ul>
-                          <li>
-                            <a
-                              href={nulm}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              NULM
-                            </a>
-                          </li>
-                          <li>
-                            <a href="/pmay">PMAY</a>
-                          </li>
-                          <li>
-                            <a href="/nuhm">NUHM</a>
-                          </li>
-                          <li>
-                            <a href="/amrut">AMRUT</a>
-                          </li>
-                          <li>
-                            <a
-                              href="assets/documents/Swachh_Bharat_Abhiyan.pdf"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Swachh Bharat
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-
-                      <li className="dropdown">
-                        <a href="#.">Complaints</a>
-                        <ul>
-                          <li>
-                            <a
-                              href="https://aaplesarkar.mahaonline.gov.in/en"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Aaple Sarkar
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://pgportal.gov.in/"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              P G Portal
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://rtionline.maharashtra.gov.in/RTIMIS/login/index.php"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Right to Information
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
-                </nav> */}
                 <nav className="main-menu navbar-expand-md navbar-light">
                   <div
                     className="collapse navbar-collapse show clearfix"
@@ -440,18 +221,32 @@ const Header = () => {
                       {menuData.map((menuItem, index) => (
                         <li
                           key={index}
-                          className={menuItem.subMenu ? "dropdown" : ""}
+                          className={menuItem.subMenus.length ? "dropdown" : ""}
                         >
-                          <a href={menuItem.link || "/"}>{menuItem.mainMenu}</a>
-                          {menuItem.subMenu && (
+                          <a href={menuItem.mainMenu === "Home" ? "/" : "#"}>{menuItem.mainMenu}</a>
+                          {menuItem.subMenus.length > 0 && (
                             <ul>
-                              {menuItem.subMenu.map((subMenuItem, subIndex) => (
-                                <li key={subIndex}>
-                                  <a href={subMenuItem.link || "/"}>
-                                    {subMenuItem.title}
-                                  </a>
-                                </li>
-                              ))}
+                              {menuItem.subMenus.map(
+                                (subMenuItem, subIndex) => (
+                                  <li key={subIndex}>
+                                    <a
+                                      href={subMenuItem.subLink}
+                                      target={
+                                        subMenuItem.subLink.startsWith("http")
+                                          ? "_blank"
+                                          : undefined
+                                      }
+                                      rel={
+                                        subMenuItem.subLink.startsWith("http")
+                                          ? "noopener noreferrer"
+                                          : undefined
+                                      }
+                                    >
+                                      {subMenuItem.subMenu}
+                                    </a>
+                                  </li>
+                                )
+                              )}
                             </ul>
                           )}
                         </li>
