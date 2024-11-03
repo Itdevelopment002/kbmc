@@ -27,10 +27,9 @@ const Gardens = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchGardenData();
-  },[]);
-  
+  }, []);
 
   useEffect(() => {
     // Initialize lightbox
@@ -41,7 +40,7 @@ const Gardens = () => {
     return () => {
       lightbox.destroy();
     };
-  }, [gardenData]);
+  }, [activeTab, gardenData]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -109,29 +108,20 @@ const Gardens = () => {
                       id={`tab-${index + 1}`}
                     >
                       <div className="content-box department-section">
-                        <div className="row d-flex justify-content-start">
-                          {" "}
-                          {/* Change to 'justify-content-start' for left alignment */}
+                        <div className="row">
                           {activeTab === `#tab-${index + 1}` && garden.images
                             ? JSON.parse(garden.images).map((img, imgIndex) => (
-                                <div key={imgIndex} className="col-2 mb-3">
-                                  {" "}
-                                  {/* Use col-4 for a grid layout */}
-                                  <div className="position-relative">
-                                    <a
-                                      href={`http://localhost:5000${img}`}
-                                      className="glightbox"
-                                      data-gallery="garden-images"
-                                    >
-                                      <img
-                                        width="200px"
-                                        src={`http://localhost:5000${img}`}
-                                        alt={`garden${index + 1}`}
-                                        className="img-fluid"
-                                      />
-                                    </a>
-                                  </div>
-                                </div>
+                                <a
+                                  href={`http://localhost:5000${img}`}
+                                  className="glightbox col-sm-2"
+                                  data-gallery="garden-images"
+                                >
+                                  <img
+                                    src={`http://localhost:5000${img}`}
+                                    alt={`garden${index + 1}`}
+                                    className="img-fluid"
+                                  />
+                                </a>
                               ))
                             : activeTab === `#tab-${index + 1}` && (
                                 <p className="col-sm-12">
