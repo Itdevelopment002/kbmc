@@ -29,7 +29,9 @@ const Schools = () => {
 
   const fetchSchoolPhotos = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/school-images");
+      const response = await axios.get(
+        "http://localhost:5000/api/school-images"
+      );
       setSchoolPhotos(response.data);
     } catch (error) {
       console.error("Error fetching school images data");
@@ -41,11 +43,9 @@ const Schools = () => {
     fetchSchoolPhotos();
   }, []);
 
-
-
   useEffect(() => {
     const lightbox = GLightbox({
-      selector: ".glightbox", 
+      selector: ".glightbox",
     });
   }, []);
 
@@ -113,9 +113,9 @@ const Schools = () => {
                 </tr>
               </thead>
               <tbody>
-                {schools.map((school,index) => (
+                {schools.map((school, index) => (
                   <tr key={school.id}>
-                    <td>{index+1}</td>
+                    <td>{index + 1}</td>
                     <td>{school.schoolName}</td>
                     <td>{school.address}</td>
                     <td>{school.medium}</td>
@@ -127,38 +127,35 @@ const Schools = () => {
         </div>
       </section>
 
-      <div className="container mb-5">
-        <div className="col-lg-12 col-md-12 col-sm-12 content-side">
-          <div className="department-details-content">
-            <div className="content-three">
-              <div className="tabs-box">
-                <div className="tab-btn-box">
-                  <ul className="tab-btns tab-buttons clearfix">
-                    <li className="tab-btn active-btn" data-tab="#tab-1">
+      <div class="auto-container mb-5">
+        <div class="col-lg-12 col-md-12 col-sm-12 content-side">
+          <div class="department-details-content">
+            <div class="content-three">
+              <div class="tabs-box">
+                <div class="tab-btn-box">
+                  <ul class="tab-btns tab-buttons clearfix">
+                    <li class="tab-btn active-btn" data-tab="#tab-1">
                       Schools Photo Gallery
                     </li>
                   </ul>
                 </div>
-                <div className="tabs-content">
-                  <div className="tab active-tab" id="tab-1">
-                    <div className="content-box">
-                      <div className="content-box department-section">
-                        <div className="row">
+                <div class="tabs-content">
+                  <div class="tab active-tab" id="tab-1">
+                    <div class="content-box">
+                      <div class="content-box department-section">
+                        <div class="row">
                           {schoolPhotos.map((image, index) => (
-                            <div className="col-sm-2" key={index}>
-                              <a
+                            <a
                               href={`http://localhost:5000${image.image_path}`}
-                              className="glightbox"
+                              className="glightbox col-sm-2"
                               data-gallery="slider-images"
                             >
-                                <img
-                                  width="200px"
-                                  src={`http://localhost:5000${image.image_path}`}
-                                  alt={`img${index + 1}`}
-                                  className="img-fluid"
-                                />
-                              </a>
-                            </div>
+                              <img
+                                src={`http://localhost:5000${image.image_path}`}
+                                alt={`img${index + 1}`}
+                                className="img-fluid"
+                              />
+                            </a>
                           ))}
                         </div>
                       </div>

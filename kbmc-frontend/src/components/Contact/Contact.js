@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import Location from "../../assets/images/icons/Location Icon.png";
@@ -6,17 +7,21 @@ import Quick from "../../assets/images/icons/Quick Contact Icon.png";
 import Off from "../../assets/images/icons/Off hours Icon.png";
 
 const Contact = () => {
-  // Initialize react-hook-form
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm();
 
-  // Submit handler function
-  const onSubmit = (data) => {
-    console.log(data);
-    // You can handle form submission logic here, such as sending data to the server
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/contact-us", data);
+      reset(); 
+    } catch (error) {
+      console.error("Error sending message:", error);
+      alert("Failed to send message. Please try again.");
+    }
   };
 
   return (
@@ -45,7 +50,6 @@ const Contact = () => {
         </div>
       </section>
       <br /> <br /> <br />
-      {/* Contact Info Section */}
       <section className="contact-info-section centred">
         <div className="auto-container">
           <div className="tabs-box">
@@ -138,9 +142,9 @@ const Contact = () => {
                         <input
                           type="text"
                           placeholder="Your Name"
-                          {...register("username", { required: true })}
+                          {...register("name", { required: true })}
                         />
-                        {errors.username && (
+                        {errors.name && (
                           <p style={{ color: "red" }}>Name is required</p>
                         )}
                       </div>
@@ -148,9 +152,9 @@ const Contact = () => {
                         <input
                           type="text"
                           placeholder="Mobile No."
-                          {...register("mobileno", { required: true })}
+                          {...register("mobile", { required: true })}
                         />
-                        {errors.mobileno && (
+                        {errors.mobile && (
                           <p style={{ color: "red" }}>Mobile No. is required</p>
                         )}
                       </div>
@@ -184,9 +188,9 @@ const Contact = () => {
                       <div className="col-lg-12 col-md-12 col-sm-12 form-group">
                         <textarea
                           placeholder="Your Feedback ..."
-                          {...register("message", { required: true })}
+                          {...register("feedback", { required: true })}
                         ></textarea>
-                        {errors.message && (
+                        {errors.feedback && (
                           <p style={{ color: "red" }}>Message is required</p>
                         )}
                       </div>
@@ -212,4 +216,3 @@ const Contact = () => {
 };
 
 export default Contact;
-

@@ -35,7 +35,6 @@
 // import pdf33 from "../../assets/documents/general_admin_deprt/year-2023-24/09_Prashaskiy Tharav Dec - 2023.pdf"
 // import pdf34 from "../../assets/documents/general_admin_deprt/year-2023-24/10_Prashaskiy Tharav Jan - 2024.pdf"
 
-
 // const DeptLayer2 = () => {
 //   const [activeIndex, setActiveIndex] = useState(null); // State to track the active accordion
 
@@ -467,122 +466,122 @@
 //                 </div>
 //               </div>
 //             </div>
-//             <div className="col-lg-3 col-md-12 col-sm-12 sidebar-side">
-//               <div className="department-sidebar">
-//                 <div className="category-widget">
-//                   <div className="widget-content">
-//                   <ul className="category-list clearfix">
-//                       <li>
-//                         {" "}
-//                         <a href="/general-admin-department">
-//                           General Admin Department
-//                         </a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/audit-department">Audit Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/tax-department">Tax Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/account-department">Account Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/town-planning">Town Planning</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/electrical-department">
-//                           Electrical Department
-//                         </a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/public-work-department">
-//                           Public Work Department (PWD)
-//                         </a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/income-department">Milkat (Income)</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/egovernance-department">
-//                           E-Governance Department
-//                         </a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/health-department">Health Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/wcd">WCD (Women and Child Development)</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/advertisement-department">
-//                           Advertisement Department
-//                         </a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/education-department">Education Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="#.">Security Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/vehicle-department">Vehicle Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/nulm-department">NULM Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/hospital-department">Hospital Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/fire-department">Fire Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/legal-department">Legal Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/disability-welfare-department">
-//                           Disability Welfare
-//                         </a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="#.">Store &amp; Records Department</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="#.">Marriage Registration</a>
-//                       </li>
-//                       <li>
-//                         {" "}
-//                         <a href="/birth-death-department">
-//                           Birth &amp; Death Department
-//                         </a>
-//                       </li>
-//                     </ul>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
+// <div className="col-lg-3 col-md-12 col-sm-12 sidebar-side">
+//   <div className="department-sidebar">
+//     <div className="category-widget">
+//       <div className="widget-content">
+//       <ul className="category-list clearfix">
+//           <li>
+//             {" "}
+//             <a href="/general-admin-department">
+//               General Admin Department
+//             </a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/audit-department">Audit Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/tax-department">Tax Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/account-department">Account Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/town-planning">Town Planning</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/electrical-department">
+//               Electrical Department
+//             </a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/public-work-department">
+//               Public Work Department (PWD)
+//             </a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/income-department">Milkat (Income)</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/egovernance-department">
+//               E-Governance Department
+//             </a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/health-department">Health Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/wcd">WCD (Women and Child Development)</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/advertisement-department">
+//               Advertisement Department
+//             </a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/education-department">Education Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="#.">Security Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/vehicle-department">Vehicle Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/nulm-department">NULM Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/hospital-department">Hospital Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/fire-department">Fire Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/legal-department">Legal Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/disability-welfare-department">
+//               Disability Welfare
+//             </a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="#.">Store &amp; Records Department</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="#.">Marriage Registration</a>
+//           </li>
+//           <li>
+//             {" "}
+//             <a href="/birth-death-department">
+//               Birth &amp; Death Department
+//             </a>
+//           </li>
+//         </ul>
+//       </div>
+//     </div>
+//   </div>
+// </div>
 //           </div>
 //         </div>
 //       </section>
@@ -599,12 +598,28 @@ import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 const DeptLayer2 = () => {
   const [activeIndex, setActiveIndex] = useState(null); // State to track the active accordion
   const [data, setData] = useState([]); // State for dynamic data
+  const [departments, setDepartments] = useState([]);
+
+  const fetchDepartments = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/departments");
+      setDepartments(response.data);
+    } catch (error) {
+      console.error("Error fetching departments data");
+    }
+  };
+
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
 
   // Fetch data from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/generaladminaddyear"); // Replace with your API endpoint
+        const response = await axios.get(
+          "http://localhost:5000/api/generaladminaddyear"
+        ); // Replace with your API endpoint
         setData(response.data); // Assuming response.data is an array of items
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -670,50 +685,110 @@ const DeptLayer2 = () => {
                 <div className="col-lg-11 col-md-11 col-sm-11 content-column">
                   <div className="content-box">
                     <ul className="accordion-box year-accordion-box">
-                      {/* Dynamic Accordion Rendering */}
-                      {data.map((item, index) => (
+                      {/* Group data by year */}
+                      {Object.entries(
+                        data.reduce((acc, item) => {
+                          const yearKey = item.year;
+
+                          // Initialize arrays for each year if they don't exist yet
+                          if (!acc[yearKey]) {
+                            acc[yearKey] = {
+                              generalMeetings: [],
+                              standingCommitteeMeetings: [],
+                            };
+                          }
+
+                          // Check the meeting type and add the item to the appropriate array
+                          if (item.meetingtype === "General Meeting") {
+                            acc[yearKey].generalMeetings.push(item.pdfheading);
+                          } else if (
+                            item.meetingtype === "Standing Committee Meeting"
+                          ) {
+                            acc[yearKey].standingCommitteeMeetings.push({
+                              pdf: item.pdf,
+                              pdfheading: item.pdfheading,
+                            });
+                          }
+
+                          return acc;
+                        }, {})
+                      ).map(([year, yearData], index) => (
                         <li
                           key={index}
-                          className={`accordion block ${activeIndex === index ? 'active-block' : ''}`}
+                          className={`accordion block ${
+                            activeIndex === index ? "active-block" : ""
+                          }`}
                         >
                           <div
                             className="acc-btn"
                             onClick={() => handleAccordionClick(index)}
                           >
                             <span className="count-text">{index + 1}</span>
-                            <h3>{`Year ${item.year}`}</h3>
+                            <h3>{`Year ${year}`}</h3>
                           </div>
                           <div
                             className="acc-content"
                             style={{
-                              display: activeIndex === index ? 'block' : 'none',
+                              display: activeIndex === index ? "block" : "none",
                             }}
                           >
                             <div className="row">
                               <div className="col-md-6">
                                 <h5 className="pb-3 pl-5">General Meeting</h5>
                                 <ul>
-                                  {/* Ensure item.generalMeeting is defined and is an array */}
-                                  {(item.generalMeeting || []).map((meeting, idx) => (
-                                    <li key={idx}>{meeting}</li>
-                                  ))}
+                                  {yearData.generalMeetings.map(
+                                    (resolution, idx) => (
+                                      <li key={idx}>
+                                        <a
+                                          href={`http://localhost:5000/${resolution.pdf}`}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                        >
+                                          {resolution.pdfheading}
+                                        </a>
+                                      </li>
+                                    )
+                                  )}
                                 </ul>
                               </div>
                               <div className="col-md-6">
-                                <h5 className="pb-3 pl-5">Standing Committee Meeting Resolutions</h5>
+                                <h5 className="pb-3 pl-5">
+                                  Standing Committee Meeting Resolutions
+                                </h5>
                                 <ul>
-                                  {/* Ensure item.resolutions is defined and is an array */}
-                                  {(item.resolutions || []).map((resolution, idx) => (
-                                    <li key={idx}>
-                                      <a href={resolution.pdf} target="_blank" rel="noreferrer">
-                                      {resolution.pdfheading}
-                                      </a>
-                                    </li>
-                                  ))}
+                                  {yearData.standingCommitteeMeetings.map(
+                                    (resolution, idx) => (
+                                      <li key={idx}>
+                                        <a
+                                          href={`http://localhost:5000/${resolution.pdf}`}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                        >
+                                          {resolution.pdfheading}
+                                        </a>
+                                      </li>
+                                    )
+                                  )}
                                 </ul>
                               </div>
                             </div>
                           </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-12 col-sm-12 sidebar-side">
+              <div className="department-sidebar">
+                <div className="category-widget">
+                  <div className="widget-content">
+                    <ul className="category-list clearfix">
+                      {departments.map((department, index) => (
+                        <li key={index}>
+                          {" "}
+                          <a href={department.link}>{department.name}</a>
                         </li>
                       ))}
                     </ul>

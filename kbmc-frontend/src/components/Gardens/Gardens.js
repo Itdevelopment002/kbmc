@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
-import innerBanner from "../../assets/images/banner/inner-banner.jpg"; 
+import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 const Gardens = () => {
   const [activeTab, setActiveTab] = useState("#tab-1");
   const [gardenData, setGardenData] = useState([]);
@@ -14,32 +14,34 @@ const Gardens = () => {
   };
 
   // Fetch garden data from API
-  useEffect(() => {
-    const fetchGardenData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/gardens");
-        setGardenData(response.data); // Assuming response.data is an array of gardens
-      } catch (error) {
-        console.error("Error fetching garden data:", error);
-        setError("Failed to fetch garden data.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchGardenData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://localhost:5000/api/gardens");
+      setGardenData(response.data); // Assuming response.data is an array of gardens
+    } catch (error) {
+      console.error("Error fetching garden data:", error);
+      setError("Failed to fetch garden data.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(()=>{
     fetchGardenData();
+  },[]);
+  
 
+  useEffect(() => {
     // Initialize lightbox
     const lightbox = GLightbox({
       selector: ".glightbox",
     });
 
     return () => {
-      // Clean up GLightbox on component unmount
-      lightbox.close();
+      lightbox.destroy();
     };
-  }, []);
+  }, [gardenData]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -86,7 +88,9 @@ const Gardens = () => {
                     {gardenData.map((garden, index) => (
                       <li
                         key={index}
-                        className={`tab-btn ${activeTab === `#tab-${index + 1}` ? "active-btn" : ""}`}
+                        className={`tab-btn ${
+                          activeTab === `#tab-${index + 1}` ? "active-btn" : ""
+                        }`}
                         data-tab={`#tab-${index + 1}`}
                         onClick={() => handleTabClick(`#tab-${index + 1}`)}
                       >
@@ -99,29 +103,43 @@ const Gardens = () => {
                   {gardenData.map((garden, index) => (
                     <div
                       key={index}
-                      className={`tab ${activeTab === `#tab-${index + 1}` ? "active-tab" : ""}`}
+                      className={`tab ${
+                        activeTab === `#tab-${index + 1}` ? "active-tab" : ""
+                      }`}
                       id={`tab-${index + 1}`}
                     >
                       <div className="content-box department-section">
-                        <div className="row d-flex justify-content-start"> {/* Change to 'justify-content-start' for left alignment */}
-                          {activeTab === `#tab-${index + 1}` && garden.images ? (
-                            JSON.parse(garden.images).map((img, imgIndex) => (
-                              <div key={imgIndex} className="col-2 mb-3"> {/* Use col-4 for a grid layout */}
-                                <div className="position-relative">
-                                  <img
-                                    src={`http://localhost:5000${img}`}
-                                    alt=""
-                                    className="glightbox img-fluid"
-                                  />
+                        <div className="row d-flex justify-content-start">
+                          {" "}
+                          {/* Change to 'justify-content-start' for left alignment */}
+                          {activeTab === `#tab-${index + 1}` && garden.images
+                            ? JSON.parse(garden.images).map((img, imgIndex) => (
+                                <div key={imgIndex} className="col-2 mb-3">
+                                  {" "}
+                                  {/* Use col-4 for a grid layout */}
+                                  <div className="position-relative">
+                                    <a
+                                      href={`http://localhost:5000${img}`}
+                                      className="glightbox"
+                                      data-gallery="garden-images"
+                                    >
+                                      <img
+                                        width="200px"
+                                        src={`http://localhost:5000${img}`}
+                                        alt={`garden${index + 1}`}
+                                        className="img-fluid"
+                                      />
+                                    </a>
+                                  </div>
                                 </div>
-                              </div>
-                            ))
-                          ) : (
-                            activeTab === `#tab-${index + 1}` && <p className="col-sm-12">No images available for this garden.</p>
-                          )}
+                              ))
+                            : activeTab === `#tab-${index + 1}` && (
+                                <p className="col-sm-12">
+                                  No images available for this garden.
+                                </p>
+                              )}
                         </div>
                       </div>
-
                     </div>
                   ))}
                 </div>
