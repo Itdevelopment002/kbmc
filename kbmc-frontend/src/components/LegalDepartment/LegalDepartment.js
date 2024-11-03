@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
+import axios from "axios";
 
 const LegalDepartment = () => {
+  const [departments, setDepartments] = useState([]);
+
+  const fetchDepartments = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/departments");
+      setDepartments(response.data);
+    } catch (error) {
+      console.error("Error fetching departments data");
+    }
+  };
+
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
   return (
     <>
       <section className="page-title ">
@@ -63,112 +78,12 @@ const LegalDepartment = () => {
                 <div className="category-widget">
                   <div className="widget-content">
                     <ul className="category-list clearfix">
-                      <li>
-                        {" "}
-                        <a href="/general-admin-department">
-                          General Admin Department
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/audit-department">Audit Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/tax-department">Tax Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/account-department">Account Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/town-planning">Town Planning</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/electrical-department">
-                          Electrical Department
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/public-work-department">
-                          Public Work Department (PWD)
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/income-department">Milkat (Income)</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/egovernance-department">
-                          E-Governance Department
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/health-department">Health Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/wcd">WCD (Women and Child Development)</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/advertisement-department">
-                          Advertisement Department
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/education-department">Education Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="#.">Security Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/vehicle-department">Vehicle Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/nulm-department">NULM Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/hospital-department">Hospital Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/fire-department">Fire Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/legal-department">Legal Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/disability-welfare-department">
-                          Disability Welfare
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="#.">Store &amp; Records Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="#.">Marriage Registration</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/birth-death-department">
-                          Birth &amp; Death Department
-                        </a>
-                      </li>
+                    {departments.map((department, index) => (
+                        <li key={index}>
+                          {" "}
+                          <a href={department.link}>{department.name}</a>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>

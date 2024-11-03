@@ -22,7 +22,7 @@ const PondsTalao = () => {
     // Fetch ponds data from the API
     const fetchPonds = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/ponds-talao'); // Update the endpoint as needed
+        const response = await axios.get("http://localhost:5000/api/ponds-talao"); // Update the endpoint as needed
         setPonds(response.data);
       } catch (err) {
         setError(err.message);
@@ -32,18 +32,17 @@ const PondsTalao = () => {
     };
 
     fetchPonds();
+  }, []);
 
-    // Initialize GLightbox
+  useEffect(() => {
     const lightbox = GLightbox({
       selector: ".glightbox",
-      touchNavigation: true,
-      loop: true,
-      autoplayVideos: true,
     });
 
-    // Cleanup function to destroy the lightbox when the component unmounts
-    return () => lightbox.destroy();
-  }, []);
+    return () => {
+      lightbox.destroy();
+    };
+  }, [ponds]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -139,94 +138,18 @@ const PondsTalao = () => {
                   <div className="tab active-tab" id="tab-1">
                     <div className="content-box department-section">
                       <div className="row">
-                        <a
-                          href={talaoImg1}
-                          className="glightbox col-sm-2"
-                          data-gallery="example-gallery"
-                        >
-                          <img
-                            src={talaoImg1}
-                            alt="talaoimg1"
-                            className="img-fluid"
-                          />
-                        </a>
-                        <a
-                          href={talaoImg2}
-                          className="glightbox col-sm-2"
-                          data-gallery="example-gallery"
-                        >
-                          <img
-                            src={talaoImg2}
-                            alt="talaoimg2"
-                            className="img-fluid"
-                          />
-                        </a>
-                        <a
-                          href={talaoImg3}
-                          className="glightbox col-sm-2"
-                          data-gallery="example-gallery"
-                        >
-                          <img
-                            src={talaoImg3}
-                            alt="talaoimg3"
-                            className="img-fluid"
-                          />
-                        </a>
-                        <a
-                          href={talaoImg4}
-                          className="glightbox col-sm-2"
-                          data-gallery="example-gallery"
-                        >
-                          <img
-                            src={talaoImg4}
-                            alt="talaoimg4"
-                            className="img-fluid"
-                          />
-                        </a>
-                        <a
-                          href={talaoImg5}
-                          className="glightbox col-sm-2"
-                          data-gallery="example-gallery"
-                        >
-                          <img
-                            src={talaoImg5}
-                            alt="talaoimg5"
-                            className="img-fluid"
-                          />
-                        </a>
-                        <a
-                          href={talaoImg6}
-                          className="glightbox col-sm-2"
-                          data-gallery="example-gallery"
-                        >
-                          <img
-                            src={talaoImg6}
-                            alt="talaoimg6"
-                            className="img-fluid"
-                          />
-                        </a>
-                        <a
-                          href={talaoImg7}
-                          className="glightbox col-sm-2"
-                          data-gallery="example-gallery"
-                        >
-                          <img
-                            src={talaoImg7}
-                            alt="talaoimg7"
-                            className="img-fluid"
-                          />
-                        </a>
-                        <a
-                          href={talaoImg8}
-                          className="glightbox col-sm-2"
-                          data-gallery="example-gallery"
-                        >
-                          <img
-                            src={talaoImg8}
-                            alt="talaoimg8"
-                            className="img-fluid"
-                          />
-                        </a>
+                        {[talaoImg1, talaoImg2, talaoImg3, talaoImg4, talaoImg5, talaoImg6, talaoImg7, talaoImg8].map(
+                          (img, index) => (
+                            <a
+                              key={index}
+                              href={img}
+                              className="glightbox col-sm-2"
+                              data-gallery="example-gallery"
+                            >
+                              <img src={img} alt={`talaoimg${index + 1}`} className="img-fluid" />
+                            </a>
+                          )
+                        )}
                       </div>
                     </div>
                   </div>

@@ -6,26 +6,23 @@ import pdficon from "../../assets/images/icons/PDF-Icons.png";
 
 const RightToService = () => {
     const [pdfData, setPdfData] = useState([]);
-
-
-    useEffect(() => {
-        // Fetch data from the API
-        axios.get('http://localhost:5000/api/rts_table')
-            .then(response => {
-                setPdfData(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, []);
-
-
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch data from API
+        // Fetch data from the pdf API
+        axios.get('http://localhost:5000/api/rts_table')
+            .then(response => {
+                setPdfData(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching PDF data:', error);
+            });
+    }, []);
+
+    useEffect(() => {
+        // Fetch data from the services API
         axios.get('http://localhost:5000/api/righttoservices')
             .then(response => {
                 console.log("API response:", response.data); // Debug log to check response
@@ -39,9 +36,17 @@ const RightToService = () => {
             });
     }, []);
 
+    // Group descriptions by unique headings
+    const groupedServices = services.reduce((acc, service) => {
+        if (!acc[service.heading]) {
+            acc[service.heading] = [];
+        }
+        acc[service.heading].push(service.description);
+        return acc;
+    }, {});
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
-
 
     return (
         <>
@@ -63,27 +68,20 @@ const RightToService = () => {
             </section>
             <br />
             <br />
-            <br/>
+            <br />
             <section className="service-style-four rts_inner">
                 <div className="auto-container">
                     <h4 className="mb-3 color_blue">Kulgaon Badlapur Municipal Council, Kulgaon.</h4>
-                    {/* <h5 className="mb-3">Right To Services Act, 2015</h5> */}
-                    {/* <p>The Maharashtra Right to Public Services Act, 2015 is enacted and is in force since 28.04.2015 to ensure that notified services are provided to the citizens in a transparent, speedy and time-bound manner by various Government Departments and Public Authorities under the Government...</p> */}
                     <div>
-                        {services.length === 0 ? (
+                        {Object.keys(groupedServices).length === 0 ? (
                             <p>No services available.</p>
                         ) : (
-                            services.map(service => (
-                                <div key={service.id}>
-                                    <h5 className="mb-3" >{service.heading}</h5>
-                                    {/* <p>{service.description}</p> */}
-                                    {service.description
-                                        .split('\n')
-                                        .slice(0, 5)  
-                                        .map((para, index) => (
-                                            <p className='mb-0'key={index}>{para}</p>
-                                        ))
-                                    }
+                            Object.entries(groupedServices).map(([heading, descriptions]) => (
+                                <div key={heading}>
+                                    <h5 className="mb-3">{heading}</h5>
+                                    {descriptions.map((description, index) => (
+                                        <p className='mb-0' key={index}>{description}</p>
+                                    ))}
                                 </div>
                             ))
                         )}

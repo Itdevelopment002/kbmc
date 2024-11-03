@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const PreviousChiefOfficers = () => {
   const [chiefs, setChiefs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   const fetchChiefs = async () => {
     try {
@@ -17,6 +19,20 @@ const PreviousChiefOfficers = () => {
   useEffect(() => {
     fetchChiefs();
   }, []);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(chiefs.length / itemsPerPage);
+
+  // Get current page departments
+  const currentChiefs = chiefs.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -54,7 +70,7 @@ const PreviousChiefOfficers = () => {
               <div className="event-details-content">
                 <div className="content-three">
                   <div className="row clearfix">
-                    {chiefs.map((chief, index) => (
+                    {currentChiefs.map((chief, index) => (
                       <div className="col-lg-3 col-md-6 col-sm-12 single-column" key={index}>
                         <div className="single-item">
                           <h3><a href="#.">{chief.officer_name}</a></h3>
@@ -68,14 +84,47 @@ const PreviousChiefOfficers = () => {
             </div>
           </div>
           <div className="pagination-wrapper centred">
-            <ul className="pagination clearfix">
-              <li><a href="#."><i className="flaticon-right-chevron"></i></a></li>
-              <li><a href="#." className="current">1</a></li>
-              <li><a href="#.">2</a></li>
-              <li><a href="#.">3</a></li>
-              <li><a href="#."><i className="flaticon-right-chevron"></i></a></li>
-            </ul>
-          </div>
+          <ul className="pagination clearfix">
+            <li>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage > 1) setCurrentPage(currentPage - 1);
+                }}
+                className={currentPage === 1 ? "disabled" : ""}
+              >
+                <i className="flaticon-right-chevron"></i>
+              </a>
+            </li>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <li key={i}>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCurrentPage(i + 1);
+                  }}
+                  className={currentPage === i + 1 ? "current" : ""}
+                >
+                  {i + 1}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                }}
+                className={currentPage === totalPages ? "disabled" : ""}
+              >
+                <i className="flaticon-right-chevron"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
         </div>
       </section>
     </div>

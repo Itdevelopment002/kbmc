@@ -1,38 +1,39 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap'; // Import Modal and Button from react-bootstrap
+import React, { useState, useEffect } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+import axios from "axios";
 
 const ContactUs = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedFeedback, setSelectedFeedback] = useState(null); // To track which feedback to delete
+  const [selectedFeedback, setSelectedFeedback] = useState(null);
+  const [contact, setContact] = useState([]);
 
-  const feedbacks = [
-    {
-      id: 1,
-      fullName: 'Nishant Makam',
-      mobileNo: '9988776655',
-      subject: 'Tax Enquiry',
-      email: 'email@gmail.com',
-      feedbackDescription: 'Feedback Description Here',
-    },
-    {
-      id: 2,
-      fullName: 'Nishant Makam',
-      mobileNo: '9988776655',
-      subject: 'Tax Enquiry',
-      email: 'email@gmail.com',
-      feedbackDescription: 'Feedback Description Here',
-    },
-  ];
+  const fetchContact = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/contact-us");
+      setContact(response.data);
+    } catch (error) {
+      console.error("Error fetching contact data.");
+    }
+  };
+
+  useEffect(() => {
+    fetchContact();
+  }, []);
 
   const handleDeleteModalOpen = (feedbackId) => {
     setSelectedFeedback(feedbackId);
     setShowDeleteModal(true);
   };
 
-  const handleDelete = () => {
-    console.log(`Feedback with ID ${selectedFeedback} deleted.`);
-    setShowDeleteModal(false);
-    setSelectedFeedback(null);
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/api/contact-us/${selectedFeedback}`);
+      setContact(contact.filter(feedback => feedback.id !== selectedFeedback));
+      setShowDeleteModal(false);
+      setSelectedFeedback(null);
+    } catch (error) {
+      console.error("Error deleting feedback.");
+    }
   };
 
   const handleCloseDeleteModal = () => {
@@ -72,14 +73,14 @@ const ContactUs = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {feedbacks.map((feedback, index) => (
+                      {contact.map((feedback, index) => (
                         <tr key={feedback.id}>
                           <td>{index + 1}</td>
-                          <td>{feedback.fullName}</td>
-                          <td>{feedback.mobileNo}</td>
+                          <td>{feedback.name}</td>
+                          <td>{feedback.mobile}</td>
                           <td>{feedback.subject}</td>
                           <td>{feedback.email}</td>
-                          <td>{feedback.feedbackDescription}</td>
+                          <td>{feedback.feedback}</td>
                           <td>
                             <button
                               className="btn btn-primary btn-sm m-t-10"
@@ -99,19 +100,19 @@ const ContactUs = () => {
         </div>
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
           <ul className="pagination">
-              <li className="page-item disabled">
-                <a className="page-link" href="#" tabIndex="-1">Previous</a>
-              </li>
-              <li className="page-item"><a className="page-link" href="#">1</a></li>
-              <li className="page-item active">
-                <a className="page-link" href="#">2 <span className="sr-only"></span></a>
-              </li>
-              <li className="page-item"><a className="page-link" href="#">3</a></li>
-              <li className="page-item">
-                <a className="page-link" href="#">Next</a>
-              </li>
-            </ul>
-          </div>
+            <li className="page-item disabled">
+              <a className="page-link" href="#" tabIndex="-1">Previous</a>
+            </li>
+            <li className="page-item"><a className="page-link" href="#">1</a></li>
+            <li className="page-item active">
+              <a className="page-link" href="#">2 <span className="sr-only"></span></a>
+            </li>
+            <li className="page-item"><a className="page-link" href="#">3</a></li>
+            <li className="page-item">
+              <a className="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </div>
         {/* Delete Modal */}
         <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} centered>
           <Modal.Body>
