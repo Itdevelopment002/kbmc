@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from "axios"; // Import axios for API requests
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import { toast, ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
+import api, { baseURL } from "../api";
 
 const FireStation = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -32,8 +32,8 @@ const FireStation = () => {
   }, [fireStations]);
 
   const fetchFireStations = () => {
-    axios
-      .get("http://localhost:5000/api/fire-stations")
+    api
+      .get("/fire-stations")
       .then((response) => {
         setFireStations(response.data);
       })
@@ -57,14 +57,14 @@ const FireStation = () => {
   // Handle Edit Modal open
   const handleEditModalOpen = (station) => {
     setEditData(station);
-    setImagePreview(`http://localhost:5000${station.image_path}`); // Set initial image preview
+    setImagePreview(`${baseURL}${station.image_path}`); // Set initial image preview
     setShowEditModal(true);
   };
 
   // Handle Delete action
   const handleDelete = () => {
-    axios
-      .delete(`http://localhost:5000/api/fire-stations/${selectedStation.id}`)
+    api
+      .delete(`/fire-stations/${selectedStation.id}`)
       .then(() => {
         setFireStations(
           fireStations.filter((station) => station.id !== selectedStation.id)
@@ -90,7 +90,7 @@ const FireStation = () => {
     }
   
     try {
-      await axios.put(`http://localhost:5000/api/fire-stations/${editData.id}`, formData, {
+      await api.put(`/fire-stations/${editData.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -182,13 +182,13 @@ const FireStation = () => {
                             <td>{station.phoneNo}</td>
                             <td>
                               <a
-                                href={`http://localhost:5000${station.image_path}`}
+                                href={`${baseURL}${station.image_path}`}
                                 className="glightbox"
                                 data-gallery="slider-images"
                               >
                                 <img
                                   width="50px"
-                                  src={`http://localhost:5000${station.image_path}`}
+                                  src={`${baseURL}${station.image_path}`}
                                   alt={`fire-station-img${station.image_path}`}
                                 />
                               </a>

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';  // Import Axios
+import api from '../api';  // Import api
 import { toast, ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
 
@@ -35,7 +35,7 @@ const AddFireStation = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/fire-stations', formDataToSend, {
+      const response = await api.post('/fire-stations', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

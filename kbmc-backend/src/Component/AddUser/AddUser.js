@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import axios from 'axios'; // Import Axios
+import api from '../api'; // Import Axios
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const AddUser = () => {
@@ -27,7 +27,7 @@ const AddUser = () => {
     e.preventDefault();
     
     try {
-      const response = await axios.post('http://localhost:5000/api/users', formData);
+      const response = await api.post('/users', formData);
       console.log('User added:', response.data);
       setSuccess(true); // Show success message
       navigate('/user'); // Redirect to the user list or desired route after success
@@ -44,7 +44,7 @@ const AddUser = () => {
 
   const handleEdit = async () => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/users/${formData.id}`, formData);
+      const response = await api.put(`/users/${formData.id}`, formData);
       console.log('User edited:', response.data);
       setShowEditModal(false);
     } catch (error) {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
-import axios from 'axios'; // Import axios
+import api from '../api'; // Import api
 
 const AddRoads = () => {
     const [heading, setHeading] = useState('');
@@ -11,7 +11,7 @@ const AddRoads = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/roads', {
+            const response = await api.post('/roads', {
                 heading,
                 description,
                 length,

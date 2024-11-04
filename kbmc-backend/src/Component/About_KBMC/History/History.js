@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api, { baseURL } from '../../api';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GLightbox from "glightbox";
@@ -37,7 +37,7 @@ const HistoryPage = () => {
 
   const fetchHistoryData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/history");
+      const response = await api.get("/history");
       setHistoryData(response.data);
     } catch (error) {
       toast.error("Failed to fetch history data.");
@@ -46,7 +46,7 @@ const HistoryPage = () => {
 
   const fetchCoData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/ceos");
+      const response = await api.get("/ceos");
       setCoData(response.data);
     } catch (error) {
       toast.error("Failed to fetch CO data.");
@@ -58,10 +58,10 @@ const HistoryPage = () => {
   const handleDelete = async (id, type) => {
     try {
       if (type === "history") {
-        await axios.delete(`http://localhost:5000/api/history/${id}`);
+        await api.delete(`/history/${id}`);
         setHistoryData((prevData) => prevData.filter((item) => item.id !== id));
       } else if (type === "co") {
-        await axios.delete(`http://localhost:5000/api/ceos/${id}`);
+        await api.delete(`/ceos/${id}`);
         setCoData((prevData) => prevData.filter((item) => item.id !== id));
       }
       toast.success(
@@ -80,7 +80,7 @@ const HistoryPage = () => {
       type === "history" ? { description: item.description } : { ...item }
     );
     setImagePreview(
-      type === "co" ? `http://localhost:5000${item.image_path}` : ""
+      type === "co" ? `${baseURL}${item.image_path}` : ""
     ); // Updated for proper preview
     setModalType(type);
     setShowEditModal(true);
@@ -97,8 +97,8 @@ const HistoryPage = () => {
   const handleSaveChanges = async () => {
     try {
       if (modalType === "history") {
-        await axios.put(
-          `http://localhost:5000/api/history/${selectedItem.id}`,
+        await api.put(
+          `/history/${selectedItem.id}`,
           { description: editData.description }
         );
         setHistoryData(
@@ -120,8 +120,8 @@ const HistoryPage = () => {
           formData.append("coImage", editData.imageFile);
         }
 
-        await axios.put(
-          `http://localhost:5000/api/ceos/${selectedItem.id}`,
+        await api.put(
+          `/ceos/${selectedItem.id}`,
           formData,
           {
             headers: {
@@ -133,7 +133,7 @@ const HistoryPage = () => {
           coData.map((item) =>
             item.id === selectedItem.id ? { ...item, ...editData } : item
           )
-        ); // Update CO data locally
+        ); 
         fetchCoData();
       }
       toast.success(
@@ -280,10 +280,10 @@ const HistoryPage = () => {
                                 <td>
                                   <a
                                     className="glightbox"
-                                    href={`http://localhost:5000${item.image_path}`}
+                                    href={`${baseURL}${item.image_path}`}
                                   >
                                     <img
-                                      src={`http://localhost:5000${item.image_path}`}
+                                      src={`${baseURL}${item.image_path}`}
                                       alt={item.coName}
                                       style={{
                                         width: "50px",

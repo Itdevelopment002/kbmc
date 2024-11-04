@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
-import axios from "axios";
+import api from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 import Flatpickr from "react-flatpickr";
@@ -14,6 +14,8 @@ const Home_video = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   // Fetch all videos from the server
   useEffect(() => {
@@ -22,7 +24,7 @@ const Home_video = () => {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/home-videos");
+      const response = await api.get("/home-videos");
       setVideos(response.data);
     } catch (error) {
       console.error("Error fetching videos:", error);
@@ -62,16 +64,17 @@ const Home_video = () => {
     try {
       setIsLoading(true);
       const { description, video_url } = selectedVideo;
-      
+
       // Convert publish_date before sending it to the backend
       const formattedPublishDate = selectedVideo.publish_date
-      ? formatDate(selectedVideo.publish_date)
-      : "";
-  
-      await axios.put(
-        `http://localhost:5000/api/home-videos/${selectedVideo.id}`,
-        { description, publish_date: formattedPublishDate, video_url }
-      );
+        ? formatDate(selectedVideo.publish_date)
+        : "";
+
+      await api.put(`/home-videos/${selectedVideo.id}`, {
+        description,
+        publish_date: formattedPublishDate,
+        video_url,
+      });
       toast.success("Video updated successfully");
       fetchVideos(); // Refresh video list after editing
     } catch (error) {
@@ -86,9 +89,7 @@ const Home_video = () => {
   const handleDeleteVideo = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(
-        `http://localhost:5000/api/home-videos/${selectedVideo.id}`
-      );
+      await api.delete(`/home-videos/${selectedVideo.id}`);
       toast.success("Video deleted successfully");
       fetchVideos(); // Refresh video list after deleting
     } catch (error) {
@@ -116,6 +117,11 @@ const Home_video = () => {
     setShowVideoModal(false);
     setSelectedVideo(null);
   };
+
+  const currentPageData = videos.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <>
@@ -163,57 +169,67 @@ const Home_video = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {videos.map((video, index) => (
-                          <tr key={video.id}>
-                            <td>{index + 1}</td>
-                            <td>{video.description}</td>
-                            <td>
-                              {new Date(video.publish_date)
-                                .toLocaleDateString("en-GB", {
-                                  day: "numeric",
-                                  month: "long",
-                                  year: "numeric",
-                                })
-                                .replace(/ (\d{4})$/, ", $1")}
-                            </td>
+                        {currentPageData.length > 0 ? (
+                          currentPageData.map((video, index) => (
+                            <tr key={video.id}>
+                              <td>
+                                {(currentPage - 1) * itemsPerPage + index + 1}
+                              </td>
+                              <td>{video.description}</td>
+                              <td>
+                                {new Date(video.publish_date)
+                                  .toLocaleDateString("en-GB", {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric",
+                                  })
+                                  .replace(/ (\d{4})$/, ", $1")}
+                              </td>
 
-                            <td>
-                              <button
-                                type="button"
-                                className="btn btn-link p-0"
-                                onClick={() => handleOpenVideoModal(video)} // Open video modal
-                              >
-                                <img
-                                  src={`https://img.youtube.com/vi/${getYouTubeVideoId(
-                                    video.video_url
-                                  )}/0.jpg`} // Get thumbnail
-                                  alt={video.description}
-                                  style={{
-                                    width: "100px",
-                                    height: "56px",
-                                    cursor: "pointer",
-                                  }}
-                                />
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="btn btn-danger btn-sm m-t-10"
-                                onClick={() => handleDelete(video)}
-                              >
-                                Delete
-                              </button>{" "}
-                              <button
-                                type="button"
-                                className="btn btn-success btn-sm m-t-10"
-                                onClick={() => handleEdit(video)}
-                              >
-                                Edit
-                              </button>
+                              <td>
+                                <button
+                                  type="button"
+                                  className="btn btn-link p-0"
+                                  onClick={() => handleOpenVideoModal(video)} // Open video modal
+                                >
+                                  <img
+                                    src={`https://img.youtube.com/vi/${getYouTubeVideoId(
+                                      video.video_url
+                                    )}/0.jpg`} // Get thumbnail
+                                    alt={video.description}
+                                    style={{
+                                      width: "100px",
+                                      height: "56px",
+                                      cursor: "pointer",
+                                    }}
+                                  />
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger btn-sm m-t-10"
+                                  onClick={() => handleDelete(video)}
+                                >
+                                  Delete
+                                </button>{" "}
+                                <button
+                                  type="button"
+                                  className="btn btn-success btn-sm m-t-10"
+                                  onClick={() => handleEdit(video)}
+                                >
+                                  Edit
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="5" style={{ textAlign: "center" }}>
+                              No video available
                             </td>
                           </tr>
-                        ))}
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -222,32 +238,49 @@ const Home_video = () => {
             </div>
           </div>
 
-          <div>
+          <div className="mt-4">
             <ul className="pagination">
-              <li className="page-item disabled">
-                <Link className="page-link" to="#" tabIndex="-1">
+              <li
+                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
                   Previous
-                </Link>
+                </button>
               </li>
-              <li className="page-item">
-                <Link className="page-link" to="#">
-                  1
-                </Link>
-              </li>
-              <li className="page-item active">
-                <Link className="page-link" to="#">
-                  2 <span className="sr-only"></span>
-                </Link>
-              </li>
-              <li className="page-item">
-                <Link className="page-link" to="#">
-                  3
-                </Link>
-              </li>
-              <li className="page-item">
-                <Link className="page-link" to="#">
+              {Array.from(
+                { length: Math.ceil(videos.length / itemsPerPage) },
+                (_, i) => (
+                  <li
+                    className={`page-item ${
+                      currentPage === i + 1 ? "active" : ""
+                    }`}
+                    key={i}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => setCurrentPage(i + 1)}
+                    >
+                      {i + 1}
+                    </button>
+                  </li>
+                )
+              )}
+              <li
+                className={`page-item ${
+                  currentPage === Math.ceil(videos.length / itemsPerPage)
+                    ? "disabled"
+                    : ""
+                }`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
                   Next
-                </Link>
+                </button>
               </li>
             </ul>
           </div>

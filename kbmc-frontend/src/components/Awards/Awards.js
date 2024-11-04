@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import './Awards.css'
 import bannerImage from '../../assets/images/banner/inner-banner.jpg'; 
-import axios from 'axios';
+import api, { baseURL } from '../api';
+
 
 const Awards = () => {
   const [awards, setAwards] = useState([]);
@@ -9,7 +10,7 @@ const Awards = () => {
 
   const fetchAwards = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/awards");
+      const response = await api.get("/awards");
       setAwards(response.data);
     } catch (error) {
       console.error("Error fetching awards data");
@@ -18,7 +19,7 @@ const Awards = () => {
 
   const fetchAwardImages = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/award-images");
+      const response = await api.get("/award-images");
       setAwardImages(response.data);
     } catch (error) {
       console.error("Error fetching award images data");
@@ -62,7 +63,7 @@ const Awards = () => {
           <div className="row mt-3 pmay_img">
             {awardimages.map((image,index) => (
               <div className="col-md-3">
-              <img src={`http://localhost:5000${image.image_path}`} alt={`image-${index+1}`} />
+              <img src={`${baseURL}${image.image_path}`} alt={`image-${index+1}`} />
             </div>
             ))}
           </div>

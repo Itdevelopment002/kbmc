@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
 
 const TreeCensus = () => {
@@ -9,7 +9,7 @@ const TreeCensus = () => {
 
   // Fetch Tree Census data from the API
   useEffect(() => {
-    axios.get('http://localhost:5000/api/tree-census')
+    api.get('/tree-census')
       .then(response => {
         setTreeData(response.data);
         setLoading(false);

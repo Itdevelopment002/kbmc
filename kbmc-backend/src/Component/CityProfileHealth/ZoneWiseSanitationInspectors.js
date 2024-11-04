@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
+import { Modal, Button } from 'react-bootstrap';
+import api from '../api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SanitationInspectorForm from './SanitationInspectorForm';
@@ -18,7 +18,7 @@ const ZoneWiseSanitationInspectors = () => {
 
     const fetchInspectors = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/sanitation_inspectors');
+            const response = await api.get('/sanitation_inspectors');
             setInspectors(response.data);
         } catch (error) {
             toast.error('Error fetching inspectors.');
@@ -27,7 +27,7 @@ const ZoneWiseSanitationInspectors = () => {
 
     const handleAddInspector = async (formData) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/sanitation_inspectors', formData);
+            const response = await api.post('/sanitation_inspectors', formData);
             setInspectors([...inspectors, response.data]); // Add inspector to state
             setShowAddModal(false);
             toast.success('Inspector added successfully!');
@@ -38,8 +38,8 @@ const ZoneWiseSanitationInspectors = () => {
 
     const handleEditInspector = async (formData) => {
         try {
-            const response = await axios.put(
-                `http://localhost:5000/api/sanitation_inspectors/${selectedInspector.id}`,
+            const response = await api.put(
+                `/sanitation_inspectors/${selectedInspector.id}`,
                 formData
             );
             setInspectors(inspectors.map(inspector => 
@@ -54,7 +54,7 @@ const ZoneWiseSanitationInspectors = () => {
 
     const handleDeleteInspector = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/sanitation_inspectors/${selectedInspector.id}`);
+            await api.delete(`/sanitation_inspectors/${selectedInspector.id}`);
             setInspectors(inspectors.filter(inspector => inspector.id !== selectedInspector.id));
             setShowDeleteModal(false);
             toast.success('Inspector deleted successfully!');

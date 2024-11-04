@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
-import axios from 'axios';
+import api from '../../api';
 
 function Add_RTS() {
   const [description, setDescription] = useState(''); // Change here
@@ -21,7 +21,7 @@ function Add_RTS() {
 
     try {
       // Send data to the server
-      const response = await axios.post('http://localhost:5000/api/rts_table', formData, {
+      const response = await api.post('/rts_table', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

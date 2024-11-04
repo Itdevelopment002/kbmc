@@ -5,7 +5,7 @@ import { GrNext } from "react-icons/gr";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Corousel.css";
-import axios from "axios";
+import api, {baseURL} from "../api";
 
 const settings = {
   dots: false,
@@ -23,7 +23,7 @@ const Corousel = () => {
 
   const fetchSliders = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/sliders");
+      const response = await api.get("/sliders");
       setSliders(response.data);
     } catch (error) {
       console.error("Error fetching sliders data");
@@ -56,7 +56,7 @@ const Corousel = () => {
             <div className="slide-item">
               <div
                 className="image-layer"
-                style={{ backgroundImage: `url(http://localhost:5000${slider.file_path})` }}
+                style={{ backgroundImage: `url(${baseURL}${slider.file_path})` }}
               ></div>
             </div>
           ))}

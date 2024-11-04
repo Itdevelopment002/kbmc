@@ -1,10 +1,10 @@
 import React from "react";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import Location from "../../assets/images/icons/Location Icon.png";
 import Quick from "../../assets/images/icons/Quick Contact Icon.png";
 import Off from "../../assets/images/icons/Off hours Icon.png";
+import api from "../api"
 
 const Contact = () => {
   const {
@@ -16,7 +16,7 @@ const Contact = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/contact-us", data);
+      const response = await api.post("/contact-us", data);
       reset(); 
     } catch (error) {
       console.error("Error sending message:", error);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ const AddSchools = () => {
     
     try {
       // Send POST request to the backend
-      const response = await axios.post("http://localhost:5000/api/schools", formData);
+      const response = await api.post("/schools", formData);
       
       // Show success message using Toastify
       toast.success("School added successfully!", {

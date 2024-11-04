@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { FaFilePdf } from 'react-icons/fa'; // Importing icons
-import axios from 'axios'; // Make sure to install axios
+import api, { baseURL } from '../../api'; // Make sure to install api
 
 const CitizenCharter = () => {
     const [showEditModal, setShowEditModal] = useState(false);
@@ -16,7 +16,7 @@ const CitizenCharter = () => {
 
     const fetchDepartments = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/citizen-charter');
+            const response = await api.get('/citizen-charter');
             setDepartments(response.data);
         } catch (error) {
             console.error('Error fetching departments:', error);
@@ -36,7 +36,7 @@ const CitizenCharter = () => {
         }
 
         try {
-            await axios.post('http://localhost:5000/api/citizen-charter', formData, {
+            await api.post('/citizen-charter', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -56,7 +56,7 @@ const CitizenCharter = () => {
 
     const handleDeleteDepartment = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/citizen-charter/${selectedDepartmentId}`);
+            await api.delete(`/citizen-charter/${selectedDepartmentId}`);
             fetchDepartments(); // Refresh the list
             setShowDeleteModal(false); // Close the modal after deletion
         } catch (error) {
@@ -79,7 +79,7 @@ const CitizenCharter = () => {
         }
 
         try {
-            await axios.put(`http://localhost:5000/api/citizen-charter/${selectedDepartmentId}`, formData, {
+            await api.put(`/citizen-charter/${selectedDepartmentId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -153,7 +153,7 @@ const CitizenCharter = () => {
                                                     <td>{index + 1}</td>
                                                     <td>{dept.name}</td>
                                                     <td>
-                                                        <a href={`http://localhost:5000/${dept.pdf}`} target="_blank" rel="noopener noreferrer">
+                                                        <a href={`${baseURL}/${dept.pdf}`} target="_blank" rel="noopener noreferrer">
                                                             <FaFilePdf size={35} color="red" />
                                                         </a>
                                                     </td>

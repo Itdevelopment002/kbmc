@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import img1 from "../../assets/images/banner/inner-banner.jpg";
-import axios from "axios";
+import api from "../api";
 
 const MuncipalProperties = () => {
   const [muncipals, setMuncipals] = useState([]);
 
   const fetchMuncipal = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/muncipal");
+      const response = await api.get("/muncipal");
       setMuncipals(response.data);
     } catch (error) {
       console.error("Error fetching muncipal data");

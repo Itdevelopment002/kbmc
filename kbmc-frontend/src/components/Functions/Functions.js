@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
+import api from "../api"
 
 const Functions = () => {
   const [functions, setFunctions] = useState([]);
 
   const fetchFunctions = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/functions"); // Adjust API endpoint as necessary
-      const data = await response.json();
-      setFunctions(data);
+      const response = await api.get("/functions");
+      setFunctions(response.data);
     } catch (error) {
       console.error("Error fetching function data:", error);
     }

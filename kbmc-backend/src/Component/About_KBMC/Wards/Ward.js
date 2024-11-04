@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Table, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api';
 
 const Ward = () => {
     const [wards, setWards] = useState([]);
@@ -17,7 +17,7 @@ const Ward = () => {
 
     const fetchWards = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/wards');
+            const response = await api.get('/wards');
             setWards(response.data);
         } catch (error) {
             console.error('Error fetching wards:', error);
@@ -26,7 +26,7 @@ const Ward = () => {
 
     const handleDelete = async (ward) => {
         try {
-            await axios.delete(`http://localhost:5000/api/wards/${ward.id}`);
+            await api.delete(`/wards/${ward.id}`);
             setWards(wards.filter((w) => w.id !== ward.id));
             setShowDeleteModal(false);
         } catch (error) {
@@ -36,7 +36,7 @@ const Ward = () => {
 
     const handleEditSave = async () => {
         try {
-            await axios.put(`http://localhost:5000/api/wards/${selectedWard.id}`, {
+            await api.put(`/wards/${selectedWard.id}`, {
                 ward_no: selectedWard.ward_no,
                 ward_name: selectedWard.ward_name,
             });

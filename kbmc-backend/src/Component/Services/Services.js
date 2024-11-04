@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api, { baseURL } from '../api';
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -29,7 +29,7 @@ const Services = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/services");
+      const response = await api.get("/services");
       setServices(response.data);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -43,7 +43,7 @@ const Services = () => {
 
   const handleEditModalOpen = async (serviceId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/services/${serviceId}`);
+      const response = await api.get(`/services/${serviceId}`);
       setSelectedService(response.data);
       setShowEditModal(true);
     } catch (error) {
@@ -54,7 +54,7 @@ const Services = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/services/${selectedService.id}`);
+      await api.delete(`/services/${selectedService.id}`);
       setServices(services.filter(service => service.id !== selectedService.id));
       setShowDeleteModal(false);
       toast.success('Service deleted successfully');
@@ -76,7 +76,8 @@ const Services = () => {
 
   const handleSaveEdit = async () => {
     const formData = new FormData();
-  
+    
+    // Append fields to formData only if they are present
     if (selectedService.service_heading) {
       formData.append('serviceHeading', selectedService.service_heading);
     }
@@ -84,14 +85,14 @@ const Services = () => {
       formData.append('serviceLink', selectedService.service_link);
     }
     if (selectedService.mainIcon) {
-      formData.append('mainIcon', selectedService.mainIcon);
+      formData.append('mainIcon', selectedService.mainIcon); // Ensure this field matches your backend expectation
     }
     if (selectedService.hoverIcon) {
-      formData.append('hoverIcon', selectedService.hoverIcon);
+      formData.append('hoverIcon', selectedService.hoverIcon); // Ensure this field matches your backend expectation
     }
   
     try {
-      await axios.put(`http://localhost:5000/api/services/${selectedService.id}`, formData);
+      await api.put(`/services/${selectedService.id}`, formData);
       fetchServices(); // Refresh the services list
       setShowEditModal(false);
       setSelectedService(null);
@@ -162,8 +163,8 @@ const Services = () => {
                           <td>{service.service_heading}</td>
                           <td>{service.service_link}</td>
                           <td>
-                            <a href={`http://localhost:5000/${service.main_icon_path}`} className="glightbox" data-gallery="slider-images" >
-                              <img width="35px" src={`http://localhost:5000/${service.main_icon_path}`} alt={service.service_heading} />
+                            <a href={`${baseURL}/${service.main_icon_path}`} className="glightbox" data-gallery="slider-images" >
+                              <img width="35px" src={`${baseURL}/${service.main_icon_path}`} alt={service.service_heading} />
                             </a>
                           </td>
                           <td>
@@ -229,7 +230,7 @@ const Services = () => {
                       <input
                         type="file"
                         className="form-control"
-                        onChange={(e) => handleFileChange(e, 'icon')}
+                        onChange={(e) => handleFileChange(e, 'mainIcon')}
                       />
                     </div>
                     <div className="mb-3">

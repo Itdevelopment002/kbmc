@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from "../api"
 
 const Add_news = () => {
     const [newsDescription, setNewsDescription] = useState('');
@@ -10,12 +11,12 @@ const Add_news = () => {
 
         try {
             // Make the POST request to your backend API
-            const response = await fetch('http://localhost:5000/api/newsupdate', {
-                method: 'POST',
+            const response = await api.post('/newsupdate', {
+                description: newsDescription,
+            }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ description: newsDescription }),
             });
 
             if (response.ok) {

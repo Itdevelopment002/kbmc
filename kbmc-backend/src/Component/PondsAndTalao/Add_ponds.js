@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
+import api from "../api"
 
 const Add_ponds = () => {
     const [pondsName, setPondsName] = useState('');
@@ -9,14 +10,14 @@ const Add_ponds = () => {
         e.preventDefault();
 
         try {
-            // Make the POST request to your backend API
-            const response = await fetch('http://localhost:5000/api/ponds-talao', {
-                method: 'POST',
+            const response = await api.post('/ponds-talao', {
+                name: pondsName,
+            }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name: pondsName }),
             });
+            
 
             if (response.ok) {
                 console.log('Ponds/Talao added successfully');

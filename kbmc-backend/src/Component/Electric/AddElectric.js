@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../api';
 
 const AddElectric = () => {
     // State to manage form data and loading/error states
@@ -32,7 +32,7 @@ const AddElectric = () => {
 
         try {
             // Sending form data to the backend, including heading
-            const response = await axios.post('http://localhost:5000/api/electric', {
+            const response = await api.post('/electric', {
                 heading: formData.heading,  // Include heading
                 description: formData.description, 
                 mobileNo: formData.mobileNo,

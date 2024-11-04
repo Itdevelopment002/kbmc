@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"; 
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
-import axios from 'axios';
+import api from "../api"
 
 const GenAdminDept = () => {
   const [genDepartments, setGenDepartments] = useState([]);
@@ -9,7 +9,7 @@ const GenAdminDept = () => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/departments");
+      const response = await api.get("/departments");
       setDepartments(response.data);
     } catch (error) {
       console.error("Error fetching departments data");
@@ -23,7 +23,7 @@ const GenAdminDept = () => {
   useEffect(() => {
     const fetchGenDepartments = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/generaladmindepartment'); // Update this URL according to your server setup
+        const response = await api.get('/generaladmindepartment'); // Update this URL according to your server setup
         setGenDepartments(response.data);
       } catch (err) {
         setError(err.response ? err.response.data.message : 'Error fetching departments');

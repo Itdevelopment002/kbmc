@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ const MainMenuTable = () => {
 
   const fetchMenuData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/main-menus");
+      const response = await api.get("/main-menus");
       setMenuData(response.data);
     } catch (error) {
       console.error("Error fetching menu data:", error);
@@ -37,8 +37,8 @@ const MainMenuTable = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:5000/api/update-main-menu/${selectedMenu.id}`,
+      await api.put(
+        `/update-main-menu/${selectedMenu.id}`,
         {
           mainMenu: selectedMenu.mainMenu,
           subMenus: selectedMenu.subMenus.map((sub) => ({
@@ -91,8 +91,8 @@ const MainMenuTable = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(
-        `http://localhost:5000/api/delete-main-menu/${selectedMenu.id}`
+      await api.delete(
+        `/delete-main-menu/${selectedMenu.id}`
       );
       setShowDeleteModal(false);
       fetchMenuData();

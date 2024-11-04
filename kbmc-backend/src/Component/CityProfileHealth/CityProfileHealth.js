@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap'; // Import Bootstrap Modal and Form
-import axios from 'axios';
+import api from '../api';
 import { toast, ToastContainer } from 'react-toastify'; // Import Toast
 import 'react-toastify/dist/ReactToastify.css';
 import ZoneWiseSanitationInspectors from './ZoneWiseSanitationInspectors';
@@ -25,7 +25,7 @@ const CityProfileHealth = () => {
 
   const fetchWorks = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/health_dep_sec');
+      const response = await api.get('/health_dep_sec');
       setWorks(response.data);
     } catch (error) {
       toast.error('Error fetching works.');
@@ -36,7 +36,7 @@ const CityProfileHealth = () => {
     if (description) {
       const newWork = { description };
       try {
-        const response = await axios.post('http://localhost:5000/api/health_dep_sec', newWork);
+        const response = await api.post('/health_dep_sec', newWork);
         setWorks([...works, response.data]);
         setDescription('');
         setShowAddNewModal(false);
@@ -54,7 +54,7 @@ const CityProfileHealth = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/health_dep_sec/${selectedWork.id}`);
+      await api.delete(`/health_dep_sec/${selectedWork.id}`);
       setWorks(works.filter(work => work.id !== selectedWork.id));
       toast.success('Work deleted successfully!');
     } catch (error) {
@@ -71,12 +71,11 @@ const CityProfileHealth = () => {
   const handleEditSubmit = async () => {
     try {
         // Ensure the right API endpoint is being hit
-        const response = await axios.put(`http://localhost:5000/api/health_dep_sec/${editData.id}`, {
+        const response = await api.put(`/health_dep_sec/${editData.id}`, {
             description: editData.description, // Ensure you send only the necessary fields
         });
 
         if (response.status === 200) {
-            // Success, update the local state
             setWorks(works.map(work => (work.id === editData.id ? response.data : work)));
             toast.success('Work updated successfully!');
         } else {

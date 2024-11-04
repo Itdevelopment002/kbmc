@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
+import api from "../api"
 
 const AddPrivateHospital = () => {
   const [hospitalName, setHospitalName] = useState('');
@@ -30,13 +31,14 @@ const AddPrivateHospital = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/private-hospital', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(hospitalData),
-      });
+      const response = await api.post('/private-hospital', hospitalData, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    
 
-      if (response.ok) {
+      if (response.status === 200) {
         toast.success('Hospital added successfully!'); // Show success toast
         // Reset form fields
         setHospitalName('');

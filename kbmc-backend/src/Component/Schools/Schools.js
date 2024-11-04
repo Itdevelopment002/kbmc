@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api, { baseURL } from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaTrash, FaEdit } from "react-icons/fa";
@@ -18,6 +18,8 @@ const School = () => {
   const [editData, setEditData] = useState({});
   const [imagePreview, setImagePreview] = useState("");
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   useEffect(() => {
     fetchSchoolData();
@@ -35,7 +37,7 @@ const School = () => {
 
   const fetchSchoolData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/schools");
+      const response = await api.get("/schools");
       setSchoolData(response.data);
     } catch (error) {
       toast.error("Failed to fetch school data.");
@@ -44,8 +46,8 @@ const School = () => {
 
   const fetchSchoolImageData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/school-images"
+      const response = await api.get(
+        "/school-images"
       );
       setSchoolImageData(response.data);
     } catch (error) {
@@ -58,10 +60,10 @@ const School = () => {
   const handleDelete = async (id, type) => {
     try {
       if (type === "school") {
-        await axios.delete(`http://localhost:5000/api/schools/${id}`);
+        await api.delete(`/schools/${id}`);
         setSchoolData((prevData) => prevData.filter((item) => item.id !== id));
       } else if (type === "school-image") {
-        await axios.delete(`http://localhost:5000/api/school-images/${id}`);
+        await api.delete(`/school-images/${id}`);
         setSchoolImageData((prevData) =>
           prevData.filter((item) => item.id !== id)
         );
@@ -91,7 +93,7 @@ const School = () => {
         : { ...item }
     );
     setImagePreview(
-      type === "school-image" ? `http://localhost:5000${item.image_path}` : ""
+      type === "school-image" ? `${baseURL}${item.image_path}` : ""
     ); // Updated for proper preview
     setModalType(type);
     setShowEditModal(true);
@@ -108,8 +110,8 @@ const School = () => {
   const handleSaveChanges = async () => {
     try {
       if (modalType === "school") {
-        await axios.put(
-          `http://localhost:5000/api/schools/${selectedItem.id}`,
+        await api.put(
+          `/schools/${selectedItem.id}`,
           {
             heading: editData.heading,
             schoolName: editData.schoolName,
@@ -137,8 +139,8 @@ const School = () => {
           formData.append("schoolImage", editData.imageFile);
         }
 
-        await axios.put(
-          `http://localhost:5000/api/school-images/${selectedItem.id}`,
+        await api.put(
+          `/school-images/${selectedItem.id}`,
           formData,
           {
             headers: {
@@ -177,6 +179,11 @@ const School = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  const currentPageData = schoolImageData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="page-wrapper">
@@ -272,7 +279,8 @@ const School = () => {
                 </div>
 
                 <div className="row">
-                  {schoolImageData.map((item, index) => (
+                {currentPageData.length > 0 ? (
+                          currentPageData.map((item, index) => (
                     <div
                       key={index}
                       className="col-sm-2 col-4 text-center"
@@ -290,10 +298,10 @@ const School = () => {
                       >
                         <a
                           className="glightbox"
-                          href={`http://localhost:5000${item.image_path}`}
+                          href={`${baseURL}${item.image_path}`}
                         >
                           <img
-                            src={`http://localhost:5000${item.image_path}`}
+                            src={`${baseURL}${item.image_path}`}
                             alt="school-image"
                             width="120px"
                             height="60px"
@@ -327,7 +335,12 @@ const School = () => {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  ))
+                ) : (
+                  <div>
+                      No school images available
+                  </div>
+                )}
                 </div>
               </div>
             </div>
@@ -335,35 +348,52 @@ const School = () => {
         </div>
 
         {/* Pagination */}
-        <div>
-          <ul className="pagination">
-            <li className="page-item disabled">
-              <a className="page-link" href="#" tabIndex="-1">
-                Previous
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                1
-              </a>
-            </li>
-            <li className="page-item active">
-              <a className="page-link" href="#">
-                2 <span className="sr-only"></span>
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                3
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                Next
-              </a>
-            </li>
-          </ul>
-        </div>
+        <div className="mt-4">
+            <ul className="pagination">
+              <li
+                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  Previous
+                </button>
+              </li>
+              {Array.from(
+                { length: Math.ceil(schoolImageData.length / itemsPerPage) },
+                (_, i) => (
+                  <li
+                    className={`page-item ${
+                      currentPage === i + 1 ? "active" : ""
+                    }`}
+                    key={i}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => setCurrentPage(i + 1)}
+                    >
+                      {i + 1}
+                    </button>
+                  </li>
+                )
+              )}
+              <li
+                className={`page-item ${
+                  currentPage === Math.ceil(schoolImageData.length / itemsPerPage)
+                    ? "disabled"
+                    : ""
+                }`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </div>
 
         {/* Edit Modal */}
         <Modal show={showEditModal} onHide={closeModal}>

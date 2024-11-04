@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import $ from "jquery";
 import "malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js";
 import "malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css";
@@ -6,16 +7,16 @@ import img1 from "../../assets/images/satymev-jayate-3.png";
 import img2 from "../../assets/images/icons/icon-25.png";
 import img3 from "../../assets/images/kbmc_logo.jpg";
 import img5 from "../../assets/images/icons/icon-4.png";
-import nulm from "../../assets/documents/Nulm_mahiti.pdf";
-import areas from "../../assets/documents/KBMC CIRCULATION A3 COLOR-Brown-24 (1).pdf";
 import "./Header.css";
-import axios from "axios";
+import api, { baseURL } from "../api";
 
 const Header = () => {
   const [menuData, setMenuData] = useState([]);
+  const location = useLocation();
+
   const fetchMenuData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/main-menus");
+      const response = await api.get("/main-menus");
       setMenuData(response.data);
     } catch (error) {
       console.error("Error fetching menu data:", error);
@@ -218,39 +219,64 @@ const Header = () => {
                     id="navbarSupportedContent"
                   >
                     <ul className="navigation clearfix">
-                      {menuData.map((menuItem, index) => (
-                        <li
-                          key={index}
-                          className={menuItem.subMenus.length ? "dropdown" : ""}
-                        >
-                          <a href={menuItem.mainMenu === "Home" ? "/" : "#"}>{menuItem.mainMenu}</a>
-                          {menuItem.subMenus.length > 0 && (
-                            <ul>
-                              {menuItem.subMenus.map(
-                                (subMenuItem, subIndex) => (
-                                  <li key={subIndex}>
-                                    <a
-                                      href={subMenuItem.subLink}
-                                      target={
-                                        subMenuItem.subLink.startsWith("http")
-                                          ? "_blank"
-                                          : undefined
-                                      }
-                                      rel={
-                                        subMenuItem.subLink.startsWith("http")
-                                          ? "noopener noreferrer"
-                                          : undefined
-                                      }
-                                    >
-                                      {subMenuItem.subMenu}
-                                    </a>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          )}
-                        </li>
-                      ))}
+                      {menuData.map((menuItem, index) => {
+                        // Check if the main menu item should be active
+                        const isMainMenuActive =
+                          (location.pathname === "/" &&
+                            menuItem.mainMenu === "Home") ||
+                          menuItem.subMenus.some(
+                            (subMenuItem) =>
+                              location.pathname.endsWith(subMenuItem.subLink) // Ensure correct match
+                          );
+
+                        return (
+                          <li
+                            key={index}
+                            className={`${
+                              menuItem.subMenus.length ? "dropdown" : ""
+                            } ${isMainMenuActive ? "current" : ""}`} // Only main menu is marked active
+                          >
+                            <a href={menuItem.mainMenu === "Home" ? "/" : "#"}>
+                              {menuItem.mainMenu}
+                            </a>
+                            {menuItem.subMenus.length > 0 && (
+                              <ul>
+                                {menuItem.subMenus.map(
+                                  (subMenuItem, subIndex) => (
+                                    <li key={subIndex}>
+                                      <a
+                                        href={
+                                          subMenuItem.subLink.endsWith(".pdf")
+                                            ? `${baseURL}${subMenuItem.subLink}`
+                                            : subMenuItem.subLink
+                                        }
+                                        target={
+                                          subMenuItem.subLink.startsWith(
+                                            "http"
+                                          ) ||
+                                          subMenuItem.subLink.endsWith(".pdf")
+                                            ? "_blank"
+                                            : undefined
+                                        }
+                                        rel={
+                                          subMenuItem.subLink.startsWith(
+                                            "http"
+                                          ) ||
+                                          subMenuItem.subLink.endsWith(".pdf")
+                                            ? "noopener noreferrer"
+                                            : undefined
+                                        }
+                                      >
+                                        {subMenuItem.subMenu}
+                                      </a>
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            )}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 </nav>

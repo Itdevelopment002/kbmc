@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const Add_tender = () => {
     const [tenderDescription, setTenderDescription] = useState('');
@@ -16,7 +16,7 @@ const Add_tender = () => {
 
         try {
             // Make the API request to add the tender
-            await axios.post('http://localhost:5000/api/tenders', {
+            await api.post('/tenders', {
                 tenders: tenderDescription,
                 status: isNew ? 'New' : '-'  // Assuming status can be 'New' or 'Old'
             });

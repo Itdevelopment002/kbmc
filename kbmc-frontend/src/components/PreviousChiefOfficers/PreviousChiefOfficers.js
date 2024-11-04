@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import innerBanner from "../../assets/images/banner/inner-banner.jpg"
-import axios from 'axios';
+import api from "../api";
 
 const PreviousChiefOfficers = () => {
   const [chiefs, setChiefs] = useState([]);
@@ -9,7 +9,7 @@ const PreviousChiefOfficers = () => {
 
   const fetchChiefs = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/chief-officers");
+      const response = await api.get("/chief-officers");
       setChiefs(response.data);
     } catch (error) {
       console.error("Error fetching previous president data");

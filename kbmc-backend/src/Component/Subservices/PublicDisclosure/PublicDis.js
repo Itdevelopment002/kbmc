@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import api from "../../api";
 
 const PublicDis = () => {
   const [departments, setDepartments] = useState([]);
-  const [newDepartment, setNewDepartment] = useState('');
+  const [newDepartment, setNewDepartment] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -14,9 +15,8 @@ const PublicDis = () => {
   // Fetch departments from API on component mount
   useEffect(() => {
     const fetchDepartments = async () => {
-      const response = await fetch('http://localhost:5000/api/public_disclosure'); // Adjust this URL as needed
-      const data = await response.json();
-      setDepartments(data);
+      const response = await api.get("/public_disclosure");
+      setDepartments(response.data);
     };
     fetchDepartments();
   }, []);
@@ -24,7 +24,10 @@ const PublicDis = () => {
   // Get current departments based on page
   const indexOfLastDepartment = currentPage * departmentsPerPage;
   const indexOfFirstDepartment = indexOfLastDepartment - departmentsPerPage;
-  const currentDepartments = departments.slice(indexOfFirstDepartment, indexOfLastDepartment);
+  const currentDepartments = departments.slice(
+    indexOfFirstDepartment,
+    indexOfLastDepartment
+  );
 
   const totalPages = Math.ceil(departments.length / departmentsPerPage);
 
@@ -48,53 +51,72 @@ const PublicDis = () => {
   };
 
   const handleAdd = (id) => {
-    console.log('Add button clicked for department:', id);
+    console.log("Add button clicked for department:", id);
   };
 
   const handleAddDepartment = async (e) => {
     e.preventDefault();
     if (newDepartment) {
-      const response = await fetch('http://localhost:5000/api/public_disclosure', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await api.post(
+        "/public_disclosure",
+        {
+          department_name: newDepartment,
         },
-        body: JSON.stringify({ department_name: newDepartment }),
-      });
-      const data = await response.json();
-      setDepartments([...departments, { id: data.id, department_name: newDepartment }]);
-      setNewDepartment('');
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = response.data;
+      setDepartments([
+        ...departments,
+        { id: data.id, department_name: newDepartment },
+      ]);
+      setNewDepartment("");
     }
   };
 
   const handleEditDepartment = async (e) => {
     e.preventDefault();
-    if (selectedDepartment) {
-      const response = await fetch(`http://localhost:5000/api/public_disclosure/${selectedDepartment.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ department_name: selectedDepartment.department_name }),
-      });
-      if (response.ok) {
-        const updatedDepartments = departments.map((department) =>
-          department.id === selectedDepartment.id
-            ? { ...department, department_name: selectedDepartment.department_name }
-            : department
+
+    // Check if selectedDepartment and selectedDepartment.id are defined
+    if (!selectedDepartment || !selectedDepartment.id) {
+      console.error("Selected department or department ID is missing.");
+      return;
+    }
+
+    try {
+      const response = await api.put(
+        `/public_disclosure/${selectedDepartment.id}`,
+        { department_name: selectedDepartment.department_name },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      if (response.status === 200) {
+        setDepartments((prevDepartments) =>
+          prevDepartments.map((dept) =>
+            dept.id === selectedDepartment.id
+              ? { ...dept, department_name: selectedDepartment.department_name }
+              : dept
+          )
         );
-        setDepartments(updatedDepartments);
         setIsEditModalOpen(false);
         setSelectedDepartment(null);
       }
+    } catch (error) {
+      console.error("Error updating department:", error);
     }
   };
 
   const handleDeleteDepartment = async () => {
-    await fetch(`http://localhost:5000/api/public_disclosure/${selectedDepartment.id}`, {
-      method: 'DELETE',
-    });
-    setDepartments(departments.filter((department) => department.id !== selectedDepartment.id));
+    await api.delete(`/public_disclosure/${selectedDepartment.id}`);
+    setDepartments(
+      departments.filter(
+        (department) => department.id !== selectedDepartment.id
+      )
+    );
     setIsDeleteModalOpen(false);
     setSelectedDepartment(null);
   };
@@ -105,8 +127,12 @@ const PublicDis = () => {
         <div className="content">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="/home">Home</a></li>
-              <li className="breadcrumb-item active" aria-current="page">Public Disclosure</li>
+              <li className="breadcrumb-item">
+                <a href="/home">Home</a>
+              </li>
+              <li className="breadcrumb-item active" aria-current="page">
+                Public Disclosure
+              </li>
             </ol>
           </nav>
           <div className="row">
@@ -122,7 +148,9 @@ const PublicDis = () => {
                   <div className="card-block">
                     <form onSubmit={handleAddDepartment}>
                       <div className="form-group row my-3">
-                        <label className="col-form-label col-md-3">Department Name <span className="text-danger">*</span></label>
+                        <label className="col-form-label col-md-3">
+                          Department Name <span className="text-danger">*</span>
+                        </label>
                         <div className="col-md-4">
                           <input
                             type="text"
@@ -132,7 +160,11 @@ const PublicDis = () => {
                           />
                         </div>
                         <div className="col-md-2">
-                          <input type="submit" className="btn btn-primary" value="Submit" />
+                          <input
+                            type="submit"
+                            className="btn btn-primary"
+                            value="Submit"
+                          />
                         </div>
                       </div>
                     </form>
@@ -152,12 +184,24 @@ const PublicDis = () => {
                             <td>{indexOfFirstDepartment + index + 1}</td>
                             <td>{department.department_name}</td>
                             <td>
-                              <a href="/GeneralDepartment" className="btn btn-primary btn-sm m-t-10 mx-1" onClick={() => handleAdd(department.id)}>Add</a>
+                              <a
+                                href="/GeneralDepartment"
+                                className="btn btn-primary btn-sm m-t-10 mx-1"
+                                onClick={() => handleAdd(department.id)}
+                              >
+                                Add
+                              </a>
                               <button
-                                className="btn btn-success btn-sm m-t-10 mx-1"
+                                className="btn btn-success btn-sm mx-1"
                                 onClick={() => {
-                                  setSelectedDepartment(department);
-                                  setIsEditModalOpen(true);
+                                  if (department?.id) {
+                                    setSelectedDepartment(department); // Ensure department has an ID
+                                    setIsEditModalOpen(true);
+                                  } else {
+                                    console.error(
+                                      "Invalid department selected for editing."
+                                    );
+                                  }
                                 }}
                               >
                                 Edit
@@ -181,18 +225,49 @@ const PublicDis = () => {
                   {/* Pagination */}
                   <div className="mt-4">
                     <ul className="pagination">
-                      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                        <a className="page-link" href="#!" onClick={handlePreviousClick}>Previous</a>
+                      <li
+                        className={`page-item ${
+                          currentPage === 1 ? "disabled" : ""
+                        }`}
+                      >
+                        <a
+                          className="page-link"
+                          href="#!"
+                          onClick={handlePreviousClick}
+                        >
+                          Previous
+                        </a>
                       </li>
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                        <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
-                          <a className="page-link" href="#!" onClick={() => handlePageClick(page)}>
-                            {page}
-                          </a>
-                        </li>
-                      ))}
-                      <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                        <a className="page-link" href="#!" onClick={handleNextClick}>Next</a>
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                        (page) => (
+                          <li
+                            key={page}
+                            className={`page-item ${
+                              currentPage === page ? "active" : ""
+                            }`}
+                          >
+                            <a
+                              className="page-link"
+                              href="#!"
+                              onClick={() => handlePageClick(page)}
+                            >
+                              {page}
+                            </a>
+                          </li>
+                        )
+                      )}
+                      <li
+                        className={`page-item ${
+                          currentPage === totalPages ? "disabled" : ""
+                        }`}
+                      >
+                        <a
+                          className="page-link"
+                          href="#!"
+                          onClick={handleNextClick}
+                        >
+                          Next
+                        </a>
                       </li>
                     </ul>
                   </div>
@@ -203,15 +278,40 @@ const PublicDis = () => {
 
           {/* Delete Modal */}
           {isDeleteModalOpen && (
-            <div className="modal fade show d-block" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-              <div className="modal-dialog modal-dialog-centered" role="document">
+            <div
+              className="modal fade show d-block"
+              tabIndex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+              style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+            >
+              <div
+                className="modal-dialog modal-dialog-centered"
+                role="document"
+              >
                 <div className="modal-content">
                   <div className="modal-body">
-                    <h4>Are you sure you want to delete {selectedDepartment?.department_name}?</h4>
+                    <h4>
+                      Are you sure you want to delete{" "}
+                      {selectedDepartment?.department_name}?
+                    </h4>
                   </div>
                   <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" onClick={() => setIsDeleteModalOpen(false)}>Close</button>
-                    <button type="button" className="btn btn-danger" onClick={handleDeleteDepartment}>Delete</button>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => setIsDeleteModalOpen(false)}
+                    >
+                      Close
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={handleDeleteDepartment}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
@@ -220,8 +320,18 @@ const PublicDis = () => {
 
           {/* Edit Modal */}
           {isEditModalOpen && (
-            <div className="modal fade show d-block" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-              <div className="modal-dialog modal-dialog-centered" role="document">
+            <div
+              className="modal fade show d-block"
+              tabIndex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+              style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+            >
+              <div
+                className="modal-dialog modal-dialog-centered"
+                role="document"
+              >
                 <div className="modal-content">
                   <div className="modal-body">
                     <h4>Edit Department</h4>
@@ -231,28 +341,37 @@ const PublicDis = () => {
                         <input
                           type="text"
                           className="form-control mt-2"
-                          value={selectedDepartment?.department_name || ''}
+                          value={selectedDepartment?.department_name || ""}
                           onChange={(e) =>
-                            setSelectedDepartment({ ...selectedDepartment, department_name: e.target.value })
+                            setSelectedDepartment({
+                              ...selectedDepartment,
+                              department_name: e.target.value,
+                            })
                           }
                         />
                       </div>
 
-
-                  
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" onClick={() => setIsEditModalOpen(false)}>Close</button>
-                    <button type="submit" className="btn btn-success">Save changes</button>
+                      <div className="modal-footer">
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          onClick={() => setIsEditModalOpen(false)}
+                        >
+                          Close
+                        </button>
+                        <button type="submit" className="btn btn-success">
+                          Save changes
+                        </button>
+                      </div>
+                    </form>
                   </div>
-                </form>
                 </div>
               </div>
             </div>
-            </div>
           )}
+        </div>
       </div>
     </div>
-    </div >
   );
 };
 

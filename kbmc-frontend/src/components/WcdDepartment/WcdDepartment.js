@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import axios from "axios";
+import api from '../api'; 
 
 const WcdDepartment = () => {
   const [departments, setDepartments] = useState([]);
 
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/departments");
+      const response = await api.get("/departments");
       setDepartments(response.data);
     } catch (error) {
       console.error("Error fetching departments data");

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api, { baseURL } from "../../api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GLightbox from "glightbox";
@@ -38,8 +38,8 @@ const HistoryPage = () => {
 
   const fetchRtsData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/righttoservices"
+      const response = await api.get(
+        "/righttoservices"
       );
       setRtsData(response.data);
     } catch (error) {
@@ -49,7 +49,7 @@ const HistoryPage = () => {
 
   const fetchPdfData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/rts_table");
+      const response = await api.get("/rts_table");
       setPdfData(response.data);
     } catch (error) {
       toast.error("Failed to fetch Pdf data.");
@@ -61,10 +61,10 @@ const HistoryPage = () => {
   const handleDelete = async (id, type) => {
     try {
       if (type === "rts") {
-        await axios.delete(`http://localhost:5000/api/righttoservices/${id}`);
+        await api.delete(`/righttoservices/${id}`);
         setRtsData((prevData) => prevData.filter((item) => item.id !== id));
       } else if (type === "pdf") {
-        await axios.delete(`http://localhost:5000/api/rts_table/${id}`);
+        await api.delete(`/rts_table/${id}`);
         setPdfData((prevData) => prevData.filter((item) => item.id !== id));
       }
       toast.success(
@@ -86,7 +86,7 @@ const HistoryPage = () => {
     );
     setPdfPreview(
       type === "pdf" && item.pdf_path
-        ? `http://localhost:5000/${item.pdf_path}`
+        ? `${baseURL}/${item.pdf_path}`
         : ""
     );
     setModalType(type);
@@ -104,8 +104,8 @@ const HistoryPage = () => {
   const handleSaveChanges = async () => {
     try {
       if (modalType === "rts") {
-        await axios.put(
-          `http://localhost:5000/api/righttoservices/${selectedItem.id}`,
+        await api.put(
+          `/righttoservices/${selectedItem.id}`,
           { heading: editData.heading, description: editData.description }
         );
         fetchRtsData();
@@ -118,8 +118,8 @@ const HistoryPage = () => {
           formData.append("userfile", editData.pdfFile);
         }
 
-        await axios.put(
-          `http://localhost:5000/api/rts_table/${selectedItem.id}`,
+        await api.put(
+          `/rts_table/${selectedItem.id}`,
           formData,
           {
             headers: {
@@ -266,7 +266,7 @@ const HistoryPage = () => {
                                 <td>{item.description}</td>
                                 <td style={{ textAlign: "center" }}>
                                   <a
-                                    href={`http://localhost:5000/${item.pdf_path}`}
+                                    href={`${baseURL}/${item.pdf_path}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                   >

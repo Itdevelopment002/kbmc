@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import axios from "axios";
+import api, { baseURL } from "../api";
 
 const Schools = () => {
   const [schools, setSchools] = useState([]);
@@ -20,7 +20,7 @@ const Schools = () => {
 
   const fetchSchools = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/schools");
+      const response = await api.get("/schools");
       setSchools(response.data);
     } catch (error) {
       console.error("Error fetching school data");
@@ -29,9 +29,7 @@ const Schools = () => {
 
   const fetchSchoolPhotos = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/school-images"
-      );
+      const response = await api.get("/school-images");
       setSchoolPhotos(response.data);
     } catch (error) {
       console.error("Error fetching school images data");
@@ -146,12 +144,12 @@ const Schools = () => {
                         <div class="row">
                           {schoolPhotos.map((image, index) => (
                             <a
-                              href={`http://localhost:5000${image.image_path}`}
+                              href={`${baseURL}${image.image_path}`}
                               className="glightbox col-sm-2"
                               data-gallery="slider-images"
                             >
                               <img
-                                src={`http://localhost:5000${image.image_path}`}
+                                src={`${baseURL}${image.image_path}`}
                                 alt={`img${index + 1}`}
                                 className="img-fluid"
                               />

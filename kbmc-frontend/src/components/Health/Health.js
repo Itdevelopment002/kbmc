@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import img1 from "../../assets/images/health/img1.jpg"
-import img2 from "../../assets/images/health/img2.jpg"
-import img3 from "../../assets/images/health/img3.jpg"
-import img4 from "../../assets/images/health/img4.jpg"
-import axios from "axios";
+import api, { baseURL } from "../api";
 
 const Health = () => {
   const [data, setData] = useState([]);
@@ -16,7 +12,7 @@ const Health = () => {
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
-    axios.get("http://localhost:5000/api/health_dep_sec")
+    api.get("/health_dep_sec")
       .then((response) => {
         setData(response.data);
       })
@@ -27,7 +23,7 @@ const Health = () => {
 
   useEffect(() => {
     // Fetch data from the API
-    axios.get("http://localhost:5000/api/sanitation_inspectors")
+    api.get("/sanitation_inspectors")
       .then(response => {
         setInspectors(response.data);
       })
@@ -39,7 +35,7 @@ const Health = () => {
   useEffect(() => {
     const fetchFacilities = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/treatment_facility'); // Adjust this path if needed
+        const response = await api.get('/treatment_facility'); // Adjust this path if needed
         setFacilities(response.data);
         setLoading(false);
       } catch (error) {
@@ -54,7 +50,7 @@ const Health = () => {
   useEffect(() => {
     const fetchLitigations = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/litigations');
+        const response = await api.get('/litigations');
         setLitigations(response.data);
       } catch (error) {
         console.error('Error fetching litigations:', error);
@@ -68,7 +64,7 @@ const Health = () => {
     // Fetch photos from the API
     const fetchPhotos = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/health_photo_gallery'); // Update with your actual API endpoint
+        const response = await api.get('/health_photo_gallery'); // Update with your actual API endpoint
         setPhotos(response.data);
       } catch (error) {
         console.error('Error fetching photos:', error);
@@ -312,7 +308,7 @@ const Health = () => {
             {photos.map(photo => (
               <div className="col-md-3" key={photo.id}>
                 <img
-                  src={`http://localhost:5000${photo.img_path}`} // Using hardcoded URL
+                  src={`${baseURL}${photo.img_path}`} // Using hardcoded URL
                   alt={photo.heading}
                   onError={(e) => {
                     e.target.onerror = null; // Prevent looping

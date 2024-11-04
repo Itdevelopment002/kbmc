@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api, { baseURL } from "../api";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import GLightbox from "glightbox";
@@ -30,7 +30,7 @@ const Slider = () => {
 
   const fetchSliders = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/sliders");
+      const response = await api.get("/sliders");
       setSliders(response.data);
     } catch (error) {
       console.error("Error fetching sliders:", error);
@@ -44,8 +44,8 @@ const Slider = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(
-        `http://localhost:5000/api/sliders/${selectedSlider.id}`
+      await api.delete(
+        `/sliders/${selectedSlider.id}`
       );
       setSliders(sliders.filter((slider) => slider.id !== selectedSlider.id));
       toast.success("Slider deleted successfully!"); // Toast notification
@@ -77,8 +77,8 @@ const Slider = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:5000/api/sliders/${selectedSlider.id}`,
+      await api.put(
+        `/sliders/${selectedSlider.id}`,
         formData,
         {
           headers: {
@@ -151,13 +151,13 @@ const Slider = () => {
                           <td>{slider.slider_name}</td>
                           <td>
                             <a
-                              href={`http://localhost:5000${slider.file_path}`}
+                              href={`${baseURL}/${slider.file_path}`}
                               className="glightbox"
                               data-gallery="slider-images"
                             >
                               <img
                                 width="200px"
-                                src={`http://localhost:5000${slider.file_path}`}
+                                src={`${baseURL}${slider.file_path}`}
                                 alt={`slider${index + 1}`}
                               />
                             </a>
@@ -260,7 +260,7 @@ const Slider = () => {
                       />
                     ) : (
                       <img
-                        src={`http://localhost:5000${selectedSlider.file_path}`}
+                        src={`${baseURL}${selectedSlider.file_path}`}
                         alt="Stored"
                         width="200"
                         className="img-thumbnail"

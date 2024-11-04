@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';  // Import axios for API requests
+import api from '../api';  // Import api for API requests
 import { Link, useNavigate } from 'react-router-dom';  // Import useNavigate
 import { toast, ToastContainer } from 'react-toastify';  // Import Toastify components
 import 'react-toastify/dist/ReactToastify.css';  // Import Toastify styles
@@ -26,7 +26,7 @@ const Add_slider = () => {
     formData.append('sliderName', sliderName);  // Pass slider name from state
 
     try {
-      const response = await axios.post('http://localhost:5000/api/sliders', formData, {
+      const response = await api.post('/sliders', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

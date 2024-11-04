@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import bannerImage from "../../assets/images/banner/inner-banner.jpg";
-import axios from "axios";
+import api, { baseURL } from "../api";
 
 const FireStation = () => {
   const [fireStations, setFireStations] = useState([]);
 
   const fetchFireStations = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/fire-stations"
+      const response = await api.get(
+        "/fire-stations"
       );
       setFireStations(response.data);
     } catch (error) {
@@ -61,7 +61,7 @@ const FireStation = () => {
                         <figure className="image">
                           <a href="#.">
                             <img
-                              src={`http://localhost:5000${fireStation.image_path}`}
+                              src={`${baseURL}${fireStation.image_path}`}
                               alt="Fire Station East"
                             />
                           </a>

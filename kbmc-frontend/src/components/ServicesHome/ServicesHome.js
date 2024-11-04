@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./ServiceHome.css";
-import axios from "axios";
+import api, { baseURL } from "../api";
 
 const ServicesHome = () => {
   const [services, setServices] = useState([]);
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/services");
+      const response = await api.get("/services");
       setServices(response.data);
     } catch (error) {
       console.error("Error fetching services data");
@@ -35,7 +35,7 @@ const ServicesHome = () => {
                             <div className="figure">
                               <img
                                 className="Sirv image-main sirv-image-loaded"
-                                src={`http://localhost:5000/${service.main_icon_path}`}
+                                src={`${baseURL}/${service.main_icon_path}`}
                                 data-src="assets/images/icons/Public Disclosure.png"
                                 referrerpolicy="no-referrer-when-downgrade"
                                 id="responsive-image-1972685"
@@ -48,7 +48,7 @@ const ServicesHome = () => {
                                 referrerpolicy="no-referrer-when-downgrade"
                                 id="responsive-image-9979409"
                                 loading="lazy"
-                                src={`http://localhost:5000/${service.hover_icon_path}`}
+                                src={`${baseURL}/${service.hover_icon_path}`}
                                 alt=""
                               />
                             </div>

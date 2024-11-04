@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import './NewsSection.css'; // Ensure this CSS file is created
-import axios from 'axios';
+import api from "../api";
 
 const NewsSection = () => {
     const [newsData, setNewsData] = useState([]);
 
     const fetchNews = async()=>{
         try{
-            const response = await axios.get("http://localhost:5000/api/newsupdate");
+            const response = await api.get("/newsupdate");
             setNewsData(response.data);
         } catch(error){
             console.error("Error fetchings news");

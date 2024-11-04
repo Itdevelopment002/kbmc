@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal, Button, Form } from 'react-bootstrap';
-import { ToastContainer, toast } from 'react-toastify';
-import AddPondsAndTalao from './Add_ponds';
+import { Modal, Button } from 'react-bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios";
+import api from "../api";
 
 const PondsAndTalao = () => {
     const [ponds, setPonds] = useState([]);
@@ -15,10 +13,9 @@ const PondsAndTalao = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    // Fetch news data from the API
     const fetchPonds = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/ponds-talao'); // Replace with your API URL
+            const response = await api.get('/ponds-talao'); 
             setPonds(response.data);
         } catch (error) {
             console.error('Error fetching ponds:', error);
@@ -26,7 +23,7 @@ const PondsAndTalao = () => {
     };
 
     useEffect(() => {
-        fetchPonds(); // Fetch news when component mounts
+        fetchPonds(); 
     }, []);
 
     // Handle delete click
@@ -38,7 +35,7 @@ const PondsAndTalao = () => {
     // Confirm delete
     const handleDeleteConfirm = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/ponds-talao/${selectedPonds}`); // Replace with your API URL
+            await api.delete(`/ponds-talao/${selectedPonds}`); // Replace with your API URL
             // Update state to remove the deleted item
             setPonds(ponds.filter(item => item.id !== selectedPonds));
             setModalVisible(false);
@@ -58,7 +55,7 @@ const PondsAndTalao = () => {
     // Save edited news
     const handleSaveEdit = async () => {
         try {
-            await axios.put(`http://localhost:5000/api/ponds-talao/${selectedPonds}`, {
+            await api.put(`/ponds-talao/${selectedPonds}`, {
                 name: editedContent, // Ensure this matches your API's expected field
             });
 

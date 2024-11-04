@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaFilePdf } from 'react-icons/fa'; // PDF icon
-import axios from 'axios';
+import api, { baseURL } from '../../api';
 import { Modal, Button } from 'react-bootstrap'; // Ensure you have react-bootstrap installed
 
 const AddGeneralDepYear = () => {
@@ -27,7 +27,7 @@ const AddGeneralDepYear = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/generaladminaddyear');
+      const response = await api.get('/generaladminaddyear');
       setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -45,7 +45,7 @@ const AddGeneralDepYear = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/generaladminaddyear', formData);
+      await api.post('/generaladminaddyear', formData);
       fetchData(); // Refresh data after submission
       // Clear input fields after submission
       setYear('');
@@ -68,7 +68,7 @@ const AddGeneralDepYear = () => {
     }
 
     try {
-      await axios.put(`http://localhost:5000/api/generaladminaddyear/${currentEditingId}`, formData);
+      await api.put(`/generaladminaddyear/${currentEditingId}`, formData);
       fetchData(); // Refresh data after editing
       setShowEditModal(false);
     } catch (error) {
@@ -78,7 +78,7 @@ const AddGeneralDepYear = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/generaladminaddyear/${id}`);
+      await api.delete(`/generaladminaddyear/${id}`);
       fetchData(); // Refresh data after deletion
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -188,7 +188,7 @@ const AddGeneralDepYear = () => {
                           <td>{item.meetingtype}</td>
                           <td>{item.pdfheading}</td>
                           <td>
-                            <a href={`http://localhost:5000/${item.pdf}`} target="_blank" rel="noopener noreferrer">
+                            <a href={`${baseURL}/${item.pdf}`} target="_blank" rel="noopener noreferrer">
                               <FaFilePdf style={{ color: 'red' }} size={35} />
                             </a>
                           </td>

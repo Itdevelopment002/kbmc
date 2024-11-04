@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg"; // Background image
 import pdficon from "../../assets/images/icons/PDF-Icons.png";
+import api, { baseURL } from '../api';
 
 const CitizenCharter = () => {
   const [departments, setDepartments] = useState([]);
@@ -9,19 +10,17 @@ const CitizenCharter = () => {
   // Fetch data from the API
   const fetchDepartments = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/departments"); // Adjust API endpoint as necessary
-      const data = await response.json();
-      setDepartments(data);
+      const response = await api.get("/departments");
+      setDepartments(response.data);
     } catch (error) {
-      console.error("Error fetching department data:", error);
+      console.error("Error fetching departments data");
     }
   };
 
   const fetchCitDepartments = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/citizen-charter"); // Adjust API endpoint as necessary
-      const data = await response.json();
-      setCitDepartments(data);
+      const response = await api.get("/citizen-charter");
+      setCitDepartments(response.data);
     } catch (error) {
       console.error("Error fetching citizen department data:", error);
     }
@@ -87,7 +86,7 @@ const CitizenCharter = () => {
                               <a
                                 href={
                                   matchingDepartment
-                                    ? `http://localhost:5000/${matchingDepartment.pdf}`
+                                    ? `${baseURL}/${matchingDepartment.pdf}`
                                     : "#."
                                 }
                                 rel="noreferrer"
@@ -116,7 +115,7 @@ const CitizenCharter = () => {
                           <h6>{citDept.name}</h6>
                           <div className="download-btn">
                             <a
-                              href={`http://localhost:5000/${citDept.pdf}`}
+                              href={`${baseURL}/${citDept.pdf}`}
                               rel="noreferrer"
                               target="_blank"
                               className="theme-btn btn-one"

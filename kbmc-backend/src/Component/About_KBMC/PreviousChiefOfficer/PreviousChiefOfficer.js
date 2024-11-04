@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form, Toast } from "react-bootstrap";
-import axios from "axios";
+import { Modal, Button, Form } from "react-bootstrap";
+import api, { baseURL } from '../../api';
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import Flatpickr from "react-flatpickr";
@@ -34,8 +34,8 @@ const PreviousChiefOfficer = () => {
   // Fetch officers on component mount
   const fetchOfficers = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/chief-officers"
+      const response = await api.get(
+        "/chief-officers"
       );
       setOfficers(response.data);
     } catch (error) {
@@ -56,8 +56,8 @@ const PreviousChiefOfficer = () => {
   // Confirm delete action and call API
   // Confirm delete action and call API
   const confirmDelete = () => {
-    axios
-      .delete(`http://localhost:5000/api/chief-officers/${selectedOfficerId}`)
+    api
+      .delete(`/chief-officers/${selectedOfficerId}`)
       .then(() => {
         setOfficers(
           officers.filter((officer) => officer.id !== selectedOfficerId)
@@ -101,8 +101,8 @@ const PreviousChiefOfficer = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:5000/api/chief-officers/${selectedOfficerId}`,
+      await api.put(
+        `/chief-officers/${selectedOfficerId}`,
         formData,
         {
           headers: {
@@ -213,13 +213,13 @@ const PreviousChiefOfficer = () => {
                             </td>
                             <td>
                               <a
-                                href={`http://localhost:5000${officer.image_path}`}
+                                href={`${baseURL}${officer.image_path}`}
                                 className="glightbox"
                                 data-gallery="chief-images"
                               >
                                 <img
                                   width="50px"
-                                  src={`http://localhost:5000${officer.image_path}`}
+                                  src={`${baseURL}${officer.image_path}`}
                                   alt={`chief${index + 1}`}
                                 />
                               </a>
@@ -367,7 +367,7 @@ const PreviousChiefOfficer = () => {
                   ) : (
                     editData.image_path && (
                       <img
-                        src={`http://localhost:5000${editData.image_path}`}
+                        src={`${baseURL}${editData.image_path}`}
                         alt="Current"
                         width="100"
                       />

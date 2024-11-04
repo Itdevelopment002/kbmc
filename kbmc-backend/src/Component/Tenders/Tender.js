@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
-import axios from 'axios'; // Import Axios
+import api from '../api'; // Import api
 
 const Tender = () => {
     const [tenders, setTenders] = useState([]);
@@ -12,7 +12,7 @@ const Tender = () => {
 
     // Fetch tenders from API
     useEffect(() => {
-        axios.get('http://localhost:5000/api/tenders')
+        api.get('/tenders')
             .then(response => setTenders(response.data))
             .catch(error => console.error(error));
     }, []);
@@ -23,7 +23,7 @@ const Tender = () => {
     };
 
     const handleDeleteConfirm = () => {
-        axios.delete(`http://localhost:5000/api/tenders/${selectedTender}`)
+        api.delete(`/tenders/${selectedTender}`)
             .then(() => {
                 setTenders(tenders.filter(tender => tender.id !== selectedTender));
                 setModalVisible(false);
@@ -39,7 +39,7 @@ const Tender = () => {
     };
 
     const handleSaveEdit = () => {
-        axios.put(`http://localhost:5000/api/tenders/${selectedTender}`, { tenders: editedDescription })
+        api.put(`/tenders/${selectedTender}`, { tenders: editedDescription })
             .then(() => {
                 setTenders(tenders.map(tender =>
                     tender.id === selectedTender ? { ...tender, tenders: editedDescription } : tender

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const AddGardens = () => {
     const [heading, setHeading] = useState('');
@@ -17,7 +17,7 @@ const AddGardens = () => {
         });
 
         try {
-            const response = await axios.post('http://localhost:5000/api/gardens', formData, {
+            const response = await api.post('/gardens', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

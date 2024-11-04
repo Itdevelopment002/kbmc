@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import img1 from "../../assets/images/banner/inner-banner.jpg";
-import axios from "axios";
+import api from "../api";
 
 const PropertyHolder = () => {
   const [property, setProperty] = useState([]);
 
   const fetchProperty = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/property_holder"
+      const response = await api.get(
+        "/property_holder"
       );
       setProperty(response.data);
     } catch (error) {

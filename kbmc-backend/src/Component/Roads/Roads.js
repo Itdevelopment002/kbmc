@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const Roads = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -17,7 +17,7 @@ const Roads = () => {
 
     const fetchRoads = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/roads'); // Adjust the endpoint as necessary
+            const response = await api.get('/roads'); // Adjust the endpoint as necessary
             setRoads(response.data);
         } catch (error) {
             console.error('Error fetching roads data:', error);
@@ -31,7 +31,7 @@ const Roads = () => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/roads/${selectedItem}`); // Adjust the endpoint as necessary
+            await api.delete(`/roads/${selectedItem}`); // Adjust the endpoint as necessary
             setRoads(roads.filter(item => item.id !== selectedItem));
         } catch (error) {
             console.error('Error deleting road:', error);
@@ -48,7 +48,7 @@ const Roads = () => {
 
     const handleEditSubmit = async () => {
         try {
-            await axios.put(`http://localhost:5000/api/roads/${editData.id}`, editData); // Adjust the endpoint as necessary
+            await api.put(`/roads/${editData.id}`, editData); // Adjust the endpoint as necessary
             setRoads(roads.map(item => (item.id === editData.id ? editData : item)));
         } catch (error) {
             console.error('Error updating road:', error);

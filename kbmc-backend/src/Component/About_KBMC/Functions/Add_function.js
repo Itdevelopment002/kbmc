@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from 'react-toastify'; // Import Toast
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import api from "../../api";
 
 // Function component for Add Functions page
 const AddFunction = () => {
@@ -22,15 +23,13 @@ const AddFunction = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/api/functions', {
-                method: 'POST',
+            const response = await api.post('/functions', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
             });
 
-            if (response.ok) {
+            if (response.status === 201) {
                 toast.success('Function added successfully!');
                 setHeading(""); // Reset the form inputs
                 setDescription("");

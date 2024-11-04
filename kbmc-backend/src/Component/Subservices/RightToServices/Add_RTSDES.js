@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
-import axios from 'axios'; // Add axios for API requests
+import api from '../../api'; // Add api for API requests
 
 function Add_RTSDES() {
   const [heading, setHeading] = useState('');
@@ -20,7 +20,7 @@ function Add_RTSDES() {
 
     // Send data to the API
     try {
-      const response = await axios.post('http://localhost:5000/api/righttoservices', {
+      const response = await api.post('/righttoservices', {
         heading,
         description,
       });

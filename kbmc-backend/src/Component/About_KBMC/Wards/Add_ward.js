@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';  
-import axios from 'axios';
+import api from '../../api';
 
 const AddWard = () => {
     const [wardNo, setWardNo] = useState('');
@@ -12,7 +12,7 @@ const AddWard = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/wards', {
+            const response = await api.post('/wards', {
                 ward_no: wardNo,
                 ward_name: wardName,
             });
