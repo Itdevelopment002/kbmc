@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -23,7 +23,7 @@ const TreatmentFacilities = () => {
 
   const fetchFacilities = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/treatment_facility');
+      const response = await api.get('/treatment_facility');
       setFacilities(response.data);
     } catch (error) {
       toast.error('Error fetching treatment facilities.');
@@ -34,7 +34,7 @@ const TreatmentFacilities = () => {
     if (name && loc && capacity && intake && output) {
       const newFacility = { name, loc, capacity, intake, output };
       try {
-        const response = await axios.post('http://localhost:5000/api/treatment_facility', newFacility);
+        const response = await api.post('/treatment_facility', newFacility);
         setFacilities([...facilities, response.data]);
         resetForm();
         setShowAddNewModal(false);
@@ -54,7 +54,7 @@ const TreatmentFacilities = () => {
     if (!selectedFacility) return; // Check before proceeding
 
     try {
-      await axios.delete(`http://localhost:5000/api/treatment_facility/${selectedFacility.id}`);
+      await api.delete(`/treatment_facility/${selectedFacility.id}`);
       setFacilities(facilities.filter(facility => facility.id !== selectedFacility.id));
       toast.success('Facility deleted successfully!');
     } catch (error) {
@@ -74,7 +74,7 @@ const TreatmentFacilities = () => {
   const handleEditSubmit = async () => {
     if (!editData.id) return; // Prevent proceeding if no ID is set
     try {
-      const response = await axios.put(`http://localhost:5000/api/treatment_facility/${editData.id}`, editData);
+      const response = await api.put(`/treatment_facility/${editData.id}`, editData);
       setFacilities(facilities.map(facility => (facility.id === editData.id ? response.data : facility)));
       toast.success('Facility updated successfully!');
     } catch (error) {

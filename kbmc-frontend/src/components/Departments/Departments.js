@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import axios from "axios";
+import api from "../api";
 
 const Departments = () => {
   const [departments, setDepartments] = useState([]);
@@ -10,7 +10,7 @@ const Departments = () => {
   // Fetch departments data from the API
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/departments");
+      const response = await api.get("/departments");
       setDepartments(response.data);
     } catch (error) {
       console.error("Error fetching departments data");
@@ -89,7 +89,7 @@ const Departments = () => {
           <ul className="pagination clearfix">
             <li>
               <a
-                href="#"
+                href="#."
                 onClick={(e) => {
                   e.preventDefault();
                   if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -102,7 +102,7 @@ const Departments = () => {
             {Array.from({ length: totalPages }, (_, i) => (
               <li key={i}>
                 <a
-                  href="#"
+                  href="#."
                   onClick={(e) => {
                     e.preventDefault();
                     setCurrentPage(i + 1);
@@ -115,7 +115,7 @@ const Departments = () => {
             ))}
             <li>
               <a
-                href="#"
+                href="#."
                 onClick={(e) => {
                   e.preventDefault();
                   if (currentPage < totalPages) setCurrentPage(currentPage + 1);

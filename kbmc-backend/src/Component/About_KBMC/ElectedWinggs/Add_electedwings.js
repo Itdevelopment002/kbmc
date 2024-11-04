@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { toast, ToastContainer } from "react-toastify"; // Import toastify
-import axios from "axios"; // Import axios
+import api from "../../api"; 
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 
@@ -33,8 +33,8 @@ function Add_electedwings() {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/elected-wings",
+      const response = await api.post(
+        "/elected-wings",
         formData,
         {
           headers: {

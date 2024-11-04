@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from "../../api"
 
 const Add_award = () => {
     const [heading, setHeading] = useState('');
@@ -11,13 +12,15 @@ const Add_award = () => {
     
         try {
             // Make a POST request to the API with JSON content
-            const response = await fetch('http://localhost:5000/api/awards', {
-                method: 'POST',
+            const response = await api.post('/awards', {
+                heading,
+                description,
+            }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ heading, description }),
             });
+            
     
             if (response.status !== 201) {
                 throw new Error('Failed to add award');

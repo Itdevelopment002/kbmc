@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { Modal, Button } from "react-bootstrap";
+import api from "../api";
 
 const ContactUs = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [contact, setContact] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const fetchContact = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/contact-us");
+      const response = await api.get("/contact-us");
       setContact(response.data);
     } catch (error) {
       console.error("Error fetching contact data.");
@@ -27,8 +29,10 @@ const ContactUs = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/contact-us/${selectedFeedback}`);
-      setContact(contact.filter(feedback => feedback.id !== selectedFeedback));
+      await api.delete(`/contact-us/${selectedFeedback}`);
+      setContact(
+        contact.filter((feedback) => feedback.id !== selectedFeedback)
+      );
       setShowDeleteModal(false);
       setSelectedFeedback(null);
     } catch (error) {
@@ -41,13 +45,22 @@ const ContactUs = () => {
     setSelectedFeedback(null);
   };
 
+  const currentPageData = contact.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="page-wrapper">
       <div className="content">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item"><a href="#.">Home</a></li>
-            <li className="breadcrumb-item active" aria-current="page">Contact Us</li>
+            <li className="breadcrumb-item">
+              <a href="#.">Home</a>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              Contact Us
+            </li>
           </ol>
         </nav>
         <div className="row">
@@ -73,24 +86,36 @@ const ContactUs = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {contact.map((feedback, index) => (
-                        <tr key={feedback.id}>
-                          <td>{index + 1}</td>
-                          <td>{feedback.name}</td>
-                          <td>{feedback.mobile}</td>
-                          <td>{feedback.subject}</td>
-                          <td>{feedback.email}</td>
-                          <td>{feedback.feedback}</td>
-                          <td>
-                            <button
-                              className="btn btn-primary btn-sm m-t-10"
-                              onClick={() => handleDeleteModalOpen(feedback.id)}
-                            >
-                              Follow Up
-                            </button>
+                      {currentPageData.length > 0 ? (
+                        currentPageData.map((feedback, index) => (
+                          <tr key={feedback.id}>
+                            <td>
+                              {(currentPage - 1) * itemsPerPage + index + 1}
+                            </td>
+                            <td>{feedback.name}</td>
+                            <td>{feedback.mobile}</td>
+                            <td>{feedback.subject}</td>
+                            <td>{feedback.email}</td>
+                            <td>{feedback.feedback}</td>
+                            <td>
+                              <button
+                                className="btn btn-primary btn-sm m-t-10"
+                                onClick={() =>
+                                  handleDeleteModalOpen(feedback.id)
+                                }
+                              >
+                                Follow Up
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="7" style={{ textAlign: "center" }}>
+                            No contact available
                           </td>
                         </tr>
-                      ))}
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -98,29 +123,64 @@ const ContactUs = () => {
             </div>
           </div>
         </div>
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        <div className="mt-4">
           <ul className="pagination">
-            <li className="page-item disabled">
-              <a className="page-link" href="#" tabIndex="-1">Previous</a>
+            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+              <button
+                className="page-link"
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                Previous
+              </button>
             </li>
-            <li className="page-item"><a className="page-link" href="#">1</a></li>
-            <li className="page-item active">
-              <a className="page-link" href="#">2 <span className="sr-only"></span></a>
-            </li>
-            <li className="page-item"><a className="page-link" href="#">3</a></li>
-            <li className="page-item">
-              <a className="page-link" href="#">Next</a>
+            {Array.from(
+              { length: Math.ceil(contact.length / itemsPerPage) },
+              (_, i) => (
+                <li
+                  className={`page-item ${
+                    currentPage === i + 1 ? "active" : ""
+                  }`}
+                  key={i}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => setCurrentPage(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                </li>
+              )
+            )}
+            <li
+              className={`page-item ${
+                currentPage === Math.ceil(contact.length / itemsPerPage)
+                  ? "disabled"
+                  : ""
+              }`}
+            >
+              <button
+                className="page-link"
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                Next
+              </button>
             </li>
           </ul>
         </div>
         {/* Delete Modal */}
         <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} centered>
           <Modal.Body>
-            <h4 style={{ textAlign: 'center' }}>Are you sure you want to delete this item?</h4>
+            <h4 style={{ textAlign: "center" }}>
+              Are you sure you want to delete this item?
+            </h4>
           </Modal.Body>
-          <Modal.Footer style={{ justifyContent: 'center' }}>
-            <Button variant="secondary" onClick={handleCloseDeleteModal}>Close</Button>
-            <Button variant="danger" onClick={handleDelete}>Delete</Button>
+          <Modal.Footer style={{ justifyContent: "center" }}>
+            <Button variant="secondary" onClick={handleCloseDeleteModal}>
+              Close
+            </Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Delete
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; 
+import api from "../api"
 
 const PrivateHospital = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -27,13 +28,13 @@ const PrivateHospital = () => {
 
   const fetchHospitals = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/private-hospital');
-      const data = await response.json();
-      setHospitals(data);
+        const response = await api.get('/private-hospital');
+        setHospitals(response.data);
     } catch (error) {
-      console.error('Error fetching hospitals:', error);
+        console.error('Error fetching hospitals:', error);
     }
-  };
+};
+
 
   const handleDeleteModalOpen = (hospital) => {
     setSelectedHospital(hospital);
@@ -57,9 +58,7 @@ const PrivateHospital = () => {
 
   const handleDelete = async () => {
     try {
-      await fetch(`http://localhost:5000/api/private-hospital/${selectedHospital.id}`, {
-        method: 'DELETE',
-      });
+      await api.delete(`/private-hospital/${selectedHospital.id}`);
       toast.success(`Hospital deleted successfully.`);
       fetchHospitals();
     } catch (error) {
@@ -73,20 +72,20 @@ const PrivateHospital = () => {
 
   const handleEditSubmit = async () => {
     try {
-      await fetch(`http://localhost:5000/api/private-hospital/${editData.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          hospitalName: editData.name,
-          division: editData.division,
-          principalDoctor: editData.specialty,
-          address: editData.address,
-          phoneNo: editData.phone,
-          mobileNo: editData.mobile,
-          beds: editData.beds,
-          facilities: editData.facilities,
-        }),
-      });
+      await api.put(`/private-hospital/${editData.id}`, {
+        hospitalName: editData.name,
+        division: editData.division,
+        principalDoctor: editData.specialty,
+        address: editData.address,
+        phoneNo: editData.phone,
+        mobileNo: editData.mobile,
+        beds: editData.beds,
+        facilities: editData.facilities,
+    }, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });    
       toast.success(`Hospital updated successfully.`);
       fetchHospitals();
     } catch (error) {

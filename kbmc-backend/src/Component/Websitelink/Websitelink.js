@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api, { baseURL } from '../api';
 import { Modal, Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import GLightbox from 'glightbox';
@@ -17,7 +17,7 @@ const GovernmentWebsiteLinks = () => {
 
     const currentPageData = links.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-    const API_URL = 'http://localhost:5000/api/websitelinks';
+    const API_URL = '/websitelinks';
 
     useEffect(() => {
         fetchLinks();
@@ -35,7 +35,7 @@ const GovernmentWebsiteLinks = () => {
     };
 
     const fetchLinks = () => {
-        axios.get(API_URL)
+        api.get(API_URL)
             .then((response) => {
                 setLinks(response.data);
             })
@@ -46,7 +46,7 @@ const GovernmentWebsiteLinks = () => {
 
     const handleDeleteConfirm = () => {
         if (selectedLinkId) {
-            axios.delete(`${API_URL}/${selectedLinkId}`)
+            api.delete(`${API_URL}/${selectedLinkId}`)
                 .then(() => {
                     setLinks(links.filter(websitelink => websitelink.id !== selectedLinkId));
                     setShowDeleteModal(false);
@@ -75,7 +75,7 @@ const GovernmentWebsiteLinks = () => {
         );
         setLinks(updatedLinks);
 
-        axios.put(`${API_URL}/${editLinkData.id}`, formData)
+        api.put(`${API_URL}/${editLinkData.id}`, formData)
             .then((response) => {
                 // Update the links state with the new data from the response
                 setLinks(links.map(websitelink => (websitelink.id === editLinkData.id ? response.data : websitelink)));
@@ -137,14 +137,14 @@ const GovernmentWebsiteLinks = () => {
                                                     <td>{websitelink.websitelink}</td>
                                                     <td>
                                                         <a
-                                                            href={`http://localhost:5000${websitelink.websitelogo}`}
+                                                            href={`${baseURL}${websitelink.websitelogo}`}
                                                             className="glightbox"
                                                             data-gallery="web-links-gallery"
                                                         // data-title={websitelink.websitelink}
                                                         >
                                                             <img
                                                                 width="50px"
-                                                                src={`http://localhost:5000${websitelink.websitelogo}`}
+                                                                src={`${baseURL}${websitelink.websitelogo}`}
                                                                 alt={websitelink.id}
                                                                 style={{ borderRadius: '5px' }}
                                                             />
@@ -239,7 +239,7 @@ const GovernmentWebsiteLinks = () => {
                             </div>
                             <div>
                                 <img
-                                    src={editLinkData.websitelogoPreview ? editLinkData.websitelogoPreview : `http://localhost:5000${editLinkData.websitelogo}`}
+                                    src={editLinkData.websitelogoPreview ? editLinkData.websitelogoPreview : `${baseURL}${editLinkData.websitelogo}`}
                                     alt="Preview"
                                     style={{ maxWidth: '50%', marginTop: '10px' }}
                                 />

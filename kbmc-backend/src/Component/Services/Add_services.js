@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -44,7 +44,7 @@ const AddServices = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/services', formData, {
+      const response = await api.post('/services', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

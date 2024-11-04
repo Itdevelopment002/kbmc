@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify'; // Import ToastContainer here
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer here
+import "react-toastify/dist/ReactToastify.css";
+import api from "../api";
 
 const AddTreeCensus = () => {
   const [formData, setFormData] = useState({
-    description: '',
-    total: '',
+    description: "",
+    total: "",
   });
 
   // Handle form field changes
@@ -25,33 +26,30 @@ const AddTreeCensus = () => {
 
     // Validate input
     if (!formData.description || !formData.total) {
-      toast.error('All fields are required.');
+      toast.error("All fields are required.");
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/tree-census', {
-        method: 'POST',
+      const response = await api.post("/tree-census", formData, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        toast.success('Tree Census data added successfully!');
-        // Reset form fields after successful submission
-        setFormData({ description: '', total: '' });
+      if (response.status === 201) {
+        const data = response.data;
+        toast.success("Tree Census data added successfully!");
+        setFormData({ description: "", total: "" });
         setTimeout(() => {
-          navigate("/tree-census")
+          navigate("/tree-census");
         }, 5000);
       } else {
-        toast.error('Failed to add Tree Census data.');
+        toast.error("Failed to add Tree Census data.");
       }
     } catch (error) {
-      console.error('Error in submission:', error);
-      toast.error('Error submitting form. Please try again.');
+      console.error("Error in submission:", error);
+      toast.error("Error submitting form. Please try again.");
     }
   };
 
@@ -59,9 +57,15 @@ const AddTreeCensus = () => {
     <div className="page-wrapper">
       <div className="content">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item"><Link to="index">City Profile</Link></li>
-          <li className="breadcrumb-item"><Link to="tree-census">Tree Census</Link></li>
-          <li className="breadcrumb-item active" aria-current="page">Add Tree Census</li>
+          <li className="breadcrumb-item">
+            <Link to="index">City Profile</Link>
+          </li>
+          <li className="breadcrumb-item">
+            <Link to="tree-census">Tree Census</Link>
+          </li>
+          <li className="breadcrumb-item active" aria-current="page">
+            Add Tree Census
+          </li>
         </ol>
         <div className="row">
           <div className="col-lg-12">
@@ -74,7 +78,9 @@ const AddTreeCensus = () => {
                 </div>
                 <form onSubmit={handleSubmit}>
                   <div className="form-group row">
-                    <label className="col-form-label col-md-3 mb-3">Description <span className="text-danger">*</span></label>
+                    <label className="col-form-label col-md-3 mb-3">
+                      Description <span className="text-danger">*</span>
+                    </label>
                     <div className="col-md-5">
                       <input
                         type="text"
@@ -88,7 +94,9 @@ const AddTreeCensus = () => {
                     </div>
                   </div>
                   <div className="form-group row">
-                    <label className="col-form-label col-md-3 mb-3">Total <span className="text-danger">*</span></label>
+                    <label className="col-form-label col-md-3 mb-3">
+                      Total <span className="text-danger">*</span>
+                    </label>
                     <div className="col-md-5">
                       <input
                         type="text"
@@ -101,7 +109,11 @@ const AddTreeCensus = () => {
                       />
                     </div>
                   </div>
-                  <input type="submit" className="btn btn-primary mt-2" value="Submit" />
+                  <input
+                    type="submit"
+                    className="btn btn-primary mt-2"
+                    value="Submit"
+                  />
                 </form>
                 {/* Toast Container for notifications */}
                 <ToastContainer />

@@ -3,7 +3,7 @@ import pdficon from "../../assets/images/icons/PDF-Icons.png";
 import { Modal, Button } from "react-bootstrap";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
-import axios from "axios";
+import api, {baseURL} from "../api";
 import image from "../../assets/images/icons/new-icon1.gif";
 
 const DepartmentDetails = () => {
@@ -15,7 +15,7 @@ const DepartmentDetails = () => {
 
   const FetchImages = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/gallerys");
+      const response = await api.get("/gallerys");
       setGallerys(response.data);
     } catch (error) {
       console.log("Error fetching photo gallery images");
@@ -24,7 +24,7 @@ const DepartmentDetails = () => {
 
   const FetchTenders = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/tenders");
+      const response = await api.get("/tenders");
       setTenders(response.data);
     } catch (error) {
       console.log("Error fetching tenders data");
@@ -33,7 +33,7 @@ const DepartmentDetails = () => {
 
   const FetchVideos = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/home-videos");
+      const response = await api.get("/home-videos");
       setVideos(response.data);
     } catch (error) {
       console.log("Error fetching videos data");
@@ -169,19 +169,19 @@ const DepartmentDetails = () => {
                                   {gallerys.map((image, index) => (
                                     <a
                                       key={index}
-                                      href={`http://localhost:5000${image.file_path}`}
+                                      href={`${baseURL}${image.file_path}`}
                                       className="glightbox col-sm-2 col-4"
                                       data-gallery="slider-images"
                                     >
                                       <img
                                         className="img-fluid"
-                                        src={`http://localhost:5000${image.file_path}`}
+                                        src={`${baseURL}${image.file_path}`}
                                         alt={`slider${index + 1}`}
                                         style={{
                                           width: "100%",
                                           height: "auto",
                                           objectFit: "cover",
-                                          borderRadius: "1px", // Optional: Adds rounded corners to the images
+                                          borderRadius: "1px", 
                                         }}
                                       />
                                     </a>
@@ -249,101 +249,6 @@ const DepartmentDetails = () => {
                         <a href="#.">Emergency - </a>
                       </li>
                     </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="client-logo-slider my-3">
-        <div class="">
-          <div class="content-box">
-            <div class="inner-box">
-              <div class="logo-slider-1">
-                {/* <!-- <h3>Citizen Services</h3> --> */}
-                <div class="owl-carousel version-1">
-                  <div>
-                    <a
-                      href="https://urban.maharashtra.gov.in/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src="assets/images/footerlogo/01.png" alt="img1" />
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://www.mygov.in/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src="assets/images/footerlogo/02.png" alt="img2" />
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://www.midcindia.org/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src="assets/images/footerlogo/03.png" alt="img3" />
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://mmrda.maharashtra.gov.in/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src="assets/images/footerlogo/04.png" alt="img4" />
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://www.mpcb.gov.in/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src="assets/images/footerlogo/05.png" alt="img5" />
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://divcomkonkan.gov.in/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src="assets/images/footerlogo/01.png" alt="img1" />
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://aaplesarkar.mahaonline.gov.in/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src="assets/images/footerlogo/06.png" alt="img6" />
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://thane.nic.in/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src="assets/images/footerlogo/07.png" alt="img7" />
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://www.eci.gov.in/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src="assets/images/footerlogo/08.png" alt="img8" />
-                    </a>
                   </div>
                 </div>
               </div>

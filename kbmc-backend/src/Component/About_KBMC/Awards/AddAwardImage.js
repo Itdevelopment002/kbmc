@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../api"
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ const AddAwardImage = () => {
     data.append("awardImage", formData.awardImage); // Append the selected file
 
     try {
-      const response = await axios.post("http://localhost:5000/api/award-images", data, {
+      const response = await api.post("/award-images", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

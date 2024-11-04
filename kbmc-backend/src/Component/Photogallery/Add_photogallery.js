@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import axios for API requests
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
-import { toast, ToastContainer } from "react-toastify"; // Import Toastify components
+import api from "../api"; 
+import { Link, useNavigate } from "react-router-dom"; 
+import { toast, ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
 
 const Add_PhotoGallery = () => {
   const [photoName, setPhotoName] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -26,8 +26,8 @@ const Add_PhotoGallery = () => {
     formData.append("photoName", photoName); // Pass slider name from state
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/gallerys",
+      const response = await api.post(
+        "/gallerys",
         formData,
         {
           headers: {

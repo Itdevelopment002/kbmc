@@ -1,5 +1,5 @@
 import React from 'react';
-import './Footer.css';  // Assuming custom styles for padding/margin adjustments
+import './Footer.css'; 
 
 const Footer = () => {
     return (

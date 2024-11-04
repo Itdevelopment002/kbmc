@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../api';
 
 const NewsUpdate = () => {
     const [news, setNews] = useState([]);
@@ -15,7 +15,7 @@ const NewsUpdate = () => {
     // Fetch news data from the API
     const fetchNews = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/newsupdate'); // Replace with your API URL
+            const response = await api.get('/newsupdate'); // Replace with your API URL
             setNews(response.data);
         } catch (error) {
             console.error('Error fetching news:', error);
@@ -35,7 +35,7 @@ const NewsUpdate = () => {
     // Confirm delete
     const handleDeleteConfirm = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/newsupdate/${selectedNews}`); // Replace with your API URL
+            await api.delete(`/newsupdate/${selectedNews}`); // Replace with your API URL
             // Update state to remove the deleted item
             setNews(news.filter(item => item.id !== selectedNews));
             setModalVisible(false);
@@ -55,7 +55,7 @@ const NewsUpdate = () => {
     // Save edited news
     const handleSaveEdit = async () => {
         try {
-            await axios.put(`http://localhost:5000/api/newsupdate/${selectedNews}`, {
+            await api.put(`/newsupdate/${selectedNews}`, {
                 description: editedContent, // Ensure this matches your API's expected field
             });
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from '../../api';
 import { toast, ToastContainer } from "react-toastify";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
@@ -26,8 +26,8 @@ const Add_PreviousPresident = () => {
 
     try {
       // Make POST request to your API
-      const response = await axios.post(
-        "http://localhost:5000/api/presidents",
+      const response = await api.post(
+        "/presidents",
         formData,
         {
           headers: {

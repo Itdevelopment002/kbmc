@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api, { baseURL } from "../api";
 import { Link } from 'react-router-dom';
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
 import pdficon from "../../assets/images/icons/PDF-Icons.png";
@@ -12,7 +12,7 @@ const RightToService = () => {
 
     useEffect(() => {
         // Fetch data from the pdf API
-        axios.get('http://localhost:5000/api/rts_table')
+        api.get('/rts_table')
             .then(response => {
                 setPdfData(response.data);
             })
@@ -23,7 +23,7 @@ const RightToService = () => {
 
     useEffect(() => {
         // Fetch data from the services API
-        axios.get('http://localhost:5000/api/righttoservices')
+        api.get('/righttoservices')
             .then(response => {
                 console.log("API response:", response.data); // Debug log to check response
                 setServices(response.data); // Assuming response.data is the array of services
@@ -104,7 +104,7 @@ const RightToService = () => {
                                         <td className="text-center">
                                             <div className="download-box">
                                                 <div className="icon-box">
-                                                    <Link to={`http://localhost:5000/${item.pdf_path}`} target="_blank">
+                                                    <Link to={`${baseURL}/${item.pdf_path}`} target="_blank">
                                                         <img width="25px" src={pdficon} alt="pdf_icon" />
                                                     </Link>
                                                 </div>

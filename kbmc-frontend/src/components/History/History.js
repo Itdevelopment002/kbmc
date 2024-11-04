@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import banner from "../../assets/images/banner/inner-banner.jpg";
 import "./History.css";
-import axios from "axios";
+import api, { baseURL } from "../api";
 
 const History = () => {
   const [historyData, setHistoryData] = useState([]);
@@ -9,7 +9,7 @@ const History = () => {
 
   const fetchHistoryData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/history");
+      const response = await api.get("/history");
       setHistoryData(response.data);
     } catch (error) {
       console.error("Error fetching history data:", error);
@@ -18,7 +18,7 @@ const History = () => {
 
   const fetchCeoData = async () => {
     try {
-      const response1 = await axios.get("http://localhost:5000/api/ceos");
+      const response1 = await api.get("/ceos");
       setCeoData(response1.data);
     } catch (error) {
       console.error("Error fetching CEO data:", error);
@@ -95,7 +95,7 @@ const History = () => {
                   <div className="inner-box">
                     <figure className="image-box">
                       <img
-                        src={`http://localhost:5000${ceoData[0].image_path}`}
+                        src={`${baseURL}${ceoData[0].image_path}`}
                         alt="ceo-img"
                       />
                     </figure>

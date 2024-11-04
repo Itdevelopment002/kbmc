@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
 
 const Electric = () => {
@@ -7,7 +7,7 @@ const Electric = () => {
 
   useEffect(() => {
     // Fetch electric data from the API
-    axios.get('http://localhost:5000/api/electric')
+    api.get('/electric')
       .then(response => {
         setElectricData(response.data);
       })

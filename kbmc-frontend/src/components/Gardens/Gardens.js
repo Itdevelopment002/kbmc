@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api, { baseURL } from "../api";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
@@ -17,8 +17,8 @@ const Gardens = () => {
   const fetchGardenData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/gardens");
-      setGardenData(response.data); // Assuming response.data is an array of gardens
+      const response = await api.get("/gardens");
+      setGardenData(response.data); 
     } catch (error) {
       console.error("Error fetching garden data:", error);
       setError("Failed to fetch garden data.");
@@ -112,12 +112,12 @@ const Gardens = () => {
                           {activeTab === `#tab-${index + 1}` && garden.images
                             ? JSON.parse(garden.images).map((img, imgIndex) => (
                                 <a
-                                  href={`http://localhost:5000${img}`}
+                                  href={`${baseURL}${img}`}
                                   className="glightbox col-sm-2"
                                   data-gallery="garden-images"
                                 >
                                   <img
-                                    src={`http://localhost:5000${img}`}
+                                    src={`${baseURL}${img}`}
                                     alt={`garden${index + 1}`}
                                     className="img-fluid"
                                   />

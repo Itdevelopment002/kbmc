@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
+import api, { baseURL } from "../../api";
 
 const Award = () => {
   const [awardData, setAwardData] = useState([]);
@@ -35,7 +35,7 @@ const Award = () => {
 
   const fetchAwardData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/awards");
+      const response = await api.get("/awards");
       setAwardData(response.data);
     } catch (error) {
       toast.error("Failed to fetch award data.");
@@ -44,8 +44,8 @@ const Award = () => {
 
   const fetchAwardImageData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/award-images"
+      const response = await api.get(
+        "/award-images"
       );
       setAwardImageData(response.data);
     } catch (error) {
@@ -58,10 +58,10 @@ const Award = () => {
   const handleDelete = async (id, type) => {
     try {
       if (type === "award") {
-        await axios.delete(`http://localhost:5000/api/awards/${id}`);
+        await api.delete(`/awards/${id}`);
         setAwardData((prevData) => prevData.filter((item) => item.id !== id));
       } else if (type === "awardImage") {
-        await axios.delete(`http://localhost:5000/api/award-images/${id}`);
+        await api.delete(`/award-images/${id}`);
         setAwardImageData((prevData) =>
           prevData.filter((item) => item.id !== id)
         );
@@ -86,7 +86,7 @@ const Award = () => {
         : { ...item }
     );
     setImagePreview(
-      type === "awardImage" ? `http://localhost:5000${item.image_path}` : ""
+      type === "awardImage" ? `${baseURL}${item.image_path}` : ""
     );
     setModalType(type);
     setShowEditModal(true);
@@ -103,7 +103,7 @@ const Award = () => {
   const handleSaveChanges = async () => {
     try {
       if (modalType === "award") {
-        await axios.put(`http://localhost:5000/api/awards/${selectedItem.id}`, {
+        await api.put(`/awards/${selectedItem.id}`, {
           heading: editData.heading,
           description: editData.description,
         });
@@ -125,8 +125,8 @@ const Award = () => {
           formData.append("awardImage", editData.imageFile);
         }
 
-        await axios.put(
-          `http://localhost:5000/api/award-images/${selectedItem.id}`,
+        await api.put(
+          `/award-images/${selectedItem.id}`,
           formData,
           {
             headers: {
@@ -138,7 +138,7 @@ const Award = () => {
           awardImageData.map((item) =>
             item.id === selectedItem.id ? { ...item, ...editData } : item
           )
-        ); // Update CO data locally
+        ); 
         fetchAwardImageData();
       }
       toast.success(
@@ -282,10 +282,10 @@ const Award = () => {
                                 <td>
                                   <a
                                     className="glightbox"
-                                    href={`http://localhost:5000${item.image_path}`}
+                                    href={`${baseURL}${item.image_path}`}
                                   >
                                     <img
-                                      src={`http://localhost:5000${item.image_path}`}
+                                      src={`${baseURL}${item.image_path}`}
                                       alt={item.coName}
                                       style={{
                                         width: "100px",

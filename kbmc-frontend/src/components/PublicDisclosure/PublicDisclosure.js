@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from "../api";
 import innerBanner from '../../assets/images/banner/inner-banner.jpg'; // Background image
 
 const PublicDisclosure = () => {
@@ -9,7 +9,7 @@ const PublicDisclosure = () => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/departments'); // Adjust this URL based on your setup
+      const response = await api.get('/departments'); // Adjust this URL based on your setup
       setDepartments(response.data);
     } catch (error) {
       console.error('Error fetching departments:', error);
@@ -25,7 +25,7 @@ const PublicDisclosure = () => {
   useEffect(() => {
     const fetchPubDepartments = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/public_disclosure'); // Adjust this URL based on your setup
+        const response = await api.get('/public_disclosure'); // Adjust this URL based on your setup
         setPubDepartments(response.data);
       } catch (error) {
         console.error('Error fetching departments:', error);

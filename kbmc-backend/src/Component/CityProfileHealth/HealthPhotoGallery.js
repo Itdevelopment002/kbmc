@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
+import api, { baseURL } from '../api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GLightbox from "glightbox";
@@ -32,7 +32,7 @@ const HealthPhotoGallery = () => {
   // GET Request to fetch all photos
   const fetchPhotos = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/health_photo_gallery');
+      const response = await api.get('/health_photo_gallery');
       setPhotos(response.data);
     } catch (error) {
       toast.error('Error fetching photos.');
@@ -47,7 +47,7 @@ const HealthPhotoGallery = () => {
       formData.append('image', img); // Image key as 'image' to match backend
 
       try {
-        const response = await axios.post('http://localhost:5000/api/health_photo_gallery', formData, {
+        const response = await api.post('/health_photo_gallery', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -78,8 +78,8 @@ const HealthPhotoGallery = () => {
     }
   
     try {
-      const response = await axios.put(
-        `http://localhost:5000/api/health_photo_gallery/${selectedPhoto.id}`,
+      const response = await api.put(
+        `/health_photo_gallery/${selectedPhoto.id}`,
         formData,
         {
           headers: {
@@ -102,7 +102,7 @@ const HealthPhotoGallery = () => {
   // DELETE Request to delete a photo by ID
   const handleDeletePhoto = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/health_photo_gallery/${id}`);
+      await api.delete(`/health_photo_gallery/${id}`);
       setPhotos(photos.filter(photo => photo.id !== id)); // Remove photo from state
       fetchPhotos();
       toast.success('Photo deleted successfully!');
@@ -142,13 +142,13 @@ const HealthPhotoGallery = () => {
                     <td>{photo.heading}</td>
                     <td>
                             <a
-                              href={`http://localhost:5000${photo.img_path}`}
+                              href={`${baseURL}${photo.img_path}`}
                               className="glightbox"
                               data-gallery="slider-images"
                             >
                               <img
                                 width="100px"
-                                src={`http://localhost:5000${photo.img_path}`}
+                                src={`${baseURL}${photo.img_path}`}
                                 alt={`photo${index + 1}`}
                               />
                             </a>

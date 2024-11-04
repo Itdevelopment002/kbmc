@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 
@@ -22,7 +22,7 @@ const PondsTalao = () => {
     // Fetch ponds data from the API
     const fetchPonds = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/ponds-talao"); // Update the endpoint as needed
+        const response = await api.get("/ponds-talao"); // Update the endpoint as needed
         setPonds(response.data);
       } catch (err) {
         setError(err.message);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useNavigate } from 'react-router-dom'; // Correctly import useNavigate
 
 const AddPropertyHolder = () => {
@@ -23,7 +23,7 @@ const AddPropertyHolder = () => {
     
     try {
       // Make a POST request to the backend API
-      const response = await axios.post('http://localhost:5000/api/property_holder', formData); // Adjusted URL to match your backend route
+      const response = await api.post('/property_holder', formData); // Adjusted URL to match your backend route
       
       console.log('Property holder added successfully:', response.data);
       

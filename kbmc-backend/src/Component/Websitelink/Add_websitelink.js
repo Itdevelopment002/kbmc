@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
-import axios from 'axios'; 
+import api from '../api'; 
 
 const Add_websitelink = () => {
     const [websitelink, setLink] = useState('');
@@ -20,7 +20,7 @@ const Add_websitelink = () => {
         formData.append('websitelogo', websitelogo); // Ensure key matches the server
 
         try {
-            const response = await axios.post('http://localhost:5000/api/websitelinks', formData, {
+            const response = await api.post('/websitelinks', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

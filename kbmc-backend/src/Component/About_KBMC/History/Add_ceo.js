@@ -1,7 +1,7 @@
 // src/components/AddCeo.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from "../../api"
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -35,7 +35,7 @@ const AddCeo = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/api/ceos', data, {
+            const response = await api.post('/ceos', data, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 

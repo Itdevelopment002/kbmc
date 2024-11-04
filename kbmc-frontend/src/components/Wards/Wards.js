@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
-import axios from 'axios'; 
+import api from '../api'; 
 
 const Wards = () => {
     const [wardData, setWardData] = useState([]);
 
     const fetchWardData = async () =>{
         try {
-            const response = await axios.get('http://localhost:5000/api/wards');
+            const response = await api.get('/wards');
             setWardData(response.data);
         } catch(error){
             console.error("Error fetching ward data");

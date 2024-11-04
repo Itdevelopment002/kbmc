@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import axios from "axios";
+import api, { baseURL } from '../../api';
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import Flatpickr from "react-flatpickr";
@@ -34,7 +34,7 @@ const PreviousPresidents = () => {
   // Fetch officers on component mount
   const fetchPresidents = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/presidents");
+      const response = await api.get("/presidents");
       setPresidents(response.data);
     } catch (error) {
       toast.error("Failed to fetch presidents.");
@@ -54,8 +54,8 @@ const PreviousPresidents = () => {
   // Confirm delete action and call API
   // Confirm delete action and call API
   const confirmDelete = () => {
-    axios
-      .delete(`http://localhost:5000/api/presidents/${selectedPresidentId}`)
+    api
+      .delete(`/presidents/${selectedPresidentId}`)
       .then(() => {
         setPresidents(
           presidents.filter((president) => president.id !== selectedPresidentId)
@@ -99,8 +99,8 @@ const PreviousPresidents = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:5000/api/presidents/${selectedPresidentId}`,
+      await api.put(
+        `/presidents/${selectedPresidentId}`,
         formData,
         {
           headers: {
@@ -211,13 +211,13 @@ const PreviousPresidents = () => {
                             </td>
                             <td>
                               <a
-                                href={`http://localhost:5000${president.image_path}`}
+                                href={`${baseURL}${president.image_path}`}
                                 className="glightbox"
                                 data-gallery="president-images"
                               >
                                 <img
                                   width="50px"
-                                  src={`http://localhost:5000${president.image_path}`}
+                                  src={`${baseURL}${president.image_path}`}
                                   alt={`president${index + 1}`}
                                 />
                               </a>
@@ -365,7 +365,7 @@ const PreviousPresidents = () => {
                   ) : (
                     editData.image_path && (
                       <img
-                        src={`http://localhost:5000${editData.image_path}`}
+                        src={`${baseURL}${editData.image_path}`}
                         alt="Current"
                         width="100"
                       />

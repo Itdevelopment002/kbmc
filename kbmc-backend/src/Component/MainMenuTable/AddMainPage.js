@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa'; // Importing a cross icon from react-icons
-import axios from 'axios'; // Import Axios for HTTP requests
+import api from '../api'; // Import api for HTTP requests
 import {useNavigate } from 'react-router-dom'; // Import useNavigate
 
 
@@ -19,7 +19,7 @@ const AddMainPage = () => {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/add-main-menu', { menuItems });
+      const response = await api.post('/add-main-menu', { menuItems });
       navigate('/');
       setMenuItems(initialMenuItems);
     } catch (err) {

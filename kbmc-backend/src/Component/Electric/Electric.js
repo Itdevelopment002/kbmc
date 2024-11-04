@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const Electric = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -14,7 +14,7 @@ const Electric = () => {
     useEffect(() => {
         const fetchElectricItems = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/electric'); // Make sure the URL matches your backend API
+                const response = await api.get('/electric'); // Make sure the URL matches your backend API
                 setElectricItems(response.data);
             } catch (error) {
                 console.error('Error fetching electric items:', error);
@@ -39,7 +39,7 @@ const Electric = () => {
     // Handle delete action
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/electric/${selectedItem}`); // Make sure the URL matches your backend API
+            await api.delete(`/electric/${selectedItem}`); // Make sure the URL matches your backend API
             setElectricItems(electricItems.filter(item => item.id !== selectedItem)); // Remove the item from state
             setShowDeleteModal(false);
             setSelectedItem(null);
@@ -51,7 +51,7 @@ const Electric = () => {
     // Handle edit form submission
     const handleEditSubmit = async () => {
         try {
-            await axios.put(`http://localhost:5000/api/electric/${editData.id}`, editData); // Make sure the URL matches your backend API
+            await api.put(`/electric/${editData.id}`, editData); // Make sure the URL matches your backend API
             setElectricItems(electricItems.map(item => item.id === editData.id ? editData : item)); // Update item in state
             setShowEditModal(false);
         } catch (error) {

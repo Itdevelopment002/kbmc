@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 
 const AddDepartments = () => {
   const [departmentName, setDepartmentName] = useState("");
@@ -13,7 +13,7 @@ const AddDepartments = () => {
     e.preventDefault();
     setErrorMessage(""); // Reset error message before form submission
     try {
-      const response = await axios.post('http://localhost:5000/api/departments', {
+      const response = await api.post('/departments', {
         name: departmentName,
         hod: departmentHod,
         link: departmentLink,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // For making the API request
+import api from '../../api'; // For making the API request
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'; // For navigation
@@ -17,7 +17,7 @@ const Add_history = () => {
         
         try {
             // Post the description to the server
-            await axios.post('http://localhost:5000/api/history', { description });
+            await api.post('/history', { description });
             toast.success("Description submitted successfully!");
             setTimeout(() => {
                 navigate('/History');

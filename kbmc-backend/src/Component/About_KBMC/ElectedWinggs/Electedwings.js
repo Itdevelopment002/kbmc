@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import axios from "axios";
+import api, { baseURL } from "../../api";
 import { toast, ToastContainer } from "react-toastify";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
@@ -36,8 +36,8 @@ function Electedwings() {
   // Fetch correspondents data when component mounts
   const fetchCorrespondents = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/elected-wings"
+      const response = await api.get(
+        "/elected-wings"
       );
       setCorrespondents(response.data);
     } catch (error) {
@@ -56,8 +56,8 @@ function Electedwings() {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(
-        `http://localhost:5000/api/elected-wings/${selectedCorrespondentId}`
+      await api.delete(
+        `/elected-wings/${selectedCorrespondentId}`
       );
       setCorrespondents(
         correspondents.filter(
@@ -99,8 +99,8 @@ function Electedwings() {
     }
 
     try {
-      await axios.put(
-        `http://localhost:5000/api/elected-wings/${selectedCorrespondentId}`,
+      await api.put(
+        `/elected-wings/${selectedCorrespondentId}`,
         formData,
         {
           headers: {
@@ -198,13 +198,13 @@ function Electedwings() {
                           <td>{index + 1}</td>
                           <td>
                             <a
-                              href={`http://localhost:5000${correspondent.image_path}`}
+                              href={`${baseURL}${correspondent.image_path}`}
                               className="glightbox"
                               data-gallery="correspondent-images"
                             >
                               <img
                                 width="50px"
-                                src={`http://localhost:5000${correspondent.image_path}`}
+                                src={`${baseURL}${correspondent.image_path}`}
                                 alt={`correspondent${index + 1}`}
                               />
                             </a>
@@ -350,7 +350,7 @@ function Electedwings() {
                 ) : (
                   editData.image_path && (
                     <img
-                      src={`http://localhost:5000${editData.image_path}`}
+                      src={`${baseURL}${editData.image_path}`}
                       alt="Current"
                       width="100"
                     />

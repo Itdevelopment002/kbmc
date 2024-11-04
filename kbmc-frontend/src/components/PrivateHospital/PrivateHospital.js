@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 import bannerImage from "../../assets/images/banner/inner-banner.jpg"; 
 
 const PrivateHospital = () => {
@@ -8,7 +8,7 @@ const PrivateHospital = () => {
 
   const fetchHospitals = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/private-hospital");
+      const response = await api.get("/private-hospital");
       const hospitals = response.data;
       const eastDivisionHospitals = hospitals.filter(hospital => hospital.division === "East");
       const westDivisionHospitals = hospitals.filter(hospital => hospital.division === "West");

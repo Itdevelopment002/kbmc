@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
@@ -7,11 +7,11 @@ import img2 from "../../assets/images/town-planning/01-Mankivali.jpg";
 import img3 from "../../assets/images/town-planning/02-Badlapur-1.jpg";
 import img4 from "../../assets/images/town-planning/03-Katrap.jpg";
 import img5 from "../../assets/images/town-planning/04-Joveli.jpg";
-import img6 from "../../assets/images/town-planning/05-Yernzad.jpg"
-import img7 from "../../assets/images/town-planning/06-Badlapur-2.jpg"
-import img8 from "../../assets/images/town-planning/07-Valivli.jpg"
-import img9 from "../../assets/images/town-planning/08-Belavali.jpg"
-import img10 from "../../assets/images/town-planning/09-Manjarli.jpg"
+import img6 from "../../assets/images/town-planning/05-Yernzad.jpg";
+import img7 from "../../assets/images/town-planning/06-Badlapur-2.jpg";
+import img8 from "../../assets/images/town-planning/07-Valivli.jpg";
+import img9 from "../../assets/images/town-planning/08-Belavali.jpg";
+import img10 from "../../assets/images/town-planning/09-Manjarli.jpg";
 import img11 from "../../assets/images/town-planning/10-Sonivali.jpg";
 import img12 from "../../assets/images/town-planning/11-Kharvai.jpg";
 import img13 from "../../assets/images/town-planning/12-Shirgaon-2.jpg";
@@ -22,18 +22,34 @@ import pdf2 from "../../assets/images/town-planning/pdf/01-Mankivali.pdf";
 import pdf3 from "../../assets/images/town-planning/pdf/02-Badlapur-1.pdf";
 import pdf4 from "../../assets/images/town-planning/pdf/03-Katrap.pdf";
 import pdf5 from "../../assets/images/town-planning/pdf/04-Joveli.pdf";
-import pdf6 from "../../assets/images/town-planning/pdf/05-Yernzad.pdf"
-import pdf7 from "../../assets/images/town-planning/pdf/06-Badlapur-2.pdf"
-import pdf8 from "../../assets/images/town-planning/pdf/07-Valivli.pdf"
-import pdf9 from "../../assets/images/town-planning/pdf/08-Belavali.pdf"
-import pdf10 from "../../assets/images/town-planning/pdf/09-Manjarli.pdf"
+import pdf6 from "../../assets/images/town-planning/pdf/05-Yernzad.pdf";
+import pdf7 from "../../assets/images/town-planning/pdf/06-Badlapur-2.pdf";
+import pdf8 from "../../assets/images/town-planning/pdf/07-Valivli.pdf";
+import pdf9 from "../../assets/images/town-planning/pdf/08-Belavali.pdf";
+import pdf10 from "../../assets/images/town-planning/pdf/09-Manjarli.pdf";
 import pdf11 from "../../assets/images/town-planning/pdf/10-Sonivali.pdf";
 import pdf12 from "../../assets/images/town-planning/pdf/11-Kharvai.pdf";
 import pdf13 from "../../assets/images/town-planning/pdf/12-Shirgaon-2.pdf";
 import pdf14 from "../../assets/images/town-planning/pdf/13-Shirgaon-02.pdf";
 import pdf15 from "../../assets/images/town-planning/pdf/14-Kulgaon.pdf";
+import api from "../api";
 
 const TownPlanning = () => {
+  const [departments, setDepartments] = useState([]);
+
+  const fetchDepartments = async () => {
+    try {
+      const response = await api.get("/departments");
+      setDepartments(response.data);
+    } catch (error) {
+      console.error("Error fetching departments data");
+    }
+  };
+
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
+
   useEffect(() => {
     const lightbox = GLightbox({
       selector: ".glightbox",
@@ -108,15 +124,11 @@ const TownPlanning = () => {
                         href={img1}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className=""
+                        className="glightbox"
                       >
-                        <img
-                          src={img1}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Badlapur</h6>
+                        <img src={img1} alt="" className="img-fluid" />
                       </a>
+                      <h6 className="text-center">Badlapur</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf1}
@@ -133,15 +145,11 @@ const TownPlanning = () => {
                         href={img2}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className=""
+                        className="glightbox"
                       >
-                        <img
-                          src={img2}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Mankivali</h6>
+                        <img src={img2} alt="" className="img-fluid" />
                       </a>
+                      <h6 className="text-center">Mankivali</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf2}
@@ -158,15 +166,11 @@ const TownPlanning = () => {
                         href={img3}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="glightbox col-sm-3"
                       >
-                        <img
-                          src={img3}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Badlapur</h6>
+                        <img src={img3} alt="" className="img-fluid" />
                       </a>
+                      <h6 className="text-center">Badlapur</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf3}
@@ -183,15 +187,11 @@ const TownPlanning = () => {
                         href={img4}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="glightbox col-sm-3"
                       >
-                        <img
-                          src={img4}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Katrap</h6>
+                        <img src={img4} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Katrap</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf4}
@@ -210,15 +210,11 @@ const TownPlanning = () => {
                         href={img5}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img5}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Joveli</h6>
+                        <img src={img5} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Joveli</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf5}
@@ -235,15 +231,11 @@ const TownPlanning = () => {
                         href={img6}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img6}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Yernzad</h6>
+                        <img src={img6} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Yernzad</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf6}
@@ -260,15 +252,11 @@ const TownPlanning = () => {
                         href={img7}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img7}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Badlapur</h6>
+                        <img src={img7} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Badlapur</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf7}
@@ -285,15 +273,11 @@ const TownPlanning = () => {
                         href={img8}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img8}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Valivli</h6>
+                        <img src={img8} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Valivli</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf8}
@@ -312,15 +296,11 @@ const TownPlanning = () => {
                         href={img9}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img9}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Belavali</h6>
+                        <img src={img9} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Belavali</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf9}
@@ -337,15 +317,11 @@ const TownPlanning = () => {
                         href={img10}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img10}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Manjarli</h6>
+                        <img src={img10} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Manjarli</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf10}
@@ -362,15 +338,11 @@ const TownPlanning = () => {
                         href={img11}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img11}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Sonivali</h6>
+                        <img src={img11} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Sonivali</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf11}
@@ -387,15 +359,11 @@ const TownPlanning = () => {
                         href={img12}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img12}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Kharvai</h6>
+                        <img src={img12} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Kharvai</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf12}
@@ -414,15 +382,11 @@ const TownPlanning = () => {
                         href={img13}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img13}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Shirgaon</h6>
+                        <img src={img13} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Shirgaon</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf13}
@@ -439,15 +403,11 @@ const TownPlanning = () => {
                         href={img14}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img14}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Shirgaon</h6>
+                        <img src={img14} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Shirgaon</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf14}
@@ -464,20 +424,16 @@ const TownPlanning = () => {
                         href={img15}
                         data-toggle="lightbox"
                         data-gallery="example-gallery"
-                        className="col-sm-3"
+                        className="col-sm-3 glightbox"
                       >
-                        <img
-                          src={img15}
-                          alt=""
-                          className="img-fluid"
-                        />
-                        <h6 className="text-center">Kulgaon</h6>
+                        <img src={img15} alt="" className="img-fluid" />
                       </a>
+                        <h6 className="text-center">Kulgaon</h6>
                       <div className="pdf-dwnl">
                         <a
                           href={pdf15}
                           download
-                          target="_blank" 
+                          target="_blank"
                           rel="noreferrer"
                         >
                           <i className="fa fa-download"></i>
@@ -493,110 +449,12 @@ const TownPlanning = () => {
                 <div className="category-widget">
                   <div className="widget-content">
                     <ul className="category-list clearfix">
-                      <li>
-                        {" "}
-                        <a href="/general-admin-dept">
-                          General Admin Department
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/audit-dept">Audit Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/tax-department">Tax Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/account-department">Account Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/town-planning">Town Planning</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/electrical-department">
-                          Electrical Department
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/public-work-department">
-                          Public Work Department (PWD)
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/income-dept">Milkat (Income)</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/egovernance-dept">E-Governance Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/health-department">Health Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/wcd">WCD (Women and Child Development)</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/advertisement-dept">
-                          Advertisement Department
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/education-department">Education Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/#">Security Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/vehicle-dept">Vehicle Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/nulm-department">NULM Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/hospital-department">Hospital Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/fire-department">Fire Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/legal-dept">Legal Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/disability-welfare-dept">
-                          Disability Welfare
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/#">Store &amp; Records Department</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/#">Marriage Registration</a>
-                      </li>
-                      <li>
-                        {" "}
-                        <a href="/birth-death-department">
-                          Birth &amp; Death Department
-                        </a>
-                      </li>
+                      {departments.map((department, index) => (
+                        <li key={index}>
+                          {" "}
+                          <a href={department.link}>{department.name}</a>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>

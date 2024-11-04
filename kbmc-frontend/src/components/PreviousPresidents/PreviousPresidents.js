@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import axios from "axios";
+import api from "../api";
 
 const PreviousPresidents = () => {
   const [presidents, setPresidents] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   const fetchPresidents = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/presidents");
+      const response = await api.get("/presidents");
       setPresidents(response.data);
     } catch (error) {
       console.error("Error fetching previous president data");
@@ -17,6 +19,19 @@ const PreviousPresidents = () => {
   useEffect(() => {
     fetchPresidents();
   }, []);
+
+  const totalPages = Math.ceil(presidents.length / itemsPerPage);
+
+  // Get current page departments
+  const currentPresidents = presidents.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -61,7 +76,7 @@ const PreviousPresidents = () => {
               <div className="event-details-content">
                 <div className="content-three">
                   <div className="row clearfix">
-                    {presidents.map((president, index) => (
+                    {currentPresidents.map((president, index) => (
                       <div
                         className="col-lg-3 col-md-6 col-sm-12 single-column"
                         key={index}
@@ -82,6 +97,48 @@ const PreviousPresidents = () => {
               </div>
             </div>
           </div>
+          <div className="pagination-wrapper centred">
+          <ul className="pagination clearfix">
+            <li>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage > 1) setCurrentPage(currentPage - 1);
+                }}
+                className={currentPage === 1 ? "disabled" : ""}
+              >
+                <i className="flaticon-right-chevron"></i>
+              </a>
+            </li>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <li key={i}>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCurrentPage(i + 1);
+                  }}
+                  className={currentPage === i + 1 ? "current" : ""}
+                >
+                  {i + 1}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                }}
+                className={currentPage === totalPages ? "disabled" : ""}
+              >
+                <i className="flaticon-right-chevron"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
         </div>
       </section>
     </div>

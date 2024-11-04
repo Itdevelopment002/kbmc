@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Table, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const Departments = () => {
   const [departments, setDepartments] = useState([]);
@@ -20,7 +20,7 @@ const Departments = () => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/departments');
+      const response = await api.get('/departments');
       setDepartments(response.data);
     } catch (error) {
       console.error('Error fetching departments:', error);
@@ -34,7 +34,7 @@ const Departments = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/departments/${selectedDepartment}`);
+      await api.delete(`/departments/${selectedDepartment}`);
       console.log(`Deleted department with ID: ${selectedDepartment}`);
       setShowDeleteModal(false);
       fetchDepartments(); // Refresh the department list after deletion
@@ -53,7 +53,7 @@ const Departments = () => {
 
   const confirmEdit = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/departments/${selectedDepartment}`, {
+      await api.put(`/departments/${selectedDepartment}`, {
         name: editedName,
         hod: editedHod,
         link: editedLink,

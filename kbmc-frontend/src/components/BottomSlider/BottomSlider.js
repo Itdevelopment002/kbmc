@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './BottomSlider.css'
-import axios from 'axios';
+import api, { baseURL } from '../api';
 
 
 // Custom Next Arrow
@@ -32,7 +32,7 @@ const BottomSlider = () => {
 
   const fetchWebsites = async ()=>{
     try{
-      const response = await axios.get("http://localhost:5000/api/websitelinks");
+      const response = await api.get("/websitelinks");
       setWebsites(response.data);
     } catch(error){
       console.error("Error fetching website data");
@@ -90,7 +90,7 @@ const BottomSlider = () => {
             {websites.map((website, index) => (
               <div key={index}  className="logo-slide">
                 <a href={website.websitelink} target="_blank" rel="noopener noreferrer">
-                  <img src={`http://localhost:5000${website.websitelogo}`} alt={`logo-${index + 1}`} />
+                  <img src={`${baseURL}${website.websitelogo}`} alt={`logo-${index + 1}`} />
                 </a>
               </div>
             ))}

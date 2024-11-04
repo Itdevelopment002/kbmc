@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom'; // Correctly import useNavigate
-import axios from "axios"; // Import Axios
+import api from "../api"; // Import Axios
 
 const AddMunicipalProperties = () => {
   // State to store form data
@@ -24,7 +24,7 @@ const AddMunicipalProperties = () => {
     console.log("Form Data Submitted:", formData);
     
     try {
-      const response = await axios.post('http://localhost:5000/api/muncipal', formData); // Make the API call
+      const response = await api.post('/muncipal', formData); // Make the API call
       console.log("Property holder added:", response.data);
       navigate('/municipal-properties'); // Redirect to the municipal properties list
       

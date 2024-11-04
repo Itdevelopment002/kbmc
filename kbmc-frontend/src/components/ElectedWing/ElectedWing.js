@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg"; // Background image
-import axios from "axios";
+import api, { baseURL } from "../api";
 
 const ElectedWing = () => {
   const [electedData, setElectedData] = useState([]);
 
   const fetchElectedData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/elected-wings"
+      const response = await api.get(
+        "/elected-wings"
       );
       setElectedData(response.data);
     } catch (error) {
@@ -75,7 +75,7 @@ const ElectedWing = () => {
                   <div className="inner-box">
                     <figure className="image-box">
                       <img
-                        src={`http://localhost:5000${data.image_path}`}
+                        src={`${baseURL}${data.image_path}`}
                         alt="Correspondent Img"
                       />
                     </figure>

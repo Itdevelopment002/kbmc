@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../../api';
 
 function Generaladmindepartment() {
   const [headings, setHeadings] = useState([]);
@@ -22,7 +22,7 @@ function Generaladmindepartment() {
 
   const fetchHeadings = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/generaladmindepartment');
+      const response = await api.get('/generaladmindepartment');
       setHeadings(response.data);
     } catch (error) {
       console.error('Error fetching headings:', error);
@@ -50,7 +50,7 @@ function Generaladmindepartment() {
 
     try {
       for (let heading of newHeadingsData) {
-        await axios.post('http://localhost:5000/api/generaladmindepartment', {
+        await api.post('/generaladmindepartment', {
           departments_heading: heading,
         });
       }
@@ -69,7 +69,7 @@ function Generaladmindepartment() {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/generaladmindepartment/${editingId}`, {
+      await api.put(`/generaladmindepartment/${editingId}`, {
         departments_heading: editingTitle,
       });
       fetchHeadings();
@@ -83,7 +83,7 @@ function Generaladmindepartment() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/generaladmindepartment/${id}`);
+      await api.delete(`/generaladmindepartment/${id}`);
       fetchHeadings();
       setShowDeleteModal(false);
     } catch (error) {

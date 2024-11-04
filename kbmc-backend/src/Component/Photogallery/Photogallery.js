@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api, { baseURL } from "../api";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import GLightbox from "glightbox";
@@ -30,7 +30,7 @@ const Photogallery = () => {
 
   const fetchGallerys = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/gallerys");
+      const response = await api.get("/gallerys");
       setGallerys(response.data);
     } catch (error) {
       console.error("Error fetching gallerys:", error);
@@ -44,8 +44,8 @@ const Photogallery = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(
-        `http://localhost:5000/api/gallerys/${selectedGallery.id}`
+      await api.delete(
+        `/gallerys/${selectedGallery.id}`
       );
       setGallerys(
         gallerys.filter((gallery) => gallery.id !== selectedGallery.id)
@@ -79,8 +79,8 @@ const Photogallery = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:5000/api/gallerys/${selectedGallery.id}`,
+      await api.put(
+        `/gallerys/${selectedGallery.id}`,
         formData,
         {
           headers: {
@@ -153,13 +153,13 @@ const Photogallery = () => {
                           <td>{gallery.photo_name}</td>
                           <td>
                             <a
-                              href={`http://localhost:5000${gallery.file_path}`}
+                              href={`${baseURL}${gallery.file_path}`}
                               className="glightbox"
                               data-gallery="gallery-images"
                             >
                               <img
                                 width="200px"
-                                src={`http://localhost:5000${gallery.file_path}`}
+                                src={`${baseURL}${gallery.file_path}`}
                                 alt={`gallery${index + 1}`}
                               />
                             </a>
@@ -261,7 +261,7 @@ const Photogallery = () => {
                       />
                     ) : (
                       <img
-                        src={`http://localhost:5000${selectedGallery.file_path}`}
+                        src={`${baseURL}${selectedGallery.file_path}`}
                         alt="Stored"
                         width="200"
                         className="img-thumbnail"

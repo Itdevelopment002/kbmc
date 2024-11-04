@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -33,7 +33,7 @@ const Add_homevideo = () => {
     };
 
     try {
-      await axios.post('http://localhost:5000/api/home-videos', videoData);
+      await api.post('/home-videos', videoData);
       toast.success('Video added successfully!');
       setDescription('');
       setPublishDate('');

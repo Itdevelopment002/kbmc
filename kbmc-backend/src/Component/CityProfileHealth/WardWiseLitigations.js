@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -22,7 +22,7 @@ const WardWiseLitigations = () => {
 
   const fetchLitigations = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/litigations');
+      const response = await api.get('/litigations');
       setLitigations(response.data);
     } catch (error) {
       toast.error('Error fetching litigations.');
@@ -33,7 +33,7 @@ const WardWiseLitigations = () => {
     if (wardNo && nameLawsuit && mobNo) {
       const newLitigation = { ward_no: wardNo, name_lawsuit: nameLawsuit, mob_no: mobNo };
       try {
-        const response = await axios.post('http://localhost:5000/api/litigations', newLitigation);
+        const response = await api.post('/litigations', newLitigation);
         setLitigations([...litigations, response.data]);
         setWardNo('');
         setNameLawsuit('');
@@ -53,7 +53,7 @@ const WardWiseLitigations = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/litigations/${selectedLitigation.id}`);
+      await api.delete(`/litigations/${selectedLitigation.id}`);
       setLitigations(litigations.filter(litigation => litigation.id !== selectedLitigation.id));
       toast.success('Litigation deleted successfully!');
     } catch (error) {
@@ -70,7 +70,7 @@ const WardWiseLitigations = () => {
 
   const handleEditSubmit = async () => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/litigations/${editData.id}`, {
+      const response = await api.put(`/litigations/${editData.id}`, {
         ward_no: editData.ward_no,
         name_lawsuit: editData.name_lawsuit,
         mob_no: editData.mob_no

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
 
 const Roads = () => {
@@ -10,7 +10,7 @@ const Roads = () => {
   useEffect(() => {
     const fetchRoads = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/roads'); // Adjust API endpoint as needed
+        const response = await api.get('/roads'); // Adjust API endpoint as needed
         setRoads(response.data);
       } catch (err) {
         setError('Error fetching road data');

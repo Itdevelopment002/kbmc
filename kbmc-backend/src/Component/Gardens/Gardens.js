@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { FaTimes } from 'react-icons/fa'; // Import a cross icon for the remove button
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
+import api, { baseURL } from '../api';
 
 const Gardens = () => {
     const [gardensData, setGardensData] = useState([]); // State to hold garden data
@@ -29,7 +29,7 @@ const Gardens = () => {
     useEffect(() => {
         const fetchGardens = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/gardens'); // Replace with your API endpoint
+                const response = await api.get('/gardens'); // Replace with your API endpoint
                 setGardensData(response.data); // Set the fetched data
             } catch (error) {
                 console.error('Error fetching gardens data:', error);
@@ -83,10 +83,10 @@ const Gardens = () => {
             });
 
             // Send a request to update the garden
-            await axios.put(`http://localhost:5000/api/gardens/${selectedGarden.id}`, formData); // Replace with your API endpoint
+            await api.put(`/gardens/${selectedGarden.id}`, formData); // Replace with your API endpoint
 
             // Fetch updated gardens data
-            const response = await axios.get('http://localhost:5000/api/gardens'); // Replace with your API endpoint
+            const response = await api.get('/gardens'); // Replace with your API endpoint
             setGardensData(response.data); // Update state with new data
 
             setShowEditModal(false);
@@ -101,7 +101,7 @@ const Gardens = () => {
 
     const handleDeleteConfirm = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/gardens/${selectedGarden.id}`); // Delete the selected garden
+            await api.delete(`/gardens/${selectedGarden.id}`); // Delete the selected garden
             setGardensData(gardensData.filter(garden => garden.id !== selectedGarden.id)); // Update state to remove deleted garden
             handleCloseDeleteModal(); // Close modal
         } catch (error) {
@@ -164,7 +164,7 @@ const Gardens = () => {
                                                             {JSON.parse(garden.images).map((img, imgIndex) => (
                                                                 <div key={imgIndex} className="position-relative me-2">
                                                                     <img
-                                                                        src={`http://localhost:5000${img}`}
+                                                                        src={`${baseURL}${img}`}
                                                                         alt=""
                                                                         className="glightbox"
                                                                         style={{ width: '50px', height: '50px', marginRight: '5px' }} // Removed data-title attribute
@@ -224,7 +224,7 @@ const Gardens = () => {
                                     {currentImages.map((img, index) => (
                                         <div key={index} className="position-relative me-2">
                                             <img
-                                                src={`http://localhost:5000${img}`}
+                                                src={`${baseURL}${img}`}
                                                 alt={`Uploaded Image ${index}`}
                                                 style={{ width: '50px', height: '50px', marginRight: '5px' }}
                                             />
