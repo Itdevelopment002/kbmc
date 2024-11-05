@@ -1,7 +1,42 @@
+/* Header.css */
+
+/* Make the navbar sticky */
 .navbar {
-  height: auto;
-    position: sticky !important; /* Make the navbar sticky */
-    top: 0; /* Stick to the top */
-    z-index: 1000; /* Ensure it's on top of other content */
-  }
-  
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.notification-icon {
+  cursor: pointer;
+}
+
+.notification-dropdown {
+  width: 300px;
+  border-radius: 5px;
+  position: absolute;
+  top: 210%;
+  right: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.admin-profile {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  min-width: 200px;
+  right: 0;
+  left: auto;
+  border-radius: 5px;
+}
