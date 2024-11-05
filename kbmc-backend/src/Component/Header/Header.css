@@ -1,10 +1,9 @@
-/* Header.css */
 
-/* Make the navbar sticky */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
 }
 
 .notification-icon {
@@ -19,6 +18,7 @@
   right: 0;
   max-height: 300px;
   overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Improved shadow for dropdown */
 }
 
 .notification-item {
@@ -39,4 +39,11 @@
   right: 0;
   left: auto;
   border-radius: 5px;
+}
+
+
+@media (max-width: 768px) {
+  .notification-dropdown {
+    width: 80vw; 
+  }
 }

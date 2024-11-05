@@ -1,74 +1,35 @@
-/* .nice-select {
-    position: relative;
-    background: transparent;
-    border: none;
-    font-size: 14px;
-    font-weight: 400;
-    padding: 0px;
-    padding-right: 20px;
-    height: auto;
-    line-height: 28px;
-}
- */
-
- /* General layout styles */
-
- /* .mobile-menu {
-    display: none;
-    position: fixed;
-    right: -100%;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background-color: #fff;
-    transition: right 0.4s ease;
-    overflow-y: auto; 
-}
-
-body .mobile-menu {
-    display: block;
-    right: 0;
-} */
-
-
-
-/* Mobile Menu Scroll Fix */
 .mobile-menu {
-    max-height: 100vh; /* Limits height to the full screen */
-    overflow-y: auto; /* Enable vertical scroll */
-    -webkit-overflow-scrolling: touch; /* Enables smooth scrolling on touch devices */
+    max-height: 100vh; 
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch; 
 }
 
 
-/* Mobile Menu Submenu with Scroll */
 .mobile-menu li ul {
-    max-height: auto; /* Fixed height of 60px for the submenu */
-    overflow-y: auto; /* Enable vertical scroll when content exceeds 60px */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile devices */
-    scrollbar-width: thin; /* Thinner scrollbar for Firefox */
+    max-height: auto; 
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch; 
+    scrollbar-width: thin; 
 }
 
-/* Optional: Style the scrollbar for WebKit browsers (Chrome, Safari, etc.) */
 .mobile-menu li ul::-webkit-scrollbar {
-    width: 6px; /* Set the width of the scrollbar */
+    width: 6px; 
 }
 
 .mobile-menu li ul::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.3); /* Scrollbar color */
-    border-radius: 10px; /* Rounded scrollbar thumb */
+    background-color: rgba(0, 0, 0, 0.3); 
+    border-radius: 10px;
 }
 
 .mobile-menu li ul::-webkit-scrollbar-track {
-    background-color: transparent; /* Track background color */
+    background-color: transparent; 
 }
 .mobile-menu li.dropdown ul {
-    overflow: hidden; /* Prevent scrolling */
+    overflow: hidden; 
 }
 
-/* Optional: For a smoother appearance */
 .mobile-menu li.dropdown ul::-webkit-scrollbar {
-    display: none; /* Hide scrollbar in WebKit browsers */
+    display: none;
 }
 
 
