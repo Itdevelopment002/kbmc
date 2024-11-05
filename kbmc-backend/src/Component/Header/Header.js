@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaBell, FaUserCircle, FaChevronDown } from 'react-icons/fa';
-import './Header.css';
+// import './Header.css';
 
 const Header = () => {
   const [notificationsVisible, setNotificationsVisible] = useState(false);

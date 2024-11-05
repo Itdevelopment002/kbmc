@@ -146,8 +146,7 @@ const MainMenuTable = () => {
                     ? item.subMenus[0].subLink
                     : "No sub link"}
                 </td>
-                <td rowSpan={item.subMenus ? item.subMenus.length : 1}>
-                  {/* Buttons only appear once per main menu item */}
+                <td rowSpan={item.subMenus && item.subMenus.length > 0 ? item.subMenus.length : 1}>
                   <Button
                     variant="success"
                     onClick={() => handleEditClick(item)}
@@ -161,6 +160,7 @@ const MainMenuTable = () => {
                     Delete
                   </Button>
                 </td>
+
               </tr>
 
               {/* Additional rows for submenus */}
@@ -172,7 +172,7 @@ const MainMenuTable = () => {
                     <td></td>
                     <td>{sub.subMenu}</td>
                     <td>
-                        {sub.subLink}
+                      {sub.subLink}
                     </td>
                   </tr>
                 ))}

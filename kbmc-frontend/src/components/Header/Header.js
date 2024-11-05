@@ -29,60 +29,61 @@ const Header = () => {
 
   useEffect(() => {
     if ($(".mobile-menu").length) {
-      const mobileMenuContent = $(".main-header .menu-area .main-menu").html();
-      $(".mobile-menu .menu-box .menu-outer").append(mobileMenuContent);
-      $(".sticky-header .main-menu").append(mobileMenuContent);
+        // Clear previous content and add new menu content
+        const mobileMenuContent = $(".main-header .menu-area .main-menu").html();
+        $(".mobile-menu .menu-box .menu-outer").html(mobileMenuContent);
+        $(".sticky-header .main-menu").html(mobileMenuContent);
 
-      $(".mobile-menu li.dropdown .dropdown-btn").each(function () {
-        const $this = $(this);
-        $this.addClass("open");
-        $this.prev("ul").slideDown(0);
-        $this.find(".fas").addClass("rotate-icon");
-      });
+        // Toggle dropdowns in the mobile menu
+        $(".mobile-menu").on("click", "li.dropdown .dropdown-btn", function (e) {
+            e.stopPropagation();
+            const $this = $(this);
+            const $dropdownMenu = $this.prev("ul");
 
-      $(".mobile-menu li.dropdown .dropdown-btn").on("click", function (e) {
-        e.stopPropagation();
+            if ($this.hasClass("open")) {
+                $this.removeClass("open");
+                $dropdownMenu.slideUp(500);
+                $this.find(".fas").removeClass("rotate-icon");
+            } else {
+                $(".mobile-menu li.dropdown .dropdown-btn.open").removeClass("open").prev("ul").slideUp(500).find(".fas").removeClass("rotate-icon");
+                $this.addClass("open");
+                $dropdownMenu.slideDown(500);
+                $this.find(".fas").addClass("rotate-icon");
+            }
+        });
 
-        const $this = $(this);
-        const $dropdownMenu = $this.prev("ul");
+        // Open the mobile menu
+        $(".mobile-nav-toggler").on("click", function () {
+            $("body").addClass("mobile-menu-visible");
+            $(".mobile-menu").addClass("visible");
+        });
 
-        if ($this.hasClass("open")) {
-          return;
-        } else {
-          $(".mobile-menu li.dropdown .dropdown-btn.open").each(function () {
-            $(this).removeClass("open");
-            $(this).prev("ul").slideUp(500);
-            $(this).find(".fas").removeClass("rotate-icon");
-          });
+        // Close the mobile menu
+        $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").on("click", function () {
+            $("body").removeClass("mobile-menu-visible");
+            $(".mobile-menu").removeClass("visible");
 
-          $this.addClass("open");
-          $dropdownMenu.slideDown(500);
-          $this.find(".fas").addClass("rotate-icon");
-        }
-      });
+            $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
+            $(".mobile-menu li.dropdown ul").slideUp(500);
+        });
 
-      $(".mobile-nav-toggler").on("click", function () {
-        $("body").addClass("mobile-menu-visible");
-        $(".mobile-menu").addClass("visible");
-      });
+        // Close dropdowns when clicking outside
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest(".mobile-menu").length) {
+                $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
+                $(".mobile-menu li.dropdown ul").slideUp(500);
+            }
+        });
 
-      $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").on(
-        "click",
-        function () {
-          $("body").removeClass("mobile-menu-visible");
-          $(".mobile-menu").removeClass("visible");
-
-          $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
-          $(".mobile-menu li.dropdown li.dropdown-btn ul").slideUp(500);
-        }
-      );
-
-      $(document).on("click", function () {
-        $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
-        $(".mobile-menu li.dropdown ul").slideUp(500);
-      });
+        // Cleanup function to remove event listeners
+        return () => {
+            $(".mobile-menu").off("click", "li.dropdown .dropdown-btn");
+            $(".mobile-nav-toggler").off("click");
+            $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").off("click");
+            $(document).off("click");
+        };
     }
-  }, []);
+}, [menuData]);
 
   return (
     <>
@@ -220,13 +221,12 @@ const Header = () => {
                   >
                     <ul className="navigation clearfix">
                       {menuData.map((menuItem, index) => {
-                        // Check if the main menu item should be active
                         const isMainMenuActive =
                           (location.pathname === "/" &&
                             menuItem.mainMenu === "Home") ||
                           menuItem.subMenus.some(
                             (subMenuItem) =>
-                              location.pathname.endsWith(subMenuItem.subLink) // Ensure correct match
+                              location.pathname.endsWith(subMenuItem.subLink)
                           );
 
                         return (
@@ -234,7 +234,7 @@ const Header = () => {
                             key={index}
                             className={`${
                               menuItem.subMenus.length ? "dropdown" : ""
-                            } ${isMainMenuActive ? "current" : ""}`} // Only main menu is marked active
+                            } ${isMainMenuActive ? "current" : ""}`}
                           >
                             <a href={menuItem.mainMenu === "Home" ? "/" : "#"}>
                               {menuItem.mainMenu}
@@ -277,16 +277,16 @@ const Header = () => {
                           </li>
                         );
                       })}
+                      <div className="menu-right-content">
+                        <div className="btn-box">
+                          <a href="#." className="header-btn">
+                            Login
+                          </a>
+                        </div>
+                      </div>
                     </ul>
                   </div>
                 </nav>
-                <div className="menu-right-content">
-                  <div className="btn-box">
-                    <a href="#." className="header-btn">
-                      Login
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -342,11 +342,7 @@ const Header = () => {
           <nav className="menu-box">
             <div className="nav-logo">
               <a href="#.">
-                <img
-                  src="assets/images/KBMC-logo-1-edited2.png"
-                  alt=""
-                  title=""
-                />
+                <img src={img3} alt="KBMC Logo" title="KBMC Logo" />
               </a>
             </div>
 
@@ -355,228 +351,69 @@ const Header = () => {
               id="navbarSupportedContent"
             >
               <ul className="navigation clearfix">
-                <li className="current">
-                  <a href="/">Home</a>
-                </li>
-                <li className="dropdown">
-                  <a href="#.">About KBMC</a>
-                  <ul>
-                    <li>
-                      <a href="/history">History</a>
-                    </li>
-                    <li>
-                      <a href="/ward">Wards</a>
-                    </li>
-                    <li>
-                      <a href="/elected-member">Elected Wing</a>
-                    </li>
-                    <li>
-                      <a href="/org-structure">Organization Structure</a>
-                    </li>
-                    <li>
-                      <a href="/functions">Functions</a>
-                    </li>
-                    <li>
-                      <a href="/departments">Departments</a>
-                    </li>
-                    <li>
-                      <a href="/elected-pre-officer">Previous Chief Officers</a>
-                    </li>
-                    <li>
-                      <a href="/elected-pre-representative">
-                        Previous Presidents
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/awards">Awards</a>
-                    </li>
-                  </ul>
-                  <div className="dropdown-btn">
-                    <span className="fas fa-angle-down"></span>
-                  </div>
-                </li>
-                <li className="dropdown">
-                  <a href="#.">City Profile</a>
-                  <ul>
-                    <li>
+                {menuData.map((menuItem, index) => {
+                  const isMainMenuActive =
+                    (location.pathname === "/" &&
+                      menuItem.mainMenu === "Home") ||
+                    menuItem.subMenus.some((subMenuItem) =>
+                      location.pathname.endsWith(subMenuItem.subLink)
+                    );
+
+                  return (
+                    <li
+                      key={index}
+                      className={`${
+                        menuItem.subMenus.length ? "dropdown" : ""
+                      } ${isMainMenuActive ? "current" : ""}`}
+                    >
                       <a
-                        href="assets/documents/KBMC CIRCULATION A3 COLOR-Brown-24 (1).pdf"
-                        target="_blank"
-                        rel="noreferrer"
+                        href={menuItem.mainMenu === "Home" ? "/" : "#"}
                       >
-                        Areas
+                        {menuItem.mainMenu}
                       </a>
+
+                      {menuItem.subMenus.length > 0 &&
+                        
+                        (
+                          <ul>
+                            {menuItem.subMenus.map((subMenuItem, subIndex) => (
+                              <li key={subIndex}>
+                                <a
+                                  href={
+                                    subMenuItem.subLink.endsWith(".pdf")
+                                      ? `${baseURL}${subMenuItem.subLink}`
+                                      : subMenuItem.subLink
+                                  }
+                                  target={
+                                    subMenuItem.subLink.startsWith("http") ||
+                                    subMenuItem.subLink.endsWith(".pdf")
+                                      ? "_blank"
+                                      : undefined
+                                  }
+                                  rel={
+                                    subMenuItem.subLink.startsWith("http") ||
+                                    subMenuItem.subLink.endsWith(".pdf")
+                                      ? "noopener noreferrer"
+                                      : undefined
+                                  }
+                                >
+                                  {subMenuItem.subMenu}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+
+                      {menuItem.subMenus.length > 0 && (
+                        <div
+                          className="dropdown-btn"
+                        >
+                          <span className="fas fa-angle-down"></span>
+                        </div>
+                      )}
                     </li>
-                    <li>
-                      <a href="/property-holder">Property Holder</a>
-                    </li>
-                    <li>
-                      <a href="/properties-milkat">Municipal Properties</a>
-                    </li>
-                    <li>
-                      <a href="/schools">Schools</a>
-                    </li>
-                    <li>
-                      <a href="/gardens">Gardens</a>
-                    </li>
-                    <li>
-                      <a href="/electric">Electric</a>
-                    </li>
-                    <li>
-                      <a href="/roads">Roads</a>
-                    </li>
-                    <li>
-                      <a href="/tree-census">Tree Census</a>
-                    </li>
-                    <li>
-                      <a href="/health">Health</a>
-                    </li>
-                    <li>
-                      <a href="/ponds-talao">Ponds / Talao</a>
-                    </li>
-                    <li>
-                      <a href="/fire-station">Fire Station</a>
-                    </li>
-                    <li>
-                      <a href="/private-hospital">Private Hospital</a>
-                    </li>
-                  </ul>
-                  <div className="dropdown-btn">
-                    <span className="fas fa-angle-down"></span>
-                  </div>
-                </li>
-                <li className="dropdown">
-                  <a href="#.">Online Services</a>
-                  <ul>
-                    <li>
-                      <a
-                        href="https://mahaulb.in/MahaULB/property/propertyOnlinePay"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Property Tax Payment
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://mahaulb.in/MahaULB/property/onlineReceiptReprint"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Property Tax Receipt
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://mjp.maharashtra.gov.in/pay-water-bill-online/"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Water Tax Payment
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://crsorgi.gov.in/web/index.php/auth/login"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Birth & Death Search
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://mahatenders.gov.in/nicgep/app"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Online Tenders
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://maha.autodcr.com/BPAMSClient/Default.aspx"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Auto DCR
-                      </a>
-                    </li>
-                  </ul>
-                  <div className="dropdown-btn">
-                    <span className="fas fa-angle-down"></span>
-                  </div>
-                </li>
-                <li className="dropdown">
-                  <a href="#.">Schemes</a>
-                  <ul>
-                    <li>
-                      <a
-                        href="assets/documents/Nulm_mahiti.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        NULM
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/pmay">PMAY</a>
-                    </li>
-                    <li>
-                      <a href="/nuhm">NUHM</a>
-                    </li>
-                    <li>
-                      <a href="/amrut">AMRUT</a>
-                    </li>
-                    <li>
-                      <a
-                        href="assets/documents/Swachh Bharat Abhiyan (Health).pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Swachh Bharat
-                      </a>
-                    </li>
-                  </ul>
-                  <div className="dropdown-btn">
-                    <span className="fas fa-angle-down"></span>
-                  </div>
-                </li>
-                <li className="dropdown">
-                  <a href="#.">Complaints</a>
-                  <ul>
-                    <li>
-                      <a
-                        href="https://aaplesarkar.mahaonline.gov.in/en"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Aaple Sarkar
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://pgportal.gov.in/"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        P G Portal
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://rtionline.maharashtra.gov.in/RTIMIS/login/index.php"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Right to Information
-                      </a>
-                    </li>
-                  </ul>
-                  <div className="dropdown-btn">
-                    <span className="fas fa-angle-down"></span>
-                  </div>
-                </li>
+                  );
+                })}
               </ul>
             </div>
 
@@ -611,6 +448,13 @@ const Header = () => {
                   </a>
                 </li>
               </ul>
+              <div className="menu-right-content">
+                <div className="btn-box">
+                  <a href="#." className="header-btn">
+                    Login
+                  </a>
+                </div>
+              </div>
             </div>
           </nav>
         </div>

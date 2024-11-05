@@ -37,9 +37,6 @@ import AddFireStation from '../FireStation/AddFireStation';
 import AddSchools from '../Schools/AddSchools';
 import AddSchoolImages from '../Schools/AddSchoolImages';
 import CityProfileHealth from '../CityProfileHealth/CityProfileHealth';
-
-
-//Manoj
 import Services from '../Services/Services';
 import AddServices from '../Services/Add_services';
 import Add_services from '../Services/Add_services';
@@ -77,15 +74,16 @@ import GeneralDepartment from '../Subservices/PublicDisclosure/Generaladmindepar
 import Add_gernaldepyear from '../Subservices/PublicDisclosure/Add_gernaldepyear';
 import Generaladmindepartment from '../Subservices/PublicDisclosure/Generaladmindepartment';
 import AddAwardImage from '../About_KBMC/Awards/AddAwardImage';
+import './Dashboard.css'
 
 
 const Dashboard = () => {
   return (
     <Router>
        <Header />
-      <div className="d-flex" style={{ height: '100vh', margin: 0 }}>
+      <div className="d-flex" style={{ margin: 0 }}>
         <Sidebar />
-        <div className="flex-grow-1 d-flex flex-column" style={{ marginLeft: '250px' }}> {/* Leave space for the sidebar */}
+        <div className="flex-grow-1 d-flex flex-column main-content" > {/* Leave space for the sidebar */}
          
           <div className="p-4 flex-grow-1"> {/* Allow this div to take remaining space */}
             {/* Define the routes here */}
@@ -128,9 +126,6 @@ const Dashboard = () => {
               <Route path="/add-school-images" element={<AddSchoolImages />} />
               <Route path="/health" element={<CityProfileHealth />} />
               <Route path="/add-award-images" element={<AddAwardImage />} />
-
-
-              //Manoj
               <Route path="/Add_services" element={<Add_services />} />
              
               <Route path="/health" element={<CityProfileHealth />} />
