@@ -5,6 +5,7 @@ import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import api, {baseURL} from "../api";
 import image from "../../assets/images/icons/new-icon1.gif";
+import {Link} from "react-router-dom";
 
 const DepartmentDetails = () => {
   const [gallerys, setGallerys] = useState([]);
@@ -91,7 +92,7 @@ const DepartmentDetails = () => {
                             <React.Fragment key={index}>
                               <div className="row" id="video-01">
                                 <div className="col-4 col-md-3">
-                                  <a
+                                  <Link
                                     onClick={() => handleOpenVideoModal(video)} // Open modal on click
                                     className="lightbox"
                                     style={{ cursor: "pointer" }}
@@ -108,7 +109,7 @@ const DepartmentDetails = () => {
                                         objectFit: "cover",
                                       }}
                                     />
-                                  </a>
+                                  </Link>
                                 </div>
                                 <div className="col-8 col-md-9 px-0">
                                   <p className="h6 video-title">
@@ -167,9 +168,9 @@ const DepartmentDetails = () => {
                               <div className="content-box department-section">
                                 <div className="row">
                                   {gallerys.map((image, index) => (
-                                    <a
+                                    <Link
                                       key={index}
-                                      href={`${baseURL}${image.file_path}`}
+                                      to={`${baseURL}${image.file_path}`}
                                       className="glightbox col-sm-2 col-4"
                                       data-gallery="slider-images"
                                     >
@@ -184,7 +185,7 @@ const DepartmentDetails = () => {
                                           borderRadius: "1px", 
                                         }}
                                       />
-                                    </a>
+                                    </Link>
                                   ))}
                                 </div>
                               </div>
@@ -214,7 +215,7 @@ const DepartmentDetails = () => {
                                 {tenders.map((tender, index) => (
                                   <li key={index}>
                                     <img src={pdficon} alt="pdficon" />
-                                    <a href="#.">{tender.tenders}</a>
+                                    <Link to="#.">{tender.tenders}</Link>
                                     {tender.status === "New" && (
                                       <img
                                         src={image}
@@ -238,15 +239,15 @@ const DepartmentDetails = () => {
                   <div class="inner-box">
                     <h6>Service for</h6>
                     <h3>
-                      <a href="#.">Our City Residents</a>
+                      <Link to="#.">Our City Residents</Link>
                     </h3>
                     <ul class="list-item clearfix">
-                      {/* <!-- <li><a href="#.">Public Transit</a></li> --> */}
+                      {/* <!-- <li><Link to="#.">Public Transit</Link></li> --> */}
                       <li>
-                        <a href="#.">Helpline - 0251-2690271</a>
+                        <Link to="#.">Helpline - 0251-2690271</Link>
                       </li>
                       <li>
-                        <a href="#.">Emergency - </a>
+                        <Link to="#.">Emergency - </Link>
                       </li>
                     </ul>
                   </div>

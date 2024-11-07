@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './BottomSlider.css'
 import api, { baseURL } from '../api';
+import {Link} from "react-router-dom";
 
 
 // Custom Next Arrow
@@ -89,9 +90,9 @@ const BottomSlider = () => {
           <Slider {...settings}>
             {websites.map((website, index) => (
               <div key={index}  className="logo-slide">
-                <a href={website.websitelink} target="_blank" rel="noopener noreferrer">
+                <Link to={website.websitelink} target="_blank" rel="noopener noreferrer">
                   <img src={`${baseURL}${website.websitelogo}`} alt={`logo-${index + 1}`} />
-                </a>
+                </Link>
               </div>
             ))}
           </Slider>

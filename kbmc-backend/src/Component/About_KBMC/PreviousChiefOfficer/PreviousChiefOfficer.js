@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import api, { baseURL } from '../../api';
+import api, { baseURL } from "../../api";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const PreviousChiefOfficer = () => {
   const [officers, setOfficers] = useState([]);
@@ -20,6 +21,8 @@ const PreviousChiefOfficer = () => {
     image_path: "",
   });
   const [imageFile, setImageFile] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const lightbox = GLightbox({
@@ -34,9 +37,7 @@ const PreviousChiefOfficer = () => {
   // Fetch officers on component mount
   const fetchOfficers = async () => {
     try {
-      const response = await api.get(
-        "/chief-officers"
-      );
+      const response = await api.get("/chief-officers");
       setOfficers(response.data);
     } catch (error) {
       toast.error("Failed to fetch officers.");
@@ -101,15 +102,11 @@ const PreviousChiefOfficer = () => {
     }
 
     try {
-      await api.put(
-        `/chief-officers/${selectedOfficerId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await api.put(`/chief-officers/${selectedOfficerId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       toast.success("Officer updated successfully!");
       fetchOfficers(); // Refetch the officers to update the list
     } catch (error) {
@@ -148,6 +145,11 @@ const PreviousChiefOfficer = () => {
     }
   };
 
+  const currentPageData = officers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div>
       <div className="page-wrapper">
@@ -156,7 +158,7 @@ const PreviousChiefOfficer = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="#.">About KBMC</a>
+                <Link to="#.">About KBMC</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Previous Chief Officers of the Council
@@ -173,13 +175,13 @@ const PreviousChiefOfficer = () => {
                       <h4 className="page-title">Previous Chief Officers</h4>
                     </div>
                     <div className="col-sm-8 col-9 text-end m-b-20">
-                      <a
-                        href="/Add_previouschiefofficer"
+                      <Link
+                        to="/add-previous-chief-officer"
                         className="btn btn-primary btn-rounded float-right"
                         style={{ borderRadius: "100px" }}
                       >
                         <i className="fa fa-plus"></i> + Add Officer
-                      </a>
+                      </Link>
                     </div>
                   </div>
 
@@ -197,50 +199,60 @@ const PreviousChiefOfficer = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {officers.map((officer, index) => (
-                          <tr key={officer.id}>
-                            <td>{index + 1}</td>
-                            <td>{officer.officer_name}</td>
-                            <td>
-                              {new Date(officer.start_date)
-                                .toLocaleDateString("en-GB")
-                                .replace(/\//g, "-")}
-                            </td>
-                            <td>
-                              {new Date(officer.end_date)
-                                .toLocaleDateString("en-GB")
-                                .replace(/\//g, "-")}
-                            </td>
-                            <td>
-                              <a
-                                href={`${baseURL}${officer.image_path}`}
-                                className="glightbox"
-                                data-gallery="chief-images"
-                              >
-                                <img
-                                  width="50px"
-                                  src={`${baseURL}${officer.image_path}`}
-                                  alt={`chief${index + 1}`}
-                                />
-                              </a>
-                            </td>
-                            <td>
-                              <button
-                                className="btn btn-danger btn-sm m-t-10"
-                                onClick={() => handleDeleteClick(officer.id)}
-                                style={{ marginRight: "10px" }}
-                              >
-                                Delete
-                              </button>
-                              <button
-                                className="btn btn-success btn-sm m-t-10"
-                                onClick={() => handleEditClick(officer.id)}
-                              >
-                                Edit
-                              </button>
+                        {currentPageData.length > 0 ? (
+                          currentPageData.map((officer, index) => (
+                            <tr key={officer.id}>
+                              <td>
+                                {(currentPage - 1) * itemsPerPage + index + 1}
+                              </td>
+                              <td>{officer.officer_name}</td>
+                              <td>
+                                {new Date(officer.start_date)
+                                  .toLocaleDateString("en-GB")
+                                  .replace(/\//g, "-")}
+                              </td>
+                              <td>
+                                {new Date(officer.end_date)
+                                  .toLocaleDateString("en-GB")
+                                  .replace(/\//g, "-")}
+                              </td>
+                              <td>
+                                <Link
+                                  to={`${baseURL}${officer.image_path}`}
+                                  className="glightbox"
+                                  data-gallery="chief-images"
+                                >
+                                  <img
+                                    width="50px"
+                                    src={`${baseURL}${officer.image_path}`}
+                                    alt={`chief${index + 1}`}
+                                  />
+                                </Link>
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn-danger btn-sm m-t-10"
+                                  onClick={() => handleDeleteClick(officer.id)}
+                                  style={{ marginRight: "10px" }}
+                                >
+                                  Delete
+                                </button>
+                                <button
+                                  className="btn btn-success btn-sm m-t-10"
+                                  onClick={() => handleEditClick(officer.id)}
+                                >
+                                  Edit
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="6" style={{ textAlign: "center" }}>
+                              No officer available
                             </td>
                           </tr>
-                        ))}
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -250,32 +262,49 @@ const PreviousChiefOfficer = () => {
           </div>
 
           {/* Pagination */}
-          <div>
+          <div className="mt-4">
             <ul className="pagination">
-              <li className="page-item disabled">
-                <a className="page-link" href="#" tabIndex="-1">
+              <li
+                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
                   Previous
-                </a>
+                </button>
               </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  1
-                </a>
-              </li>
-              <li className="page-item active">
-                <a className="page-link" href="#">
-                  2 <span className="sr-only"></span>
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
+              {Array.from(
+                { length: Math.ceil(officers.length / itemsPerPage) },
+                (_, i) => (
+                  <li
+                    className={`page-item ${
+                      currentPage === i + 1 ? "active" : ""
+                    }`}
+                    key={i}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => setCurrentPage(i + 1)}
+                    >
+                      {i + 1}
+                    </button>
+                  </li>
+                )
+              )}
+              <li
+                className={`page-item ${
+                  currentPage === Math.ceil(officers.length / itemsPerPage)
+                    ? "disabled"
+                    : ""
+                }`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
                   Next
-                </a>
+                </button>
               </li>
             </ul>
           </div>

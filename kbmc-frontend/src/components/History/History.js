@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import banner from "../../assets/images/banner/inner-banner.jpg";
 import "./History.css";
 import api, { baseURL } from "../api";
+import {Link} from "react-router-dom";
 
 const History = () => {
   const [historyData, setHistoryData] = useState([]);
@@ -46,7 +47,7 @@ const History = () => {
             <h1>History</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <span>History</span>
@@ -105,32 +106,32 @@ const History = () => {
                       </span>
                       <ul className="share-links">
                         <li>
-                          <a href="#.">
+                          <Link to="#.">
                             <span className="fab fa-facebook-square"></span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#.">
+                          <Link to="#.">
                             <span className="fab fa-twitter-square"></span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#.">
+                          <Link to="#.">
                             <span className="fab fa-instagram-square"></span>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>
                     <h3>
-                      <a href="#.">{ceoData[0].coName}</a>
+                      <Link to="#.">{ceoData[0].coName}</Link>
                     </h3>
                     <span className="designation">
                       {ceoData[0].designation}
                     </span>
                     <p>
-                      <a href="mailto:support@kbmc.gov.in">
+                      <Link to="mailto:support@kbmc.gov.in">
                         {ceoData[0].email}
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </div>

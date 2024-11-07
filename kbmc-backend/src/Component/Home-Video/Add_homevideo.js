@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
+import { Link } from "react-router-dom";
 
 const Add_homevideo = () => {
   const [description, setDescription] = useState('');
@@ -39,7 +40,7 @@ const Add_homevideo = () => {
       setPublishDate('');
       setVideoUrl('');
       setTimeout(() => {
-        navigate('/Home_video');
+        navigate('/home-video');
       }, 5000);
     } catch (error) {
       toast.error('Failed to add video. Please try again.');
@@ -50,8 +51,8 @@ const Add_homevideo = () => {
     <div className="page-wrapper">
       <div className="content">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item"><a href="/index">Home</a></li>
-          <li className="breadcrumb-item"><a href="/home-video">Home Video</a></li>
+          <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+          <li className="breadcrumb-item"><Link to="/home-video">Home Video</Link></li>
           <li className="breadcrumb-item active" aria-current="page">Add Home Video</li>
         </ol>
         <div className="row">

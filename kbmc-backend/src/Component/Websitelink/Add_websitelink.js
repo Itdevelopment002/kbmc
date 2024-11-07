@@ -27,7 +27,7 @@ const Add_websitelink = () => {
             });
 
             if (response.status === 201) { // Check for 201 Created status
-                navigate('/Websitelink', { replace: true });
+                navigate('/website-link', { replace: true });
             } else {
                 alert('Failed to add website link. Please try again.');
             }
@@ -46,7 +46,7 @@ const Add_websitelink = () => {
             <div className="content">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-                    <li className="breadcrumb-item"><Link to="/Websitelink">Govt. Website Link</Link></li>
+                    <li className="breadcrumb-item"><Link to="/website-link">Govt. Website Link</Link></li>
                     <li className="breadcrumb-item active" aria-current="page">Add Govt. Website Link</li>
                 </ol>
                 <div className="row">

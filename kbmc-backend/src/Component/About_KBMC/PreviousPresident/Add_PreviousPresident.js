@@ -48,7 +48,7 @@ const Add_PreviousPresident = () => {
 
       // Navigate to PreviousChiefOfficer after 5 seconds
       setTimeout(() => {
-        navigate("/PreviousPresident");
+        navigate("/previous-president");
       }, 5000);
     } catch (error) {
       toast.error(error.response?.data?.message || "Error adding president");
@@ -72,7 +72,7 @@ const Add_PreviousPresident = () => {
       <div className="content">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <Link to="/about-kbmc">About KBMC</Link>
+            <Link to="#.">About KBMC</Link>
           </li>
           <li className="breadcrumb-item">
             <Link to="/previous-president">Previous Presidents</Link>

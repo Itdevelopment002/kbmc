@@ -123,7 +123,7 @@ const Services = () => {
       <div className="content">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item"><a href="#.">Home</a></li>
+            <li className="breadcrumb-item"><Link to="/">Home</Link></li>
             <li className="breadcrumb-item active" aria-current="page">Services</li>
           </ol>
         </nav>
@@ -137,7 +137,7 @@ const Services = () => {
                   </div>
                   <div className="col-sm-8 col-9 text-end mb-3">
                     <Link
-                      to="/Add_services"
+                      to="/add-services"
                       className="btn btn-primary btn-rounded float-right"
                       style={{ borderRadius: '100px' }}
                     >
@@ -163,9 +163,9 @@ const Services = () => {
                           <td>{service.service_heading}</td>
                           <td>{service.service_link}</td>
                           <td>
-                            <a href={`${baseURL}/${service.main_icon_path}`} className="glightbox" data-gallery="slider-images" >
+                            <Link to={`${baseURL}/${service.main_icon_path}`} className="glightbox" data-gallery="slider-images" >
                               <img width="35px" src={`${baseURL}/${service.main_icon_path}`} alt={service.service_heading} />
-                            </a>
+                            </Link>
                           </td>
                           <td>
                             <button className="btn btn-danger btn-sm m-t-10" onClick={() => handleDeleteModalOpen(service)}>Delete</button>

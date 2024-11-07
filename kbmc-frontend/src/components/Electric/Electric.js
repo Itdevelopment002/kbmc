@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
+import {Link} from "react-router-dom";
 
 const Electric = () => {
   const [electricData, setElectricData] = useState([]);
@@ -34,7 +35,7 @@ const Electric = () => {
             <h1>Electric</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="#.">City Profile</a>
+                <Link to="#.">City Profile</Link>
               </li>
               <li>
                 <span>Electric</span>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api, { baseURL } from "../api"; 
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
+import {Link} from "react-router-dom";
 
 const DeptLayer2 = () => {
   const [activeIndex, setActiveIndex] = useState(null); 
@@ -58,7 +59,7 @@ const DeptLayer2 = () => {
             <h1>General Admin Department</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/departments">Departments</a>
+                <Link to="/departments">Departments</Link>
               </li>
               <li>
                 <span>General Admin Department</span>
@@ -146,13 +147,13 @@ const DeptLayer2 = () => {
                                   {yearData.generalMeetings.map(
                                     (resolution, idx) => (
                                       <li key={idx}>
-                                        <a
-                                          href={`${baseURL}/${resolution.pdf}`}
+                                        <Link
+                                          to={`${baseURL}/${resolution.pdf}`}
                                           target="_blank"
                                           rel="noreferrer"
                                         >
                                           {resolution.pdfheading}
-                                        </a>
+                                        </Link>
                                       </li>
                                     )
                                   )}
@@ -166,13 +167,13 @@ const DeptLayer2 = () => {
                                   {yearData.standingCommitteeMeetings.map(
                                     (resolution, idx) => (
                                       <li key={idx}>
-                                        <a
-                                          href={`${baseURL}/${resolution.pdf}`}
+                                        <Link
+                                          to={`${baseURL}/${resolution.pdf}`}
                                           target="_blank"
                                           rel="noreferrer"
                                         >
                                           {resolution.pdfheading}
-                                        </a>
+                                        </Link>
                                       </li>
                                     )
                                   )}
@@ -195,7 +196,7 @@ const DeptLayer2 = () => {
                       {departments.map((department, index) => (
                         <li key={index}>
                           {" "}
-                          <a href={department.link}>{department.name}</a>
+                          <Link to={department.link}>{department.name}</Link>
                         </li>
                       ))}
                     </ul>

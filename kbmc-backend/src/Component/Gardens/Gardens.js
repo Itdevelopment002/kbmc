@@ -126,7 +126,7 @@ const Gardens = () => {
             <div className="content">
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><Link to="/">City Profile</Link></li>
+                        <li className="breadcrumb-item"><Link to="#.">City Profile</Link></li>
                         <li className="breadcrumb-item active" aria-current="page">Gardens</li>
                     </ol>
                 </nav>

@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap'; // Import Bootstrap Modal
 import api from '../api';
 import { toast, ToastContainer } from 'react-toastify'; // Import Toast
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
 import ZoneWiseSanitationInspectors from './ZoneWiseSanitationInspectors';
 
 import WardWiseLitigations from './WardWiseLitigations';
@@ -96,7 +97,7 @@ const CityProfileHealth = () => {
      <nav aria-label="breadcrumb">
        <ol className="breadcrumb">
          <li className="breadcrumb-item">
-           <a href="#.">City Profile</a>
+           <Link to="#.">City Profile</Link>
          </li>
          <li className="breadcrumb-item active" aria-current="page">
            Health

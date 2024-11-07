@@ -40,7 +40,7 @@ const Add_PhotoGallery = () => {
       document.getElementById("image").value = ""; 
       toast.success("File uploaded successfully!"); 
       setTimeout(() => {
-        navigate("/Photogallery"); 
+        navigate("/photo-gallery"); 
       }, 5000); 
     } catch (error) {
       console.error("Error uploading file:", error);

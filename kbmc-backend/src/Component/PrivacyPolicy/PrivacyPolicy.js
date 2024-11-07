@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'; // For navigation
+import { Link } from "react-router-dom";
 
 const PrivacyPolicy = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -57,7 +58,7 @@ const PrivacyPolicy = () => {
         <div className="content" style={{ flex: 1 }}>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="#.">Home</a></li>
+              <li className="breadcrumb-item"><Link to="#.">Home</Link></li>
               <li className="breadcrumb-item active" aria-current="page">Privacy Policy</li>
             </ol>
           </nav>
@@ -111,15 +112,15 @@ const PrivacyPolicy = () => {
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
           <ul className="pagination">
               <li className="page-item disabled">
-                <a className="page-link" href="#" tabIndex="-1">Previous</a>
+                <Link className="page-link" to="#" tabIndex="-1">Previous</Link>
               </li>
-              <li className="page-item"><a className="page-link" href="#">1</a></li>
+              <li className="page-item"><Link className="page-link" to="#">1</Link></li>
               <li className="page-item active">
-                <a className="page-link" href="#">2 <span className="sr-only"></span></a>
+                <Link className="page-link" to="#">2 <span className="sr-only"></span></Link>
               </li>
-              <li className="page-item"><a className="page-link" href="#">3</a></li>
+              <li className="page-item"><Link className="page-link" to="#">3</Link></li>
               <li className="page-item">
-                <a className="page-link" href="#">Next</a>
+                <Link className="page-link" to="#">Next</Link>
               </li>
             </ul>
           </div>

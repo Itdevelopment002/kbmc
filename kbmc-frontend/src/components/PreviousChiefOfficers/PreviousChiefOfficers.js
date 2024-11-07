@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import innerBanner from "../../assets/images/banner/inner-banner.jpg"
 import api from "../api";
+import {Link} from "react-router-dom";
 
 const PreviousChiefOfficers = () => {
   const [chiefs, setChiefs] = useState([]);
@@ -54,7 +55,7 @@ const PreviousChiefOfficers = () => {
           <div className="content-box">
             <h1>Previous Chief Officers of the Council</h1>
             <ul className="bread-crumb clearfix">
-              <li><a href="/">Home</a></li>
+              <li><Link to="/">Home</Link></li>
               <li><span>Previous Chief Officers of the Council</span></li>
             </ul>
           </div>
@@ -73,7 +74,7 @@ const PreviousChiefOfficers = () => {
                     {currentChiefs.map((chief, index) => (
                       <div className="col-lg-3 col-md-6 col-sm-12 single-column" key={index}>
                         <div className="single-item">
-                          <h3><a href="#.">{chief.officer_name}</a></h3>
+                          <h3><Link to="#.">{chief.officer_name}</Link></h3>
                           <h6>{formatDate(chief.start_date)} - {formatDate(chief.end_date)}</h6>
                         </div>
                       </div>
@@ -86,8 +87,7 @@ const PreviousChiefOfficers = () => {
           <div className="pagination-wrapper centred">
           <ul className="pagination clearfix">
             <li>
-              <a
-                href="#"
+              <Link to="#"
                 onClick={(e) => {
                   e.preventDefault();
                   if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -95,12 +95,11 @@ const PreviousChiefOfficers = () => {
                 className={currentPage === 1 ? "disabled" : ""}
               >
                 <i className="flaticon-right-chevron"></i>
-              </a>
+              </Link>
             </li>
             {Array.from({ length: totalPages }, (_, i) => (
               <li key={i}>
-                <a
-                  href="#"
+                <Link to="#"
                   onClick={(e) => {
                     e.preventDefault();
                     setCurrentPage(i + 1);
@@ -108,12 +107,11 @@ const PreviousChiefOfficers = () => {
                   className={currentPage === i + 1 ? "current" : ""}
                 >
                   {i + 1}
-                </a>
+                </Link>
               </li>
             ))}
             <li>
-              <a
-                href="#"
+              <Link to="#"
                 onClick={(e) => {
                   e.preventDefault();
                   if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -121,7 +119,7 @@ const PreviousChiefOfficers = () => {
                 className={currentPage === totalPages ? "disabled" : ""}
               >
                 <i className="flaticon-right-chevron"></i>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg"; // Background image
 import pdficon from "../../assets/images/icons/PDF-Icons.png";
 import api, { baseURL } from '../api';
+import {Link} from "react-router-dom";
 
 const CitizenCharter = () => {
   const [departments, setDepartments] = useState([]);
@@ -52,7 +53,7 @@ const CitizenCharter = () => {
             <h1>Citizen Charter</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <span>Citizen Charter</span>
@@ -83,8 +84,8 @@ const CitizenCharter = () => {
                             </div>
                             <h6>{department.name}</h6>
                             <div className="download-btn">
-                              <a
-                                href={
+                              <Link
+                                to={
                                   matchingDepartment
                                     ? `${baseURL}/${matchingDepartment.pdf}`
                                     : "#."
@@ -94,7 +95,7 @@ const CitizenCharter = () => {
                                 className="theme-btn btn-one"
                               >
                                 View
-                              </a>
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -114,14 +115,14 @@ const CitizenCharter = () => {
                           </div>
                           <h6>{citDept.name}</h6>
                           <div className="download-btn">
-                            <a
-                              href={`${baseURL}/${citDept.pdf}`}
+                            <Link
+                              to={`${baseURL}/${citDept.pdf}`}
                               rel="noreferrer"
                               target="_blank"
                               className="theme-btn btn-one"
                             >
                               View
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>

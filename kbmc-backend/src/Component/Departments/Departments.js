@@ -92,7 +92,7 @@ const Departments = () => {
                       <h4 className="page-title">Departments</h4>
                     </div>
                     <div className="text-end mb-3">
-                      <Link to="/adddep">
+                      <Link to="/add-department">
                         <button className="btn btn-primary">+ Add Departments</button>
                       </Link>
                     </div>

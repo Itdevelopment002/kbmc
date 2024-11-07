@@ -38,7 +38,6 @@ import AddSchools from '../Schools/AddSchools';
 import AddSchoolImages from '../Schools/AddSchoolImages';
 import CityProfileHealth from '../CityProfileHealth/CityProfileHealth';
 import Services from '../Services/Services';
-import AddServices from '../Services/Add_services';
 import Add_services from '../Services/Add_services';
 import Home_video from '../Home-Video/Home_video';
 import Add_homevideo from '../Home-Video/Add_homevideo';
@@ -70,12 +69,10 @@ import Add_history from '../About_KBMC/History/Add_history';
 import Add_ceo from '../About_KBMC/History/Add_ceo';
 import Websitelink from '../Websitelink/Websitelink';
 import Add_websitelink from '../Websitelink/Add_websitelink';
-import GeneralDepartment from '../Subservices/PublicDisclosure/Generaladmindepartment';
 import Add_gernaldepyear from '../Subservices/PublicDisclosure/Add_gernaldepyear';
 import Generaladmindepartment from '../Subservices/PublicDisclosure/Generaladmindepartment';
 import AddAwardImage from '../About_KBMC/Awards/AddAwardImage';
 import './Dashboard.css'
-
 
 const Dashboard = () => {
   return (
@@ -83,28 +80,25 @@ const Dashboard = () => {
        <Header />
       <div className="d-flex" style={{ margin: 0 }}>
         <Sidebar />
-        <div className="flex-grow-1 d-flex flex-column main-content" > {/* Leave space for the sidebar */}
-         
-          <div className="p-4 flex-grow-1"> {/* Allow this div to take remaining space */}
-            {/* Define the routes here */}
+        <div className="flex-grow-1 d-flex flex-column main-content" >
+          <div className="p-4 flex-grow-1">
             <Routes>
               <Route path="/" element={<MainMenuTable />} />
               <Route path="/services" element={< Services/>} />
               <Route path="/add-main" element={<AddMainPage />} />
-              <Route path="/noti" element={<Notifications />} />
-              <Route path="/contact" element={<ContactUs />} />
-              <Route path="/pp" element={<PrivacyPolicy />} />
-              <Route path="/tac" element={<TermsAndConditions />} />
-        
-              <Route path="/adduser" element={<AddUser />} />
+              <Route path="/notification" element={<Notifications />} />
+              <Route path="/contact-us" element={<ContactUs />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+              <Route path="/add-user" element={<AddUser />} />
               <Route path="/user" element={<User />} />
-              <Route path="/dep" element={<Departments />} />
+              <Route path="/department" element={<Departments />} />
               <Route path="/d" element={<FcDepartment />} />
-              <Route path="/adddep" element={<AddDepartments />} />
+              <Route path="/add-department" element={<AddDepartments />} />
               <Route path="/slider" element={<Slider />} />
-              <Route path="/add_slider" element={<Add_slider />} />
-              <Route path="/add-propertyholder" element={<AddPropertyHolder />} />
-              <Route path="/property_holder" element={<PropertyHolder />} />
+              <Route path="/add-slider" element={<Add_slider />} />
+              <Route path="/add-property-holder" element={<AddPropertyHolder />} />
+              <Route path="/property-holder" element={<PropertyHolder />} />
               <Route path="/municipal-properties" element={<MunicipalProperties />} />
               <Route path="/add-municipal" element={<AddMunicipalProperties />} />
               <Route path="/schools" element={<Schools />} />
@@ -121,57 +115,45 @@ const Dashboard = () => {
               <Route path="/firestation" element={<FireStation />} />
               <Route path="/private-hospital" element={<PrivateHospital />} />
               <Route path="/add-private-hospital" element={<AddPrivateHospital />} />
-              <Route path="/add-fire" element={<AddFireStation />} />
+              <Route path="/add-firestation" element={<AddFireStation />} />
               <Route path="/add-schools" element={<AddSchools />} />
               <Route path="/add-school-images" element={<AddSchoolImages />} />
               <Route path="/health" element={<CityProfileHealth />} />
               <Route path="/add-award-images" element={<AddAwardImage />} />
-              <Route path="/Add_services" element={<Add_services />} />
-             
+              <Route path="/add-services" element={<Add_services />} />
               <Route path="/health" element={<CityProfileHealth />} />
-              <Route path="/Home_video" element={<Home_video />} />
-              <Route path="/add_homvideo" element={<Add_homevideo />} />
-              <Route path="/News" element={<News />} />
-              <Route path="/Add_news" element={<Add_news />} />
-              <Route path="/Tenders" element={<Tenders />} />
-              <Route path="/Add_tender" element={<Add_tender />} />
-              <Route path="/RTS" element={<RTS />} />
-              <Route path="/Add_RTS" element={<Add_RTS />} />
-              <Route path="/Add_RTSDES" element={<Add_RTSDES />} />
+              <Route path="/home-video" element={<Home_video />} />
+              <Route path="/add-home-video" element={<Add_homevideo />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/add-news" element={<Add_news />} />
+              <Route path="/tenders" element={<Tenders />} />
+              <Route path="/Add-tender" element={<Add_tender />} />
+              <Route path="/rts" element={<RTS />} />
+              <Route path="/add-rts" element={<Add_RTS />} />
+              <Route path="/add-rts-des" element={<Add_RTSDES />} />
               <Route path="/citizen-charter" element={<CitizenCharter />} />
               <Route path="/public-disclosure" element={<PublicDisclosure />} />
-              <Route path="/Photogallery" element={<Photogallery />} />
-
-
-              <Route path="/Add_photogallery" element={<Add_photogallery />} />
-              <Route path="/Award" element={<Award />} />
-              <Route path="/Add_award" element={<Add_award />} />
-              <Route path="/Ward" element={<Ward />} />
-              <Route path="/Add_ward" element={<Add_ward />} />
-              <Route path="/Functions" element={<Functions />} />
-              <Route path="/Add_function" element={<Add_function />} />
-              <Route path="/PreviousPresident" element={<PreviousPresident/>} />
-              <Route path="/Add_PreviousPresident" element={<Add_PreviousPresident/>} />
-              <Route path="/PreviousChiefOfficer" element={<PreviousChiefOfficer/>} />
-
-
-              <Route path="/Add_previouschiefofficer" element={<Add_previouschiefofficer/>} />
-              <Route path="/Electedwings" element={<Electedwings/>} />
-
-
-              <Route path="/Add_electedwings" element={<Add_electedwings/>} />
-              <Route path="/History" element={<History/>} />
-
-
-              <Route path="/Add_history" element={<Add_history/>} />
-              <Route path="/Add_ceo" element={<Add_ceo/>} />
-
-              <Route path="/Websitelink" element={<Websitelink/>} />
-              <Route path="/Add_websitelink" element={<Add_websitelink/>} />
-              <Route path="/GeneralDepartment" element={<Generaladmindepartment />} />
-              <Route path="/Add_gernaldepyear" element={<Add_gernaldepyear/>} />
-
-
+              <Route path="/photo-gallery" element={<Photogallery />} />
+              <Route path="/add-photo-gallery" element={<Add_photogallery />} />
+              <Route path="/award" element={<Award />} />
+              <Route path="/add-award" element={<Add_award />} />
+              <Route path="/ward" element={<Ward />} />
+              <Route path="/add-ward" element={<Add_ward />} />
+              <Route path="/functions" element={<Functions />} />
+              <Route path="/add-function" element={<Add_function />} />
+              <Route path="/previous-president" element={<PreviousPresident/>} />
+              <Route path="/add-previous-president" element={<Add_PreviousPresident/>} />
+              <Route path="/previous-chief-officer" element={<PreviousChiefOfficer/>} />
+              <Route path="/add-previous-chief-officer" element={<Add_previouschiefofficer/>} />
+              <Route path="/elected-wings" element={<Electedwings/>} />
+              <Route path="/add-elected-wings" element={<Add_electedwings/>} />
+              <Route path="/history" element={<History/>} />
+              <Route path="/add-history" element={<Add_history/>} />
+              <Route path="/add-ceo" element={<Add_ceo/>} />
+              <Route path="/website-link" element={<Websitelink/>} />
+              <Route path="/add-website-link" element={<Add_websitelink/>} />
+              <Route path="/general-department" element={<Generaladmindepartment />} />
+              <Route path="/add-general-dep-year" element={<Add_gernaldepyear/>} />
             </Routes>
           </div>
         </div>

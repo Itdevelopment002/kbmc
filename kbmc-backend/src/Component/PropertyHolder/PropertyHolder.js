@@ -78,13 +78,13 @@ const PropertyHolder = () => {
         <div className="content">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="#.">City Profile</a></li>
+              <li className="breadcrumb-item"><Link to="#.">City Profile</Link></li>
               <li className="breadcrumb-item active" aria-current="page">Property Holder</li>
             </ol>
           </nav>
           <div className="text-end mb-3">
             <Link
-              to="/add-propertyholder"
+              to="/add-property-holder"
               className="btn btn-primary btn-rounded float-right"
               style={{ borderRadius: '100px' }}
             >

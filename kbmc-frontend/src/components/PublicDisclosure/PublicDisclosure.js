@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from "../api";
-import innerBanner from '../../assets/images/banner/inner-banner.jpg'; // Background image
+import innerBanner from '../../assets/images/banner/inner-banner.jpg';
+import {Link} from "react-router-dom"
 
 const PublicDisclosure = () => {
   const [pubDepartments, setPubDepartments] = useState([]);
@@ -53,7 +54,7 @@ const PublicDisclosure = () => {
           <div className="content-box">
             <h1>Public Disclosure</h1>
             <ul className="bread-crumb clearfix">
-              <li><a href="/">Home</a></li>
+              <li><Link to="/">Home</Link></li>
               <li><span>Public Disclosure</span></li>
             </ul>
           </div>
@@ -75,9 +76,9 @@ const PublicDisclosure = () => {
                     <div className="inner-box">
                       <div className="content-box">
                         <h5>
-                          <a href={matchingDepartment ? matchingDepartment.link : `/${pubDepartment.department_name.toLowerCase().replace(/\s+/g, '-')}`}>
+                          <Link to={matchingDepartment ? matchingDepartment.link : `/${pubDepartment.department_name.toLowerCase().replace(/\s+/g, '-')}`}>
                             {pubDepartment.department_name}
-                          </a>
+                          </Link>
                         </h5>
                       </div>
                     </div>

@@ -102,7 +102,7 @@ const GovernmentWebsiteLinks = () => {
             <div className="content">
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="/">Home</a></li>
+                        <li className="breadcrumb-item"><Link to="/">Home</Link></li>
                         <li className="breadcrumb-item active" aria-current="page">Govt. Website Link</li>
                     </ol>
                 </nav>
@@ -115,7 +115,7 @@ const GovernmentWebsiteLinks = () => {
                                         <h4 className="page-title">Govt. Website Links</h4>
                                     </div>
                                     <div className="col-sm-8 col-9 text-right m-b-20">
-                                        <Link to="/Add_websitelink" style={{ borderRadius: '100px', float: 'right', display: 'inline-block' }} className="btn btn-primary">
+                                        <Link to="/add-website-link" style={{ borderRadius: '100px', float: 'right', display: 'inline-block' }} className="btn btn-primary">
                                             <i className="fa fa-plus"></i> Add Link
                                         </Link>
                                     </div>
@@ -136,8 +136,7 @@ const GovernmentWebsiteLinks = () => {
                                                     <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                                                     <td>{websitelink.websitelink}</td>
                                                     <td>
-                                                        <a
-                                                            href={`${baseURL}${websitelink.websitelogo}`}
+                                                        <Link to={`${baseURL}${websitelink.websitelogo}`}
                                                             className="glightbox"
                                                             data-gallery="web-links-gallery"
                                                         // data-title={websitelink.websitelink}
@@ -148,7 +147,7 @@ const GovernmentWebsiteLinks = () => {
                                                                 alt={websitelink.id}
                                                                 style={{ borderRadius: '5px' }}
                                                             />
-                                                        </a>
+                                                        </Link>
                                                     </td>
                                                     <td>
                                                         <Button

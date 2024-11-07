@@ -7,6 +7,7 @@ import "glightbox/dist/css/glightbox.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
+import { Link } from "react-router-dom";
 
 function Electedwings() {
   const [correspondents, setCorrespondents] = useState([]);
@@ -151,7 +152,7 @@ function Electedwings() {
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="#.">About KBMC</a>
+              <Link to="#.">About KBMC</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Elected Wings
@@ -168,13 +169,13 @@ function Electedwings() {
                     <h4 className="page-title">Elected Wings</h4>
                   </div>
                   <div className="col-sm-8 col-9 text-end m-b-20">
-                    <a
-                      href="/Add_electedwings"
+                    <Link
+                      to="/add-elected-wings"
                       className="btn btn-primary btn-rounded float-right"
                       style={{ borderRadius: "100px" }}
                     >
                       <i className="fa fa-plus"></i> + Add Correspondent
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -197,8 +198,7 @@ function Electedwings() {
                         <tr key={correspondent.id}>
                           <td>{index + 1}</td>
                           <td>
-                            <a
-                              href={`${baseURL}${correspondent.image_path}`}
+                            <Link to={`${baseURL}${correspondent.image_path}`}
                               className="glightbox"
                               data-gallery="correspondent-images"
                             >
@@ -207,7 +207,7 @@ function Electedwings() {
                                 src={`${baseURL}${correspondent.image_path}`}
                                 alt={`correspondent${index + 1}`}
                               />
-                            </a>
+                            </Link>
                           </td>
                           <td>{correspondent.correspondentName}</td>
                           <td>{correspondent.wardNo}</td>

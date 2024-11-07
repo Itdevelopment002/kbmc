@@ -3,6 +3,7 @@ import api from "../../api"
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const AddAwardImage = () => {
   const [formData, setFormData] = useState({
@@ -36,17 +37,12 @@ const AddAwardImage = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      // Handle success
       toast.success("Image Uploaded Successfully!");
 
       setTimeout(()=>{
-        navigate('/Award')
+        navigate('/award')
       },5000);
-
-      // Optionally reset form or perform other actions
     } catch (error) {
-      // Handle error
       toast.error("Image upload failed. Please try again.");
     }
   };
@@ -56,10 +52,10 @@ const AddAwardImage = () => {
       <div className="content">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a href="index.php">About Kbmc</a>
+            <Link to="#.">About Kbmc</Link>
           </li>
           <li className="breadcrumb-item">
-            <a href="schools.php">Awards</a>
+            <Link to="/award">Awards</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             Add Award Images

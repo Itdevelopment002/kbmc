@@ -75,7 +75,7 @@ const User = () => {
       <div className="content">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a href="index.php">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             User
@@ -90,7 +90,7 @@ const User = () => {
                     <h4 className="page-title">User</h4>
                   </div>
                   <div className="text-end mb-3">
-                    <Link to="/adduser">
+                    <Link to="/add-user">
                       <button className="btn btn-primary">+ Add User</button>
                     </Link>
                   </div>

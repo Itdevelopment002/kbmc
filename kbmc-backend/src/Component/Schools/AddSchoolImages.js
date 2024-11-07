@@ -3,6 +3,7 @@ import api from "../api";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const AddSchools = () => {
   const [formData, setFormData] = useState({
@@ -56,10 +57,10 @@ const AddSchools = () => {
       <div className="content">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a href="index.php">City Profile</a>
+            <Link to="#.">City Profile</Link>
           </li>
           <li className="breadcrumb-item">
-            <a href="schools.php">Schools</a>
+            <Link to="/schools">Schools</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             Add School Images

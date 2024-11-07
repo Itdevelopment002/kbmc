@@ -93,7 +93,7 @@ const NewsUpdate = () => {
                                         <h4 className="page-title">News Update</h4>
                                     </div>
                                     <div className="col-sm-8 col-9 text-end mb-3">
-                                        <Link to="/Add_news" className="btn btn-primary btn-rounded float-end" style={{ borderRadius: "100px" }}>
+                                        <Link to="/add-news" className="btn btn-primary btn-rounded float-end" style={{ borderRadius: "100px" }}>
                                             <i className="fa fa-plus"></i> + Add News
                                         </Link>
                                     </div>

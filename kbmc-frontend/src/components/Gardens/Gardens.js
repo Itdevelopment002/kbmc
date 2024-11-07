@@ -3,6 +3,8 @@ import api, { baseURL } from "../api";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
+import {Link} from "react-router-dom";
+
 const Gardens = () => {
   const [activeTab, setActiveTab] = useState("#tab-1");
   const [gardenData, setGardenData] = useState([]);
@@ -63,7 +65,7 @@ const Gardens = () => {
             <h1>Gardens</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="#.">City Profile</a>
+                <Link to="#.">City Profile</Link>
               </li>
               <li>
                 <span>Gardens</span>
@@ -111,8 +113,8 @@ const Gardens = () => {
                         <div className="row">
                           {activeTab === `#tab-${index + 1}` && garden.images
                             ? JSON.parse(garden.images).map((img, imgIndex) => (
-                                <a
-                                  href={`${baseURL}${img}`}
+                                <Link
+                                  to={`${baseURL}${img}`}
                                   className="glightbox col-sm-2"
                                   data-gallery="garden-images"
                                 >
@@ -121,7 +123,7 @@ const Gardens = () => {
                                     alt={`garden${index + 1}`}
                                     className="img-fluid"
                                   />
-                                </a>
+                                </Link>
                               ))
                             : activeTab === `#tab-${index + 1}` && (
                                 <p className="col-sm-12">

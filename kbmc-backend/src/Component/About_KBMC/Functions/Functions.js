@@ -79,7 +79,7 @@ const Functions = () => {
 
   // After adding a function, navigate back to Functions page
   const handleAddFunction = () => {
-    navigate("/Add_function"); // Updated to use navigate
+    navigate("/add-function"); // Updated to use navigate
   };
 
   const currentPageData = functionsData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -90,7 +90,7 @@ const Functions = () => {
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="#.">About KBMC</a>
+              <Link to="#.">About KBMC</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Functions

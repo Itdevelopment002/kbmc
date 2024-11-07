@@ -173,7 +173,7 @@ const Award = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="#.">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Awards
@@ -194,7 +194,7 @@ const Award = () => {
                       </div>
                       <div className="col-sm-8 col-9 text-end mb-3">
                         <Link
-                          to="/Add_award"
+                          to="/add-award"
                           className="btn btn-primary btn-rounded float-right"
                           style={{ borderRadius: "100px" }}
                         >
@@ -280,9 +280,9 @@ const Award = () => {
                               <tr key={item.id}>
                                 <td>{index + 1}</td>
                                 <td>
-                                  <a
+                                  <Link
                                     className="glightbox"
-                                    href={`${baseURL}${item.image_path}`}
+                                    to={`${baseURL}${item.image_path}`}
                                   >
                                     <img
                                       src={`${baseURL}${item.image_path}`}
@@ -291,7 +291,7 @@ const Award = () => {
                                         width: "100px",
                                       }}
                                     />
-                                  </a>
+                                  </Link>
                                 </td>
                                 <td>
                                   <button

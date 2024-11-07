@@ -130,7 +130,7 @@ const Home_video = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <Link to="/index">Home</Link>
+                <Link to="/">Home</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Home Video
@@ -148,7 +148,7 @@ const Home_video = () => {
                     </div>
                     <div className="col-sm-8 col-9 text-end mb-3">
                       <Link
-                        to="/add_homvideo"
+                        to="/add-home-video"
                         className="btn btn-primary btn-rounded float-right"
                         style={{ borderRadius: "100px" }}
                       >

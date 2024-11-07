@@ -30,7 +30,7 @@ function Add_RTS() {
       // Optionally reset the form or handle success message
       setDescription(''); // Change here
       setFile(null);
-      navigate('/RTS'); // Navigate to /rts after successful submission
+      navigate('/rts'); // Navigate to /rts after successful submission
     } catch (error) {
       console.error('Error uploading Right to Service:', error.response.data);
     }
@@ -41,10 +41,13 @@ function Add_RTS() {
       <div className="content">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="breadcrumb-item">
             <Link to="/rts">Right to Service</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
-            Add Right to Service
+            Add Right to Service Pdf
           </li>
         </ol>
         <div className="row">

@@ -32,7 +32,7 @@ function Add_RTSDES() {
 
       // After a short delay, navigate to the RTS page
       setTimeout(() => {
-        navigate('/RTS'); // Redirect to RTS page
+        navigate('/rts'); // Redirect to RTS page
       }, 1000); // 1 second delay to show the success message
 
     } catch (error) {
@@ -46,6 +46,9 @@ function Add_RTSDES() {
     <div className="page-wrapper">
       <div className="content">
         <ol className="breadcrumb">
+          <li className="breadcrumb-item">
+            <Link to="/">Home</Link>
+          </li>
           <li className="breadcrumb-item">
             <Link to="/rts">Right to Service</Link>
           </li>

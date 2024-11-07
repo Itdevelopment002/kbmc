@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { FaFilePdf } from 'react-icons/fa'; // PDF icon
-import api, { baseURL } from '../../api';
-import { Modal, Button } from 'react-bootstrap'; // Ensure you have react-bootstrap installed
+import React, { useState, useEffect } from "react";
+import { FaFilePdf } from "react-icons/fa"; // PDF icon
+import api, { baseURL } from "../../api";
+import { Link } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap"; // Ensure you have react-bootstrap installed
 
 const AddGeneralDepYear = () => {
-  const [year, setYear] = useState('');
-  const [meetingType, setMeetingType] = useState('General Meeting');
-  const [pdfHeading, setPdfHeading] = useState('');
+  const [year, setYear] = useState("");
+  const [meetingType, setMeetingType] = useState("General Meeting");
+  const [pdfHeading, setPdfHeading] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
   const [data, setData] = useState([]); // State to hold the list of records
-  const [editAwardData, setEditAwardData] = useState({ heading: '', description: '', pdf: null }); // For editing
+  const [editAwardData, setEditAwardData] = useState({
+    heading: "",
+    description: "",
+    pdf: null,
+  }); // For editing
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentEditingId, setCurrentEditingId] = useState(null); // For identifying the item being edited
   const [currentDeletingId, setCurrentDeletingId] = useState(null); // For identifying the item being deleted
-
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
-  const currentPageData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   // Fetch data from the API when the component mounts
   useEffect(() => {
     fetchData();
@@ -27,44 +28,44 @@ const AddGeneralDepYear = () => {
 
   const fetchData = async () => {
     try {
-      const response = await api.get('/generaladminaddyear');
+      const response = await api.get("/generaladminaddyear");
       setData(response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('year', year);
-    formData.append('meetingtype', meetingType);
-    formData.append('pdfheading', pdfHeading);
+    formData.append("year", year);
+    formData.append("meetingtype", meetingType);
+    formData.append("pdfheading", pdfHeading);
     if (pdfFile) {
-      formData.append('pdf', pdfFile); // Use 'pdf' as per the API
+      formData.append("pdf", pdfFile); // Use 'pdf' as per the API
     }
 
     try {
-      await api.post('/generaladminaddyear', formData);
+      await api.post("/generaladminaddyear", formData);
       fetchData(); // Refresh data after submission
       // Clear input fields after submission
-      setYear('');
-      setMeetingType('General Meeting');
-      setPdfHeading('');
+      setYear("");
+      setMeetingType("General Meeting");
+      setPdfHeading("");
       setPdfFile(null);
     } catch (error) {
-      console.error('Error submitting data:', error);
+      console.error("Error submitting data:", error);
     }
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('year', editAwardData.heading);
-    formData.append('meetingtype', meetingType);
-    formData.append('pdfheading', editAwardData.description);
+    formData.append("year", editAwardData.heading);
+    formData.append("meetingtype", meetingType);
+    formData.append("pdfheading", editAwardData.description);
     if (editAwardData.pdf) {
-      formData.append('pdf', editAwardData.pdf);
+      formData.append("pdf", editAwardData.pdf);
     }
 
     try {
@@ -72,7 +73,7 @@ const AddGeneralDepYear = () => {
       fetchData(); // Refresh data after editing
       setShowEditModal(false);
     } catch (error) {
-      console.error('Error editing data:', error);
+      console.error("Error editing data:", error);
     }
   };
 
@@ -81,7 +82,7 @@ const AddGeneralDepYear = () => {
       await api.delete(`/generaladminaddyear/${id}`);
       fetchData(); // Refresh data after deletion
     } catch (error) {
-      console.error('Error deleting data:', error);
+      console.error("Error deleting data:", error);
     }
   };
 
@@ -92,13 +93,24 @@ const AddGeneralDepYear = () => {
     }
   };
 
+  const currentPageData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="page-wrapper">
       <div className="content">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item"><a href="index.php">Home</a></li>
-          <li className="breadcrumb-item"><a href="/GeneralDepartment">Add General Admin Department</a></li>
-          <li className="breadcrumb-item active" aria-current="page">Add Year</li>
+          <li className="breadcrumb-item">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="breadcrumb-item">
+            <Link to="/general-department">Add General Admin Department</Link>
+          </li>
+          <li className="breadcrumb-item active" aria-current="page">
+            Add Year
+          </li>
         </ol>
 
         <div className="row">
@@ -121,7 +133,7 @@ const AddGeneralDepYear = () => {
                           className="form-control mt-2"
                           value={year}
                           onChange={(e) => setYear(e.target.value)}
-                          placeholder='Enter Year'
+                          placeholder="Enter Year"
                         />
                       </div>
                     </div>
@@ -161,7 +173,11 @@ const AddGeneralDepYear = () => {
                       </div>
                     </div>
                     <div className="col-md-2 my-2">
-                      <input type="submit" className="btn btn-primary" value="Submit" />
+                      <input
+                        type="submit"
+                        className="btn btn-primary"
+                        value="Submit"
+                      />
                     </div>
                   </div>
                 </form>
@@ -181,78 +197,138 @@ const AddGeneralDepYear = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.map((item, index) => (
-                        <tr key={item.id}>
-                          <td>{index + 1}</td>
-                          <td>{item.year}</td>
-                          <td>{item.meetingtype}</td>
-                          <td>{item.pdfheading}</td>
-                          <td>
-                            <a href={`${baseURL}/${item.pdf}`} target="_blank" rel="noopener noreferrer">
-                              <FaFilePdf style={{ color: 'red' }} size={35} />
-                            </a>
-                          </td>
+                      {currentPageData.length > 0 ? (
+                        currentPageData.map((item, index) => (
+                          <tr key={item.id}>
+                            <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                            <td>{item.year}</td>
+                            <td>{item.meetingtype}</td>
+                            <td>{item.pdfheading}</td>
+                            <td>
+                              <Link
+                                to={`${baseURL}/${item.pdf}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <FaFilePdf style={{ color: "red" }} size={35} />
+                              </Link>
+                            </td>
 
-                          <td>
-                            <button
-                              className="btn btn-success btn-sm m-t-10 mx-1"
-                              onClick={() => {
-                                setShowEditModal(true);
-                                setCurrentEditingId(item.id);
-                                setEditAwardData({
-                                  heading: item.year,
-                                  description: item.pdfheading,
-                                  pdf: null
-                                });
-                              }}
-                            >
-                              Edit
-                            </button>
-                            <button
-                              className="btn btn-danger btn-sm m-t-10"
-                              onClick={() => {
-                                setCurrentDeletingId(item.id);
-                                setShowDeleteModal(true);
-                              }}
-                            >
-                              Delete
-                            </button>
+                            <td>
+                              <button
+                                className="btn btn-success btn-sm m-t-10 mx-1"
+                                onClick={() => {
+                                  setShowEditModal(true);
+                                  setCurrentEditingId(item.id);
+                                  setEditAwardData({
+                                    heading: item.year,
+                                    description: item.pdfheading,
+                                    pdf: null,
+                                  });
+                                }}
+                              >
+                                Edit
+                              </button>
+                              <button
+                                className="btn btn-danger btn-sm m-t-10"
+                                onClick={() => {
+                                  setCurrentDeletingId(item.id);
+                                  setShowDeleteModal(true);
+                                }}
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="6" style={{ textAlign: "center" }}>
+                            No dep year data available
                           </td>
                         </tr>
-                      ))}
+                      )}
                     </tbody>
                   </table>
                 </div>
                 {/* Pagination */}
                 <div className="mt-4">
                   <ul className="pagination">
-                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                      <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
+                    <li
+                      className={`page-item ${
+                        currentPage === 1 ? "disabled" : ""
+                      }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                      >
+                        Previous
+                      </button>
                     </li>
-                    {Array.from({ length: Math.ceil(data.length / itemsPerPage) }, (_, i) => (
-                      <li className={`page-item ${currentPage === i + 1 ? 'active' : ''}`} key={i}>
-                        <button className="page-link" onClick={() => setCurrentPage(i + 1)}>{i + 1}</button>
-                      </li>
-                    ))}
-                    <li className={`page-item ${currentPage === Math.ceil(data.length / itemsPerPage) ? 'disabled' : ''}`}>
-                      <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
+                    {Array.from(
+                      { length: Math.ceil(data.length / itemsPerPage) },
+                      (_, i) => (
+                        <li
+                          className={`page-item ${
+                            currentPage === i + 1 ? "active" : ""
+                          }`}
+                          key={i}
+                        >
+                          <button
+                            className="page-link"
+                            onClick={() => setCurrentPage(i + 1)}
+                          >
+                            {i + 1}
+                          </button>
+                        </li>
+                      )
+                    )}
+                    <li
+                      className={`page-item ${
+                        currentPage === Math.ceil(data.length / itemsPerPage)
+                          ? "disabled"
+                          : ""
+                      }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                      >
+                        Next
+                      </button>
                     </li>
                   </ul>
                 </div>
                 {/* Delete Modal */}
-                <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+                <Modal
+                  show={showDeleteModal}
+                  onHide={() => setShowDeleteModal(false)}
+                >
                   <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                   </Modal.Header>
-                  <Modal.Body>Are you sure you want to delete this award?</Modal.Body>
+                  <Modal.Body>
+                    Are you sure you want to delete this award?
+                  </Modal.Body>
                   <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
-                    <Button variant="danger" onClick={handleDeleteConfirm}>Delete</Button>
+                    <Button
+                      variant="secondary"
+                      onClick={() => setShowDeleteModal(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button variant="danger" onClick={handleDeleteConfirm}>
+                      Delete
+                    </Button>
                   </Modal.Footer>
                 </Modal>
 
                 {/* Edit Award Modal */}
-                <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+                <Modal
+                  show={showEditModal}
+                  onHide={() => setShowEditModal(false)}
+                >
                   <Modal.Header closeButton>
                     <Modal.Title>Edit Award</Modal.Title>
                   </Modal.Header>
@@ -264,7 +340,12 @@ const AddGeneralDepYear = () => {
                           type="text"
                           className="form-control"
                           value={editAwardData.heading}
-                          onChange={(e) => setEditAwardData({ ...editAwardData, heading: e.target.value })}
+                          onChange={(e) =>
+                            setEditAwardData({
+                              ...editAwardData,
+                              heading: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div className="mb-3">
@@ -284,22 +365,35 @@ const AddGeneralDepYear = () => {
                           type="text"
                           className="form-control"
                           value={editAwardData.description}
-                          onChange={(e) => setEditAwardData({ ...editAwardData, description: e.target.value })}
+                          onChange={(e) =>
+                            setEditAwardData({
+                              ...editAwardData,
+                              description: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Upload New PDF (optional)</label>
+                        <label className="form-label">
+                          Upload New PDF (optional)
+                        </label>
                         <input
                           type="file"
                           className="form-control"
-                          onChange={(e) => setEditAwardData({ ...editAwardData, pdf: e.target.files[0] })}
+                          onChange={(e) =>
+                            setEditAwardData({
+                              ...editAwardData,
+                              pdf: e.target.files[0],
+                            })
+                          }
                         />
                       </div>
-                      <Button type="submit" className="btn btn-primary">Save Changes</Button>
+                      <Button type="submit" className="btn btn-primary">
+                        Save Changes
+                      </Button>
                     </form>
                   </Modal.Body>
                 </Modal>
-
               </div>
             </div>
           </div>

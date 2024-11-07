@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api';
 import { toast, ToastContainer } from 'react-toastify';
 import Flatpickr from "react-flatpickr";
-import 'flatpickr/dist/themes/material_blue.css'; // Optional theme
+import 'flatpickr/dist/themes/material_blue.css'; 
 
 const AddPreviousChiefOfficer = () => {
     const [officerName, setOfficerName] = useState('');
@@ -44,7 +44,7 @@ const AddPreviousChiefOfficer = () => {
     
             // Navigate to PreviousChiefOfficer after 5 seconds
             setTimeout(() => {
-                navigate('/PreviousChiefOfficer');
+                navigate('/previous-chief-officer');
             }, 5000);
         } catch (error) {
             toast.error(error.response?.data?.message || 'Error adding officer');
@@ -68,10 +68,10 @@ const AddPreviousChiefOfficer = () => {
             <div className="content">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                        <Link to="/about-kbmc">About KBMC</Link>
+                        <Link to="#.">About KBMC</Link>
                     </li>
                     <li className="breadcrumb-item">
-                        <Link to="/previous-officer">Previous Chief Officers of the Council</Link>
+                        <Link to="/previous-chief-officer">Previous Chief Officers of the Council</Link>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
                         Add Officer

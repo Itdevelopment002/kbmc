@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import api from "../api"
+import {Link} from "react-router-dom";
 
 const Functions = () => {
   const [functions, setFunctions] = useState([]);
@@ -34,7 +35,7 @@ const Functions = () => {
             <h1>Functions</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <span>Functions</span>

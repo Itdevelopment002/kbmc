@@ -3,6 +3,7 @@ import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import api, { baseURL } from "../api";
+import {Link} from "react-router-dom";
 
 const Schools = () => {
   const [schools, setSchools] = useState([]);
@@ -59,7 +60,7 @@ const Schools = () => {
             <h1>Schools</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="#.">City Profile</a>
+                <Link to="#.">City Profile</Link>
               </li>
               <li>
                 <span>Schools</span>
@@ -143,8 +144,8 @@ const Schools = () => {
                       <div class="content-box department-section">
                         <div class="row">
                           {schoolPhotos.map((image, index) => (
-                            <a
-                              href={`${baseURL}${image.image_path}`}
+                            <Link
+                              to={`${baseURL}${image.image_path}`}
                               className="glightbox col-sm-2"
                               data-gallery="slider-images"
                             >
@@ -153,7 +154,7 @@ const Schools = () => {
                                 alt={`img${index + 1}`}
                                 className="img-fluid"
                               />
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </div>

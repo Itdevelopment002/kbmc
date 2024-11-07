@@ -2,9 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import innerBanner from '../../assets/images/banner/inner-banner.jpg'; 
 import Publication1 from '../../assets/images/home/official_publications1.jpeg';
-import Publication2 from '../../assets/images/home/official_publications2.jpeg'
-import pdf1 from "../../assets/documents/official_publications.pdf"
-
+import Publication2 from '../../assets/images/home/official_publications2.jpeg';
+import pdf1 from "../../assets/documents/official_publications.pdf";
 
 const OfficialPublication = () => {
   return (

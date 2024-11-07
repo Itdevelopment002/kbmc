@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import img1 from "../../assets/images/banner/inner-banner.jpg";
 import api from "../api";
+import {Link} from "react-router-dom";
 
 const PropertyHolder = () => {
   const [property, setProperty] = useState([]);
@@ -36,7 +37,7 @@ const PropertyHolder = () => {
             <h1>Property Holder</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="#.">City Profile</a>
+                <Link to="#.">City Profile</Link>
               </li>
               <li>
                 <span>Property Holder</span>

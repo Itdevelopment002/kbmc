@@ -22,7 +22,7 @@ const Add_tender = () => {
             });
 
             // On success, navigate back to the Tender list page
-            navigate('/Tenders');
+            navigate('/tenders');
         } catch (error) {
             setError('There was an issue submitting the tender. Please try again.');
             console.error(error);
@@ -36,7 +36,7 @@ const Add_tender = () => {
             <div className="content">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-                    <li className="breadcrumb-item"><Link to="/tender">Tender</Link></li>
+                    <li className="breadcrumb-item"><Link to="/tenders">Tender</Link></li>
                     <li className="breadcrumb-item active" aria-current="page">Add Tender</li>
                 </ol>
                 <div className="row">

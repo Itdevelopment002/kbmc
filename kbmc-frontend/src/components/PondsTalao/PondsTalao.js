@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "../api";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
+import {Link} from "react-router-dom";
 
 import bannerImage from "../../assets/images/banner/inner-banner.jpg";
 import talaoImg1 from "../../assets/images/talao/img1.jpg";
@@ -64,7 +65,7 @@ const PondsTalao = () => {
             <h1>Ponds / Talao</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="#.">City Profile</a>
+                <Link to="#.">City Profile</Link>
               </li>
               <li>
                 <span>Ponds / Talao</span>
@@ -140,14 +141,14 @@ const PondsTalao = () => {
                       <div className="row">
                         {[talaoImg1, talaoImg2, talaoImg3, talaoImg4, talaoImg5, talaoImg6, talaoImg7, talaoImg8].map(
                           (img, index) => (
-                            <a
+                            <Link
                               key={index}
-                              href={img}
+                              to={img}
                               className="glightbox col-sm-2"
                               data-gallery="example-gallery"
                             >
                               <img src={img} alt={`talaoimg${index + 1}`} className="img-fluid" />
-                            </a>
+                            </Link>
                           )
                         )}
                       </div>

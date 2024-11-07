@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import api from "../../api"
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
 
 const AddCeo = () => {
     const [formData, setFormData] = useState({
@@ -42,7 +43,7 @@ const AddCeo = () => {
             if (response.status === 200) {
                 toast.success('CEO added successfully!'); // Toastify success message
                 setTimeout(() => {
-                    navigate('/History');
+                    navigate('/history');
                 }, 5000);
             }
         } catch (error) {
@@ -55,9 +56,9 @@ const AddCeo = () => {
         <div className="page-wrapper">
             <div className="content">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><a href="index.php">About KBMC</a></li>
-                    <li className="breadcrumb-item"><a href="history.php">History</a></li>
-                    <li className="breadcrumb-item active" aria-current="page">Add CO</li>
+                    <li className="breadcrumb-item"><Link to="#.">About KBMC</Link></li>
+                    <li className="breadcrumb-item"><Link to="/history">History and Chief Officer</Link></li>
+                    <li className="breadcrumb-item active" aria-current="page">Add Ceo</li>
                 </ol>
                 <div className="row">
                     <div className="col-lg-12">

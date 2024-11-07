@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import bannerImage from "../../assets/images/banner/inner-banner.jpg";
 import api, { baseURL } from "../api";
+import {Link} from "react-router-dom";
 
 const FireStation = () => {
   const [fireStations, setFireStations] = useState([]);
@@ -36,7 +37,7 @@ const FireStation = () => {
             <h1>Fire Station</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <span>Fire Station</span>
@@ -59,12 +60,12 @@ const FireStation = () => {
                     <div className="inner-box">
                       <div className="image-box">
                         <figure className="image">
-                          <a href="#.">
+                          <Link to="#.">
                             <img
                               src={`${baseURL}${fireStation.image_path}`}
                               alt="Fire Station East"
                             />
-                          </a>
+                          </Link>
                         </figure>
                       </div>
                       <div className="content-inner">

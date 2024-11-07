@@ -60,7 +60,7 @@ const RightToService = () => {
                     <div className="content-box">
                         <h1>Right to Service</h1>
                         <ul className="bread-crumb clearfix">
-                            <li><a href="/">Home</a></li>
+                            <li><Link href="/">Home</Link></li>
                             <li><span>Right to Service</span></li>
                         </ul>
                     </div>

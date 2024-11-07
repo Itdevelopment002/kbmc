@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { FaFilePdf } from 'react-icons/fa'; // Importing icons
 import api, { baseURL } from '../../api'; // Make sure to install api
+import { Link } from "react-router-dom";
 
 const CitizenCharter = () => {
     const [showEditModal, setShowEditModal] = useState(false);
@@ -96,7 +97,7 @@ const CitizenCharter = () => {
             <div className="content">
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="#">Home</a></li>
+                        <li className="breadcrumb-item"><Link to="/">Home</Link></li>
                         <li className="breadcrumb-item active" aria-current="page">Citizen Charter</li>
                     </ol>
                 </nav>
@@ -153,9 +154,9 @@ const CitizenCharter = () => {
                                                     <td>{index + 1}</td>
                                                     <td>{dept.name}</td>
                                                     <td>
-                                                        <a href={`${baseURL}/${dept.pdf}`} target="_blank" rel="noopener noreferrer">
+                                                        <Link to={`${baseURL}/${dept.pdf}`} target="_blank" rel="noopener noreferrer">
                                                             <FaFilePdf size={35} color="red" />
-                                                        </a>
+                                                        </Link>
                                                     </td>
                                                     <td style={{ textAlign: 'center' }}>
                                                         <Button variant="success" onClick={() => handleOpenEditModal(dept)}>Edit</Button>

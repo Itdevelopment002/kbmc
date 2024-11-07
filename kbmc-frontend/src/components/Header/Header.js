@@ -9,6 +9,7 @@ import img3 from "../../assets/images/kbmc_logo.jpg";
 import img5 from "../../assets/images/icons/icon-4.png";
 import "./Header.css";
 import api, { baseURL } from "../api";
+import {Link} from "react-router-dom"
 
 const Header = () => {
   const [menuData, setMenuData] = useState([]);
@@ -92,9 +93,9 @@ const Header = () => {
           <div className="popup-inner">
             <div className="upper-box clearfix">
               <figure className="logo-box pull-left">
-                <a href="/">
+                <Link to="/">
                   <img src={img3} alt="KBMC Logo" />
-                </a>
+                </Link>
               </figure>
               <div className="close-search pull-right">
                 <i className="fa-solid fa-xmark"></i>
@@ -131,9 +132,9 @@ const Header = () => {
               <div className="col-md-5 col-xl-5 text-start"></div>
               <div className="col-md-2 col-xl-2">
                 <figure className="logo text-center">
-                  <a href="#.">
+                  <Link to="#.">
                     <img src={img1} alt="logo" style={{ width: "50px" }} />
-                  </a>
+                  </Link>
                 </figure>
               </div>
 
@@ -167,32 +168,32 @@ const Header = () => {
                     </div>
                   </li>
                   <li>
-                    <a href="#.">
+                    <Link to="#.">
                       <span className="fab fa-youtube"></span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#.">
+                    <Link to="#.">
                       <span className="fab fa-instagram"></span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="https://twitter.com/home"
+                    <Link
+                      to="https://twitter.com/home"
                       target="_blank"
                       rel="noreferrer"
                     >
                       <span className="fab fa-twitter"></span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="https://www.facebook.com/profile.php?id=100015538206978&mibextid=ZbWKwL"
+                    <Link
+                      to="https://www.facebook.com/profile.php?id=100015538206978&mibextid=ZbWKwL"
                       target="_blank"
                       rel="noreferrer"
                     >
                       <span className="fab fa-facebook"></span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -203,9 +204,9 @@ const Header = () => {
             <div className="outer-box">
               <div className="logo-box">
                 <figure className="logo">
-                  <a href="/">
+                  <Link to="/">
                     <img src={img3} alt="logo" />
-                  </a>
+                  </Link>
                 </figure>
               </div>
               <div className="menu-area">
@@ -236,16 +237,16 @@ const Header = () => {
                               menuItem.subMenus.length ? "dropdown" : ""
                             } ${isMainMenuActive ? "current" : ""}`}
                           >
-                            <a href={menuItem.mainMenu === "Home" ? "/" : "#"}>
+                            <Link href={menuItem.mainMenu === "Home" ? "/" : "#"}>
                               {menuItem.mainMenu}
-                            </a>
+                            </Link>
                             {menuItem.subMenus.length > 0 && (
                               <ul>
                                 {menuItem.subMenus.map(
                                   (subMenuItem, subIndex) => (
                                     <li key={subIndex}>
-                                      <a
-                                        href={
+                                      <Link
+                                        to={
                                           subMenuItem.subLink.endsWith(".pdf")
                                             ? `${baseURL}${subMenuItem.subLink}`
                                             : subMenuItem.subLink
@@ -268,7 +269,7 @@ const Header = () => {
                                         }
                                       >
                                         {subMenuItem.subMenu}
-                                      </a>
+                                      </Link>
                                     </li>
                                   )
                                 )}
@@ -279,9 +280,9 @@ const Header = () => {
                       })}
                       <div className="menu-right-content">
                         <div className="btn-box">
-                          <a href="#." className="header-btn">
+                          <Link to="#." className="header-btn">
                             Login
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </ul>
@@ -296,12 +297,12 @@ const Header = () => {
               <div className="outer-box">
                 <div className="logo-box">
                   <figure className="logo">
-                    <a href="#.">
+                    <Link to="#.">
                       <img
                         src="assets/images/KBMC-logo-1-edited2.png"
                         alt="logo"
                       />
-                    </a>
+                    </Link>
                   </figure>
                 </div>
                 <div className="menu-area clearfix">
@@ -314,9 +315,9 @@ const Header = () => {
                     </div>
 
                     <div className="btn-box">
-                      <a href="#." className="header-btn">
+                      <Link to="#." className="header-btn">
                         Administration Chief
-                      </a>
+                      </Link>
                     </div>
                     <div className="language-box">
                       <div className="select-box">
@@ -341,9 +342,9 @@ const Header = () => {
 
           <nav className="menu-box">
             <div className="nav-logo">
-              <a href="#.">
+              <Link to="#.">
                 <img src={img3} alt="KBMC Logo" title="KBMC Logo" />
-              </a>
+              </Link>
             </div>
 
             <div
@@ -366,11 +367,11 @@ const Header = () => {
                         menuItem.subMenus.length ? "dropdown" : ""
                       } ${isMainMenuActive ? "current" : ""}`}
                     >
-                      <a
+                      <Link
                         href={menuItem.mainMenu === "Home" ? "/" : "#"}
                       >
                         {menuItem.mainMenu}
-                      </a>
+                      </Link>
 
                       {menuItem.subMenus.length > 0 &&
                         
@@ -378,8 +379,8 @@ const Header = () => {
                           <ul>
                             {menuItem.subMenus.map((subMenuItem, subIndex) => (
                               <li key={subIndex}>
-                                <a
-                                  href={
+                                <Link
+                                  to={
                                     subMenuItem.subLink.endsWith(".pdf")
                                       ? `${baseURL}${subMenuItem.subLink}`
                                       : subMenuItem.subLink
@@ -398,7 +399,7 @@ const Header = () => {
                                   }
                                 >
                                   {subMenuItem.subMenu}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -420,39 +421,39 @@ const Header = () => {
             <div className="social-links">
               <ul className="clearfix">
                 <li>
-                  <a href="#.">
+                  <Link to="#.">
                     <span className="fab fa-youtube"></span>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#.">
+                  <Link to="#.">
                     <span className="fab fa-instagram"></span>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="https://twitter.com/home"
+                  <Link
+                    to="https://twitter.com/home"
                     target="_blank"
                     rel="noreferrer"
                   >
                     <span className="fab fa-twitter"></span>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="https://www.facebook.com/profile.php?id=100015538206978&amp;mibextid=ZbWKwL"
+                  <Link
+                    to="https://www.facebook.com/profile.php?id=100015538206978&amp;mibextid=ZbWKwL"
                     target="_blank"
                     rel="noreferrer"
                   >
                     <span className="fab fa-facebook"></span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
               <div className="menu-right-content">
                 <div className="btn-box">
-                  <a href="#." className="header-btn">
+                  <Link to="#." className="header-btn">
                     Login
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

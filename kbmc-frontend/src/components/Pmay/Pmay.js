@@ -6,6 +6,7 @@ import img3 from "../../assets/images/pmay/img3.jpg";
 import img4 from "../../assets/images/pmay/img4.jpg";
 import img5 from "../../assets/images/pmay/img5.jpg";
 import img6 from "../../assets/images/pmay/img6.jpg";
+import {Link} from "react-router-dom";
 
 const Pmay = () => {
   return (
@@ -26,7 +27,7 @@ const Pmay = () => {
             <h1>PMAY</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="#.">Schemes</a>
+                <Link to="#.">Schemes</Link>
               </li>
               <li>
                 <span>PMAY</span>

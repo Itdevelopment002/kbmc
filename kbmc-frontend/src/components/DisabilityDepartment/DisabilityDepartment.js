@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import api from "../api";
+import {Link} from "react-router-dom";
 
 const DisabilityDepartment = () => {
   const [departments, setDepartments] = useState([]);
@@ -33,7 +34,7 @@ const DisabilityDepartment = () => {
             <h1>Disability Welfare Department</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/departments">Departments</a>
+                <Link to="/departments">Departments</Link>
               </li>
               <li>
                 <span>Disability Welfare Department</span>
@@ -55,19 +56,19 @@ const DisabilityDepartment = () => {
                   </div>
                   <ul>
                     <li>
-                      <a href="#.">Heading 1</a>
+                      <Link to="#.">Heading 1</Link>
                     </li>
                     <li>
-                      <a href="#.">Heading 2</a>
+                      <Link to="#.">Heading 2</Link>
                     </li>
                     <li>
-                      <a href="#.">Heading 3</a>
+                      <Link to="#.">Heading 3</Link>
                     </li>
                     <li>
-                      <a href="#.">Heading 4</a>
+                      <Link to="#.">Heading 4</Link>
                     </li>
                     <li>
-                      <a href="#.">Heading 5</a>
+                      <Link to="#.">Heading 5</Link>
                     </li>
                   </ul>
                 </div>
@@ -81,9 +82,9 @@ const DisabilityDepartment = () => {
                   {departments.map((department,index) => (
                         <li key={index}>
                         {" "}
-                        <a href={department.link}>
+                        <Link to={department.link}>
                           {department.name}
-                        </a>
+                        </Link>
                       </li>
                       ))}
                     </ul>

@@ -38,7 +38,7 @@ const AddGardens = () => {
         <div className="page-wrapper">
             <div className="content">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><Link to="/">City Profile</Link></li>
+                    <li className="breadcrumb-item"><Link to="#.">City Profile</Link></li>
                     <li className="breadcrumb-item"><Link to="/gardens">Gardens</Link></li>
                     <li className="breadcrumb-item active" aria-current="page">Add Gardens</li>
                 </ol>

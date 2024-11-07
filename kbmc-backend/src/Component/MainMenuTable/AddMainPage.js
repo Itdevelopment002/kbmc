@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa'; // Importing a cross icon from react-icons
 import api from '../api'; // Import api for HTTP requests
 import {useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link } from "react-router-dom";
 
 
 
@@ -67,8 +68,8 @@ const AddMainPage = () => {
       <div className="page-wrapper">
         <div className="content">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item"><a href="/home">Home</a></li>
-            <li className="breadcrumb-item"><a href="/main-menu">Main Menu</a></li>
+            <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+            <li className="breadcrumb-item"><Link to="/">Main Menu</Link></li>
             <li className="breadcrumb-item active" aria-current="page">Add Main</li>
           </ol>
           <div className="row">

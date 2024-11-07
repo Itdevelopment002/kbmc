@@ -156,10 +156,10 @@ const HistoryPage = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="#.">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                History and Chief Officer
+                Right to Service
               </li>
             </ol>
           </nav>
@@ -177,7 +177,7 @@ const HistoryPage = () => {
                       </div>
                       <div className="col-sm-8 col-9 text-end mb-3">
                         <Link
-                          to="/Add_RTSDES"
+                          to="/add-rts-des"
                           className="btn btn-primary btn-rounded float-right"
                           style={{ borderRadius: "100px" }}
                         >
@@ -239,7 +239,7 @@ const HistoryPage = () => {
                       </div>
                       <div className="col-sm-8 col-9 text-end mb-3">
                         <Link
-                          to="/Add_RTS"
+                          to="/add-rts"
                           className="btn btn-primary btn-rounded float-right"
                           style={{ borderRadius: "100px" }}
                         >
@@ -265,8 +265,8 @@ const HistoryPage = () => {
                                 <td>{index + 1}</td>
                                 <td>{item.description}</td>
                                 <td style={{ textAlign: "center" }}>
-                                  <a
-                                    href={`${baseURL}/${item.pdf_path}`}
+                                  <Link
+                                    to={`${baseURL}/${item.pdf_path}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                   >
@@ -274,7 +274,7 @@ const HistoryPage = () => {
                                       size={24}
                                       style={{ color: "red" }}
                                     />
-                                  </a>
+                                  </Link>
                                 </td>
                                 <td>
                                   <button
@@ -373,14 +373,13 @@ const HistoryPage = () => {
                       onChange={handleFileChange}
                     />
                     {pdfPreview && (
-                      <a
-                        href={pdfPreview}
+                      <Link to={pdfPreview}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ display: "block", marginTop: "10px" }}
                       >
                         Preview PDF
-                      </a>
+                      </Link>
                     )}
                   </div>
                 </>
