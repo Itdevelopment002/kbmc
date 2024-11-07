@@ -19,7 +19,7 @@ const Add_ponds = () => {
             });
             
 
-            if (response.ok) {
+            if (response.status === 200) {
                 console.log('Ponds/Talao added successfully');
                 // Redirect to news update page
                 navigate('/ponds');
@@ -38,7 +38,7 @@ const Add_ponds = () => {
         <div className="page-wrapper">
             <div className="content">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><Link to="/">City Profile</Link></li>
+                    <li className="breadcrumb-item"><Link to="#.">City Profile</Link></li>
                     <li className="breadcrumb-item"><Link to="/ponds">Ponds / Talao</Link></li>
                     <li className="breadcrumb-item active" aria-current="page">Add Ponds/Talao</li>
                 </ol>

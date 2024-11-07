@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import api from '../api'; 
+import {Link} from "react-router-dom";
 
 const WcdDepartment = () => {
   const [departments, setDepartments] = useState([]);
@@ -33,7 +34,7 @@ const WcdDepartment = () => {
             <h1>WCD (Women and Child Development)</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/departments">Departments</a>
+                <Link to="/departments">Departments</Link>
               </li>
               <li>
                 <span>WCD (Women and Child Development)</span>
@@ -55,19 +56,19 @@ const WcdDepartment = () => {
                   </div>
                   <ul>
                     <li>
-                      <a href="#.">Heading 1</a>
+                      <Link to="#.">Heading 1</Link>
                     </li>
                     <li>
-                      <a href="#.">Heading 2</a>
+                      <Link to="#.">Heading 2</Link>
                     </li>
                     <li>
-                      <a href="#.">Heading 3</a>
+                      <Link to="#.">Heading 3</Link>
                     </li>
                     <li>
-                      <a href="#.">Heading 4</a>
+                      <Link to="#.">Heading 4</Link>
                     </li>
                     <li>
-                      <a href="#.">Heading 5</a>
+                      <Link to="#.">Heading 5</Link>
                     </li>
                   </ul>
                 </div>
@@ -81,7 +82,7 @@ const WcdDepartment = () => {
                       {departments.map((department, index) => (
                         <li key={index}>
                           {" "}
-                          <a href={department.link}>{department.name}</a>
+                          <Link to={department.link}>{department.name}</Link>
                         </li>
                       ))}
                     </ul>

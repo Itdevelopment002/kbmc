@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import { Modal, Button } from 'react-bootstrap'; // Import Modal and Button from react-bootstrap
 
 const Notifications = () => {
@@ -33,7 +34,7 @@ const Notifications = () => {
         <div style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', padding: '20px' }}>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="index.php">Home</a></li>
+              <li className="breadcrumb-item"><Link to="/">Home</Link></li>
               <li className="breadcrumb-item active" aria-current="page">Notifications</li>
             </ol>
           </nav>
@@ -84,15 +85,15 @@ const Notifications = () => {
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
           <ul className="pagination">
               <li className="page-item disabled">
-                <a className="page-link" href="#" tabIndex="-1">Previous</a>
+                <Link className="page-link" to="#" tabIndex="-1">Previous</Link>
               </li>
-              <li className="page-item"><a className="page-link" href="#">1</a></li>
+              <li className="page-item"><Link className="page-link" to="#">1</Link></li>
               <li className="page-item active">
-                <a className="page-link" href="#">2 <span className="sr-only"></span></a>
+                <Link className="page-link" to="#">2 <span className="sr-only"></span></Link>
               </li>
-              <li className="page-item"><a className="page-link" href="#">3</a></li>
+              <li className="page-item"><Link className="page-link" to="#">3</Link></li>
               <li className="page-item">
-                <a className="page-link" href="#">Next</a>
+                <Link className="page-link" to="#">Next</Link>
               </li>
             </ul>
           </div>

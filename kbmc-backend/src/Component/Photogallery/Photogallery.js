@@ -128,7 +128,7 @@ const Photogallery = () => {
                   </div>
                   <div className="col-sm-8 col-9 text-end mb-3">
                     <Link
-                      to="/Add_photogallery"
+                      to="/add-photo-gallery"
                       className="btn btn-primary btn-rounded float-right"
                       style={{ borderRadius: "100px" }}
                     >
@@ -152,8 +152,8 @@ const Photogallery = () => {
                           <td>{index + 1}</td>
                           <td>{gallery.photo_name}</td>
                           <td>
-                            <a
-                              href={`${baseURL}${gallery.file_path}`}
+                            <Link
+                              to={`${baseURL}${gallery.file_path}`}
                               className="glightbox"
                               data-gallery="gallery-images"
                             >
@@ -162,7 +162,7 @@ const Photogallery = () => {
                                 src={`${baseURL}${gallery.file_path}`}
                                 alt={`gallery${index + 1}`}
                               />
-                            </a>
+                            </Link>
                           </td>
                           <td>
                             <button

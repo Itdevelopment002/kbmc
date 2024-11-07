@@ -68,7 +68,7 @@ const Tender = () => {
                                         <h4 className="page-title">Tender</h4>
                                     </div>
                                     <div className="col-sm-8 col-9 text-end mb-3">
-                                        <Link to="/Add_tender" className="btn btn-primary btn-rounded float-end" style={{borderRadius:"100px"}}>
+                                        <Link to="/add-tender" className="btn btn-primary btn-rounded float-end" style={{borderRadius:"100px"}}>
                                             <i className="fa fa-plus"></i> + Add Tender
                                         </Link>
                                     </div>

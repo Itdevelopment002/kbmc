@@ -67,7 +67,7 @@ const MunicipalProperties = () => {
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="#.">City Profile</a>
+              <Link to="#.">City Profile</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Municipal Properties

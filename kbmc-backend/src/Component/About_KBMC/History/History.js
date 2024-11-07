@@ -141,7 +141,7 @@ const HistoryPage = () => {
           modalType === "history" ? "History" : "CO"
         } entry updated successfully.`
       );
-      navigate("/History");
+      navigate("/history");
     } catch (error) {
       console.error(error);
       toast.error("Failed to update the entry.");
@@ -168,7 +168,7 @@ const HistoryPage = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="#.">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 History and Chief Officer
@@ -189,7 +189,7 @@ const HistoryPage = () => {
                       </div>
                       <div className="col-sm-8 col-9 text-end mb-3">
                         <Link
-                          to="/Add_history"
+                          to="/add-history"
                           className="btn btn-primary btn-rounded float-right"
                           style={{ borderRadius: "100px" }}
                         >
@@ -251,7 +251,7 @@ const HistoryPage = () => {
                       </div>
                       <div className="col-sm-8 col-9 text-end mb-3">
                         <Link
-                          to="/Add_ceo"
+                          to="/add-ceo"
                           className="btn btn-primary btn-rounded float-right"
                           style={{ borderRadius: "100px" }}
                         >
@@ -278,9 +278,9 @@ const HistoryPage = () => {
                               <tr key={item.id}>
                                 <td>{index + 1}</td>
                                 <td>
-                                  <a
+                                  <Link
                                     className="glightbox"
-                                    href={`${baseURL}${item.image_path}`}
+                                    to={`${baseURL}${item.image_path}`}
                                   >
                                     <img
                                       src={`${baseURL}${item.image_path}`}
@@ -291,7 +291,7 @@ const HistoryPage = () => {
                                         borderRadius: "50%",
                                       }}
                                     />
-                                  </a>
+                                  </Link>
                                 </td>
                                 <td>{item.coName}</td>
                                 <td>{item.designation}</td>

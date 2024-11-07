@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import api from "../api";
+import {Link} from "react-router-dom";
 
 const Departments = () => {
   const [departments, setDepartments] = useState([]);
@@ -51,7 +52,7 @@ const Departments = () => {
             <h1>Departments</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/">Home</a>
+                <Link href="/">Home</Link>
               </li>
               <li>
                 <span>Departments</span>
@@ -70,13 +71,13 @@ const Departments = () => {
                   <div className="inner-box">
                     <div className="content-box">
                       <h3>
-                        <a href={department.link}>{department.name}</a>
+                        <Link href={department.link}>{department.name}</Link>
                       </h3>
                       <p>Name of HOD: {department.hod}</p>
                       <div className="link-box">
-                        <a href={department.link}>
+                        <Link href={department.link}>
                           <span>Read More</span>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -88,8 +89,8 @@ const Departments = () => {
         <div className="pagination-wrapper centred">
           <ul className="pagination clearfix">
             <li>
-              <a
-                href="#."
+              <Link
+                to="#."
                 onClick={(e) => {
                   e.preventDefault();
                   if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -97,12 +98,12 @@ const Departments = () => {
                 className={currentPage === 1 ? "disabled" : ""}
               >
                 <i className="flaticon-right-chevron"></i>
-              </a>
+              </Link>
             </li>
             {Array.from({ length: totalPages }, (_, i) => (
               <li key={i}>
-                <a
-                  href="#."
+                <Link
+                  to="#."
                   onClick={(e) => {
                     e.preventDefault();
                     setCurrentPage(i + 1);
@@ -110,12 +111,12 @@ const Departments = () => {
                   className={currentPage === i + 1 ? "current" : ""}
                 >
                   {i + 1}
-                </a>
+                </Link>
               </li>
             ))}
             <li>
-              <a
-                href="#."
+              <Link
+                to="#."
                 onClick={(e) => {
                   e.preventDefault();
                   if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -123,7 +124,7 @@ const Departments = () => {
                 className={currentPage === totalPages ? "disabled" : ""}
               >
                 <i className="flaticon-right-chevron"></i>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

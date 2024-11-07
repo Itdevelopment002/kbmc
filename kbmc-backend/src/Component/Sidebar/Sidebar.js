@@ -144,7 +144,7 @@ const Sidebar = () => {
   
           <li className="nav-item">
             <NavLink
-              to="/Home_video"
+              to="/home-video"
               className="nav-link"
               activeClassName="active"
             >
@@ -153,13 +153,13 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/News" className="nav-link" activeClassName="active">
+            <NavLink to="/news" className="nav-link" activeClassName="active">
               <FaNewspaper className="me-2" />
               News Update
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/Tenders" className="nav-link" activeClassName="active">
+            <NavLink to="/tenders" className="nav-link" activeClassName="active">
               <FaClipboardList className="me-2" />
               Tenders
             </NavLink>
@@ -178,7 +178,7 @@ const Sidebar = () => {
               <ul className="nav flex-column ms-3">
                 <li className="nav-item">
                   <NavLink
-                    to="/Photogallery"
+                    to="/photo-gallery"
                     className="nav-link"
                     activeClassName="active"
                   >
@@ -191,7 +191,7 @@ const Sidebar = () => {
   
           <li className="nav-item">
             <NavLink
-              to="/Websitelink"
+              to="/website-link"
               className="nav-link"
               activeClassName="active"
             >
@@ -201,7 +201,7 @@ const Sidebar = () => {
           </li>
   
           <li className="nav-item">
-            <NavLink to="/dep" className="nav-link" activeClassName="active">
+            <NavLink to="/department" className="nav-link" activeClassName="active">
               <MdBusiness className="me-2" />
               Department
             </NavLink>
@@ -219,7 +219,7 @@ const Sidebar = () => {
             {showSubServices && (
               <ul className="nav flex-column ms-3">
                 <li className="nav-item">
-                  <NavLink to="/general-admin" className="nav-link">
+                  <NavLink to="/general-admin-department" className="nav-link">
                     General Admin Department
                   </NavLink>
                 </li>
@@ -349,7 +349,7 @@ const Sidebar = () => {
               <ul className="nav flex-column ms-3">
                 <li className="nav-item">
                   <NavLink
-                    to="/History"
+                    to="/history"
                     className="nav-link"
                     activeClassName="active"
                   >
@@ -358,7 +358,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    to="/Ward"
+                    to="/ward"
                     className="nav-link"
                     activeClassName="active"
                   >
@@ -367,7 +367,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    to="/Electedwings"
+                    to="/elected-wings"
                     className="nav-link"
                     activeClassName="active"
                   >
@@ -376,7 +376,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    to="/Functions"
+                    to="/functions"
                     className="nav-link"
                     activeClassName="active"
                   >
@@ -385,7 +385,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    to="/PreviousChiefOfficer"
+                    to="/previous-chief-officer"
                     className="nav-link"
                     activeClassName="active"
                   >
@@ -394,7 +394,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    to="/PreviousPresident"
+                    to="/previous-president"
                     className="nav-link"
                     activeClassName="active"
                   >
@@ -403,7 +403,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    to="/Award"
+                    to="/award"
                     className="nav-link"
                     activeClassName="active"
                   >
@@ -426,7 +426,7 @@ const Sidebar = () => {
               <ul className="nav flex-column ms-3">
                 <li className="nav-item">
                   <NavLink
-                    to="/property_holder"
+                    to="/property-holder"
                     className="nav-link"
                     activeClassName="active"
                   >
@@ -620,25 +620,25 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/pp" className="nav-link" activeClassName="active">
+            <NavLink to="/privacy-policy" className="nav-link" activeClassName="active">
               <MdPrivacyTip className="me-2" />
               Privacy Policy
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/tac" className="nav-link" activeClassName="active">
+            <NavLink to="/terms-and-conditions" className="nav-link" activeClassName="active">
               <BsFileEarmarkText className="me-2" />
               Terms & Conditions
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/contact" className="nav-link" activeClassName="active">
+            <NavLink to="/contact-us" className="nav-link" activeClassName="active">
               <MdContactMail className="me-2" />
               Contact Us
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/noti" className="nav-link" activeClassName="active">
+            <NavLink to="/notification" className="nav-link" activeClassName="active">
               <MdNotifications className="me-2" />
               Notifications
             </NavLink>

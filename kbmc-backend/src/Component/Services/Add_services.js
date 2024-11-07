@@ -3,6 +3,7 @@ import api from '../api';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
 
 const AddServices = () => {
   const [serviceHeading, setServiceHeading] = useState('');
@@ -76,8 +77,8 @@ const AddServices = () => {
     <div className="page-wrapper">
       <div className="content">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item"><a href="index.php">Home</a></li>
-          <li className="breadcrumb-item"><a href="services.php">Services</a></li>
+          <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+          <li className="breadcrumb-item"><Link to="/services">Services</Link></li>
           <li className="breadcrumb-item active" aria-current="page">Add Services</li>
         </ol>
         <div className="row">

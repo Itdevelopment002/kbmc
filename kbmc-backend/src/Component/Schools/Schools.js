@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
+
 const School = () => {
   const [schoolData, setSchoolData] = useState([]);
   const [schoolImageData, setSchoolImageData] = useState([]);
@@ -191,7 +192,7 @@ const School = () => {
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="#.">City Profile</a>
+              <Link to="#.">City Profile</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Schools
@@ -268,13 +269,12 @@ const School = () => {
                     <h4 className="page-title">School Photos</h4>
                   </div>
                   <div className="col-sm-8 col-9 text-end m-b-20">
-                    <a
-                      href="/add-school-images"
+                    <Link to="/add-school-images"
                       className="btn btn-primary btn-rounded float-right mb-3"
                       style={{ borderRadius: "100px" }}
                     >
                       <i className="fa fa-plus"></i>+ Add Photos
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -296,9 +296,9 @@ const School = () => {
                           textAlign: "center", // Center align text
                         }}
                       >
-                        <a
+                        <Link
                           className="glightbox"
-                          href={`${baseURL}${item.image_path}`}
+                          to={`${baseURL}${item.image_path}`}
                         >
                           <img
                             src={`${baseURL}${item.image_path}`}
@@ -306,7 +306,7 @@ const School = () => {
                             width="120px"
                             height="60px"
                           />
-                        </a>
+                        </Link>
 
                         <br />
                         <div

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../api";
 import bannerImage from "../../assets/images/banner/inner-banner.jpg"; 
+import {Link} from "react-router-dom";
 
 const PrivateHospital = () => {
   const [eastHospitals, setEastHospitals] = useState([]);
@@ -42,7 +43,7 @@ const PrivateHospital = () => {
             <h1>Private Hospital</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="#.">City Profile</a>
+                <Link to="#.">City Profile</Link>
               </li>
               <li>
                 <span>Private Hospital</span>

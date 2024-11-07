@@ -19,10 +19,8 @@ const Add_news = () => {
                 },
             });
 
-            if (response.ok) {
-                console.log('News added successfully');
-                // Redirect to news update page
-                navigate('/News');
+            if (response.status === 200) {
+                navigate('/news');
             } else {
                 console.error('Failed to add news');
             }

@@ -65,7 +65,7 @@ const PondsAndTalao = () => {
             ));
             setShowEditModal(false);
             setSelectedPonds(null);
-            setEditedContent(''); // Reset the content after saving
+            setEditedContent('');
         } catch (error) {
             console.error('Error updating ponds:', error);
         }

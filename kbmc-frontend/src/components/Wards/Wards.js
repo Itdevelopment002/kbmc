@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
 import api from '../api'; 
+import {Link} from "react-router-dom";
 
 const Wards = () => {
     const [wardData, setWardData] = useState([]);
@@ -32,7 +33,7 @@ const Wards = () => {
                     <div className="content-box">
                         <h1>Wards</h1>
                         <ul className="bread-crumb clearfix">
-                            <li><a href="/">Home</a></li>
+                            <li><Link to="/">Home</Link></li>
                             <li><span>Wards</span></li>
                         </ul>
                     </div>

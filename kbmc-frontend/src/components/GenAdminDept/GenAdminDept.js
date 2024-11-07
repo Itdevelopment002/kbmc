@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"; 
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
 import api from "../api"
+import {Link} from "react-router-dom";
 
 const GenAdminDept = () => {
   const [genDepartments, setGenDepartments] = useState([]);
@@ -51,7 +52,7 @@ const GenAdminDept = () => {
             <h1>General Admin Department</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/departments">Departments</a>
+                <Link to="/departments">Departments</Link>
               </li>
               <li>
                 <span>General Admin Department</span>
@@ -77,7 +78,7 @@ const GenAdminDept = () => {
                     ) : (
                       genDepartments.map(genDepartment => (
                         <li key={genDepartment.id}>
-                          <a href="/dept-layer-2">{genDepartment.departments_heading}</a>
+                          <Link to="/dept-layer-2">{genDepartment.departments_heading}</Link>
                         </li>
                       ))
                     )}
@@ -93,7 +94,7 @@ const GenAdminDept = () => {
                     {departments.map((department, index) => (
                         <li key={index}>
                           {" "}
-                          <a href={department.link}>{department.name}</a>
+                          <Link to={department.link}>{department.name}</Link>
                         </li>
                       ))}
                     </ul>

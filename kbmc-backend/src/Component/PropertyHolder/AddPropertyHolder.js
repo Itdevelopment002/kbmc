@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom'; // Correctly import useNavigate
+import { Link } from "react-router-dom";
 
 const AddPropertyHolder = () => {
   const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ const AddPropertyHolder = () => {
         description: '',
         property: ''
       });
-      navigate('/property_holder');
+      navigate('/property-holder');
 
     } catch (error) {
       if (error.response) {
@@ -52,8 +53,8 @@ const AddPropertyHolder = () => {
     <div className="page-wrapper">
       <div className="content">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item"><a href="/city-profile">City Profile</a></li>
-          <li className="breadcrumb-item"><a href="/property-holder">Property Holder</a></li>
+          <li className="breadcrumb-item"><Link to="#.">City Profile</Link></li>
+          <li className="breadcrumb-item"><Link to="/property-holder">Property Holder</Link></li>
           <li className="breadcrumb-item active" aria-current="page">Add Property Holder</li>
         </ol>
 

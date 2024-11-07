@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
+import {Link} from "react-router-dom";
 
 const HealthPhotoGallery = () => {
   const [photos, setPhotos] = useState([]);
@@ -141,8 +142,8 @@ const HealthPhotoGallery = () => {
                     <td>{index + 1}</td>
                     <td>{photo.heading}</td>
                     <td>
-                            <a
-                              href={`${baseURL}${photo.img_path}`}
+                            <Link
+                              to={`${baseURL}${photo.img_path}`}
                               className="glightbox"
                               data-gallery="slider-images"
                             >
@@ -151,7 +152,7 @@ const HealthPhotoGallery = () => {
                                 src={`${baseURL}${photo.img_path}`}
                                 alt={`photo${index + 1}`}
                               />
-                            </a>
+                            </Link>
                           </td>
                     <td>
                       <Button

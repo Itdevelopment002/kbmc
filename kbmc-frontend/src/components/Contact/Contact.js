@@ -5,6 +5,7 @@ import Location from "../../assets/images/icons/Location Icon.png";
 import Quick from "../../assets/images/icons/Quick Contact Icon.png";
 import Off from "../../assets/images/icons/Off hours Icon.png";
 import api from "../api"
+import {Link} from "react-router-dom";
 
 const Contact = () => {
   const {
@@ -40,7 +41,7 @@ const Contact = () => {
             <h1>Contact Us</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <span>Contact Us</span>
@@ -81,11 +82,11 @@ const Contact = () => {
                         <h3>Quick Contact</h3>
                         <div className="text-box">
                           <p>
-                            <a href="tel:02512690271">0251 269 0271</a>
+                            <Link to="tel:02512690271">0251 269 0271</Link>
                             <br />
-                            <a href="mailto:support@kbmc.gov.in">
+                            <Link to="mailto:support@kbmc.gov.in">
                               support@kbmc.gov.in
-                            </a>
+                            </Link>
                           </p>
                         </div>
                       </div>

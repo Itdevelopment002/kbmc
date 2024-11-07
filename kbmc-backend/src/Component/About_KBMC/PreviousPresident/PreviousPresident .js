@@ -7,6 +7,7 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const PreviousPresidents = () => {
   const [presidents, setPresidents] = useState([]);
@@ -20,6 +21,8 @@ const PreviousPresidents = () => {
     image_path: "",
   });
   const [imageFile, setImageFile] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const lightbox = GLightbox({
@@ -146,6 +149,8 @@ const PreviousPresidents = () => {
     }
   };
 
+  const currentPageData = presidents.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div>
       <div className="page-wrapper">
@@ -153,7 +158,7 @@ const PreviousPresidents = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="#.">About KBMC</a>
+                <Link to="#.">About KBMC</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Previous President's
@@ -170,13 +175,12 @@ const PreviousPresidents = () => {
                       <h4 className="page-title">Previous President's</h4>
                     </div>
                     <div className="col-sm-8 col-9 text-end m-b-20">
-                      <a
-                        href="/Add_PreviousPresident"
+                      <Link to="/add-previous-president"
                         className="btn btn-primary btn-rounded float-right "
                         style={{ borderRadius: "100px" }}
                       >
                         <i className="fa fa-plus"></i> + Add President
-                      </a>
+                      </Link>
                     </div>
                   </div>
 
@@ -194,10 +198,9 @@ const PreviousPresidents = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {presidents.map((president, index) => (
+                      {currentPageData.length > 0 ? currentPageData.map((president, index) => (
                           <tr key={president.id}>
-                            {/* Dynamically incrementing index */}
-                            <td>{index + 1}</td>
+                            <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                             <td>{president.president_name}</td>
                             <td>
                               {new Date(president.start_date)
@@ -210,8 +213,7 @@ const PreviousPresidents = () => {
                                 .replace(/\//g, "-")}
                             </td>
                             <td>
-                              <a
-                                href={`${baseURL}${president.image_path}`}
+                              <Link to={`${baseURL}${president.image_path}`}
                                 className="glightbox"
                                 data-gallery="president-images"
                               >
@@ -220,7 +222,7 @@ const PreviousPresidents = () => {
                                   src={`${baseURL}${president.image_path}`}
                                   alt={`president${index + 1}`}
                                 />
-                              </a>
+                              </Link>
                             </td>
                             <td>
                               <button
@@ -238,7 +240,11 @@ const PreviousPresidents = () => {
                               </button>
                             </td>
                           </tr>
-                        ))}
+                        )) : (
+                          <tr>
+                              <td colSpan="6" style={{ textAlign: 'center' }}>No presidents available</td>
+                          </tr>
+                      )}
                       </tbody>
                     </table>
                   </div>
@@ -248,35 +254,21 @@ const PreviousPresidents = () => {
           </div>
 
           {/* Pagination (can be dynamic based on total items) */}
-          <div>
-            <ul className="pagination">
-              <li className="page-item disabled">
-                <a className="page-link" href="#" tabIndex="-1">
-                  Previous
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  1
-                </a>
-              </li>
-              <li className="page-item active">
-                <a className="page-link" href="#">
-                  2 <span className="sr-only"></span>
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  Next
-                </a>
-              </li>
-            </ul>
-          </div>
+          <div className="mt-4">
+                                    <ul className="pagination">
+                                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                            <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
+                                        </li>
+                                        {Array.from({ length: Math.ceil(presidents.length / itemsPerPage) }, (_, i) => (
+                                            <li className={`page-item ${currentPage === i + 1 ? 'active' : ''}`} key={i}>
+                                                <button className="page-link" onClick={() => setCurrentPage(i + 1)}>{i + 1}</button>
+                                            </li>
+                                        ))}
+                                        <li className={`page-item ${currentPage === Math.ceil(presidents.length / itemsPerPage) ? 'disabled' : ''}`}>
+                                            <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
+                                        </li>
+                                    </ul>
+                                </div>
 
           {/* Delete Modal */}
           <Modal

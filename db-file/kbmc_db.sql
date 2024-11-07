@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2024 at 12:05 PM
+-- Generation Time: Nov 07, 2024 at 10:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -137,8 +137,7 @@ CREATE TABLE `contact` (
 --
 
 INSERT INTO `contact` (`id`, `name`, `mobile`, `subject`, `email`, `feedback`) VALUES
-(6, 'Nishant Makam', '9988776655', 'Tax Enquiry', 'email@gmail.com', 'Feedback Description Here'),
-(7, 'Nishant Makam', '9988776655', 'Tax Enquiry', 'email@gmail.com', 'Feedback Description Here');
+(6, 'Nishant Makam', '9988776655', 'Tax Enquiry', 'email@gmail.com', 'Feedback Description Here');
 
 -- --------------------------------------------------------
 
@@ -275,7 +274,7 @@ INSERT INTO `functions` (`id`, `heading`, `description`) VALUES
 (5, 'DUTIES AND FUNCTIONS OF THE COUNCIL AND THE MUNICIPAL EXECUTIVE.', 'watering public streets and places ;'),
 (6, 'DUTIES AND FUNCTIONS OF THE COUNCIL AND THE MUNICIPAL EXECUTIVE.', 'cleansing public streets, places and sewers, and all spaces, not being private property, which are open to the enjoyment of the public, whether such spaces are vested in the Council or not removing noxious vegetation and abating all public nuisances ;'),
 (7, 'DUTIES AND FUNCTIONS OF THE COUNCIL AND THE MUNICIPAL EXECUTIVE.', 'maintenance of a fire-brigade equipped with suitable appliances for extinguishing fires, and protection of life and property when fire occur;]'),
-(8, 'DUTIES AND FUNCTIONS OF THE COUNCIL AND THE MUNICIPAL EXECUTIVE.', 'regulating or abating offensive or dangerous trades or practices;'),
+(8, 'DUTIES AND FUNCTIONS OF THE COUNCIL AND THE MUNICIPAL EXECUTIVE', 'regulating or abating offensive or dangerous trades or practices'),
 (9, 'DUTIES AND FUNCTIONS OF THE COUNCIL AND THE MUNICIPAL EXECUTIVE.', 'removing obstructions and protections in public streets or places and in spaces, not being private property, which are open to the enjoyment of the public, whether such spaces are vested in the Council or in Government;'),
 (10, 'DUTIES AND FUNCTIONS OF THE COUNCIL AND THE MUNICIPAL EXECUTIVE.', 'securing or removing dangerous buildings or places and reclaiming unhealthy localities;'),
 (11, 'DUTIES AND FUNCTIONS OF THE COUNCIL AND THE MUNICIPAL EXECUTIVE.', 'acquiring and maintaining, changing and regulating places for the disposal of the dead ;'),
@@ -430,7 +429,10 @@ CREATE TABLE `health_dep_sec` (
 INSERT INTO `health_dep_sec` (`id`, `description`) VALUES
 (8, 'Ward no. From 1 to 47, the work of road cleaning and door to door collection and transportation of wet and dry waste is done through the department.'),
 (9, 'Zone no.1 to 6 is sprayed ward wise with mosquito repellent fume by fogging machine.'),
-(10, 'Daily cleaning of public and community toilets in zone no.1 to 6 Maintenance and minor repairs are carried out.');
+(10, 'Daily cleaning of public and community toilets in zone no.1 to 6 Maintenance and minor repairs are carried out.'),
+(11, 'Catching stray dogs in Kubanp area and carrying out sterilization operations on them and The work of giving them rabies prevention vaccine is done through the department.'),
+(12, 'In Kulgaon Badlapur Municipal Council area pesticide spraying is done by mini tractor with power spray machine.'),
+(13, 'Kulgaon Badlapur Municipal Council Area Maharashtra Plastic and Thermocol Non-decomposable Commodities (Production, Use, Sale, Transport, Handling, Storage) Notification, 2018 Sanitation Inspector has been appointed and appointed for implementation Throug');
 
 -- --------------------------------------------------------
 
@@ -753,7 +755,7 @@ INSERT INTO `public_disclosure` (`id`, `department_name`) VALUES
 CREATE TABLE `righttoservices` (
   `id` int(11) NOT NULL,
   `heading` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -762,9 +764,9 @@ CREATE TABLE `righttoservices` (
 --
 
 INSERT INTO `righttoservices` (`id`, `heading`, `description`, `created_at`) VALUES
-(10, 'Right To Services Act, 2015', 'The Maharashtra Right to Public Services Act, 2015 is enacted and is in force since 28.04.2015 to ensure that notified services are provided to the citizens in a transparent, speedy and time-bound manner by various Government Departments and Public Author', '2024-10-25 09:51:34'),
-(11, 'Right To Services Act, 2015', 'The Maharashtra State Commission for Right to Public Service has been constituted under the above Act to monitor, coordinate, control and improve the public services being provided by the Government. The Commission consists of a Chief Commissioner and six', '2024-11-01 06:05:00'),
-(12, 'Right To Services Act, 2015', 'If any notified service is not provided to any eligible person within stipulated time or is rejected without proper grounds, the concerned person may file 1st and 2nd appeals with the higher authorities and if he is not satisfied with their decision, he m', '2024-11-01 06:05:22');
+(10, 'Right To Services Act, 2015', 'The Maharashtra Right to Public Services Act, 2015 is enacted and is in force since 28.04.2015 to ensure that notified services are provided to the citizens in a transparent, speedy and time-bound manner by various Government Departments and Public Authorities under the Government. Its objective is to provide easy, prompt and time bound services to the citizens.', '2024-10-25 09:51:34'),
+(11, 'Right To Services Act, 2015', 'The Maharashtra State Commission for Right to Public Service has been constituted under the above Act to monitor, coordinate, control and improve the public services being provided by the Government. The Commission consists of a Chief Commissioner and six Commissioners. The headquarter of the Commission is at the New Administrative Building, Opposite Mantralaya, Mumbai and the Divisional Offices of the Commissioners are at the six Divisional Headquarters.', '2024-11-01 06:05:00'),
+(12, 'Right To Services Act, 2015', 'If any notified service is not provided to any eligible person within stipulated time or is rejected without proper grounds, the concerned person may file 1st and 2nd appeals with the higher authorities and if he is not satisfied with their decision, he may prefer third appeal to the Commission. The erring officer is liable for a penalty up to Rs 5000/- per case. Notified Services rendered by this Department are as per enclosed proforma.', '2024-11-01 06:05:22');
 
 -- --------------------------------------------------------
 
@@ -797,7 +799,7 @@ INSERT INTO `roads` (`id`, `heading`, `description`, `length`, `created_at`) VAL
 
 CREATE TABLE `rts_table` (
   `id` int(11) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `description` text NOT NULL,
   `pdf_path` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -994,23 +996,6 @@ INSERT INTO `sub_menu` (`id`, `mainMenuId`, `subMenu`, `subLink`) VALUES
 (151, 18, 'Birth & Death Search', 'https://crsorgi.gov.in/web/index.php/auth/login'),
 (152, 18, 'Online Tenders', 'https://mahatenders.gov.in/nicgep/app'),
 (153, 18, 'Auto DCR', 'https://maha.autodcr.com/BPAMSClient/Default.aspx'),
-(187, 17, 'Areas', 'http://localhost:5000/uploads/areas.pdf'),
-(188, 17, 'Property Holder', '/property-holder'),
-(189, 17, 'Muncipal Properties', '/properties-milkat'),
-(190, 17, 'Schools', '/schools'),
-(191, 17, 'Gardens', '/gardens'),
-(192, 17, 'Electric', '/electric'),
-(193, 17, 'Roads', '/roads'),
-(194, 17, 'Tree Census', '/tree-census'),
-(195, 17, 'Health', '/health'),
-(196, 17, 'Ponds / Talao', '/ponds-talao'),
-(197, 17, 'Fire Station', '/fire-station'),
-(198, 17, 'Private Hospital', '/private-hospital'),
-(204, 19, 'NULM', 'http://localhost:5000/uploads/nulm.pdf'),
-(205, 19, 'PMAY', '/pmay'),
-(206, 19, 'NUHM', '/nuhm'),
-(207, 19, 'AMRUT', '/amrut'),
-(208, 19, 'Swachh Bharat', 'http://localhost:5000/uploads/swachh.pdf'),
 (209, 16, 'History', '/history'),
 (210, 16, 'Wards', '/ward'),
 (211, 16, 'Elected Wing', '/elected-member'),
@@ -1019,7 +1004,24 @@ INSERT INTO `sub_menu` (`id`, `mainMenuId`, `subMenu`, `subLink`) VALUES
 (214, 16, 'Departments', '/departments'),
 (215, 16, 'Previous Chief Officers', '/elected-pre-officer'),
 (216, 16, 'Previous Presidents', '/elected-pre-representative'),
-(217, 16, 'Awards', '/awards');
+(217, 16, 'Awards', '/awards'),
+(235, 17, 'Areas', '/uploads/areas.pdf'),
+(236, 17, 'Property Holder', '/property-holder'),
+(237, 17, 'Muncipal Properties', '/properties-milkat'),
+(238, 17, 'Schools', '/schools'),
+(239, 17, 'Gardens', '/gardens'),
+(240, 17, 'Electric', '/electric'),
+(241, 17, 'Roads', '/roads'),
+(242, 17, 'Tree Census', '/tree-census'),
+(243, 17, 'Health', '/health'),
+(244, 17, 'Ponds / Talao', '/ponds-talao'),
+(245, 17, 'Fire Station', '/fire-station'),
+(246, 17, 'Private Hospital', '/private-hospital'),
+(247, 19, 'NULM', '/uploads/nulm.pdf'),
+(248, 19, 'PMAY', '/pmay'),
+(249, 19, 'NUHM', '/nuhm'),
+(250, 19, 'AMRUT', '/amrut'),
+(251, 19, 'Swachh Bharat', '/uploads/swachh.pdf');
 
 -- --------------------------------------------------------
 
@@ -1043,7 +1045,8 @@ INSERT INTO `tenders` (`id`, `tenders`, `status`, `created_at`) VALUES
 (5, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', 'New', '2024-10-21 11:42:49'),
 (6, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', '-', '2024-10-21 11:44:21'),
 (7, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', '-', '2024-10-22 05:36:18'),
-(8, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', '-', '2024-10-22 05:44:25');
+(8, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', '-', '2024-10-22 05:44:25'),
+(12, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur.', 'New', '2024-11-04 16:59:34');
 
 -- --------------------------------------------------------
 
@@ -1114,8 +1117,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `department`, `created_at`) VALUES
-(4, 'Abhay', 'asjdhfsd', 'Account Department', '2024-10-24 12:18:20'),
-(5, 'Manoj', 'Mnaoj123', 'Account Department', '2024-10-25 10:56:23');
+(6, 'Abhay', 'Abhay123', 'Tax Department', '2024-11-04 18:45:08'),
+(7, 'Aniket', 'Aniket123', 'Account Department', '2024-11-07 21:29:16');
 
 -- --------------------------------------------------------
 
@@ -1481,169 +1484,169 @@ ALTER TABLE `websitelink`
 -- AUTO_INCREMENT for table `awards`
 --
 ALTER TABLE `awards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `award_images`
 --
 ALTER TABLE `award_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ceos`
 --
 ALTER TABLE `ceos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `citizen-charter`
 --
 ALTER TABLE `citizen-charter`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `elected_wings`
 --
 ALTER TABLE `elected_wings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `electric`
 --
 ALTER TABLE `electric`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `fire_station`
 --
 ALTER TABLE `fire_station`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `functions`
 --
 ALTER TABLE `functions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `gardens`
 --
 ALTER TABLE `gardens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `generaladminaddyear`
 --
 ALTER TABLE `generaladminaddyear`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `generaladmindepartment`
 --
 ALTER TABLE `generaladmindepartment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `health_dep_sec`
 --
 ALTER TABLE `health_dep_sec`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `health_photo_gallery`
 --
 ALTER TABLE `health_photo_gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `home_videos`
 --
 ALTER TABLE `home_videos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `litigations`
 --
 ALTER TABLE `litigations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `main_menu`
 --
 ALTER TABLE `main_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `muncipal`
 --
 ALTER TABLE `muncipal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `newsupdate`
 --
 ALTER TABLE `newsupdate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `ponds_table`
 --
 ALTER TABLE `ponds_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `presidents`
 --
 ALTER TABLE `presidents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `previous_chief_officer`
 --
 ALTER TABLE `previous_chief_officer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `property_holder`
 --
 ALTER TABLE `property_holder`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `prvt_hospital`
 --
 ALTER TABLE `prvt_hospital`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `public_disclosure`
 --
 ALTER TABLE `public_disclosure`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `righttoservices`
@@ -1655,7 +1658,7 @@ ALTER TABLE `righttoservices`
 -- AUTO_INCREMENT for table `roads`
 --
 ALTER TABLE `roads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `rts_table`
@@ -1667,73 +1670,73 @@ ALTER TABLE `rts_table`
 -- AUTO_INCREMENT for table `sanitation_inspectors`
 --
 ALTER TABLE `sanitation_inspectors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `schools`
 --
 ALTER TABLE `schools`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `school_images`
 --
 ALTER TABLE `school_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `slider`
 --
 ALTER TABLE `slider`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `sub_menu`
 --
 ALTER TABLE `sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
 
 --
 -- AUTO_INCREMENT for table `tenders`
 --
 ALTER TABLE `tenders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `treatment_facility`
 --
 ALTER TABLE `treatment_facility`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tree_census`
 --
 ALTER TABLE `tree_census`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `wards`
 --
 ALTER TABLE `wards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `websitelink`
 --
 ALTER TABLE `websitelink`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables

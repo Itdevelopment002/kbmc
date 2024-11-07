@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import api, { baseURL } from "../api";
+import {Link} from "react-router-dom";
 
 const Health = () => {
   const [data, setData] = useState([]);
@@ -94,7 +95,7 @@ const Health = () => {
             <h1>Health</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="#.">City Profile</a>
+                <Link to="#.">City Profile</Link>
               </li>
               <li>
                 <span>Health</span>

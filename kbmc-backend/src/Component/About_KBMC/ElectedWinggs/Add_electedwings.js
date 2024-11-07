@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify"; // Import toastify
 import api from "../../api"; 
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
+import { Link } from "react-router-dom";
 
 function Add_electedwings() {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -57,7 +58,7 @@ function Add_electedwings() {
         document.getElementById("userfile").value = null; // Clear the input
 
         setTimeout(() => {
-          navigate("/Electedwings");
+          navigate("/elected-wings");
         }, 5000);
       }
     } catch (error) {
@@ -85,10 +86,10 @@ function Add_electedwings() {
       <div className="content">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a href="/">About KBMC</a>
+            <Link to="#.">About KBMC</Link>
           </li>
           <li className="breadcrumb-item">
-            <a href="/elected-wings">Elected Wings</a>
+            <Link to="/elected-wings">Elected Wings</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             Add Correspondent

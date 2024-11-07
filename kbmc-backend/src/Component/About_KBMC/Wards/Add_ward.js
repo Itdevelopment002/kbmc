@@ -35,10 +35,10 @@ const AddWard = () => {
             <div className="content">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                        <Link to="index.php">About KBMC</Link>
+                        <Link to="#.">About KBMC</Link>
                     </li>
                     <li className="breadcrumb-item">
-                        <Link to="ward.php">Ward</Link>
+                        <Link to="/ward">Ward</Link>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
                         Add Ward

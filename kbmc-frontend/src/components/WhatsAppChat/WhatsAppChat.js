@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import img1 from "../../assets/images/KBMC-logo.jpg"
+import {Link} from "react-router-dom";
 
 const WhatsAppChat = () => {
   const [chatInput, setChatInput] = useState(""); // To handle the message input
@@ -96,31 +97,31 @@ const WhatsAppChat = () => {
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
             ></textarea>
-            <a
-              href="javascript:void(0);"
+            <Link
+              to="javascript:void(0);"
               id="send-it"
               onClick={sendWhatsAppMessage}
             >
               <svg viewBox="0 0 448 448">
                 <path d="M.213 32L0 181.333 320 224 0 266.667.213 416 448 224z" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
 
         <div id="get-number"></div>
-        <a
+        <Link
           className="close-chat"
-          href="javascript:void(0);"
+          to="javascript:void(0);"
           onClick={closeChat}
         >
           ×
-        </a>
+        </Link>
       </div>
 
-      <a
+      <Link
         className="blantershow-chat"
-        href="javascript:void(0);"
+        to="javascript:void(0);"
         title="Show Chat"
         onClick={toggleChatVisibility}
       >
@@ -140,7 +141,7 @@ const WhatsAppChat = () => {
           />
         </svg>
         Chat with Us
-      </a>
+      </Link>
     </div>
   );
 };

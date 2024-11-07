@@ -25,7 +25,7 @@ const AddDepartments = () => {
       setDepartmentLink("");
 
       // Optionally navigate to the departments list page
-      navigate('/dep');
+      navigate('/department');
     } catch (error) {
       console.error('Error adding department:', error);
       setErrorMessage('Failed to add department. Please try again.'); // Set error message for UI feedback
@@ -40,7 +40,7 @@ const AddDepartments = () => {
             <Link to="/">Home</Link>
           </li>
           <li className="breadcrumb-item">
-            <Link to="/departments">Departments</Link>
+            <Link to="/department">Departments</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             Add Departments

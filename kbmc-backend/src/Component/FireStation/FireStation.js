@@ -135,7 +135,7 @@ const FireStation = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="#.">City Profile</a>
+                <Link to="#.">City Profile</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Fire Station
@@ -151,7 +151,7 @@ const FireStation = () => {
                       <h4 className="page-title">Fire Station</h4>
                     </div>
                     <div className="text-end mb-3">
-                      <Link to="/add-fire">
+                      <Link to="/add-firestation">
                         <button
                           className="btn btn-primary"
                           style={{ borderRadius: "100px" }}
@@ -181,8 +181,7 @@ const FireStation = () => {
                             <td>{station.address}</td>
                             <td>{station.phoneNo}</td>
                             <td>
-                              <a
-                                href={`${baseURL}${station.image_path}`}
+                              <Link to={`${baseURL}${station.image_path}`}
                                 className="glightbox"
                                 data-gallery="slider-images"
                               >
@@ -191,7 +190,7 @@ const FireStation = () => {
                                   src={`${baseURL}${station.image_path}`}
                                   alt={`fire-station-img${station.image_path}`}
                                 />
-                              </a>
+                              </Link>
                             </td>
                             <td>
                               <Button

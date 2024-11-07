@@ -75,7 +75,7 @@ const Ward = () => {
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
-                            <a href="#.">About KBMC</a>
+                            <Link to="#.">About KBMC</Link>
                         </li>
                         <li className="breadcrumb-item active" aria-current="page">
                             Ward
@@ -91,7 +91,7 @@ const Ward = () => {
                                         <h4 className="page-title">Ward</h4>
                                     </div>
                                     <div className="col-sm-8 col-9 text-end mb-3">
-                                        <Link to="/Add_ward" className="btn btn-primary btn-rounded float-right" style={{ borderRadius: '100px' }}>
+                                        <Link to="/add-ward" className="btn btn-primary btn-rounded float-right" style={{ borderRadius: '100px' }}>
                                             <i className="fa fa-plus"></i> + Add Ward
                                         </Link>
                                     </div>

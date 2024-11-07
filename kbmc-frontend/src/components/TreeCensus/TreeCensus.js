@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
 import innerBanner from '../../assets/images/banner/inner-banner.jpg';
+import {Link} from "react-router-dom";
 
 const TreeCensus = () => {
   const [treeData, setTreeData] = useState([]);
@@ -39,7 +40,7 @@ const TreeCensus = () => {
             <h1>Tree Census</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="#.">City Profile</a>
+                <Link to="#.">City Profile</Link>
               </li>
               <li>
                 <span>Tree Census</span>

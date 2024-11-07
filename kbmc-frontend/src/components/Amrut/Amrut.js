@@ -1,5 +1,6 @@
 import React from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
+import {Link} from "react-router-dom";
 
 const Amrut = () => {
   return (
@@ -20,7 +21,7 @@ const Amrut = () => {
             <h1>Amrut</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="#.">Schemes</a>
+                <Link to="#.">Schemes</Link>
               </li>
               <li>
                 <span>Amrut</span>

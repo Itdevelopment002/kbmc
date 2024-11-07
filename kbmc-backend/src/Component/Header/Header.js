@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaBell, FaUserCircle, FaChevronDown } from 'react-icons/fa';
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [notificationsVisible, setNotificationsVisible] = useState(false);
@@ -94,10 +95,10 @@ const Header = () => {
 
             {dropdownVisible && (
               <div className="dropdown-menu show position-absolute" style={{ top: '40px', right: '0', zIndex: 1000 }}>
-                <a className="dropdown-item" href="#profile">My Profile</a>
-                <a className="dropdown-item" href="#edit-profile">Edit Profile</a>
-                <a className="dropdown-item" href="#settings">Settings</a>
-                <a className="dropdown-item" href="#logout">Logout</a>
+                <Link className="dropdown-item" to="#profile">My Profile</Link>
+                <Link className="dropdown-item" to="#edit-profile">Edit Profile</Link>
+                <Link className="dropdown-item" to="#settings">Settings</Link>
+                <Link className="dropdown-item" to="#logout">Logout</Link>
               </div>
             )}
           </div>

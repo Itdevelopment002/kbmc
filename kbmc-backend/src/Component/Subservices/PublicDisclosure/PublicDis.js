@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../api";
+import { Link } from "react-router-dom";
 
 const PublicDis = () => {
   const [departments, setDepartments] = useState([]);
@@ -128,7 +129,7 @@ const PublicDis = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="/home">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Public Disclosure
@@ -184,13 +185,12 @@ const PublicDis = () => {
                             <td>{indexOfFirstDepartment + index + 1}</td>
                             <td>{department.department_name}</td>
                             <td>
-                              <a
-                                href="/GeneralDepartment"
+                              <Link to="/general-department"
                                 className="btn btn-primary btn-sm m-t-10 mx-1"
                                 onClick={() => handleAdd(department.id)}
                               >
                                 Add
-                              </a>
+                              </Link>
                               <button
                                 className="btn btn-success btn-sm mx-1"
                                 onClick={() => {
@@ -230,13 +230,13 @@ const PublicDis = () => {
                           currentPage === 1 ? "disabled" : ""
                         }`}
                       >
-                        <a
+                        <Link
                           className="page-link"
-                          href="#!"
+                          to="#!"
                           onClick={handlePreviousClick}
                         >
                           Previous
-                        </a>
+                        </Link>
                       </li>
                       {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                         (page) => (
@@ -246,13 +246,13 @@ const PublicDis = () => {
                               currentPage === page ? "active" : ""
                             }`}
                           >
-                            <a
+                            <Link
                               className="page-link"
-                              href="#!"
+                              to="#!"
                               onClick={() => handlePageClick(page)}
                             >
                               {page}
-                            </a>
+                            </Link>
                           </li>
                         )
                       )}
@@ -261,13 +261,13 @@ const PublicDis = () => {
                           currentPage === totalPages ? "disabled" : ""
                         }`}
                       >
-                        <a
+                        <Link
                           className="page-link"
-                          href="#!"
+                          to="#!"
                           onClick={handleNextClick}
                         >
                           Next
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>

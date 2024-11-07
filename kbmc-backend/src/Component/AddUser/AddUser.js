@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import api from '../api'; // Import Axios
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link } from "react-router-dom";
 
 const AddUser = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -57,8 +58,8 @@ const AddUser = () => {
       <div className="page-wrapper">
         <div className="content">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item"><a href="#/">Home</a></li>
-            <li className="breadcrumb-item active" aria-current="page"><a href="#/user">User</a></li>
+            <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+            <li className="breadcrumb-item active" aria-current="page"><Link to="/user">User</Link></li>
             <li className="breadcrumb-item active" aria-current="page">Add User</li>
           </ol>
           <div className="row">

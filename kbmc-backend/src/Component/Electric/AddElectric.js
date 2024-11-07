@@ -54,7 +54,7 @@ const AddElectric = () => {
             <div className="content">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                        <Link to="/index">City Profile</Link>
+                        <Link to="#.">City Profile</Link>
                     </li>
                     <li className="breadcrumb-item">
                         <Link to="/electric">Electric</Link>
@@ -75,7 +75,6 @@ const AddElectric = () => {
                                 </div>
 
                                 <Form onSubmit={handleSubmit}>
-                                    {/* Heading Field - Required */}
                                     <Form.Group className="row">
                                         <Form.Label className="col-form-label col-md-3">
                                             Heading <span className="text-danger">*</span>

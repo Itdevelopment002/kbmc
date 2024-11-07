@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg"; // Background image
 import api, { baseURL } from "../api";
+import {Link} from "react-router-dom";
 
 const ElectedWing = () => {
   const [electedData, setElectedData] = useState([]);
@@ -44,7 +45,7 @@ const ElectedWing = () => {
             <h1>Elected Wings</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <span>Elected Wings</span>
@@ -85,37 +86,37 @@ const ElectedWing = () => {
                       </span>
                       <ul className="share-links">
                         <li>
-                          <a href="#.">
+                          <Link to="#.">
                             <span className="fab fa-facebook-square"></span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#.">
+                          <Link to="#.">
                             <span className="fab fa-twitter-square"></span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#.">
+                          <Link to="#.">
                             <span className="fab fa-instagram-square"></span>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>
                     <h3>
-                      <a href="#.">{data.correspondentName}</a>
+                      <Link to="#.">{data.correspondentName}</Link>
                     </h3>
                     <span className="designation">{data.wardNo}</span>
                     <p>
-                      <a href="#.">
+                      <Link to="#.">
                         <i className="ri-calendar-2-line"></i>{" "}
                         {formatDate(data.startDate)} to {formatDate(data.endDate)}
-                      </a>
+                      </Link>
                     </p>
                     <p>
-                      <a href="#.">
+                      <Link to="#.">
                         <i className="ri-smartphone-line"></i>
                         {data.mobileNo}
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </div>

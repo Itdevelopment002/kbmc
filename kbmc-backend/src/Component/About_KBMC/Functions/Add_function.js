@@ -3,6 +3,7 @@ import { toast, ToastContainer } from 'react-toastify'; // Import Toast
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
+import { Link } from "react-router-dom";
 
 // Function component for Add Functions page
 const AddFunction = () => {
@@ -34,7 +35,7 @@ const AddFunction = () => {
                 setHeading(""); // Reset the form inputs
                 setDescription("");
                 setTimeout(() => {
-                    navigate("/Functions");
+                    navigate("/functions");
                 }, 5000);
             } else {
                 toast.error('Failed to add function.');
@@ -51,10 +52,10 @@ const AddFunction = () => {
                 <div className="content">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
-                            <a href="/about-kbmc">About KBMC</a>
+                            <Link to="#.">About KBMC</Link>
                         </li>
                         <li className="breadcrumb-item">
-                            <a href="/functions">Functions</a>
+                            <Link to="/functions">Functions</Link>
                         </li>
                         <li className="breadcrumb-item active" aria-current="page">
                             Add Functions

@@ -109,7 +109,7 @@ const Slider = () => {
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="/">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Slider
@@ -126,7 +126,7 @@ const Slider = () => {
                   </div>
                   <div className="col-sm-8 col-9 text-right text-end mb-3">
                     <Link
-                      to="/add_slider"
+                      to="/add-slider"
                       className="btn btn-primary btn-rounded float-right"
                       style={{ borderRadius: "100px" }}
                     >
@@ -150,8 +150,7 @@ const Slider = () => {
                           <td>{index + 1}</td>
                           <td>{slider.slider_name}</td>
                           <td>
-                            <a
-                              href={`${baseURL}/${slider.file_path}`}
+                            <Link to={`${baseURL}/${slider.file_path}`}
                               className="glightbox"
                               data-gallery="slider-images"
                             >
@@ -160,7 +159,7 @@ const Slider = () => {
                                 src={`${baseURL}${slider.file_path}`}
                                 alt={`slider${index + 1}`}
                               />
-                            </a>
+                            </Link>
                           </td>
                           <td>
                             <button

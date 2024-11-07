@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './Awards.css'
 import bannerImage from '../../assets/images/banner/inner-banner.jpg'; 
 import api, { baseURL } from '../api';
+import {Link} from "react-router-dom";
 
 
 const Awards = () => {
@@ -43,7 +44,7 @@ const Awards = () => {
           <div className="content-box">
             <h1>Awards</h1>
             <ul className="bread-crumb clearfix">
-              <li><a href="/">Home</a></li>
+              <li><Link to="/">Home</Link></li>
               <li><span>Awards</span></li>
             </ul>
           </div>

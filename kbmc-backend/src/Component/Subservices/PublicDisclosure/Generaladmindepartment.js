@@ -104,7 +104,7 @@ function Generaladmindepartment() {
       <div className="content">
         <ol className="breadcrumb">
           <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-          <li className="breadcrumb-item"><Link to="/public-disclosure">Publick Disclosure</Link></li>
+          <li className="breadcrumb-item"><Link to="/public-disclosure">Public Disclosure</Link></li>
           <li className="breadcrumb-item active" aria-current="page">Add General Admin Department</li>
         </ol>
         <div className="row">
@@ -162,7 +162,7 @@ function Generaladmindepartment() {
                           <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                           <td>{heading.departments_heading}</td>
                           <td>
-                            <Link to="/Add_gernaldepyear" className="btn btn-primary btn-sm m-t-10" style={{ marginRight: '10px' }}>
+                            <Link to="/add-general-dep-year" className="btn btn-primary btn-sm m-t-10" style={{ marginRight: '10px' }}>
                               Add
                             </Link>
                             <button

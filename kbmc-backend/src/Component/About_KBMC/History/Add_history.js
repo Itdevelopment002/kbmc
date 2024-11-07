@@ -3,6 +3,7 @@ import api from '../../api'; // For making the API request
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'; // For navigation
+import { Link } from "react-router-dom";
 
 const Add_history = () => {
     const [description, setDescription] = useState('');
@@ -20,7 +21,7 @@ const Add_history = () => {
             await api.post('/history', { description });
             toast.success("Description submitted successfully!");
             setTimeout(() => {
-                navigate('/History');
+                navigate('/history');
             }, 5000);
         } catch (error) {
             toast.error("Failed to submit description.");
@@ -32,7 +33,8 @@ const Add_history = () => {
         <div className="page-wrapper">
             <div className="content">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><a href="/">Home</a></li>
+                    <li className="breadcrumb-item"><Link to="#.">About KBMC</Link></li>
+                    <li className="breadcrumb-item"><Link to="/history">History and Chief Officer</Link></li>
                     <li className="breadcrumb-item active" aria-current="page">Add History</li>
                 </ol>
                 <div className="row">

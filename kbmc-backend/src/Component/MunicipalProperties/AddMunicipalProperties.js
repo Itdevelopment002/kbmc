@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom'; // Correctly import useNavigate
 import api from "../api"; // Import Axios
+import { Link } from "react-router-dom";
 
 const AddMunicipalProperties = () => {
   // State to store form data
@@ -40,10 +41,10 @@ const AddMunicipalProperties = () => {
       <div className="content">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a href="/city-profile">City Profile</a>
+            <Link to="/city-profile">City Profile</Link>
           </li>
           <li className="breadcrumb-item">
-            <a href="/municipal-properties">Municipal Properties</a>
+            <Link to="/municipal-properties">Municipal Properties</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             Add Municipal Properties
