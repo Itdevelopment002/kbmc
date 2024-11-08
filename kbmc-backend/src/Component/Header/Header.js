@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaBell, FaUserCircle, FaChevronDown } from 'react-icons/fa';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({onLogout}) => {
   const [notificationsVisible, setNotificationsVisible] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const notificationsRef = useRef(null);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const toggleNotifications = () => {
     setNotificationsVisible(prevState => !prevState);
@@ -98,7 +99,7 @@ const Header = () => {
                 <Link className="dropdown-item" to="#profile">My Profile</Link>
                 <Link className="dropdown-item" to="#edit-profile">Edit Profile</Link>
                 <Link className="dropdown-item" to="#settings">Settings</Link>
-                <Link className="dropdown-item" to="#logout">Logout</Link>
+                <Link className="dropdown-item" onClick={onLogout}>Logout</Link>
               </div>
             )}
           </div>
