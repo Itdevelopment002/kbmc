@@ -280,7 +280,7 @@ const Header = () => {
                       })}
                       <div className="menu-right-content">
                         <div className="btn-box">
-                          <Link to="#." className="header-btn">
+                          <Link to="/login" className="header-btn">
                             Login
                           </Link>
                         </div>
@@ -451,7 +451,7 @@ const Header = () => {
               </ul>
               <div className="menu-right-content">
                 <div className="btn-box">
-                  <Link to="#." className="header-btn">
+                  <Link to="/login" className="header-btn">
                     Login
                   </Link>
                 </div>
