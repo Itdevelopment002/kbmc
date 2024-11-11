@@ -20,7 +20,6 @@ const PondsTalao = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch ponds data from the API
     const fetchPonds = async () => {
       try {
         const response = await api.get("/ponds-talao"); // Update the endpoint as needed
@@ -78,7 +77,6 @@ const PondsTalao = () => {
       <br />
       <br />
 
-      {/* Table Section */}
       <section className="service-style-four pb-2">
         <div className="auto-container">
           <table className="table table-bordered">
@@ -122,7 +120,6 @@ const PondsTalao = () => {
         </div>
       </section>
 
-      {/* Gallery Section */}
       <div className="auto-container mb-5">
         <div className="col-lg-12 col-md-12 col-sm-12 content-side">
           <div className="department-details-content">

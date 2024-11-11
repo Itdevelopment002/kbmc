@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import api from "../api"
-import {Link} from "react-router-dom";
+import api from "../api";
+import { Link } from "react-router-dom";
 
 const Functions = () => {
   const [functions, setFunctions] = useState([]);
@@ -46,10 +46,8 @@ const Functions = () => {
       </section>
       <br />
 
-      {/* departments-style-two */}
       <section className="departments-style-two alternat-2">
         <div className="auto-container">
-          {/* <h3>Functions Page Content Coming Soon...</h3> */}
           <div className="content-two">
             <h3>
               DUTIES AND FUNCTIONS OF THE COUNCIL AND THE MUNICIPAL EXECUTIVE.

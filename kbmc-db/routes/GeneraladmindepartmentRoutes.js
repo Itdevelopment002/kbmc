@@ -11,7 +11,7 @@ router.post('/generaladmindepartment', (req, res) => {
         return res.status(400).json({ message: 'Department heading is required' });
     }
 
-    const sql = 'INSERT INTO Generaladmindepartment (departments_heading) VALUES (?)';
+    const sql = 'INSERT INTO generaladmindepartment (departments_heading) VALUES (?)';
     db.query(sql, [departments_heading], (err, result) => {
         if (err) {
             return res.status(500).json({ message: 'Database error', error: err });
@@ -22,7 +22,7 @@ router.post('/generaladmindepartment', (req, res) => {
 
 // API to get all departments
 router.get('/generaladmindepartment', (req, res) => {
-    const sql = 'SELECT * FROM Generaladmindepartment';
+    const sql = 'SELECT * FROM generaladmindepartment';
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(500).json({ message: 'Database error', error: err });
@@ -34,7 +34,7 @@ router.get('/generaladmindepartment', (req, res) => {
 // API to get a department by ID
 router.get('/generaladmindepartment/:id', (req, res) => {
     const { id } = req.params;
-    const sql = 'SELECT * FROM Generaladmindepartment WHERE id = ?';
+    const sql = 'SELECT * FROM generaladmindepartment WHERE id = ?';
     db.query(sql, [id], (err, result) => {
         if (err) {
             return res.status(500).json({ message: 'Database error', error: err });
@@ -56,7 +56,7 @@ router.put('/generaladmindepartment/:id', (req, res) => {
         return res.status(400).json({ message: 'Department heading is required' });
     }
 
-    const sql = 'UPDATE Generaladmindepartment SET departments_heading = ? WHERE id = ?';
+    const sql = 'UPDATE generaladmindepartment SET departments_heading = ? WHERE id = ?';
     db.query(sql, [departments_heading, id], (err, result) => {
         if (err) {
             return res.status(500).json({ message: 'Database error', error: err });
@@ -72,7 +72,7 @@ router.put('/generaladmindepartment/:id', (req, res) => {
 router.delete('/generaladmindepartment/:id', (req, res) => {
     const { id } = req.params;
 
-    const sql = 'DELETE FROM Generaladmindepartment WHERE id = ?';
+    const sql = 'DELETE FROM generaladmindepartment WHERE id = ?';
     db.query(sql, [id], (err, result) => {
         if (err) {
             return res.status(500).json({ message: 'Database error', error: err });

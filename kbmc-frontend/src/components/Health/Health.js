@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import api, { baseURL } from "../api";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Health = () => {
   const [data, setData] = useState([]);
@@ -12,8 +12,8 @@ const Health = () => {
   const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
-    // Fetch data from the API when the component mounts
-    api.get("/health_dep_sec")
+    api
+      .get("/health_dep_sec")
       .then((response) => {
         setData(response.data);
       })
@@ -23,12 +23,12 @@ const Health = () => {
   }, []);
 
   useEffect(() => {
-    // Fetch data from the API
-    api.get("/sanitation_inspectors")
-      .then(response => {
+    api
+      .get("/sanitation_inspectors")
+      .then((response) => {
         setInspectors(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching inspectors:", error);
       });
   }, []);
@@ -36,11 +36,11 @@ const Health = () => {
   useEffect(() => {
     const fetchFacilities = async () => {
       try {
-        const response = await api.get('/treatment_facility'); // Adjust this path if needed
+        const response = await api.get("/treatment_facility");
         setFacilities(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching treatment facilities:', error);
+        console.error("Error fetching treatment facilities:", error);
         setLoading(false);
       }
     };
@@ -51,10 +51,10 @@ const Health = () => {
   useEffect(() => {
     const fetchLitigations = async () => {
       try {
-        const response = await api.get('/litigations');
+        const response = await api.get("/litigations");
         setLitigations(response.data);
       } catch (error) {
-        console.error('Error fetching litigations:', error);
+        console.error("Error fetching litigations:", error);
       }
     };
 
@@ -62,23 +62,20 @@ const Health = () => {
   }, []);
 
   useEffect(() => {
-    // Fetch photos from the API
     const fetchPhotos = async () => {
       try {
-        const response = await api.get('/health_photo_gallery'); // Update with your actual API endpoint
+        const response = await api.get("/health_photo_gallery");
         setPhotos(response.data);
       } catch (error) {
-        console.error('Error fetching photos:', error);
+        console.error("Error fetching photos:", error);
       }
     };
 
     fetchPhotos();
   }, []);
 
-
   return (
     <div>
-      {/* Page Title */}
       <section className="page-title">
         <div
           className="bg-layer"
@@ -109,12 +106,10 @@ const Health = () => {
       <br />
       <br />
 
-      {/* Service Style Four */}
       <section className="service-style-four">
         <div className="auto-container">
           <h5 className="mb-3">Works under Health Department</h5>
 
-          {/* First Table */}
           <div className="table-responsive">
             <table className="table table-bordered">
               <thead className="text-center">
@@ -160,7 +155,6 @@ const Health = () => {
             Zone Wise Names of Sanitation Inspectors
           </h5>
 
-          {/* Second Table */}
           <div className="table-responsive">
             <table className="table table-bordered">
               <thead className="text-center">
@@ -194,8 +188,9 @@ const Health = () => {
               </thead>
               <tbody>
                 {inspectors.map((inspector, index) => {
-                  // Split ward_no by commas to create an array
-                  const wards = inspector.ward_no ? inspector.ward_no.split(",") : [];
+                  const wards = inspector.ward_no
+                    ? inspector.ward_no.split(",")
+                    : [];
 
                   return (
                     <React.Fragment key={index}>
@@ -217,12 +212,7 @@ const Health = () => {
               </tbody>
             </table>
           </div>
-
-
-
           <h5 className="mb-4 mt-4">Treatment Facility</h5>
-
-          {/* Third Table */}
           <div className="table-responsive mt-4">
             {loading ? (
               <p>Loading...</p>
@@ -230,12 +220,24 @@ const Health = () => {
               <table className="table table-bordered">
                 <thead className="text-center">
                   <tr>
-                    <th style={{ backgroundColor: '#29aae1', color: '#fff' }}>Sr. No</th>
-                    <th style={{ backgroundColor: '#29aae1', color: '#fff' }}>Name of the Plant</th>
-                    <th style={{ backgroundColor: '#29aae1', color: '#fff' }}>Location of the Plant</th>
-                    <th style={{ backgroundColor: '#29aae1', color: '#fff' }}>Designed Plant Capacity (MTD)</th>
-                    <th style={{ backgroundColor: '#29aae1', color: '#fff' }}>Present waste Intake (MTD)</th>
-                    <th style={{ backgroundColor: '#29aae1', color: '#fff' }}>Output of plant</th>
+                    <th style={{ backgroundColor: "#29aae1", color: "#fff" }}>
+                      Sr. No
+                    </th>
+                    <th style={{ backgroundColor: "#29aae1", color: "#fff" }}>
+                      Name of the Plant
+                    </th>
+                    <th style={{ backgroundColor: "#29aae1", color: "#fff" }}>
+                      Location of the Plant
+                    </th>
+                    <th style={{ backgroundColor: "#29aae1", color: "#fff" }}>
+                      Designed Plant Capacity (MTD)
+                    </th>
+                    <th style={{ backgroundColor: "#29aae1", color: "#fff" }}>
+                      Present waste Intake (MTD)
+                    </th>
+                    <th style={{ backgroundColor: "#29aae1", color: "#fff" }}>
+                      Output of plant
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -252,17 +254,16 @@ const Health = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="6" className="text-center">No data available</td>
+                      <td colSpan="6" className="text-center">
+                        No data available
+                      </td>
                     </tr>
                   )}
                 </tbody>
               </table>
             )}
           </div>
-
           <h5 className="mb-4 mt-4">Name of Ward Wise Litigations</h5>
-
-          {/* Fourth Table */}
           <div className="table-responsive mt-4">
             <table className="table table-bordered">
               <thead className="text-center">
@@ -306,15 +307,15 @@ const Health = () => {
           </div>
 
           <div className="row mt-3 pmay_img">
-            {photos.map(photo => (
+            {photos.map((photo) => (
               <div className="col-md-3" key={photo.id}>
                 <img
-                  src={`${baseURL}${photo.img_path}`} // Using hardcoded URL
+                  src={`${baseURL}${photo.img_path}`}
                   alt={photo.heading}
                   onError={(e) => {
-                    e.target.onerror = null; // Prevent looping
-                    e.target.src = 'path/to/placeholder/image.png'; // Optional: Placeholder image
-                    console.error('Image load error:', e.target.src);
+                    e.target.onerror = null;
+                    e.target.src = "path/to/placeholder/image.png";
+                    console.error("Image load error:", e.target.src);
                   }}
                 />
                 <h6 className="text-center">{photo.heading}</h6>

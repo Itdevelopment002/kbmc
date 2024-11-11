@@ -11,7 +11,7 @@ const Roads = () => {
   useEffect(() => {
     const fetchRoads = async () => {
       try {
-        const response = await api.get('/roads'); // Adjust API endpoint as needed
+        const response = await api.get('/roads'); 
         setRoads(response.data);
       } catch (err) {
         setError('Error fetching road data');
@@ -53,8 +53,6 @@ const Roads = () => {
       <br />
       <br />
       <br />
-
-      {/* service-style-four */}
       <section className="service-style-four">
         <div className="auto-container">
           <div className="table-responsive">

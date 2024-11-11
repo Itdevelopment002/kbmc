@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import api, { baseURL } from "../api"; 
+import api, { baseURL } from "../api";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const DeptLayer2 = () => {
-  const [activeIndex, setActiveIndex] = useState(null); 
-  const [data, setData] = useState([]); 
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [data, setData] = useState([]);
   const [departments, setDepartments] = useState([]);
 
   const fetchDepartments = async () => {
@@ -21,14 +21,11 @@ const DeptLayer2 = () => {
     fetchDepartments();
   }, []);
 
-  // Fetch data from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(
-          "/generaladminaddyear"
-        ); // Replace with your API endpoint
-        setData(response.data); // Assuming response.data is an array of items
+        const response = await api.get("/generaladminaddyear");
+        setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -36,9 +33,8 @@ const DeptLayer2 = () => {
     fetchData();
   }, []);
 
-  // Function to handle the click event on an accordion
   const handleAccordionClick = (index) => {
-    setActiveIndex(activeIndex === index ? null : index); // Toggle active accordion
+    setActiveIndex(activeIndex === index ? null : index);
   };
 
   return (
@@ -93,20 +89,15 @@ const DeptLayer2 = () => {
                 <div className="col-lg-11 col-md-11 col-sm-11 content-column">
                   <div className="content-box">
                     <ul className="accordion-box year-accordion-box">
-                      {/* Group data by year */}
                       {Object.entries(
                         data.reduce((acc, item) => {
                           const yearKey = item.year;
-
-                          // Initialize arrays for each year if they don't exist yet
                           if (!acc[yearKey]) {
                             acc[yearKey] = {
                               generalMeetings: [],
                               standingCommitteeMeetings: [],
                             };
                           }
-
-                          // Check the meeting type and add the item to the appropriate array
                           if (item.meetingtype === "General Meeting") {
                             acc[yearKey].generalMeetings.push(item.pdfheading);
                           } else if (

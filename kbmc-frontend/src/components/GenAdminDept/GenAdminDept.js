@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react"; 
-import innerBanner from '../../assets/images/banner/inner-banner.jpg';
-import api from "../api"
-import {Link} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import innerBanner from "../../assets/images/banner/inner-banner.jpg";
+import api from "../api";
+import { Link } from "react-router-dom";
 
 const GenAdminDept = () => {
   const [genDepartments, setGenDepartments] = useState([]);
@@ -24,10 +24,14 @@ const GenAdminDept = () => {
   useEffect(() => {
     const fetchGenDepartments = async () => {
       try {
-        const response = await api.get('/generaladmindepartment'); // Update this URL according to your server setup
+        const response = await api.get("/generaladmindepartment");
         setGenDepartments(response.data);
       } catch (err) {
-        setError(err.response ? err.response.data.message : 'Error fetching departments');
+        setError(
+          err.response
+            ? err.response.data.message
+            : "Error fetching departments"
+        );
       }
     };
 
@@ -76,9 +80,11 @@ const GenAdminDept = () => {
                     {error ? (
                       <li>{error}</li>
                     ) : (
-                      genDepartments.map(genDepartment => (
+                      genDepartments.map((genDepartment) => (
                         <li key={genDepartment.id}>
-                          <Link to="/dept-layer-2">{genDepartment.departments_heading}</Link>
+                          <Link to="/dept-layer-2">
+                            {genDepartment.departments_heading}
+                          </Link>
                         </li>
                       ))
                     )}
@@ -91,7 +97,7 @@ const GenAdminDept = () => {
                 <div className="category-widget">
                   <div className="widget-content">
                     <ul className="category-list clearfix">
-                    {departments.map((department, index) => (
+                      {departments.map((department, index) => (
                         <li key={index}>
                           {" "}
                           <Link to={department.link}>{department.name}</Link>

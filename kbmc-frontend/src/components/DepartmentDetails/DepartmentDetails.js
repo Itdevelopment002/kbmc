@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import pdficon from "../../assets/images/icons/PDF-Icons.png";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
-import api, {baseURL} from "../api";
+import api, { baseURL } from "../api";
 import image from "../../assets/images/icons/new-icon1.gif";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const DepartmentDetails = () => {
   const [gallerys, setGallerys] = useState([]);
@@ -19,7 +19,7 @@ const DepartmentDetails = () => {
       const response = await api.get("/gallerys");
       setGallerys(response.data);
     } catch (error) {
-      console.log("Error fetching photo gallery images");
+      console.error("Error fetching photo gallery images");
     }
   };
 
@@ -28,7 +28,7 @@ const DepartmentDetails = () => {
       const response = await api.get("/tenders");
       setTenders(response.data);
     } catch (error) {
-      console.log("Error fetching tenders data");
+      console.error("Error fetching tenders data");
     }
   };
 
@@ -37,7 +37,7 @@ const DepartmentDetails = () => {
       const response = await api.get("/home-videos");
       setVideos(response.data);
     } catch (error) {
-      console.log("Error fetching videos data");
+      console.error("Error fetching videos data");
     }
   };
 
@@ -58,8 +58,8 @@ const DepartmentDetails = () => {
   }, [gallerys]);
 
   const getYouTubeVideoId = (url) => {
-    const regExp =
-      /^.*(youtu.be\/|v\/|\/u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    // eslint-disable-next-line
+    const regExp =/^.*(youtu.be\/|v\/|\/u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     const match = url.match(regExp);
     return match && match[2].length === 11 ? match[2] : null;
   };
@@ -73,7 +73,7 @@ const DepartmentDetails = () => {
 
   const handleCloseVideoModal = () => {
     setShowVideoModal(false);
-    setSelectedVideo(null); // Clear the video URL to prevent autoplay on reopen
+    setSelectedVideo(null); 
   };
 
   return (
@@ -93,14 +93,14 @@ const DepartmentDetails = () => {
                               <div className="row" id="video-01">
                                 <div className="col-4 col-md-3">
                                   <Link
-                                    onClick={() => handleOpenVideoModal(video)} // Open modal on click
+                                    onClick={() => handleOpenVideoModal(video)} 
                                     className="lightbox"
                                     style={{ cursor: "pointer" }}
                                   >
                                     <img
                                       src={`https://img.youtube.com/vi/${getYouTubeVideoId(
                                         video.video_url
-                                      )}/0.jpg`} // Get thumbnail
+                                      )}/0.jpg`} 
                                       alt={video.description}
                                       style={{
                                         width: "100px",
@@ -134,6 +134,7 @@ const DepartmentDetails = () => {
                         <div className="col-md-6 col-12">
                           <div className="map-style">
                             <iframe
+                              title="Badlapur, Maharashtra Map" 
                               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30149.71769291419!2d73.20470302114111!3d19.163961329513864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ed5c9bc71bbd%3A0x87d539b0621850f3!2sBadlapur%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1712733207421!5m2!1sen!2sin"
                               width="100%"
                               height="280"
@@ -148,7 +149,6 @@ const DepartmentDetails = () => {
                     </div>
                   </section>
 
-                  {/* <!-- Gallery --> */}
                   <div className="col-lg-12 col-md-12 col-sm-12 content-side">
                     <div className="department-details-content">
                       <div className="content-three">
@@ -182,7 +182,7 @@ const DepartmentDetails = () => {
                                           width: "100%",
                                           height: "auto",
                                           objectFit: "cover",
-                                          borderRadius: "1px", 
+                                          borderRadius: "1px",
                                         }}
                                       />
                                     </Link>
@@ -233,16 +233,14 @@ const DepartmentDetails = () => {
                     </div>
                   </div>
                 </div>
-                {/* <!-- news-section end --> */}
 
-                <div class="service-block-three">
-                  <div class="inner-box">
+                <div className="service-block-three">
+                  <div className="inner-box">
                     <h6>Service for</h6>
                     <h3>
                       <Link to="#.">Our City Residents</Link>
                     </h3>
-                    <ul class="list-item clearfix">
-                      {/* <!-- <li><Link to="#.">Public Transit</Link></li> --> */}
+                    <ul className="list-item clearfix">
                       <li>
                         <Link to="#.">Helpline - 0251-2690271</Link>
                       </li>
@@ -258,7 +256,6 @@ const DepartmentDetails = () => {
         </div>
       </section>
 
-      {/* Video Modal */}
       <Modal
         show={showVideoModal}
         onHide={handleCloseVideoModal}
@@ -272,7 +269,7 @@ const DepartmentDetails = () => {
               width="100%"
               height="400"
               objectFit="cover"
-              src={selectedVideo} // Using selectedVideo state for src
+              src={selectedVideo} 
               frameBorder="0"
               allowFullScreen
               title="YouTube video"

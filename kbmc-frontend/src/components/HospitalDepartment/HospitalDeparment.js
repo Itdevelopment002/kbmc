@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import api from "../api";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const HospitalDepartment = () => {
   const [departments, setDepartments] = useState([]);
@@ -18,6 +18,7 @@ const HospitalDepartment = () => {
   useEffect(() => {
     fetchDepartments();
   }, []);
+
   return (
     <>
       <section className="page-title ">

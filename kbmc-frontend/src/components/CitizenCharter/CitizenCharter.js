@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import innerBanner from "../../assets/images/banner/inner-banner.jpg"; // Background image
+import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import pdficon from "../../assets/images/icons/PDF-Icons.png";
 import api, { baseURL } from '../api';
 import {Link} from "react-router-dom";
@@ -8,7 +8,6 @@ const CitizenCharter = () => {
   const [departments, setDepartments] = useState([]);
   const [citDepartments, setCitDepartments] = useState([]);
 
-  // Fetch data from the API
   const fetchDepartments = async () => {
     try {
       const response = await api.get("/departments");
@@ -32,7 +31,6 @@ const CitizenCharter = () => {
     fetchDepartments();
   }, []);
 
-  // Find unmatched departments in citDepartments
   const unmatchedDepartments = citDepartments.filter(
     (citDept) => !departments.some((dept) => dept.name === citDept.name)
   );
@@ -68,7 +66,6 @@ const CitizenCharter = () => {
           <div className="row clearfix">
             <div className="col-lg-12 col-md-12 col-sm-12 content-side">
               <div className="row clearfix">
-                {/* Matched departments */}
                 {departments.map((department) => {
                   const matchingDepartment = citDepartments.find(
                     (dept) => dept.name === department.name
@@ -104,7 +101,6 @@ const CitizenCharter = () => {
                   );
                 })}
 
-                {/* Unmatched departments from citDepartments */}
                 {unmatchedDepartments.map((citDept) => (
                   <div key={citDept.id} className="col-md-6">
                     <div className="department-details-content citizen-chart-pdf">

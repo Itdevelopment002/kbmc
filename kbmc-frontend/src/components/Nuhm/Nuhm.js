@@ -226,7 +226,7 @@ const Nuhm = () => {
               <li>
                 III. The prescribed form(s) can be obtained from the AWC. The
                 form(s) can also be downloaded from the website of Ministry of
-                Women and Child Development (http://wcd. nic.in) and submit the
+                Women and Child Development (http://wcd.nic.in) and submit the
                 same at Aanganwadi Centre.
               </li>
             </ul>

@@ -4,7 +4,6 @@ import bannerImage from '../../assets/images/banner/inner-banner.jpg';
 import api, { baseURL } from '../api';
 import {Link} from "react-router-dom";
 
-
 const Awards = () => {
   const [awards, setAwards] = useState([]);
   const [awardimages, setAwardImages] = useState([]);

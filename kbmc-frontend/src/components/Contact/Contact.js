@@ -4,24 +4,28 @@ import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import Location from "../../assets/images/icons/Location Icon.png";
 import Quick from "../../assets/images/icons/Quick Contact Icon.png";
 import Off from "../../assets/images/icons/Off hours Icon.png";
-import api from "../api"
-import {Link} from "react-router-dom";
+import api from "../api";
+import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm();
 
   const onSubmit = async (data) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await api.post("/contact-us", data);
-      reset(); 
+      reset();
+      toast.success("Feedback Sent successfully!");
     } catch (error) {
       console.error("Error sending message:", error);
-      alert("Failed to send message. Please try again.");
+      toast.error("Error sending feedback!");
     }
   };
 
@@ -117,9 +121,13 @@ const Contact = () => {
       <section className="contact-style-two mb-5">
         <div className="auto-container">
           <div className="row clearfix">
-            <div className="col-lg-6 col-md-12 col-sm-12 map-column" style={{overflowX: 'hidden'}}>
+            <div
+              className="col-lg-6 col-md-12 col-sm-12 map-column"
+              style={{ overflowX: "hidden" }}
+            >
               <div className="map-inner">
                 <iframe
+                  title="Kulgoan Badlapur Municipal Council Map"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.6714464400943!2d73.23056668507914!3d19.165853902897943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be792d35920ed4d%3A0x17d29709cf64ec88!2sKulgoan%20Badlapur%20Municipal%20Council!5e0!3m2!1sen!2sin!4v1717412383057!5m2!1sen!2sin"
                   width="600"
                   height="525"
@@ -134,7 +142,9 @@ const Contact = () => {
               <div className="content-box">
                 <div className="sec-title">
                   <h2>Send Your Feedback</h2>
-                  <p>Fill out this form to send your inquiries or complaints.</p>
+                  <p>
+                    Fill out this form to send your inquiries or complaints.
+                  </p>
                 </div>
                 <div className="form-inner">
                   <form onSubmit={handleSubmit(onSubmit)} id="contact-form">
@@ -211,6 +221,7 @@ const Contact = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </section>
     </>
   );

@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import innerBanner from "../../assets/images/banner/inner-banner.jpg"; // Background image
+import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import api, { baseURL } from "../api";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ElectedWing = () => {
   const [electedData, setElectedData] = useState([]);
 
   const fetchElectedData = async () => {
     try {
-      const response = await api.get(
-        "/elected-wings"
-      );
+      const response = await api.get("/elected-wings");
       setElectedData(response.data);
     } catch (error) {
       console.error("Error fetching eleced wings data");
@@ -23,11 +21,11 @@ const ElectedWing = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0'); // Ensure two-digit day
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
-    return `${day}.${month}.${year}`; // Format as DD.MM.YYYY
-};
+    return `${day}.${month}.${year}`;
+  };
 
   return (
     <>
@@ -60,8 +58,7 @@ const ElectedWing = () => {
       <br />
       <section className="team-section sec-pad member-section">
         <div className="auto-container">
-          
-            <div className="row clearfix">
+          <div className="row clearfix">
             {electedData.map((data, index) => (
               <div
                 className="col-lg-3 col-md-6 col-sm-12 team-block mb-4"
@@ -109,7 +106,8 @@ const ElectedWing = () => {
                     <p>
                       <Link to="#.">
                         <i className="ri-calendar-2-line"></i>{" "}
-                        {formatDate(data.startDate)} to {formatDate(data.endDate)}
+                        {formatDate(data.startDate)} to{" "}
+                        {formatDate(data.endDate)}
                       </Link>
                     </p>
                     <p>
@@ -121,9 +119,8 @@ const ElectedWing = () => {
                   </div>
                 </div>
               </div>
-              ))}
-            </div>
-          
+            ))}
+          </div>
         </div>
       </section>
     </>

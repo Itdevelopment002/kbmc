@@ -3,7 +3,6 @@ import innerBanner from '../../assets/images/banner/inner-banner.jpg';
 import img1 from '../../assets/images/Organization-structure.jpg'
 import {Link} from "react-router-dom";
 
-
 const OrganisationStructure = () => {
   return (
     <>
