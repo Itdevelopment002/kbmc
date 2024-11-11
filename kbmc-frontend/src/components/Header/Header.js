@@ -33,12 +33,13 @@ const Header = () => {
       const mobileMenuContent = $(".main-header .menu-area .main-menu").html();
       $(".mobile-menu .menu-box .menu-outer").html(mobileMenuContent);
       $(".sticky-header .main-menu").html(mobileMenuContent);
-
+  
+      // Handle dropdown toggle
       $(".mobile-menu").on("click", "li.dropdown .dropdown-btn", function (e) {
         e.stopPropagation();
         const $this = $(this);
         const $dropdownMenu = $this.prev("ul");
-
+  
         if ($this.hasClass("open")) {
           $this.removeClass("open");
           $dropdownMenu.slideUp(500);
@@ -55,35 +56,45 @@ const Header = () => {
           $this.find(".fas").addClass("rotate-icon");
         }
       });
-
+  
+      // Open the menu
       $(".mobile-nav-toggler").on("click", function () {
         $("body").addClass("mobile-menu-visible");
         $(".mobile-menu").addClass("visible");
       });
-
-      $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").on(
-        "click",
-        function () {
-          $("body").removeClass("mobile-menu-visible");
-          $(".mobile-menu").removeClass("visible");
-
-          $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
-          $(".mobile-menu li.dropdown ul").slideUp(500);
-        }
-      );
-
+  
+      // Close the menu
+      $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").on("click", function () {
+        $("body").removeClass("mobile-menu-visible");
+        $(".mobile-menu").removeClass("visible");
+  
+        $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
+        $(".mobile-menu li.dropdown ul").slideUp(500);
+      });
+  
+      // Close the menu when clicking outside
       $(document).on("click", function (e) {
         if (!$(e.target).closest(".mobile-menu").length) {
           $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
           $(".mobile-menu li.dropdown ul").slideUp(500);
         }
       });
-
+  
+      // Close the menu when a menu or submenu link is clicked
+      $(".mobile-menu .menu-box a").on("click", function () {
+        $("body").removeClass("mobile-menu-visible");
+        $(".mobile-menu").removeClass("visible");
+  
+        $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
+        $(".mobile-menu li.dropdown ul").slideUp(500);
+      });
+  
       return () => {
         $(".mobile-menu").off("click", "li.dropdown .dropdown-btn");
         $(".mobile-nav-toggler").off("click");
         $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").off("click");
         $(document).off("click");
+        $(".mobile-menu .menu-box a").off("click"); 
       };
     }
   }, [menuData]);
