@@ -3,7 +3,7 @@ import api, { baseURL } from "../api";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Gardens = () => {
   const [activeTab, setActiveTab] = useState("#tab-1");
@@ -15,12 +15,11 @@ const Gardens = () => {
     setActiveTab(tabId);
   };
 
-  // Fetch garden data from API
   const fetchGardenData = async () => {
     try {
       setLoading(true);
       const response = await api.get("/gardens");
-      setGardenData(response.data); 
+      setGardenData(response.data);
     } catch (error) {
       console.error("Error fetching garden data:", error);
       setError("Failed to fetch garden data.");
@@ -34,7 +33,6 @@ const Gardens = () => {
   }, []);
 
   useEffect(() => {
-    // Initialize lightbox
     const lightbox = GLightbox({
       selector: ".glightbox",
     });

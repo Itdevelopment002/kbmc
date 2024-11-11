@@ -8,7 +8,6 @@ const Departments = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  // Fetch departments data from the API
   const fetchDepartments = async () => {
     try {
       const response = await api.get("/departments");
@@ -22,16 +21,14 @@ const Departments = () => {
     fetchDepartments();
   }, []);
 
-  // Calculate total pages
   const totalPages = Math.ceil(departments.length / itemsPerPage);
 
-  // Get current page departments
   const currentDepartments = departments.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  // Handle page change
+  // eslint-disable-next-line no-unused-vars
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -52,7 +49,7 @@ const Departments = () => {
             <h1>Departments</h1>
             <ul className="bread-crumb clearfix">
               <li>
-                <Link href="/">Home</Link>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <span>Departments</span>
@@ -71,11 +68,11 @@ const Departments = () => {
                   <div className="inner-box">
                     <div className="content-box">
                       <h3>
-                        <Link href={department.link}>{department.name}</Link>
+                        <Link to={department.link}>{department.name}</Link>
                       </h3>
                       <p>Name of HOD: {department.hod}</p>
                       <div className="link-box">
-                        <Link href={department.link}>
+                        <Link to={department.link}>
                           <span>Read More</span>
                         </Link>
                       </div>

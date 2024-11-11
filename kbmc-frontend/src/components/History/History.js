@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import banner from "../../assets/images/banner/inner-banner.jpg";
 import "./History.css";
 import api, { baseURL } from "../api";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const History = () => {
   const [historyData, setHistoryData] = useState([]);
@@ -60,20 +60,20 @@ const History = () => {
 
       <section className="about-style-three history-content white-bg mt-5">
         {historyData.length > 0 && (
-        <div className="auto-container">
-          <div className="row clearfix">
-            <div className="col-lg-12 col-md-12 col-sm-12 content-column">
-              <div className="content-box">
-                <div className="text-box">
-                  <h3 className="pb-3">
-                    Welcome to Kulgaon Badlapur Municipal Council.
-                  </h3>
-                  <p>{historyData[0].description}</p>
+          <div className="auto-container">
+            <div className="row clearfix">
+              <div className="col-lg-12 col-md-12 col-sm-12 content-column">
+                <div className="content-box">
+                  <div className="text-box">
+                    <h3 className="pb-3">
+                      Welcome to Kulgaon Badlapur Municipal Council.
+                    </h3>
+                    <p>{historyData[0].description}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
         )}
       </section>
 

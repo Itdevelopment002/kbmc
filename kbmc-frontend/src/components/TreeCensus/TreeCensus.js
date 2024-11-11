@@ -7,8 +7,6 @@ const TreeCensus = () => {
   const [treeData, setTreeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // Fetch Tree Census data from the API
   useEffect(() => {
     api.get('/tree-census')
       .then(response => {

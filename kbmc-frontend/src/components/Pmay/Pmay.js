@@ -40,10 +40,10 @@ const Pmay = () => {
       <br />
       <br />
 
-      <section class="service-style-four">
-        <div class="auto-container">
-          <h4 class="pb-3 color_blue">Introduction</h4>
-          <p class="text-black">
+      <section className="service-style-four">
+        <div className="auto-container">
+          <h4 className="pb-3 color_blue">Introduction</h4>
+          <p className="text-black">
             The Prime Minister's Housing Scheme in the state is based on the
             concept of "Homes for All". Pradhan Mantri Awas Yojana of the
             Government of Maharashtra regarding the implementation of the
@@ -53,9 +53,9 @@ const Pmay = () => {
             government The following four elements are common in the scheme's
             follow-up instructions.
           </p>
-          <div class="table-responsive mt-3">
-            <table class="table table-bordered">
-              <thead class="text-center">
+          <div className="table-responsive mt-3">
+            <table className="table table-bordered">
+              <thead className="text-center">
                 <tr>
                   <th
                     style={{
@@ -117,12 +117,12 @@ const Pmay = () => {
               </tbody>
             </table>
           </div>
-          <h5 class="color_blue">
+          <h5 className="color_blue">
             Out of the above mentioned 4 components, projects are being
             implemented in Kulgaon Badlapur Municipal Council area under two
             components namely ISSR and AHP.
           </h5>
-          <ul class="pt-3 pmay-list">
+          <ul className="pt-3 pmay-list">
             <li>
               <b>
                 A total of 2298 huts project under ISSR-462 and AHP-1836 at
@@ -166,12 +166,12 @@ const Pmay = () => {
               been completed.
             </li>
           </ul>
-          <h5 class="pt-2 color_blue">
+          <h5 className="pt-2 color_blue">
             Out of 1836 shelters under AHP, 1218 shelters and 231 shelters out
             of 462 shelters under ISSR, total 1449 shelters work projects.
             Starting at the site.
           </h5>
-          <ul class="pt-3 pmay-list">
+          <ul className="pt-3 pmay-list">
             <li>
               <b>
                 As per Circular dated 17/08/2022 from Ministry of Housing and
@@ -181,14 +181,14 @@ const Pmay = () => {
               </b>
             </li>
           </ul>
-          <h5 class="color_blue">
+          <h5 className="color_blue">
             Component wise details under Pradhan Mantri Awas Yojana - Urban
             (PMAY- Urban).
           </h5>
-          <div class="mt-3">
-            <div class="table-responsive">
-              <table class="table table-bordered">
-                <thead class="text-center">
+          <div className="mt-3">
+            <div className="table-responsive">
+              <table className="table table-bordered">
+                <thead className="text-center">
                   <tr>
                     <th
                       style={{
@@ -277,29 +277,29 @@ const Pmay = () => {
               </table>
             </div>
           </div>
-          <h5 class="color_blue">
+          <h5 className="color_blue">
             Name of work : Planning, designing and construction of 2298
             (AHP+ISSR) flats with commercial use at Belawli, Badlapur under
             Pradhan Mantri Awas Yojana for Economically Weaker Sections (EWS)
             scheme with all amenities.
           </h5>
-          <div class="row mt-3 pmay_img">
-            <div class="col-md-4">
+          <div className="row mt-3 pmay_img">
+            <div className="col-md-4">
               <img src={img1} alt="img1" />
             </div>
-            <div class="col-md-4">
+            <div className="col-md-4">
               <img src={img2} alt="img2" />
             </div>
-            <div class="col-md-4">
+            <div className="col-md-4">
               <img src={img3} alt="img3" />
             </div>
-            <div class="col-md-4">
+            <div className="col-md-4">
               <img src={img4} alt="img4" />
             </div>
-            <div class="col-md-4">
+            <div className="col-md-4">
               <img src={img5} alt="img5" />
             </div>
-            <div class="col-md-4">
+            <div className="col-md-4">
               <img src={img6} alt="img6" />
             </div>
           </div>

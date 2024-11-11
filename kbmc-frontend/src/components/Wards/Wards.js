@@ -19,8 +19,6 @@ const Wards = () => {
         fetchWardData();
     },[]);
 
-    console.log(wardData)
-
     return (
         <section>
             <section className="page-title">

@@ -7,8 +7,6 @@ import './BottomSlider.css'
 import api, { baseURL } from '../api';
 import {Link} from "react-router-dom";
 
-
-// Custom Next Arrow
 const NextArrow = (props) => {
   const { onClick } = props;
   return (
@@ -18,7 +16,6 @@ const NextArrow = (props) => {
   );
 };
 
-// Custom Prev Arrow
 const PrevArrow = (props) => {
   const { onClick } = props;
   return (

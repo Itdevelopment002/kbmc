@@ -10,7 +10,7 @@ const PublicDisclosure = () => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await api.get('/departments'); // Adjust this URL based on your setup
+      const response = await api.get('/departments'); 
       setDepartments(response.data);
     } catch (error) {
       console.error('Error fetching departments:', error);
@@ -26,7 +26,7 @@ const PublicDisclosure = () => {
   useEffect(() => {
     const fetchPubDepartments = async () => {
       try {
-        const response = await api.get('/public_disclosure'); // Adjust this URL based on your setup
+        const response = await api.get('/public_disclosure'); 
         setPubDepartments(response.data);
       } catch (error) {
         console.error('Error fetching departments:', error);
@@ -39,7 +39,7 @@ const PublicDisclosure = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>; // Optional: Show a loading indicator while fetching data
+    return <p>Loading...</p>; 
   }
 
   return (
@@ -65,7 +65,6 @@ const PublicDisclosure = () => {
         <div className="auto-container">
           <div className="row clearfix">
             {pubDepartments.map((pubDepartment) => {
-              // Find matching department in the departments list
               const matchingDepartment = departments.find(
                 (dept) => dept.name === pubDepartment.department_name
               );

@@ -1,6 +1,6 @@
 import React from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const PrivacyPolicy = () => {
   return (

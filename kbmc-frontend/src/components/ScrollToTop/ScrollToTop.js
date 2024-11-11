@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 const ScrollToTop = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Scroll event listener
   useEffect(() => {
     const handleScroll = () => {
       const windowPos = window.scrollY;
@@ -23,13 +22,11 @@ const ScrollToTop = () => {
 
     window.addEventListener('scroll', handleScroll);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  // Scroll to top function
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,

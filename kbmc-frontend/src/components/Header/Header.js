@@ -9,7 +9,7 @@ import img3 from "../../assets/images/kbmc_logo.jpg";
 import img5 from "../../assets/images/icons/icon-4.png";
 import "./Header.css";
 import api, { baseURL } from "../api";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [menuData, setMenuData] = useState([]);
@@ -30,61 +30,63 @@ const Header = () => {
 
   useEffect(() => {
     if ($(".mobile-menu").length) {
-        // Clear previous content and add new menu content
-        const mobileMenuContent = $(".main-header .menu-area .main-menu").html();
-        $(".mobile-menu .menu-box .menu-outer").html(mobileMenuContent);
-        $(".sticky-header .main-menu").html(mobileMenuContent);
+      const mobileMenuContent = $(".main-header .menu-area .main-menu").html();
+      $(".mobile-menu .menu-box .menu-outer").html(mobileMenuContent);
+      $(".sticky-header .main-menu").html(mobileMenuContent);
 
-        // Toggle dropdowns in the mobile menu
-        $(".mobile-menu").on("click", "li.dropdown .dropdown-btn", function (e) {
-            e.stopPropagation();
-            const $this = $(this);
-            const $dropdownMenu = $this.prev("ul");
+      $(".mobile-menu").on("click", "li.dropdown .dropdown-btn", function (e) {
+        e.stopPropagation();
+        const $this = $(this);
+        const $dropdownMenu = $this.prev("ul");
 
-            if ($this.hasClass("open")) {
-                $this.removeClass("open");
-                $dropdownMenu.slideUp(500);
-                $this.find(".fas").removeClass("rotate-icon");
-            } else {
-                $(".mobile-menu li.dropdown .dropdown-btn.open").removeClass("open").prev("ul").slideUp(500).find(".fas").removeClass("rotate-icon");
-                $this.addClass("open");
-                $dropdownMenu.slideDown(500);
-                $this.find(".fas").addClass("rotate-icon");
-            }
-        });
+        if ($this.hasClass("open")) {
+          $this.removeClass("open");
+          $dropdownMenu.slideUp(500);
+          $this.find(".fas").removeClass("rotate-icon");
+        } else {
+          $(".mobile-menu li.dropdown .dropdown-btn.open")
+            .removeClass("open")
+            .prev("ul")
+            .slideUp(500)
+            .find(".fas")
+            .removeClass("rotate-icon");
+          $this.addClass("open");
+          $dropdownMenu.slideDown(500);
+          $this.find(".fas").addClass("rotate-icon");
+        }
+      });
 
-        // Open the mobile menu
-        $(".mobile-nav-toggler").on("click", function () {
-            $("body").addClass("mobile-menu-visible");
-            $(".mobile-menu").addClass("visible");
-        });
+      $(".mobile-nav-toggler").on("click", function () {
+        $("body").addClass("mobile-menu-visible");
+        $(".mobile-menu").addClass("visible");
+      });
 
-        // Close the mobile menu
-        $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").on("click", function () {
-            $("body").removeClass("mobile-menu-visible");
-            $(".mobile-menu").removeClass("visible");
+      $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").on(
+        "click",
+        function () {
+          $("body").removeClass("mobile-menu-visible");
+          $(".mobile-menu").removeClass("visible");
 
-            $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
-            $(".mobile-menu li.dropdown ul").slideUp(500);
-        });
+          $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
+          $(".mobile-menu li.dropdown ul").slideUp(500);
+        }
+      );
 
-        // Close dropdowns when clicking outside
-        $(document).on("click", function (e) {
-            if (!$(e.target).closest(".mobile-menu").length) {
-                $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
-                $(".mobile-menu li.dropdown ul").slideUp(500);
-            }
-        });
+      $(document).on("click", function (e) {
+        if (!$(e.target).closest(".mobile-menu").length) {
+          $(".mobile-menu li.dropdown .dropdown-btn").removeClass("open");
+          $(".mobile-menu li.dropdown ul").slideUp(500);
+        }
+      });
 
-        // Cleanup function to remove event listeners
-        return () => {
-            $(".mobile-menu").off("click", "li.dropdown .dropdown-btn");
-            $(".mobile-nav-toggler").off("click");
-            $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").off("click");
-            $(document).off("click");
-        };
+      return () => {
+        $(".mobile-menu").off("click", "li.dropdown .dropdown-btn");
+        $(".mobile-nav-toggler").off("click");
+        $(".mobile-menu .menu-backdrop, .mobile-menu .close-btn").off("click");
+        $(document).off("click");
+      };
     }
-}, [menuData]);
+  }, [menuData]);
 
   return (
     <>
@@ -225,9 +227,8 @@ const Header = () => {
                         const isMainMenuActive =
                           (location.pathname === "/" &&
                             menuItem.mainMenu === "Home") ||
-                          menuItem.subMenus.some(
-                            (subMenuItem) =>
-                              location.pathname.endsWith(subMenuItem.subLink)
+                          menuItem.subMenus.some((subMenuItem) =>
+                            location.pathname.endsWith(subMenuItem.subLink)
                           );
 
                         return (
@@ -237,7 +238,7 @@ const Header = () => {
                               menuItem.subMenus.length ? "dropdown" : ""
                             } ${isMainMenuActive ? "current" : ""}`}
                           >
-                            <Link href={menuItem.mainMenu === "Home" ? "/" : "#"}>
+                            <Link to={menuItem.mainMenu === "Home" ? "/" : "#"}>
                               {menuItem.mainMenu}
                             </Link>
                             {menuItem.subMenus.length > 0 && (
@@ -279,7 +280,7 @@ const Header = () => {
                         );
                       })}
                       <div className="menu-right-content">
-                        <div className="btn-box">
+                        <div className="btn-box mx-1">
                           <Link to="/login" className="header-btn">
                             Login
                           </Link>
@@ -367,48 +368,42 @@ const Header = () => {
                         menuItem.subMenus.length ? "dropdown" : ""
                       } ${isMainMenuActive ? "current" : ""}`}
                     >
-                      <Link
-                        href={menuItem.mainMenu === "Home" ? "/" : "#"}
-                      >
+                      <Link to={menuItem.mainMenu === "Home" ? "/" : "#"}>
                         {menuItem.mainMenu}
                       </Link>
 
-                      {menuItem.subMenus.length > 0 &&
-                        
-                        (
-                          <ul>
-                            {menuItem.subMenus.map((subMenuItem, subIndex) => (
-                              <li key={subIndex}>
-                                <Link
-                                  to={
-                                    subMenuItem.subLink.endsWith(".pdf")
-                                      ? `${baseURL}${subMenuItem.subLink}`
-                                      : subMenuItem.subLink
-                                  }
-                                  target={
-                                    subMenuItem.subLink.startsWith("http") ||
-                                    subMenuItem.subLink.endsWith(".pdf")
-                                      ? "_blank"
-                                      : undefined
-                                  }
-                                  rel={
-                                    subMenuItem.subLink.startsWith("http") ||
-                                    subMenuItem.subLink.endsWith(".pdf")
-                                      ? "noopener noreferrer"
-                                      : undefined
-                                  }
-                                >
-                                  {subMenuItem.subMenu}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
+                      {menuItem.subMenus.length > 0 && (
+                        <ul>
+                          {menuItem.subMenus.map((subMenuItem, subIndex) => (
+                            <li key={subIndex}>
+                              <Link
+                                to={
+                                  subMenuItem.subLink.endsWith(".pdf")
+                                    ? `${baseURL}${subMenuItem.subLink}`
+                                    : subMenuItem.subLink
+                                }
+                                target={
+                                  subMenuItem.subLink.startsWith("http") ||
+                                  subMenuItem.subLink.endsWith(".pdf")
+                                    ? "_blank"
+                                    : undefined
+                                }
+                                rel={
+                                  subMenuItem.subLink.startsWith("http") ||
+                                  subMenuItem.subLink.endsWith(".pdf")
+                                    ? "noopener noreferrer"
+                                    : undefined
+                                }
+                              >
+                                {subMenuItem.subMenu}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
 
                       {menuItem.subMenus.length > 0 && (
-                        <div
-                          className="dropdown-btn"
-                        >
+                        <div className="dropdown-btn">
                           <span className="fas fa-angle-down"></span>
                         </div>
                       )}
@@ -450,8 +445,8 @@ const Header = () => {
                 </li>
               </ul>
               <div className="menu-right-content">
-                <div className="btn-box">
-                  <Link to="/login" className="header-btn">
+                <div className="btn-box btn-sm">
+                  <Link to="/login" className="header-btn btn-sm">
                     Login
                   </Link>
                 </div>

@@ -11,7 +11,6 @@ const RightToService = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch data from the pdf API
         api.get('/rts_table')
             .then(response => {
                 setPdfData(response.data);
@@ -22,11 +21,9 @@ const RightToService = () => {
     }, []);
 
     useEffect(() => {
-        // Fetch data from the services API
         api.get('/righttoservices')
             .then(response => {
-                console.log("API response:", response.data); // Debug log to check response
-                setServices(response.data); // Assuming response.data is the array of services
+                setServices(response.data); 
                 setLoading(false);
             })
             .catch(err => {
@@ -36,7 +33,6 @@ const RightToService = () => {
             });
     }, []);
 
-    // Group descriptions by unique headings
     const groupedServices = services.reduce((acc, service) => {
         if (!acc[service.heading]) {
             acc[service.heading] = [];
@@ -60,7 +56,7 @@ const RightToService = () => {
                     <div className="content-box">
                         <h1>Right to Service</h1>
                         <ul className="bread-crumb clearfix">
-                            <li><Link href="/">Home</Link></li>
+                            <li><Link to="/">Home</Link></li>
                             <li><span>Right to Service</span></li>
                         </ul>
                     </div>

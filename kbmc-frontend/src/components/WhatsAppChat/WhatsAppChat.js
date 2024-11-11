@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import img1 from "../../assets/images/KBMC-logo.jpg"
-import {Link} from "react-router-dom";
+import img1 from "../../assets/images/KBMC-logo.jpg";
+import { Link } from "react-router-dom";
 
 const WhatsAppChat = () => {
-  const [chatInput, setChatInput] = useState(""); // To handle the message input
-  const [selectedNumber, setSelectedNumber] = useState("88509 71717"); // Default phone number
-  const [selectedName, setSelectedName] = useState("KBMC"); // Default name
+  const [chatInput, setChatInput] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  const [selectedNumber, setSelectedNumber] = useState("88509 71717");
+  // eslint-disable-next-line no-unused-vars
+  const [selectedName, setSelectedName] = useState("KBMC");
+  // eslint-disable-next-line no-unused-vars
   const [selectedLabel, setSelectedLabel] = useState(
     "Typically replies within an hour"
-  ); // Default label
-  const [isChatVisible, setIsChatVisible] = useState(false); // Chat visibility state
-  const [isHomeVisible, setIsHomeVisible] = useState(true); // Home chat visibility
+  );
+  const [isChatVisible, setIsChatVisible] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [isHomeVisible, setIsHomeVisible] = useState(true);
 
-  // Handle sending message via WhatsApp
   const sendWhatsAppMessage = () => {
     if (chatInput !== "") {
       const isMobileDevice =
@@ -22,27 +25,18 @@ const WhatsAppChat = () => {
       const baseUrl = isMobileDevice
         ? "whatsapp://send"
         : "https://web.whatsapp.com/send";
-      const message = encodeURIComponent(chatInput); // Encode the message for URL
+      const message = encodeURIComponent(chatInput);
       const whatsappUrl = `${baseUrl}?phone=${selectedNumber}&text=${message}`;
       window.open(whatsappUrl, "_blank");
+      setChatInput("");
+      setIsChatVisible(false);
     }
   };
 
-  // Handle showing chat
   const toggleChatVisibility = () => {
     setIsChatVisible(!isChatVisible);
   };
 
-  // Simulate chat selection (from clicking .informasi in jQuery)
-  const handleChatSelection = (number, name, label) => {
-    setSelectedNumber(number);
-    setSelectedName(name);
-    setSelectedLabel(label);
-    setIsChatVisible(true);
-    setIsHomeVisible(false);
-  };
-
-  // Close chat box
   const closeChat = () => {
     setIsChatVisible(false);
   };
@@ -70,23 +64,41 @@ const WhatsAppChat = () => {
           )}
         </div>
 
-        <div class='start-chat'>
-            <div pattern="https://elfsight.com/assets/chats/patterns/whatsapp.png" class="WhatsappChat__Component-sc-1wqac52-0 whatsapp-chat-body">
-              <div class="WhatsappChat__MessageContainer-sc-1wqac52-1 dAbFpq">
-                <div style={{opacity: '0'}} class="WhatsappDots__Component-pks5bf-0 eJJEeC">
-                  <div class="WhatsappDots__ComponentInner-pks5bf-1 hFENyl">
-                    <div class="WhatsappDots__Dot-pks5bf-2 WhatsappDots__DotOne-pks5bf-3 ixsrax"></div>
-                    <div class="WhatsappDots__Dot-pks5bf-2 WhatsappDots__DotTwo-pks5bf-4 dRvxoz"></div>
-                    <div class="WhatsappDots__Dot-pks5bf-2 WhatsappDots__DotThree-pks5bf-5 kXBtNt"></div>
-                  </div>
+        <div className="start-chat">
+          <div
+            pattern="https://elfsight.com/assets/chats/patterns/whatsapp.png"
+            className="WhatsappChat__Component-sc-1wqac52-0 whatsapp-chat-body"
+          >
+            <div className="WhatsappChat__MessageContainer-sc-1wqac52-1 dAbFpq">
+              <div
+                style={{ opacity: "0" }}
+                className="WhatsappDots__Component-pks5bf-0 eJJEeC"
+              >
+                <div className="WhatsappDots__ComponentInner-pks5bf-1 hFENyl">
+                  <div className="WhatsappDots__Dot-pks5bf-2 WhatsappDots__DotOne-pks5bf-3 ixsrax"></div>
+                  <div className="WhatsappDots__Dot-pks5bf-2 WhatsappDots__DotTwo-pks5bf-4 dRvxoz"></div>
+                  <div className="WhatsappDots__Dot-pks5bf-2 WhatsappDots__DotThree-pks5bf-5 kXBtNt"></div>
                 </div>
-                <div style={{opacity: '1'}} class="WhatsappChat__Message-sc-1wqac52-4 kAZgZq">
-                  <div class="WhatsappChat__Author-sc-1wqac52-3 bMIBDo">KBMC</div>
-                  <div class="WhatsappChat__Text-sc-1wqac52-2 iSpIQi">Hi there 👋<br/ ><br />How can I help you?</div>
-                  <div class="WhatsappChat__Time-sc-1wqac52-5 cqCDVm">1:40</div>
+              </div>
+              <div
+                style={{ opacity: "1" }}
+                className="WhatsappChat__Message-sc-1wqac52-4 kAZgZq"
+              >
+                <div className="WhatsappChat__Author-sc-1wqac52-3 bMIBDo">
+                  KBMC
+                </div>
+                <div className="WhatsappChat__Text-sc-1wqac52-2 iSpIQi">
+                  Hi there 👋
+                  <br />
+                  <br />
+                  How can I help you?
+                </div>
+                <div className="WhatsappChat__Time-sc-1wqac52-5 cqCDVm">
+                  1:40
                 </div>
               </div>
             </div>
+          </div>
 
           <div className="blanter-msg">
             <textarea
@@ -97,11 +109,7 @@ const WhatsAppChat = () => {
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
             ></textarea>
-            <Link
-              to="javascript:void(0);"
-              id="send-it"
-              onClick={sendWhatsAppMessage}
-            >
+            <Link to="#" id="send-it" onClick={sendWhatsAppMessage}>
               <svg viewBox="0 0 448 448">
                 <path d="M.213 32L0 181.333 320 224 0 266.667.213 416 448 224z" />
               </svg>
@@ -110,18 +118,14 @@ const WhatsAppChat = () => {
         </div>
 
         <div id="get-number"></div>
-        <Link
-          className="close-chat"
-          to="javascript:void(0);"
-          onClick={closeChat}
-        >
+        <Link className="close-chat" to="#" onClick={closeChat}>
           ×
         </Link>
       </div>
 
       <Link
         className="blantershow-chat"
-        to="javascript:void(0);"
+        to="#"
         title="Show Chat"
         onClick={toggleChatVisibility}
       >

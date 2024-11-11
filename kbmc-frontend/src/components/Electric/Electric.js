@@ -7,7 +7,6 @@ const Electric = () => {
   const [electricData, setElectricData] = useState([]);
 
   useEffect(() => {
-    // Fetch electric data from the API
     api.get('/electric')
       .then(response => {
         setElectricData(response.data);

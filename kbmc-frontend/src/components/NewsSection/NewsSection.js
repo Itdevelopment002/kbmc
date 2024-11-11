@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import './NewsSection.css'; // Ensure this CSS file is created
+import './NewsSection.css'; 
 import api from "../api";
 
 const NewsSection = () => {
