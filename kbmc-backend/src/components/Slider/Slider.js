@@ -22,6 +22,7 @@ const Slider = () => {
 
   useEffect(() => {
     initLightbox();
+    // eslint-disable-next-line
   }, [sliders, currentPage]);
 
   const initLightbox = () => {
@@ -103,7 +104,6 @@ const Slider = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-  
 
   return (
     <div>
@@ -128,7 +128,10 @@ const Slider = () => {
                       <h4 className="page-title">Slider</h4>
                     </div>
                     <div className="col-sm-8 col-9 text-right m-b-20">
-                      <Link to="/add-slider" className="btn btn-primary btn-rounded float-right">
+                      <Link
+                        to="/add-slider"
+                        className="btn btn-primary btn-rounded float-right"
+                      >
                         <i className="fa fa-plus"></i> Add Slider
                       </Link>
                     </div>
@@ -146,7 +149,9 @@ const Slider = () => {
                       <tbody>
                         {currentPageData.map((slider, index) => (
                           <tr key={slider.id}>
-                            <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
+                            <td>
+                              {index + 1 + (currentPage - 1) * itemsPerPage}
+                            </td>
                             <td>{slider.slider_name}</td>
                             <td>
                               <Link
@@ -163,16 +168,16 @@ const Slider = () => {
                             </td>
                             <td>
                               <button
-                                className="btn btn-danger btn-sm m-t-10"
-                                onClick={() => handleDelete(slider)}
-                              >
-                                Delete
-                              </button>
-                              <button
                                 className="btn btn-success btn-sm m-t-10 mx-1"
                                 onClick={() => handleEdit(slider)}
                               >
                                 Edit
+                              </button>
+                              <button
+                                className="btn btn-danger btn-sm m-t-10"
+                                onClick={() => handleDelete(slider)}
+                              >
+                                Delete
                               </button>
                             </td>
                           </tr>
@@ -180,22 +185,44 @@ const Slider = () => {
                       </tbody>
                     </table>
                   </div>
-                  {/* Pagination */}
+                  
                   <ul className="pagination mt-3">
-                    <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                      <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
+                    <li
+                      className={`page-item ${
+                        currentPage === 1 ? "disabled" : ""
+                      }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                      >
                         Previous
                       </button>
                     </li>
                     {Array.from({ length: totalPages }, (_, i) => (
-                      <li key={i + 1} className={`page-item ${currentPage === i + 1 ? "active" : ""}`}>
-                        <button className="page-link" onClick={() => handlePageChange(i + 1)}>
+                      <li
+                        key={i + 1}
+                        className={`page-item ${
+                          currentPage === i + 1 ? "active" : ""
+                        }`}
+                      >
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageChange(i + 1)}
+                        >
                           {i + 1}
                         </button>
                       </li>
                     ))}
-                    <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                      <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
+                    <li
+                      className={`page-item ${
+                        currentPage === totalPages ? "disabled" : ""
+                      }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      >
                         Next
                       </button>
                     </li>
@@ -205,7 +232,6 @@ const Slider = () => {
             </div>
           </div>
 
-          {/* Delete Modal */}
           {showDeleteModal && (
             <div className="modal fade show" style={{ display: "block" }}>
               <div className="modal-dialog modal-dialog-centered">
@@ -214,10 +240,16 @@ const Slider = () => {
                     <h4>Are you sure you want to delete this item?</h4>
                   </div>
                   <div className="modal-footer">
-                    <button className="btn btn-sm btn-secondary" onClick={() => setShowDeleteModal(false)}>
+                    <button
+                      className="btn btn-sm btn-secondary"
+                      onClick={() => setShowDeleteModal(false)}
+                    >
                       Close
                     </button>
-                    <button className="btn btn-sm btn-danger" onClick={confirmDelete}>
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={confirmDelete}
+                    >
                       Delete
                     </button>
                   </div>
@@ -226,14 +258,16 @@ const Slider = () => {
             </div>
           )}
 
-          {/* Edit Modal */}
           {showEditModal && (
             <div className="modal fade show" style={{ display: "block" }}>
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">Edit Slider</h5>
-                    <button className="close" onClick={() => setShowEditModal(false)}>
+                    <button
+                      className="close"
+                      onClick={() => setShowEditModal(false)}
+                    >
                       &times;
                     </button>
                   </div>
@@ -245,25 +279,43 @@ const Slider = () => {
                         className="form-control"
                         value={selectedSlider?.slider_name || ""}
                         onChange={(e) =>
-                          setSelectedSlider({ ...selectedSlider, slider_name: e.target.value })
+                          setSelectedSlider({
+                            ...selectedSlider,
+                            slider_name: e.target.value,
+                          })
                         }
                       />
                     </div>
                     <div className="form-group">
                       <label>Slider Image</label>
-                      <input type="file" className="form-control" onChange={handleFileChange} />
+                      <input
+                        type="file"
+                        className="form-control"
+                        onChange={handleFileChange}
+                      />
                     </div>
                     {selectedSlider?.image && (
                       <div className="form-group">
-                        <img src={selectedSlider.image} alt="Preview" width="20%" className="img-thumbnail" />
+                        <img
+                          src={selectedSlider.image}
+                          alt="Preview"
+                          width="20%"
+                          className="img-thumbnail"
+                        />
                       </div>
                     )}
                   </div>
                   <div className="modal-footer">
-                    <button className="btn btn-sm btn-secondary" onClick={() => setShowEditModal(false)}>
+                    <button
+                      className="btn btn-sm btn-secondary"
+                      onClick={() => setShowEditModal(false)}
+                    >
                       Close
                     </button>
-                    <button className="btn btn-sm btn-primary" onClick={handleSaveEdit}>
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={handleSaveEdit}
+                    >
                       Save changes
                     </button>
                   </div>

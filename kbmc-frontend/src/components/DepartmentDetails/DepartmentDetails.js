@@ -17,12 +17,14 @@ const DepartmentDetails = () => {
   const FetchImages = async () => {
     try {
       const response = await api.get("/gallerys");
-      setGallerys(response.data);
+      const allGallerys = response.data;
+      const last12Gallerys = allGallerys.slice(-12).reverse();
+      setGallerys(last12Gallerys);
     } catch (error) {
-      console.error("Error fetching photo gallery images");
+      console.error("Error fetching photo gallery images", error);
     }
   };
-
+   
   const FetchTenders = async () => {
     try {
       const response = await api.get("/tenders");

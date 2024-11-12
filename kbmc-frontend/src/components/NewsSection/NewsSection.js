@@ -5,15 +5,16 @@ import api from "../api";
 const NewsSection = () => {
     const [newsData, setNewsData] = useState([]);
 
-    const fetchNews = async()=>{
-        try{
-            const response = await api.get("/newsupdate");
-            setNewsData(response.data);
-        } catch(error){
-            console.error("Error fetchings news");
+    const fetchNews = async () => {
+        try {
+          const response = await api.get("/newsupdate");
+          const reversedNewsData = response.data.reverse();
+          setNewsData(reversedNewsData);
+        } catch (error) {
+          console.error("Error fetching news", error);
         }
-    };
-
+      };
+      
     useEffect(()=>{
         fetchNews();
     }, [])
