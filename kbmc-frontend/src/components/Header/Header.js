@@ -154,7 +154,10 @@ const Header = () => {
                 </figure>
               </div>
 
-              <div className="col-md-2 col-xl-2">
+              <div
+                className="col-md-2 col-xl-2"
+                style={{ visibility: "hidden" }}
+              >
                 <div className="search-box">
                   <form method="post" action="#.">
                     <div className="form-group">
@@ -293,13 +296,13 @@ const Header = () => {
                           </li>
                         );
                       })}
-                      <div className="menu-right-content">
+                      {/* <div className="menu-right-content">
                         <div className="btn-box mx-1">
                           <Link to="/login" className="header-btn">
                             Login
                           </Link>
                         </div>
-                      </div>
+                      </div> */}
                     </ul>
                   </div>
                 </nav>
@@ -455,13 +458,13 @@ const Header = () => {
                   </Link>
                 </li>
               </ul>
-              <div className="menu-right-content">
+              {/* <div className="menu-right-content">
                 <div className="btn-box btn-sm">
                   <Link to="/login" className="header-btn btn-sm">
                     Login
                   </Link>
                 </div>
-              </div>
+              </div> */}
             </div>
           </nav>
         </div>

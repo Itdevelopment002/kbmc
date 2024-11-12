@@ -82,7 +82,7 @@ const GenAdminDept = () => {
                     ) : (
                       genDepartments.map((genDepartment) => (
                         <li key={genDepartment.id}>
-                          <Link to="/dept-layer-2">
+                          <Link to={genDepartment.heading_link}>
                             {genDepartment.departments_heading}
                           </Link>
                         </li>

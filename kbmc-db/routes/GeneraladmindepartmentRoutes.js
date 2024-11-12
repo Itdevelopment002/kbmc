@@ -4,15 +4,15 @@ const db = require('../config/db.js'); // Ensure you have your database connecti
 
 // API to add a new department
 router.post('/generaladmindepartment', (req, res) => {
-    const { departments_heading } = req.body;
+    const { departments_heading, heading_link } = req.body;
 
     // Check if departments_heading is provided
-    if (!departments_heading) {
-        return res.status(400).json({ message: 'Department heading is required' });
+    if (!departments_heading || !heading_link) {
+        return res.status(400).json({ message: 'Department heading or heading link is required' });
     }
 
-    const sql = 'INSERT INTO generaladmindepartment (departments_heading) VALUES (?)';
-    db.query(sql, [departments_heading], (err, result) => {
+    const sql = 'INSERT INTO generaladmindepartment (departments_heading, heading_link) VALUES (?,?)';
+    db.query(sql, [departments_heading, heading_link], (err, result) => {
         if (err) {
             return res.status(500).json({ message: 'Database error', error: err });
         }
@@ -46,18 +46,20 @@ router.get('/generaladmindepartment/:id', (req, res) => {
     });
 });
 
-// API to update a department by ID
 router.put('/generaladmindepartment/:id', (req, res) => {
     const { id } = req.params;
-    const { departments_heading } = req.body;
+    const { departments_heading, heading_link } = req.body;
 
-    // Check if departments_heading is provided
     if (!departments_heading) {
         return res.status(400).json({ message: 'Department heading is required' });
     }
 
-    const sql = 'UPDATE generaladmindepartment SET departments_heading = ? WHERE id = ?';
-    db.query(sql, [departments_heading, id], (err, result) => {
+    if (!heading_link) {
+        return res.status(400).json({ message: 'Heading link is required' });
+    }
+
+    const sql = 'UPDATE generaladmindepartment SET departments_heading = ?, heading_link = ? WHERE id = ?';
+    db.query(sql, [departments_heading, heading_link, id], (err, result) => {
         if (err) {
             return res.status(500).json({ message: 'Database error', error: err });
         }
