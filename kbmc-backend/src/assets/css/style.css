@@ -1,67 +1,3 @@
-/*------------------------------------------------------------------
-
-[Table of contents]
-
-1. Common
-2. Table
-3. Helper Class
-4. Bootstrap Classes
-5. Animation
-6. Header
-7. Sidebar
-7. Sidebar
-8. Content
-9. Login
-10. Dashboard
-11. Activity
-12. Select2
-13. Nav tabs
-14. Holidays
-15. Edit Profile
-16. Chat
-17. Focus Label
-18. Leave
-19. Employee
-20. Events
-21. Profile
-22. Notifications
-23. Roles & Permissions
-24. Chat Right Sidebar
-25. Projects
-26. Invoice
-27. Task
-28. Project View
-29. Payslip
-30. Attendance
-31. Ticket
-32. Client Profile
-33. Inbox
-34. Mail View
-35. Pricing
-36. Blog
-37. Blog View
-38. UI Kit
-39. Error
-40. Lock Screen
-41. Countdown
-42. Voice call
-43. Video Call
-44. Incoming call
-45. Widgets
-46. Contacts
-47. Notification settings
-48. Add Product
-49. Product
-50. Product Details
-51. Chat Sidebar
-52. Gallery
-53. Responsive
--------------------------------------------------------------------*/
-
-/*------------------------------------------------------------------
-[1. Common]
-*/
-
 html {height:100%;}
 body{font-family: "Poppins", sans-serif;font-size:0.875rem;color:#666;background-color:#fafafa;overflow-x: hidden;height:100%;}
 h1, h2, h3, h4, h5, h6{margin-top:0;}
@@ -95,10 +31,6 @@ textarea.form-control {resize: vertical;}
 .list-group-item {
     border: 1px solid #eaeaea;
 }
-
-/*------------------------------------------------------------------
-[2. Table]
-*/
 
 .table {color:#000;border:1px solid #f0f0f0;}
 .table.table-white {background-color:#fff;}
@@ -143,6 +75,10 @@ table.table td h2 span {color: #9e9e9e;display: block;font-size: 12px;margin-top
 .card-title {color: #333;font-size: 16px;margin-bottom: 20px;}
 .page-title {color: #2d8bc3;font-size: 21px;font-weight: 500;margin-bottom: 20px;}
 .page-sub-title {color: #565656;font-size: 18px;font-weight: normal;margin-bottom: 20px;}
+.cal-icon::after {background: transparent url("../img/calander.png") no-repeat scroll 0 0;bottom: 0;content: "";display: block;height: 19px;margin: auto;position: absolute;right: 15px;top: 0;width: 17px;}
+.cal-icon {position: relative;width: 100%;}
+.time-icon::after {background: transparent url("../img/clock.png") no-repeat scroll 0 0;bottom: 0;content: "";display: block;height: 19px;margin: auto;position: absolute;right: 15px;top: 0;width: 19px;}
+.time-icon {position: relative;width: 100%;}
 .badge-success-border {border:1px solid #55ce63;color: #55ce63;background-color: #fff;display: inline-block;min-width:80px;}
 .badge-danger-border {border:1px solid #f62d51;color: #f62d51;background-color: #fff;display: inline-block;min-width:80px;}
 .badge-warning-border {border:1px solid #ffbc34;color: #ffbc34;background-color: #fff;display: inline-block;min-width:80px;}

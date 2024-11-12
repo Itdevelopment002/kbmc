@@ -1,0 +1,12 @@
+.dropdown-menu.dropdown-keep-visible {
+    right: 5px;
+    left: auto;
+    position: absolute;
+  }
+
+  .notification-keep-visible{
+    right: 0;
+    left: auto;
+    position: absolute;
+  }
+  
