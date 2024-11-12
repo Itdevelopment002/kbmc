@@ -1,69 +1,69 @@
-import React, { useState } from 'react';
-import api from '../api';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import api from "../api";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddSlider = () => {
-  const [sliderName, setSliderName] = useState('');
+  const [sliderName, setSliderName] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
-    setErrors((prev) => ({ ...prev, selectedFile: '' })); // Clear error if file is selected
+    setErrors((prev) => ({ ...prev, selectedFile: "" }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
-    // Validation checks
     if (!sliderName.trim()) {
-      newErrors.sliderName = 'Slider name is required.';
+      newErrors.sliderName = "Slider name is required.";
     }
 
     if (!selectedFile) {
-      newErrors.selectedFile = 'Image file is required.';
+      newErrors.selectedFile = "Image file is required.";
     }
 
-    // Set errors and prevent submission if there are any
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     const formData = new FormData();
-    formData.append('image', selectedFile);
-    formData.append('sliderName', sliderName);
+    formData.append("image", selectedFile);
+    formData.append("sliderName", sliderName);
 
     try {
-      const response = await api.post('/sliders', formData, {
+      // eslint-disable-next-line
+      const response = await api.post("/sliders", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
-      setSliderName('');
+      setSliderName("");
       setSelectedFile(null);
-      document.getElementById('image').value = '';
-      toast.success('File uploaded successfully!');
-      navigate('/slider');
+      document.getElementById("image").value = "";
+      navigate("/slider");
     } catch (error) {
-      console.error('Error uploading file:', error);
-      toast.error('Error uploading file. Please try again.');
+      console.error("Error uploading file:", error);
     }
   };
 
   return (
-    <>
-      <ToastContainer />
+    <div>
       <div className="page-wrapper">
         <div className="content">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-            <li className="breadcrumb-item"><Link to="/slider">Slider</Link></li>
-            <li className="breadcrumb-item active" aria-current="page">Add Slider</li>
+            <li className="breadcrumb-item">
+              <Link to="/">Home</Link>
+            </li>
+            <li className="breadcrumb-item">
+              <Link to="/slider">Slider</Link>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              Add Slider
+            </li>
           </ol>
           <div className="row">
             <div className="col-lg-12">
@@ -76,36 +76,56 @@ const AddSlider = () => {
                   </div>
                   <form onSubmit={handleSubmit}>
                     <div className="form-group row">
-                      <label className="col-form-label col-md-2">Slider Name <span className="text-danger">*</span></label>
+                      <label className="col-form-label col-md-2">
+                        Slider Name <span className="text-danger">*</span>
+                      </label>
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className={`form-control ${errors.sliderName ? 'is-invalid' : ''}`}
+                          className={`form-control ${
+                            errors.sliderName ? "is-invalid" : ""
+                          }`}
                           value={sliderName}
                           onChange={(e) => {
                             setSliderName(e.target.value);
-                            setErrors((prev) => ({ ...prev, sliderName: '' })); // Clear error
+                            setErrors((prev) => ({ ...prev, sliderName: "" }));
                           }}
                         />
-                        {errors.sliderName && <div className="invalid-feedback">{errors.sliderName}</div>}
+                        {errors.sliderName && (
+                          <div className="invalid-feedback">
+                            {errors.sliderName}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label className="col-form-label col-lg-2">Upload Image <span className="text-danger">*</span></label>
+                      <label className="col-form-label col-lg-2">
+                        Upload Image <span className="text-danger">*</span>
+                      </label>
                       <div className="col-md-4">
                         <div className="input-group mb-3">
                           <input
                             type="file"
                             id="image"
                             name="image"
-                            className={`form-control ${errors.selectedFile ? 'is-invalid' : ''}`}
+                            className={`form-control ${
+                              errors.selectedFile ? "is-invalid" : ""
+                            }`}
                             onChange={handleFileChange}
                           />
-                          {errors.selectedFile && <div className="invalid-feedback">{errors.selectedFile}</div>}
+                          {errors.selectedFile && (
+                            <div className="invalid-feedback">
+                              {errors.selectedFile}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
-                    <input type="submit" className="btn btn-primary" value="Upload" />
+                    <input
+                      type="submit"
+                      className="btn btn-primary"
+                      value="Upload"
+                    />
                   </form>
                 </div>
               </div>
@@ -113,7 +133,7 @@ const AddSlider = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
