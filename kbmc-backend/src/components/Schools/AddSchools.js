@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import api from "../api";
-import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -19,7 +17,6 @@ const AddSchools = () => {
 
     const navigate = useNavigate();
 
-    // Handle change for school form inputs
     const handleSchoolChange = (e) => {
         const { name, value } = e.target;
         setSchoolData((prevData) => ({
@@ -28,22 +25,16 @@ const AddSchools = () => {
         }));
     };
 
-    // Handle change for image input
     const handleImageChange = (e) => {
         setImageData({
             schoolPhoto: e.target.files[0],
         });
     };
 
-    // Submit school form data
     const handleSchoolSubmit = async (e) => {
         e.preventDefault();
         try {
             await api.post("/schools", schoolData);
-            toast.success("School data submitted successfully!", {
-                position: "top-right",
-                autoClose: 5000,
-            });
             setSchoolData({
                 heading: "",
                 schoolName: "",
@@ -52,21 +43,13 @@ const AddSchools = () => {
             });
             navigate("/schools");
         } catch (error) {
-            toast.error("Failed to submit school data. Please try again.", {
-                position: "top-right",
-                autoClose: 5000,
-            });
+            console.error("Failed to submit school data", error);
         }
     };
 
-    // Submit image data
     const handleImageSubmit = async (e) => {
         e.preventDefault();
         if (!imageData.schoolPhoto) {
-            toast.error("Please select an image before submitting.", {
-                position: "top-right",
-                autoClose: 5000,
-            });
             return;
         }
 
@@ -79,21 +62,12 @@ const AddSchools = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
-
-            toast.success("Image uploaded successfully!", {
-                position: "top-right",
-                autoClose: 5000,
-            });
-
             setImageData({
                 schoolPhoto: null,
             });
             navigate("/schools");
         } catch (error) {
-            toast.error("Failed to upload image. Please try again.", {
-                position: "top-right",
-                autoClose: 5000,
-            });
+            console.error("Failed to upload image", error);
         }
     };
 
@@ -121,7 +95,7 @@ const AddSchools = () => {
                                             <div className="col-md-5">
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-lg"
+                                                    className="form-control form-control-md"
                                                     placeholder=""
                                                     name="heading"
                                                     value={schoolData.heading}
@@ -133,7 +107,7 @@ const AddSchools = () => {
                                             <div className="col-md-5">
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-lg"
+                                                    className="form-control form-control-md"
                                                     placeholder=""
                                                     name="schoolName"
                                                     value={schoolData.schoolName}
@@ -144,7 +118,7 @@ const AddSchools = () => {
                                             <label className="col-form-label col-md-3">Address <span className="text-danger">*</span></label>
                                             <div className="col-md-5">
                                                 <textarea
-                                                    className="form-control form-control-lg"
+                                                    className="form-control form-control-md"
                                                     rows="4"
                                                     cols="50"
                                                     id="address"
@@ -158,7 +132,7 @@ const AddSchools = () => {
                                             <label className="col-md-3 col-form-label">Medium</label>
                                             <div className="col-md-5">
                                                 <select
-                                                    className="select"
+                                                    className="form-control form-control-md"
                                                     name="medium"
                                                     value={schoolData.medium}
                                                     onChange={handleSchoolChange}
@@ -171,9 +145,14 @@ const AddSchools = () => {
                                                 </select>
                                             </div>
                                         </div>
-                                        <input type="submit" className="btn btn-primary" value="Submit" />
+                                        <input type="submit" className="btn btn-primary btn-sm" value="Submit" />
                                     </form>
                                     <hr />
+                                    <div className="row">
+                                        <div className="col-sm-4 col-3">
+                                            <h4 className="page-title">Add School Images</h4>
+                                        </div>
+                                    </div>
                                     <form onSubmit={handleImageSubmit} className="pt-3">
                                         <div className="form-group row">
                                             <label className="col-form-label col-lg-2">Upload School Photos</label>
@@ -181,7 +160,7 @@ const AddSchools = () => {
                                                 <div className="input-group">
                                                     <input
                                                         type="file"
-                                                        className="form-control col-md-12 col-xs-12 userfile"
+                                                        className="form-control form-control-md"
                                                         name="schoolPhoto"
                                                         onChange={handleImageChange}
                                                         accept="image/*"
@@ -189,11 +168,8 @@ const AddSchools = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="col-md-2">
-                                                <input type="submit" className="btn btn-primary" value="Submit" />
-                                            </div>
                                         </div>
-
+                                        <input type="submit" className="btn btn-primary btn-sm" value="Upload" />
                                     </form>
                                 </div>
                             </div>

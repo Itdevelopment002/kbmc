@@ -4,80 +4,80 @@ import api from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const TermsAndpolicys = () => {
-  const [policyData, setPolicyData] = useState([]);
+const TermsAndConditions = () => {
+  const [conditionsData, setConditionsData] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedPolicy, setSelectedPolicy] = useState(null);
+  const [selectedCondition, setSelectedCondition] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   useEffect(() => {
-    fetchPolicy();
+    fetchConditions();
   }, []);
 
-  const fetchPolicy = async () => {
+  const fetchConditions = async () => {
     try {
-      const response = await api.get("/privacy-policy");
-      setPolicyData(response.data);
+      const response = await api.get("/terms-and-conditions");
+      setConditionsData(response.data);
     } catch (error) {
-      toast.error("Failed to fetch privacy policy data!");
+      toast.error("Failed to fetch condition data!");
     }
   };
 
   const handleDelete = async () => {
     try {
-      await api.delete(`/privacy-policy/${selectedPolicy.id}`);
-      setPolicyData((prevData) =>
-        prevData.filter((policy) => policy.id !== selectedPolicy.id)
+      await api.delete(`/terms-and-conditions/${selectedCondition.id}`);
+      setConditionsData((prevData) =>
+        prevData.filter((func) => func.id !== selectedCondition.id)
       );
       setShowDeleteModal(false);
-      toast.success("Privacy Policy deleted successfully!");
+      toast.success("Terms and Conditions deleted successfully!");
     } catch (error) {
-      console.error("Error deleting privacy policy:", error);
-      toast.error("Failed to delete the privacy policy!");
+      console.error("Error deleting terms and conditions:", error);
+      toast.error("Failed to delete the terms and conditions!");
     }
   };
 
   const handleEditSave = async () => {
     try {
-      await api.put(`/privacy-policy/${selectedPolicy.id}`, {
-        heading: selectedPolicy.heading,
-        description: selectedPolicy.description,
+      await api.put(`/terms-and-conditions/${selectedCondition.id}`, {
+        heading: selectedCondition.heading,
+        description: selectedCondition.description,
       });
 
-      const updatedPolicy = policyData.map((policy) =>
-        policy.id === selectedPolicy.id ? selectedPolicy : policy
+      const updatedFunctions = conditionsData.map((func) =>
+        func.id === selectedCondition.id ? selectedCondition : func
       );
-      setPolicyData(updatedPolicy);
+      setConditionsData(updatedFunctions);
       setShowEditModal(false);
-      toast.success("Privacy Policy updated successfully!");
+      toast.success("Terms and Conditions updated successfully!");
     } catch (error) {
-      toast.error("Failed to update the privacy policy!");
+      toast.error("Failed to update the terms and conditions!");
     }
   };
 
-  const handleEditClick = (policy) => {
-    setSelectedPolicy({ ...policy });
+  const handleEditClick = (func) => {
+    setSelectedCondition({ ...func });
     setShowEditModal(true);
   };
 
-  const handleDeleteClick = (policy) => {
-    setSelectedPolicy(policy);
+  const handleDeleteClick = (func) => {
+    setSelectedCondition(func);
     setShowDeleteModal(true);
   };
 
   const handleEditChange = (e) => {
     const { name, value } = e.target;
-    setSelectedPolicy({ ...selectedPolicy, [name]: value });
+    setSelectedCondition({ ...selectedCondition, [name]: value });
   };
 
-  const currentPageData = policyData.slice(
+  const currentPageData = conditionsData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  const totalPages = Math.ceil(policyData.length / itemsPerPage);
+  const totalPages = Math.ceil(conditionsData.length / itemsPerPage);
 
   return (
     <div>
@@ -89,7 +89,7 @@ const TermsAndpolicys = () => {
                 <Link to="/">Home</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                Privacy Policy
+                Terms & Conditions
               </li>
             </ol>
           </nav>
@@ -99,14 +99,14 @@ const TermsAndpolicys = () => {
                 <div className="card-block">
                   <div className="row">
                     <div className="col-sm-4 col-3">
-                      <h4 className="page-title">Privacy Policy</h4>
+                      <h4 className="page-title">Terms & Conditions</h4>
                     </div>
                     <div className="col-sm-8 col-9 text-right m-b-20">
                       <Link
-                        to="/add-privacy-policy"
+                        to="/add-terms-and-conditions"
                         className="btn btn-primary btn-rounded float-right"
                       >
-                        <i className="fa fa-plus"></i> Add Privacy Policy
+                        <i className="fa fa-plus"></i> Add Terms & Conditions
                       </Link>
                     </div>
                   </div>
@@ -122,23 +122,23 @@ const TermsAndpolicys = () => {
                       </thead>
                       <tbody>
                         {currentPageData.length > 0 ? (
-                          currentPageData.map((policy, index) => (
-                            <tr key={policy.id}>
+                          currentPageData.map((condition, index) => (
+                            <tr key={condition.id}>
                               <td>
                                 {(currentPage - 1) * itemsPerPage + index + 1}
                               </td>
-                              <td>{policy.heading}</td>
-                              <td>{policy.description}</td>
+                              <td>{condition.heading}</td>
+                              <td>{condition.description}</td>
                               <td>
                                 <button
                                   className="btn btn-success btn-sm m-t-10"
-                                  onClick={() => handleEditClick(policy)}
+                                  onClick={() => handleEditClick(condition)}
                                 >
                                   Edit
                                 </button>
                                 <button
                                   className="btn btn-danger btn-sm m-t-10"
-                                  onClick={() => handleDeleteClick(policy)}
+                                  onClick={() => handleDeleteClick(condition)}
                                 >
                                   Delete
                                 </button>
@@ -148,7 +148,7 @@ const TermsAndpolicys = () => {
                         ) : (
                           <tr>
                             <td colSpan="4" className="text-center">
-                              No privacy policy available.
+                              No terms & condition available.
                             </td>
                           </tr>
                         )}
@@ -215,7 +215,7 @@ const TermsAndpolicys = () => {
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                   <div className="modal-header">
-                    <h5 className="modal-title">Edit Privacy Policy</h5>
+                    <h5 className="modal-title">Edit Terms & Conditions</h5>
                   </div>
                   <div className="modal-body">
                     <form>
@@ -225,7 +225,7 @@ const TermsAndpolicys = () => {
                           type="text"
                           className="form-control form-control-md"
                           name="heading"
-                          value={selectedPolicy?.heading || ""}
+                          value={selectedCondition?.heading || ""}
                           onChange={handleEditChange}
                         />
                       </div>
@@ -234,7 +234,7 @@ const TermsAndpolicys = () => {
                         <textarea
                           className="form-control form-control-md"
                           name="description"
-                          value={selectedPolicy?.description || ""}
+                          value={selectedCondition?.description || ""}
                           onChange={handleEditChange}
                         ></textarea>
                       </div>
@@ -274,7 +274,7 @@ const TermsAndpolicys = () => {
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                   <div className="modal-body">
-                    Are you sure you want to delete this policy?
+                    Are you sure you want to delete this condition?
                   </div>
                   <div className="modal-footer">
                     <button
@@ -303,4 +303,4 @@ const TermsAndpolicys = () => {
   );
 };
 
-export default TermsAndpolicys;
+export default TermsAndConditions;

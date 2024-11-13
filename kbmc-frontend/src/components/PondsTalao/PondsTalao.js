@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from "react";
-import api from "../api";
+import api, { baseURL } from "../api";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import {Link} from "react-router-dom";
-
 import bannerImage from "../../assets/images/banner/inner-banner.jpg";
-import talaoImg1 from "../../assets/images/talao/img1.jpg";
-import talaoImg2 from "../../assets/images/talao/img2.jpg";
-import talaoImg3 from "../../assets/images/talao/img3.jpg";
-import talaoImg4 from "../../assets/images/talao/img4.jpg";
-import talaoImg5 from "../../assets/images/talao/img5.jpg";
-import talaoImg6 from "../../assets/images/talao/img6.jpg";
-import talaoImg7 from "../../assets/images/talao/img7.jpg";
-import talaoImg8 from "../../assets/images/talao/img8.jpg";
 
 const PondsTalao = () => {
   const [ponds, setPonds] = useState([]);
+  const [pondImages, setPondImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPonds = async () => {
       try {
-        const response = await api.get("/ponds-talao"); // Update the endpoint as needed
+        const response = await api.get("/ponds-talao");
         setPonds(response.data);
       } catch (err) {
         setError(err.message);
@@ -31,7 +23,19 @@ const PondsTalao = () => {
       }
     };
 
+    const fetchPondImages = async () => {
+      try {
+        const response = await api.get("/pond-images");
+        setPondImages(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchPonds();
+    fetchPondImages();
   }, []);
 
   useEffect(() => {
@@ -42,14 +46,13 @@ const PondsTalao = () => {
     return () => {
       lightbox.destroy();
     };
-  }, [ponds]);
+  }, [pondImages]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
-      {/* Page Title Section */}
       <section className="page-title">
         <div
           className="bg-layer"
@@ -136,18 +139,19 @@ const PondsTalao = () => {
                   <div className="tab active-tab" id="tab-1">
                     <div className="content-box department-section">
                       <div className="row">
-                        {[talaoImg1, talaoImg2, talaoImg3, talaoImg4, talaoImg5, talaoImg6, talaoImg7, talaoImg8].map(
-                          (img, index) => (
+                      {pondImages.map((image, index) => (
                             <Link
-                              key={index}
-                              to={img}
+                              to={`${baseURL}${image.image_path}`}
                               className="glightbox col-sm-2"
-                              data-gallery="example-gallery"
+                              data-gallery="slider-images"
                             >
-                              <img src={img} alt={`talaoimg${index + 1}`} className="img-fluid" />
+                              <img
+                                src={`${baseURL}${image.image_path}`}
+                                alt={`img${index + 1}`}
+                                className="img-fluid"
+                              />
                             </Link>
-                          )
-                        )}
+                          ))}
                       </div>
                     </div>
                   </div>

@@ -18,8 +18,6 @@ import AddSlider from "./components/Slider/AddSlider";
 import MainMenu from "./components/MainMenu/MainMenu";
 import Contact from "./components/Contact/Contact";
 import Notifications from "./components/Notifications/Notifications";
-import TermsConditions from "./components/TermsConditions.js/TermsConditions";
-import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import Users from "./components/Users/Users";
 import AddUsers from "./components/Users/AddUsers";
 import PropertyHolder from "./components/PropertyHolder/PropertyHolder";
@@ -82,6 +80,11 @@ import GovWebsiteLink from './components/GovWebsiteLink/GovWebsiteLink';
 import AddGovtWebsiteLink from './components/GovWebsiteLink/AddGovtWebsiteLink';
 import Departments from './components/Departments/Departments';
 import AddDepartments from './components/Departments/AddDepartments';
+import AddPondsAndTalaoImages from "./components/PondsAndTalao/AddPondsAndTalaoImages";
+import TermsAndConditions from "./components/TermsAndConditions/TermsAndConditions";
+import AddTermsAndConditions from "./components/TermsAndConditions/AddTermsAndConditions";
+import AddPrivacyPolicy from "./components/PrivacyPolicy/AddPrivacyPolicy";
+import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -121,13 +124,18 @@ function App() {
                   <Route path="/add-slider" element={<AddSlider />} />
                   <Route path="/add-user" element={<AddUsers />} />
                   <Route path="/user" element={<Users />} />
+                  <Route path="/add-privacy-policy" element={<AddPrivacyPolicy />} />
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route
-                    path="/terms-conditions"
-                    element={<TermsConditions />}
+                    path="/terms-and-conditions"
+                    element={<TermsAndConditions />}
+                  />
+                  <Route
+                    path="/add-terms-and-conditions"
+                    element={<AddTermsAndConditions />}
                   />
                   <Route path="/contact-us" element={<Contact />} />
-                  <Route path="/notification" element={<Notifications />} />
+                  <Route path="/notifications" element={<Notifications />} />
                   <Route path="/property-holder" element={<PropertyHolder />} />
                   <Route
                     path="/add-property-holder"
@@ -237,6 +245,7 @@ function App() {
                   <Route path="/add-gov-website-link" element={<AddGovtWebsiteLink />} />
                   <Route path="/departments" element={<Departments />} />
                   <Route path="/add-departments" element={<AddDepartments />} />
+                  <Route path="/add-pond-images" element={<AddPondsAndTalaoImages />} />
                 </Routes>
               </div>
             </div>
