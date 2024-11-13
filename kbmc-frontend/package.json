@@ -11,6 +11,7 @@
     "font-awesome": "^4.7.0",
     "glightbox": "^3.3.0",
     "jquery": "^3.7.1",
+    "js-cookie": "^3.0.5",
     "lightbox2": "^2.11.5",
     "malihu-custom-scrollbar-plugin": "^3.1.5",
     "react": "^18.3.1",

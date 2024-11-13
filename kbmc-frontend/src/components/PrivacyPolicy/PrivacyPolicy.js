@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import { Link } from "react-router-dom";
+import api from "../api"
 
 const PrivacyPolicy = () => {
+  const [policy, setPolicy] = useState([]);
+
+  useEffect(()=>{
+    fetchPolicy();
+  },[]);
+
+  const fetchPolicy = async ()=> {
+    try{
+      const response = await api.get("/privacy-policy");
+      setPolicy(response.data);
+    } catch(error){
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <section className="page-title">
@@ -35,29 +51,12 @@ const PrivacyPolicy = () => {
           <div className="content-side">
             <div className="event-details-content">
               <div className="content-one">
-                <h3>Disclaimer</h3>
-                <p>
-                  Although information and contents of various departmental
-                  websites on this portal have been provided with care and
-                  diligence, Government of Maharashtra does not take
-                  responsibility on how this information is used or the
-                  consequences of its use. In case of any inconsistency/
-                  confusion, the user should contact the concerned
-                  Department/Officer of the Government of Maharashtra for
-                  further clarifications.
-                </p>
-                <h3>Copyright Policy</h3>
-                <p>
-                  Material featured on this portal may be reproduced free of
-                  charge in any format or media without requiring specific
-                  permission. This is subject to the material being reproduced
-                  accurately and not being used in a derogatory manner or in a
-                  misleading context. Where the material is being published or
-                  issued to others, the source must be prominently acknowledged.
-                  However, the permission to reproduce this material does not
-                  extend to any material on this site which is identified as
-                  being the copyright of the third party.
-                </p>
+                {policy.map((policy) => (
+                  <React.Fragment key={policy.id}>
+                  <h3>{policy.heading}</h3>
+                  <p>{policy.description}</p>
+                  </React.Fragment>
+                ))}
               </div>
             </div>
           </div>

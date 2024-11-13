@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import {toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import api from "../api"
 
 const AddPrivateHospital = () => {
@@ -37,9 +35,7 @@ const AddPrivateHospital = () => {
                 },
             });
 
-
             if (response.status === 200) {
-                toast.success('Hospital added successfully!'); // Show success toast
                 // Reset form fields
                 setHospitalName('');
                 setDivision('West');
@@ -49,16 +45,10 @@ const AddPrivateHospital = () => {
                 setMobileNo('');
                 setBeds('');
                 setFacilities('');
-
-                setTimeout(() => {
                     navigate("/private-hospital");
-                }, 5000);
-            } else {
-                toast.error('Failed to add hospital. Please try again.'); // Show error toast
-            }
+            } 
         } catch (error) {
             console.error('Error submitting form:', error);
-            toast.error('Error submitting form. Please try again.'); // Show error toast on catch
         }
     };
 
@@ -85,7 +75,7 @@ const AddPrivateHospital = () => {
                                         <div className="row">
                                             <div className="col-md-5">
                                                 <div className="form-group">
-                                                    <label>Hospitals Name</label>
+                                                    <label>Hospital Name</label>
                                                     <input
                                                         type="text"
                                                         className="form-control"
@@ -98,7 +88,7 @@ const AddPrivateHospital = () => {
                                             </div>
                                             <div className="col-md-2">
                                                 <div className="form-group">
-                                                    <label>Names of Division</label>
+                                                    <label>Name of Division</label>
                                                     <select
                                                         className="form-control"
                                                         value={division}
