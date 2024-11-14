@@ -21,7 +21,6 @@ const AddSchools = () => {
 
     const navigate = useNavigate();
 
-    // Handle school form input changes
     const handleSchoolChange = (e) => {
         const { name, value } = e.target;
         setSchoolData((prevData) => ({
@@ -36,8 +35,8 @@ const AddSchools = () => {
         }
     };
 
-    // Handle image input change
-    const [imageError, setImageError] = useState(""); // State for error message
+
+    const [imageError, setImageError] = useState(""); 
     const handleImageChange = (e) => {
         setImageError(""); // Clear error message when the user selects a file
         setImageData({
@@ -45,7 +44,7 @@ const AddSchools = () => {
         });
     };
 
-    // Validate school form fields
+
     const validateSchoolForm = () => {
         const newErrors = {};
         if (!schoolData.heading) newErrors.heading = "Heading is required.";
@@ -57,8 +56,6 @@ const AddSchools = () => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
-    // Handle school form submission
     const handleSchoolSubmit = async (e) => {
         e.preventDefault();
         if (!validateSchoolForm()) return;
@@ -218,6 +215,7 @@ const AddSchools = () => {
                                                         accept="image/*"
                                                     />
                                                 </div>
+
                                                 {/* Error message */}
                                                 {imageError && (
                                                     <div className="text-danger mt-1">{imageError}</div>
@@ -232,6 +230,7 @@ const AddSchools = () => {
                                         {isSubmittingImage ? "Uploading..." : "Upload"}
                                     </button>
                                 </form>
+
                             </div>
                         </div>
                     </div>

@@ -11,7 +11,7 @@ const PreviousChiefOfficers = () => {
   const fetchChiefs = async () => {
     try {
       const response = await api.get("/chief-officers");
-      setChiefs(response.data);
+      setChiefs(response.data.reverse());
     } catch (error) {
       console.error("Error fetching previous president data");
     }

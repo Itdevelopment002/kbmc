@@ -80,7 +80,7 @@ const History = () => {
       <section className="team-section sec-pad member-section">
         <div className="auto-container">
           <div className="row clearfix">
-            {ceoData.length > 0 && (
+            {ceoData.map((ceo, index) => (
               <div className="col-lg-3 col-md-6 col-sm-12 team-block">
                 <div
                   className="team-block-one wow fadeInUp animated"
@@ -96,11 +96,11 @@ const History = () => {
                   <div className="inner-box">
                     <figure className="image-box">
                       <img
-                        src={`${baseURL}${ceoData[0].image_path}`}
-                        alt="ceo-img"
+                        src={`${baseURL}${ceo.image_path}`}
+                        alt={`ceo-img-${index+1}`}
                       />
                     </figure>
-                    <div className="share-box">
+                    {/* <div className="share-box">
                       <span className="share-text">
                         <i className="flaticon-sharing"></i>Share
                       </span>
@@ -121,22 +121,22 @@ const History = () => {
                           </Link>
                         </li>
                       </ul>
-                    </div>
+                    </div> */}
                     <h3>
-                      <Link to="#.">{ceoData[0].coName}</Link>
+                      <Link to="#.">{ceo.coName}</Link>
                     </h3>
                     <span className="designation">
-                      {ceoData[0].designation}
+                      {ceo.designation}
                     </span>
                     <p>
                       <Link to="mailto:support@kbmc.gov.in">
-                        {ceoData[0].email}
+                        {ceo.email}
                       </Link>
                     </p>
                   </div>
                 </div>
               </div>
-            )}
+            ))}
           </div>
         </div>
       </section>

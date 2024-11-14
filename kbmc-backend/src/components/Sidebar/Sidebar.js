@@ -401,7 +401,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
               </li>
               <li className={activeItem === "/terms-conditions" ? "active" : ""}
               onClick={() => handleItemClick("/terms-conditions")}>
-                <Link to="/terms-conditions">
+                <Link to="/terms-and-conditions">
                   <i className="fa"><BiMessageSquareError /></i>Terms & Conditions
                 </Link>
               </li>
@@ -413,7 +413,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
               </li>
               <li className={activeItem === "/notification" ? "active" : ""}
               onClick={() => handleItemClick("/notification")}>
-                <Link to="/notification">
+                <Link to="/notifications">
                   <i className="fa" ><MdNotificationsActive /></i>Notifications{" "}
                 </Link>
               </li>

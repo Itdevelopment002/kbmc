@@ -52,6 +52,10 @@ const healthPhotoRoutes = require('./routes/healthPhotoRoutes');
 const mainMenuRoutes = require('./routes/mainMenuRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const loginRoutes = require('./routes/loginRoutes');
+const visitorRoutes = require('./routes/visitorRoutes');
+const pondImageRoutes = require('./routes/pondImageRoutes');
+const conditionRoutes = require('./routes/conditionRoutes');
+const policyRoutes = require('./routes/policyRoutes');
 
 app.use('/api', sliderRoutes);
 app.use('/api', serviceRoutes);
@@ -96,6 +100,10 @@ app.use('/api', mainMenuRoutes);
 app.use('/api', awardImageRoutes);
 app.use('/api', contactRoutes);
 app.use('/api', loginRoutes);
+app.use('/api', visitorRoutes);
+app.use('/api', pondImageRoutes);
+app.use('/api', conditionRoutes);
+app.use('/api', policyRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
