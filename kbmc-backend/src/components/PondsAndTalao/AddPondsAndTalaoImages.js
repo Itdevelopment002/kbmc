@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddPondsAndTalaoImages = () => {
   const [formData, setFormData] = useState({
     pondImage: null,
   });
-
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,43 +19,54 @@ const AddPondsAndTalaoImages = () => {
       ...prevData,
       pondImage: files[0],
     }));
+    setError(""); // Clear error when the user selects a file
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.pondImage) {
+      setError("Please select an image to upload.");
       return;
     }
 
     const data = new FormData();
     data.append("pondImage", formData.pondImage);
 
+    setIsUploading(true);
     try {
-        // eslint-disable-next-line
       const response = await api.post("/pond-images", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      navigate("/ponds-talao");
+
+      if (response.status === 200) {
+        toast.success("Image uploaded successfully!");
+        navigate("/ponds-talao");
+      }
     } catch (error) {
-      console.error("Image upload failed. Please try again.");
+      console.error("Image upload failed:", error);
+      toast.error("Image upload failed. Please try again.");
+    } finally {
+      setIsUploading(false);
     }
   };
+
   return (
     <div>
+      <ToastContainer />
       <div className="page-wrapper">
         <div className="content">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link to="#.">City Profile</Link>
+              <Link to="#">City Profile</Link>
             </li>
             <li className="breadcrumb-item">
               <Link to="/ponds-talao">Ponds and Talao</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
-                Add Ponds and Talao Image
+              Add Ponds and Talao Image
             </li>
           </ol>
           <div className="row">
@@ -74,17 +88,20 @@ const AddPondsAndTalaoImages = () => {
                           type="file"
                           id="pondImage"
                           name="pondImage"
-                          className="form-control form-control-md"
+                          className={`form-control ${error ? 'is-invalid' : ''}`}
                           onChange={handleChange}
                           accept="image/*"
                         />
+                        {error && <div className="text-danger mt-2">{error}</div>}
                       </div>
                     </div>
-                    <input
+                    <button
                       type="submit"
                       className="btn btn-primary btn-sm"
-                      value="Submit"
-                    />
+                      disabled={isUploading}
+                    >
+                      {isUploading ? "Uploading..." : "Submit"}
+                    </button>
                   </form>
                 </div>
               </div>

@@ -90,7 +90,7 @@ const AddHomeVideos = () => {
                                             <div className="col-md-4">
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-lg"
+                                                    className={`form-control ${errors.description ? 'is-invalid' : ''}`}
                                                     placeholder=""
                                                     value={description}
                                                     onChange={(e) => {
@@ -108,7 +108,7 @@ const AddHomeVideos = () => {
                                             <div className="cal-icon col-md-4">
                                                 <Flatpickr
                                                     id="startDatePicker"
-                                                    className="flatpickr-input form-control"
+                                                    className={`form-control ${errors.publishDate ? 'is-invalid' : ''}`}
                                                     placeholder="Select Publish Date"
                                                     value={publishDate}
                                                     onChange={(date) => {
@@ -134,7 +134,7 @@ const AddHomeVideos = () => {
                                                 <div className="input-group">
                                                     <input
                                                         type="text"
-                                                        className="form-control col-md-12 col-xs-12 userfile"
+                                                        className={`form-control col-md-12 col-xs-12 userfile ${errors.videoUrl ? 'is-invalid' : ''}`}
                                                         placeholder=""
                                                         value={videoUrl}
                                                         onChange={(e) => {

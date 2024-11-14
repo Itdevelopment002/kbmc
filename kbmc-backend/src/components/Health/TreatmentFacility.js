@@ -11,6 +11,7 @@ const TreatmentFacility = () => {
     const [capacity, setCapacity] = useState('');
     const [intake, setIntake] = useState('');
     const [output, setOutput] = useState('');
+    const [errors, setErrors] = useState({});
     const [showAddNewModal, setShowAddNewModal] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -29,19 +30,30 @@ const TreatmentFacility = () => {
             toast.error('Error fetching treatment facilities.');
         }
     };
+    const validateForm = () => {
+        const newErrors = {};
+        if (!name) newErrors.name = 'Name is required.';
+        if (!loc) newErrors.loc = 'Location is required.';
+        if (!capacity) newErrors.capacity = 'Capacity is required.';
+        if (!intake) newErrors.intake = 'Intake is required.';
+        if (!output) newErrors.output = 'Output is required.';
+        return newErrors;
+    };
 
     const handleAddFacility = async () => {
-        if (name && loc && capacity && intake && output) {
+        const newErrors = validateForm();
+        if (Object.keys(newErrors).length === 0) {
             const newFacility = { name, loc, capacity, intake, output };
             try {
                 const response = await api.post('/treatment_facility', newFacility);
                 setFacilities([...facilities, response.data]);
                 resetForm();
                 setShowAddNewModal(false);
-                toast.success('Facility added successfully!');
             } catch (error) {
-                toast.error('Error adding facility.');
+                console.error('Error adding facility.');
             }
+        } else {
+            setErrors(newErrors);
         }
     };
 
@@ -83,7 +95,15 @@ const TreatmentFacility = () => {
             setShowEditModal(false);
         }
     };
-
+    const handleInputChange = (setter, field) => (e) => {
+        setter(e.target.value);
+        if (errors[field]) {
+            setErrors((prevErrors) => {
+                const { [field]: removed, ...rest } = prevErrors;
+                return rest;
+            });
+        }
+    };
     const resetForm = () => {
         setName('');
         setLoc('');
@@ -166,29 +186,68 @@ const TreatmentFacility = () => {
                             <form>
                                 <div className="form-group">
                                     <label>Name</label>
-                                    <input type="text" className="form-control" value={name} onChange={e => setName(e.target.value)} required />
+                                    <input
+                                        type="text"
+                                        className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                                        value={name}
+                                        onChange={handleInputChange(setName, 'name')}
+                                    />
+                                    {errors.name && <small className="text-danger">{errors.name}</small>}
                                 </div>
                                 <div className="form-group">
                                     <label>Location</label>
-                                    <input type="text" className="form-control" value={loc} onChange={e => setLoc(e.target.value)} required />
+                                    <input
+                                        type="text"
+                                        className={`form-control ${errors.loc ? 'is-invalid' : ''}`}
+                                        value={loc}
+                                        onChange={handleInputChange(setLoc, 'loc')}
+                                    />
+                                    {errors.loc && <small className="text-danger">{errors.loc}</small>}
                                 </div>
                                 <div className="form-group">
                                     <label>Capacity</label>
-                                    <input type="number" className="form-control" value={capacity} onChange={e => setCapacity(e.target.value)} required />
+                                    <input
+                                        type="number"
+                                         className={`form-control ${errors.capacity ? 'is-invalid' : ''}`}
+                                        value={capacity}
+                                        onChange={handleInputChange(setCapacity, 'capacity')}
+                                    />
+                                    {errors.capacity && <small className="text-danger">{errors.capacity}</small>}
                                 </div>
                                 <div className="form-group">
                                     <label>Intake</label>
-                                    <input type="number" className="form-control" value={intake} onChange={e => setIntake(e.target.value)} required />
+                                    <input
+                                        type="number"
+                                        className={`form-control ${errors.intake ? 'is-invalid' : ''}`}
+                                        value={intake}
+                                        onChange={handleInputChange(setIntake, 'intake')}
+                                    />
+                                    {errors.intake && <small className="text-danger">{errors.intake}</small>}
                                 </div>
                                 <div className="form-group">
                                     <label>Output</label>
-                                    <input type="text" className="form-control" value={output} onChange={e => setOutput(e.target.value)} required />
+                                    <input
+                                        type="text"
+                                        className={`form-control ${errors.output ? 'is-invalid' : ''}`}
+                                        value={output}
+                                        onChange={handleInputChange(setOutput, 'output')}
+                                    />
+                                    {errors.output && <small className="text-danger">{errors.output}</small>}
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={() => setShowAddNewModal(false)}>Close</button>
-                            <button type="button" className="btn btn-primary" onClick={handleAddFacility}>Add Facility</button>
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => setShowAddNewModal(false)}
+                            >
+                                Close
+                            </button>
+                            <button type="button" className="btn btn-primary" onClick={handleAddFacility}>
+                                Add Facility
+                            </button>
+
                         </div>
                     </div>
                 </div>

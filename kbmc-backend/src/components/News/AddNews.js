@@ -69,7 +69,8 @@ const AddNews = () => {
                                             <div className="col-md-4">
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-lg"
+                                                    
+                                                    className={`form-control ${errors.newsDescription ? 'is-invalid' : ''}`}
                                                     placeholder=""
                                                     value={newsDescription}
                                                     onChange={(e) =>{ setNewsDescription(e.target.value);

@@ -99,7 +99,7 @@ const AddServices = () => {
                                             <div className="col-md-4">
                                                 <input
                                                     type="text"
-                                                    className="form-control"
+                                                    className={`form-control form-control-md ${errors.serviceHeading ? 'is-invalid' : ''}`}
                                                     value={serviceHeading}
                                                     name="serviceHeading"
                                                     onChange={handleChange}
@@ -112,7 +112,7 @@ const AddServices = () => {
                                             <div className="col-md-4">
                                                 <input
                                                     type="text"
-                                                    className="form-control"
+                                                    className={`form-control ${errors.serviceLink ? 'is-invalid' : ''}`}
                                                     value={serviceLink}
                                                     name="serviceLink"
                                                     onChange={handleChange}
@@ -128,7 +128,7 @@ const AddServices = () => {
                                                     type="file"
                                                     id="mainIconInput"
                                                     name="mainIcon"
-                                                    className="form-control"
+                                                    className={`form-control form-control-md ${errors.mainIcon ? 'is-invalid' : ''}`}
                                                     accept="image/*"
                                                     onChange={(e) => handleFileChange(e.target.files[0], setMainIcon, 'mainIcon')}
                                                 />
@@ -142,7 +142,7 @@ const AddServices = () => {
                                                     type="file"
                                                     id="hoverIconInput"
                                                     name="hoverIcon"
-                                                    className="form-control"
+                                                    className={`form-control form-control-md ${errors.hoverIcon ? 'is-invalid' : ''}`}
                                                     accept="image/*"
                                                     onChange={(e) => handleFileChange(e.target.files[0], setHoverIcon, 'hoverIcon')}
                                                 />

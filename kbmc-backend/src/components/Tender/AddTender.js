@@ -70,7 +70,7 @@ const AddTender = () => {
                                             <div className="col-md-4">
                                                 <input
                                                     type="text"
-                                                    className="form-control"
+                                                    className={`form-control ${errors.tenderDescription ? 'is-invalid' : ''}`}
                                                     placeholder=""
                                                     value={tenderDescription}
                                                     onChange={(e) => {

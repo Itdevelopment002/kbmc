@@ -18,6 +18,17 @@ const Health = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedWork, setSelectedWork] = useState(null);
     const [editData, setEditData] = useState({ id: '', description: '' });
+    const [errors, setErrors] = useState({});
+
+    const validateAddForm = () => {
+        const newErrors = {};
+        if (!description.trim()) {
+            newErrors.description = 'Description is required.';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
 
     // Fetch existing works on component mount
     useEffect(() => {
@@ -34,17 +45,16 @@ const Health = () => {
     };
 
     const handleAddWork = async () => {
-        if (description) {
-            const newWork = { description };
-            try {
-                const response = await api.post('/health_dep_sec', newWork);
-                setWorks([...works, response.data]);
-                setDescription('');
-                setShowAddNewModal(false);
-                toast.success('Work added successfully!');
-            } catch (error) {
-                toast.error('Error adding work.');
-            }
+        if (!validateAddForm()) return;
+        const newWork = { description };
+        try {
+            const response = await api.post('/health_dep_sec', newWork);
+            setWorks([...works, response.data]);
+            setDescription('');
+            setShowAddNewModal(false);
+            toast.success('Work added successfully!');
+        } catch (error) {
+            toast.error('Error adding work.');
         }
     };
 
@@ -87,6 +97,13 @@ const Health = () => {
             toast.error('Error updating Work.');
         } finally {
             setShowEditModal(false); // Close the edit modal
+        }
+    };
+
+    const handleDescriptionChange = (value) => {
+        setDescription(value);
+        if (errors.description) {
+            setErrors((prevErrors) => ({ ...prevErrors, description: '' }));
         }
     };
 
@@ -168,11 +185,11 @@ const Health = () => {
                                                 <label>Description</label>
                                                 <input
                                                     type="text"
-                                                    className="form-control"
+                                                    className={`form-control ${errors.description ? 'is-invalid' : ''}`}
                                                     placeholder="Enter Description"
                                                     value={description}
-                                                    onChange={(e) => setDescription(e.target.value)}
-                                                />
+                                                    onChange={(e) => handleDescriptionChange(e.target.value)}                                                />
+                                                {errors.description && <div className="invalid-feedback">{errors.description}</div>}
                                             </div>
                                         </form>
                                     </div>

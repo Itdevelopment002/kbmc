@@ -14,6 +14,11 @@ const WardWiseLitigations = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedLitigation, setSelectedLitigation] = useState(null);
     const [editData, setEditData] = useState({ id: '', ward_no: '', name_lawsuit: '', mob_no: '' });
+    const [errors, setErrors] = useState({
+        wardNo: '',
+        nameLawsuit: '',
+        mobNo: '',
+    });
 
     // Fetch existing litigations on component mount
     useEffect(() => {
@@ -29,8 +34,21 @@ const WardWiseLitigations = () => {
         }
     };
 
-    const handleAddLitigation = async () => {
-        if (wardNo && nameLawsuit && mobNo) {
+    const validateFields = () => {
+        const newErrors = {};
+        if (!wardNo.trim()) newErrors.wardNo = 'Ward No is required.';
+        if (!nameLawsuit.trim()) newErrors.nameLawsuit = 'Name of the lawsuit is required.';
+        if (!mobNo.trim()) {
+            newErrors.mobNo = 'Mobile No. is required.';
+        } else if (!/^\d{10}$/.test(mobNo)) {
+            newErrors.mobNo = 'Mobile No. must be a 10-digit number.';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+     const handleAddLitigation = async () => {
+        if (validateFields()) {
             const newLitigation = { ward_no: wardNo, name_lawsuit: nameLawsuit, mob_no: mobNo };
             try {
                 const response = await api.post('/litigations', newLitigation);
@@ -39,13 +57,21 @@ const WardWiseLitigations = () => {
                 setNameLawsuit('');
                 setMobNo('');
                 setShowAddNewModal(false);
-                toast.success('Litigation added successfully!');
             } catch (error) {
-                toast.error('Error adding litigation.');
+                console.error('Error adding litigation:', error);
             }
         }
     };
 
+    const handleFieldChange = (field, value) => {
+        if (errors[field]) {
+            setErrors({ ...errors, [field]: '' });
+        }
+        if (field === 'wardNo') setWardNo(value);
+        if (field === 'nameLawsuit') setNameLawsuit(value);
+        if (field === 'mobNo') setMobNo(value);
+    };
+    
     const handleDeleteClick = (litigation) => {
         setSelectedLitigation(litigation);
         setDeleteModalOpen(true);
@@ -156,44 +182,58 @@ const WardWiseLitigations = () => {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <form>
+                            <form>
                                     <div className="mb-3">
-                                        <label htmlFor="wardNo" className="form-label">Ward No</label>
+                                        <label htmlFor="wardNo" className="form-label">
+                                            Ward No
+                                        </label>
                                         <input
                                             type="text"
-                                            className="form-control"
+                                            className={`form-control ${errors.wardNo ? 'is-invalid' : ''}`}
                                             id="wardNo"
                                             placeholder="Enter Ward No."
                                             value={wardNo}
-                                            onChange={(e) => setWardNo(e.target.value)}
+                                            onChange={(e) => handleFieldChange('wardNo', e.target.value)}
                                         />
+                                        {errors.wardNo && <small className="text-danger">{errors.wardNo}</small>}
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="nameLawsuit" className="form-label">Name of the lawsuit</label>
+                                        <label htmlFor="nameLawsuit" className="form-label">
+                                            Name of the lawsuit
+                                        </label>
                                         <input
                                             type="text"
-                                            className="form-control"
+                                            className={`form-control ${errors.nameLawsuit ? 'is-invalid' : ''}`}
                                             id="nameLawsuit"
                                             placeholder="Enter Name of the lawsuit"
                                             value={nameLawsuit}
-                                            onChange={(e) => setNameLawsuit(e.target.value)}
+                                            onChange={(e) => handleFieldChange('nameLawsuit', e.target.value)}
                                         />
+                                        {errors.nameLawsuit && <small className="text-danger">{errors.nameLawsuit}</small>}
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="mobNo" className="form-label">Mobile No.</label>
+                                        <label htmlFor="mobNo" className="form-label">
+                                            Mobile No.
+                                        </label>
                                         <input
                                             type="text"
-                                            className="form-control"
+                                            className={`form-control ${errors.mobNo ? 'is-invalid' : ''}`}
                                             id="mobNo"
                                             placeholder="Enter Mobile No."
                                             value={mobNo}
-                                            onChange={(e) => setMobNo(e.target.value)}
+                                            onChange={(e) => handleFieldChange('mobNo', e.target.value)}
                                         />
+                                        {errors.mobNo && <small className="text-danger">{errors.mobNo}</small>}
                                     </div>
                                 </form>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-sm btn-secondary" data-bs-dismiss="modal" onClick={() => setShowAddNewModal(false)}>
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-secondary"
+                                    data-bs-dismiss="modal"
+                                    onClick={() => setShowAddNewModal(false)}
+                                >
                                     Close
                                 </button>
                                 <button type="button" className="btn btn-sm btn-primary" onClick={handleAddLitigation}>

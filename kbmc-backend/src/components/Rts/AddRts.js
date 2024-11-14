@@ -76,7 +76,7 @@ const AddRts = () => {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${errors.heading ? 'is-invalid' : ''}`}
                           placeholder=""
                           value={heading}
                           onChange={(e) => {
@@ -98,7 +98,7 @@ const AddRts = () => {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${errors.description ? 'is-invalid' : ''}`}
                           placeholder=""
                           value={description}
                           onChange={(e) => {

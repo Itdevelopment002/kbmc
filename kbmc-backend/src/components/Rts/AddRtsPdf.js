@@ -77,7 +77,7 @@ const AddRtsPdf = ()=> {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${errors.description ? 'is-invalid' : ''}`}
                           placeholder="Enter description"
                           value={description}
                           onChange={(e) => {
@@ -93,14 +93,14 @@ const AddRtsPdf = ()=> {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label className="col-form-label col-lg-2">Upload PDF</label>
+                      <label className="col-form-label col-lg-2">Upload PDF <span className="text-danger">*</span></label>
                       <div className="col-md-4">
                         <div className="input-group">
                           <input
                             type="file"
                             id="userfile"
                             name="userfile"
-                            className="form-control form-control-md"
+                            className={`form-control form-control-md ${errors.file? 'is-invalid' : ''}`}
                             onChange={handleFileChange}
                           />
                         </div>
