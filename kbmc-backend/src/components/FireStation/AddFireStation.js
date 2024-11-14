@@ -166,7 +166,7 @@ const AddFireStation = () => {
                                             </div>
                                         </div>
                                         <div className="form-group row">
-                                            <label className="col-form-label col-md-3">Upload Fire Station Image</label>
+                                            <label className="col-form-label col-md-3">Upload Fire Station Image<span className="text-danger">*</span></label>
                                             <div className="col-md-5">
                                                 <div className="input-group">
                                                     <input

@@ -45,7 +45,6 @@ const SanitationInspectorForm = ({ onSubmit, initialData }) => {
 
     // Validate zone_no
     if (!zone_no) newErrors.zone_no = 'Zone No. is required';
-    if (isNaN(zone_no)) newErrors.zone_no = 'Zone No. must be a number';
 
     // Validate names
     if (!names) newErrors.names = 'Inspector Name is required';
@@ -55,11 +54,12 @@ const SanitationInspectorForm = ({ onSubmit, initialData }) => {
       newErrors.mob_no = 'Mobile No. is required';
     } else if (!/^\d+$/.test(mob_no)) {
       newErrors.mob_no = 'Mobile No. must be numeric'; // Validate that mob_no is numeric
+    } else if (mob_no.length !== 10) {
+      newErrors.mob_no = 'Mobile No. must be 10 digits long';
     }
 
     // Validate ward_no
-    // if (!ward_no) newErrors.ward_no = 'Ward No. is required';
-    // if (isNaN(ward_no)) newErrors.ward_no = 'Ward No. must be a number';
+    if (!ward_no) newErrors.ward_no = 'Ward No. is required';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Return true if no errors
@@ -83,7 +83,7 @@ const SanitationInspectorForm = ({ onSubmit, initialData }) => {
           name="zone_no"
           value={formData.zone_no}
           onChange={handleChange}
-          required
+         
         />
         {isSubmitted && errors.zone_no && (
           <div className="invalid-feedback">{errors.zone_no}</div>
@@ -98,7 +98,7 @@ const SanitationInspectorForm = ({ onSubmit, initialData }) => {
           name="names"
           value={formData.names}
           onChange={handleChange}
-          required
+      
         />
         {isSubmitted && errors.names && (
           <div className="invalid-feedback">{errors.names}</div>
@@ -113,7 +113,7 @@ const SanitationInspectorForm = ({ onSubmit, initialData }) => {
           name="mob_no"
           value={formData.mob_no}
           onChange={handleChange}
-          required
+         
         />
         {isSubmitted && errors.mob_no && (
           <div className="invalid-feedback">{errors.mob_no}</div>
@@ -128,12 +128,15 @@ const SanitationInspectorForm = ({ onSubmit, initialData }) => {
           name="ward_no"
           value={formData.ward_no}
           onChange={handleChange}
-          required
+          
         />
-
+        {isSubmitted && errors.ward_no && (
+          <div className="invalid-feedback">{errors.ward_no}</div>
+        )}
       </div>
+
       <div className="modal-footer">
-      <button type="submit" className="btn btn-primary">Submit</button>
+        <button type="submit" className="btn btn-primary">Submit</button>
       </div>
     </form>
   );

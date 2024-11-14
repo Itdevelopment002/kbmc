@@ -102,6 +102,39 @@ const Header = () => {
     }
   }, [menuData]);
 
+
+  // Language translation
+  useEffect(() => {
+    // Check if the Google Translate script already exists
+    if (!document.querySelector('script[src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"]')) {
+      const googleTranslateScript = document.createElement('script');
+      googleTranslateScript.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      document.body.appendChild(googleTranslateScript);
+    }
+
+    window.googleTranslateElementInit = () => {
+      if (!document.getElementById('google_translate_element').childNodes.length) {
+        new window.google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            includedLanguages: 'en,mr', // Only include the languages you want
+            layout: window.google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+          },
+          'google_translate_element'
+        );
+      }
+    };
+  }, []);
+
+  const handleLanguageChange = (e) => {
+    const selectedLanguage = e.target.value;
+    const googleTranslateDropdown = document.querySelector('.goog-te-combo');
+    if (googleTranslateDropdown) {
+      googleTranslateDropdown.value = selectedLanguage;
+      googleTranslateDropdown.dispatchEvent(new Event('change')); // Trigger language change
+    }
+  };
+
   return (
     <>
       <div className="boxed_wrapper">
@@ -176,7 +209,7 @@ const Header = () => {
               </div>
               <div className="col-md-2 col-xl-3">
                 <ul className="social-links clearfix d-none d-md-block">
-                  <li>
+                  {/* <li>
                     <div className="language-box">
                       <div className="select-box">
                         <select className="selectmenu">
@@ -185,6 +218,18 @@ const Header = () => {
                         </select>
                       </div>
                     </div>
+                  </li> */}
+                  <li>
+                    <div className="language-box">
+                      <div className="select-box">
+                        <select className="selectmenu" onChange={handleLanguageChange}>
+                          <option value="en">English</option>
+                          <option value="mr">Marathi</option>
+                        </select>
+                      </div>
+                    </div>
+                    {/* Invisible element for Google Translate */}
+                    <div id="google_translate_element" style={{ display: "none" }}></div>
                   </li>
                   <li>
                     <Link to="#.">
@@ -251,9 +296,8 @@ const Header = () => {
                         return (
                           <li
                             key={index}
-                            className={`${
-                              menuItem.subMenus.length ? "dropdown" : ""
-                            } ${isMainMenuActive ? "current" : ""}`}
+                            className={`${menuItem.subMenus.length ? "dropdown" : ""
+                              } ${isMainMenuActive ? "current" : ""}`}
                           >
                             <Link to={menuItem.mainMenu === "Home" ? "/" : "#"}>
                               {menuItem.mainMenu}
@@ -273,7 +317,7 @@ const Header = () => {
                                           subMenuItem.subLink.startsWith(
                                             "http"
                                           ) ||
-                                          subMenuItem.subLink.endsWith(".pdf")
+                                            subMenuItem.subLink.endsWith(".pdf")
                                             ? "_blank"
                                             : undefined
                                         }
@@ -281,7 +325,7 @@ const Header = () => {
                                           subMenuItem.subLink.startsWith(
                                             "http"
                                           ) ||
-                                          subMenuItem.subLink.endsWith(".pdf")
+                                            subMenuItem.subLink.endsWith(".pdf")
                                             ? "noopener noreferrer"
                                             : undefined
                                         }
@@ -378,9 +422,8 @@ const Header = () => {
                   return (
                     <li
                       key={index}
-                      className={`${
-                        menuItem.subMenus.length ? "dropdown" : ""
-                      } ${isMainMenuActive ? "current" : ""}`}
+                      className={`${menuItem.subMenus.length ? "dropdown" : ""
+                        } ${isMainMenuActive ? "current" : ""}`}
                     >
                       <Link to={menuItem.mainMenu === "Home" ? "/" : "#"}>
                         {menuItem.mainMenu}
@@ -398,13 +441,13 @@ const Header = () => {
                                 }
                                 target={
                                   subMenuItem.subLink.startsWith("http") ||
-                                  subMenuItem.subLink.endsWith(".pdf")
+                                    subMenuItem.subLink.endsWith(".pdf")
                                     ? "_blank"
                                     : undefined
                                 }
                                 rel={
                                   subMenuItem.subLink.startsWith("http") ||
-                                  subMenuItem.subLink.endsWith(".pdf")
+                                    subMenuItem.subLink.endsWith(".pdf")
                                     ? "noopener noreferrer"
                                     : undefined
                                 }

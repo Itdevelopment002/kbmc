@@ -14,6 +14,7 @@ const HealthPhotoGallery = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [errors, setErrors] = useState({ heading: "", img: "" });
 
   // Fetch existing photos on component mount
   useEffect(() => {
@@ -40,12 +41,30 @@ const HealthPhotoGallery = () => {
     }
   };
 
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { heading: "", img: "" };
+
+    if (!heading.trim()) {
+      newErrors.heading = "Heading is required.";
+      valid = false;
+    }
+
+    if (!img) {
+      newErrors.img = "Image is required.";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
   // POST Request to add a new photo
   const handleAddPhoto = async () => {
-    if (heading && img) {
+    if (validateForm()) {
       const formData = new FormData();
       formData.append("heading", heading);
-      formData.append("image", img); // Image key as 'image' to match backend
+      formData.append("image", img);
 
       try {
         const response = await api.post("/health_photo_gallery", formData, {
@@ -53,7 +72,7 @@ const HealthPhotoGallery = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        setPhotos([...photos, response.data]); // Update state with new photo
+        setPhotos([...photos, response.data]);
         resetForm();
         setShowAddModal(false);
         fetchPhotos();
@@ -65,10 +84,9 @@ const HealthPhotoGallery = () => {
         );
         toast.error("Error adding photo.");
       }
-    } else {
-      toast.error("Please provide heading and image.");
     }
   };
+
 
   // PUT Request to edit an existing photo
   const handleEditPhoto = async () => {
@@ -123,6 +141,7 @@ const HealthPhotoGallery = () => {
   const resetForm = () => {
     setHeading("");
     setImg(null);
+    setErrors({ heading: "", img: "" });
   };
   return (
     <div>
@@ -184,6 +203,7 @@ const HealthPhotoGallery = () => {
                           <button
                             onClick={() => {
                               setShowDeleteModal(true);
+                              setSelectedPhoto(photo);
                             }}
                             className="btn btn-danger btn-sm m-t-10"
                           >
@@ -234,12 +254,18 @@ const HealthPhotoGallery = () => {
                     </label>
                     <input
                       type="text"
-                      className="form-control"
+                      className={`form-control ${errors.heading ? "is-invalid" : ""
+                        }`}
                       id="formBasicHeading"
                       value={heading}
-                      onChange={(e) => setHeading(e.target.value)}
-                      required
+                      onChange={(e) => {
+                        setHeading(e.target.value);
+                        setErrors((prev) => ({ ...prev, heading: "" })); 
+                      }}
                     />
+                    {errors.heading && (
+                      <div className="invalid-feedback">{errors.heading}</div>
+                    )}
                   </div>
                   <div className="mb-3">
                     <label htmlFor="formBasicImage" className="form-label">
@@ -247,11 +273,17 @@ const HealthPhotoGallery = () => {
                     </label>
                     <input
                       type="file"
-                      className="form-control"
+                      className={`form-control ${errors.img ? "is-invalid" : ""
+                        }`}
                       id="formBasicImage"
-                      onChange={(e) => setImg(e.target.files[0])}
-                      required
+                      onChange={(e) => {
+                        setImg(e.target.files[0]);
+                        setErrors((prev) => ({ ...prev, img: "" })); 
+                      }}
                     />
+                    {errors.img && (
+                      <div className="invalid-feedback">{errors.img}</div>
+                    )}
                   </div>
                 </form>
               </div>
@@ -269,86 +301,6 @@ const HealthPhotoGallery = () => {
                   onClick={handleAddPhoto}
                 >
                   Add Photo
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showEditModal && (
-        <div
-          className="modal fade show"
-          style={{
-            display: "block",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            overflowY: "scroll",
-            scrollbarWidth: "none",
-          }}
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="editPhotoModalLabel">
-                  Edit Photo
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => setShowEditModal(false)}
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form>
-                  <div className="mb-3">
-                    <label htmlFor="formBasicHeading" className="form-label">
-                      Heading
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="formBasicHeading"
-                      value={selectedPhoto?.heading || ""}
-                      onChange={(e) =>
-                        setSelectedPhoto({
-                          ...selectedPhoto,
-                          heading: e.target.value,
-                        })
-                      }
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="formBasicImage" className="form-label">
-                      Image
-                    </label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      id="formBasicImage"
-                      onChange={(e) => setImg(e.target.files[0])}
-                    />
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-sm btn-secondary"
-                  onClick={() => setShowEditModal(false)}
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-primary"
-                  onClick={handleEditPhoto}
-                >
-                  Save Changes
                 </button>
               </div>
             </div>

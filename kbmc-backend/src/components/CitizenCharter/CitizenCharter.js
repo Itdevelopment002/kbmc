@@ -179,7 +179,7 @@ const CitizenCharter = () => {
                         </label>
                         <div className="col-md-4">
                           <input
-                            className="form-control form-control-md"
+                            className={`form-control form-control-md ${errors.name ? 'is-invalid' : ''}`}
                             type="text"
                             value={newDepartment.name}
                             onChange={(e) => {
@@ -216,7 +216,8 @@ const CitizenCharter = () => {
                                   setErrors((prevErrors) => ({ ...prevErrors, pdf: "" }));
                                 }
                               }}
-                              className="form-control form-control-md"
+                              className={`form-control form-control-md ${errors.pdf ? 'is-invalid' : ''}`}
+
                             />
                           </div>
                           {errors.pdf && <small className="text-danger">{errors.pdf}</small>}

@@ -63,7 +63,6 @@ const AddTender = () => {
     }
   };
   
-
   return (
     <div>
       <div className="page-wrapper">
