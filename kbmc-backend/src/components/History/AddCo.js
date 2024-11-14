@@ -11,19 +11,50 @@ const AddCo = () => {
     coImage: null,
   });
 
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" }); // Clear the error message for this field
   };
 
   const handleFileChange = (e) => {
     setFormData({ ...formData, coImage: e.target.files[0] });
+    setErrors({ ...errors, coImage: "" }); // Clear the error message for the file field
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.coName.trim()) {
+      newErrors.coName = "CO Name is required.";
+    }
+    if (!formData.designation.trim()) {
+      newErrors.designation = "Designation is required.";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
+    ) {
+      newErrors.email = "Invalid email format.";
+    }
+    if (!formData.coImage) {
+      newErrors.coImage = "CO Image is required.";
+    }
+    return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     const data = new FormData();
     data.append("coName", formData.coName);
     data.append("designation", formData.designation);
@@ -44,6 +75,7 @@ const AddCo = () => {
       console.error(error);
     }
   };
+
   return (
     <div>
       <div className="page-wrapper">
@@ -76,13 +108,17 @@ const AddCo = () => {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${
+                            errors.coName ? "is-invalid" : ""
+                          }`}
                           name="coName"
                           value={formData.coName}
                           onChange={handleChange}
                           placeholder="Enter CO name"
-                          required
                         />
+                        {errors.coName && (
+                          <div className="invalid-feedback">{errors.coName}</div>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row mt-3">
@@ -92,13 +128,19 @@ const AddCo = () => {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${
+                            errors.designation ? "is-invalid" : ""
+                          }`}
                           name="designation"
                           value={formData.designation}
                           onChange={handleChange}
                           placeholder="Enter designation"
-                          required
                         />
+                        {errors.designation && (
+                          <div className="invalid-feedback">
+                            {errors.designation}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row mt-3">
@@ -108,27 +150,36 @@ const AddCo = () => {
                       <div className="col-md-4">
                         <input
                           type="email"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${
+                            errors.email ? "is-invalid" : ""
+                          }`}
                           name="email"
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="Enter email"
-                          required
                         />
+                        {errors.email && (
+                          <div className="invalid-feedback">{errors.email}</div>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row my-3">
                       <label className="col-form-label col-md-2">
-                        Upload CO Image
+                        Upload CO Image <span className="text-danger">*</span>
                       </label>
                       <div className="col-md-4">
                         <input
                           type="file"
                           id="userfile"
                           name="coImage"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${
+                            errors.coImage ? "is-invalid" : ""
+                          }`}
                           onChange={handleFileChange}
                         />
+                        {errors.coImage && (
+                          <div className="invalid-feedback">{errors.coImage}</div>
+                        )}
                       </div>
                     </div>
                     <input

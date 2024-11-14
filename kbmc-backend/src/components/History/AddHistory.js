@@ -6,13 +6,20 @@ import { useNavigate } from "react-router-dom";
 const AddHistory = () => {
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+  const [error, setError] = useState("")
 
   const handleChange = (e) => {
     setDescription(e.target.value);
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!description.trim()) {
+      setError("Description is required.");
+      return;
+    }
 
     try {
       await api.post("/history", { description });
@@ -51,14 +58,17 @@ const AddHistory = () => {
                         Description <span className="text-danger">*</span>
                       </label>
                       <div className="col-md-4">
-                        <input
+                       <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${
+                            error ? "is-invalid" : ""
+                          }`}
                           name="description"
                           value={description}
                           onChange={handleChange}
                           placeholder="Enter description"
                         />
+                        {error && <div className="invalid-feedback">{error}</div>}
                       </div>
                     </div>
                     <input

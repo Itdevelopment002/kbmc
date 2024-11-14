@@ -8,6 +8,7 @@ const AddAwardImages = () => {
     awardImage: null,
   });
 
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,12 +17,24 @@ const AddAwardImages = () => {
       ...prevData,
       awardImage: files[0],
     }));
+
+    if (errors.awardImage) {
+      setErrors((prev) => ({ ...prev, awardImage: "" }));
+    }
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.awardImage) {
+      newErrors.awardImage = "Award image is required.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!formData.awardImage) {
+    if (!validate()) {
       return;
     }
 
@@ -39,6 +52,7 @@ const AddAwardImages = () => {
       console.error("Image upload failed. Please try again.");
     }
   };
+
   return (
     <div>
       <div className="page-wrapper">
@@ -66,17 +80,24 @@ const AddAwardImages = () => {
                   <form onSubmit={handleSubmit}>
                     <div className="form-group row">
                       <label className="col-form-label col-lg-2">
-                        Upload Award Image
+                        Upload Award Image <span className="text-danger">*</span>
                       </label>
                       <div className="col-md-4">
                         <input
                           type="file"
                           id="awardImage"
                           name="awardImage"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${
+                            errors.awardImage ? "is-invalid" : ""
+                          }`}
                           onChange={handleChange}
                           accept="image/*"
                         />
+                        {errors.awardImage && (
+                          <div className="invalid-feedback">
+                            {errors.awardImage}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <input

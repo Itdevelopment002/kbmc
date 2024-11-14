@@ -176,8 +176,8 @@ const News = () => {
                             <h4>Are you sure you want to delete this item?</h4>
                         </div>
                         <div className="modal-footer text-center">
-                            <button type="button" className="btn btn-sm btn-primary" onClick={() => setModalType(null)}>Close</button>
-                            <button type="button" className="btn btn-danger" onClick={handleDeleteConfirm}>Delete</button>
+                            <button type="button" className="btn btn-sm btn-secondary" onClick={() => setModalType(null)}>Cancel</button>
+                            <button type="button" className="btn btn-sm btn-danger" onClick={handleDeleteConfirm}>Delete</button>
                         </div>
                     </>
                 ) : (

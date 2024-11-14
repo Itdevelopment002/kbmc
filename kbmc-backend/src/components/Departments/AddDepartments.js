@@ -7,10 +7,22 @@ const AddDepartments = () => {
     const [departmentHod, setDepartmentHod] = useState("");
     const [departmentLink, setDepartmentLink] = useState("");
     const [errorMessage, setErrorMessage] = useState(""); // For handling error messages
-    const navigate = useNavigate(); // Use navigate for redirection after submission
+    const [errors, setErrors] = useState({}); // For field-specific errors
+    const navigate = useNavigate();
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!departmentName.trim()) newErrors.departmentName = "Department name is required.";
+        if (!departmentHod.trim()) newErrors.departmentHod = "Name of HOD is required.";
+        if (!departmentLink.trim()) newErrors.departmentLink = "Department link is required.";
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateForm()) return;
+
         setErrorMessage(""); // Reset error message before form submission
         try {
             const response = await api.post('/departments', {
@@ -30,6 +42,11 @@ const AddDepartments = () => {
             console.error('Error adding department:', error);
             setErrorMessage('Failed to add department. Please try again.'); // Set error message for UI feedback
         }
+    };
+
+    const handleFieldChange = (setter, fieldName) => (e) => {
+        setter(e.target.value);
+        setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: "" })); // Clear error for the field
     };
     return (
         <>
@@ -55,12 +72,15 @@ const AddDepartments = () => {
                                             <div className="col-md-4">
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-lg"
-                                                    placeholder=""
+                                                    className={`form-control ${errors.departmentName ? "is-invalid" : ""
+                                                        }`}
+                                                    placeholder="Enter department name"
                                                     value={departmentName}
-                                                    onChange={(e) => setDepartmentName(e.target.value)}
-                                                    required
+                                                    onChange={handleFieldChange(setDepartmentName, "departmentName")}
                                                 />
+                                                {errors.departmentName && (
+                                                    <div className="invalid-feedback">{errors.departmentName}</div>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="form-group row">
@@ -68,12 +88,15 @@ const AddDepartments = () => {
                                             <div className="col-md-4">
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-lg"
-                                                    placeholder=""
+                                                    className={`form-control  ${errors.departmentHod ? "is-invalid" : ""
+                                                        }`}
+                                                    placeholder="Enter HOD name"
                                                     value={departmentHod}
-                                                    onChange={(e) => setDepartmentHod(e.target.value)}
-                                                    required
+                                                    onChange={handleFieldChange(setDepartmentHod, "departmentHod")}
                                                 />
+                                                {errors.departmentHod && (
+                                                    <div className="invalid-feedback">{errors.departmentHod}</div>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="form-group row">
@@ -83,11 +106,15 @@ const AddDepartments = () => {
                                             <div className="col-md-4">
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-lg"
+                                                    className={`form-control ${errors.departmentLink ? "is-invalid" : ""
+                                                        }`}
+                                                    placeholder="Enter department link"
                                                     value={departmentLink}
-                                                    onChange={(e) => setDepartmentLink(e.target.value)}
-                                                    required
+                                                    onChange={handleFieldChange(setDepartmentLink, "departmentLink")}
                                                 />
+                                                {errors.departmentLink && (
+                                                    <div className="invalid-feedback">{errors.departmentLink}</div>
+                                                )}
                                             </div>
                                         </div>
                                         <input type="submit" className="btn btn-primary" value="Submit" />

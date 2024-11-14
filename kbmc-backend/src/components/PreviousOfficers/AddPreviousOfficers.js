@@ -9,11 +9,18 @@ const AddPreviousOfficers = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [officerImage, setOfficerImage] = useState("");
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     const formattedStartDate = startDate ? formatDate(startDate) : "";
     const formattedEndDate = endDate ? formatDate(endDate) : "";
 
@@ -40,6 +47,15 @@ const AddPreviousOfficers = () => {
     }
   };
 
+  const validateForm = () => {
+    const errors = {};
+    if (!officerName.trim()) errors.officerName = "Officer name is required.";
+    if (!startDate) errors.startDate = "Start date is required.";
+    if (!endDate) errors.endDate = "End date is required.";
+    if (!officerImage) errors.officerImage = "Officer image is required.";
+    return errors;
+  };
+
   const formatDate = (date) => {
     const d = new Date(date);
     const day = String(d.getDate()).padStart(2, "0");
@@ -50,6 +66,15 @@ const AddPreviousOfficers = () => {
 
   const handleFileChange = (e) => {
     setOfficerImage(e.target.files[0]);
+    setErrors((prev) => ({ ...prev, officerImage: "" }));
+  };
+
+  const handleFieldChange = (field, value) => {
+    if (field === "officerName") setOfficerName(value);
+    if (field === "startDate") setStartDate(value);
+    if (field === "endDate") setEndDate(value);
+
+    setErrors((prev) => ({ ...prev, [field]: "" }));
   };
 
   return (
@@ -86,11 +111,20 @@ const AddPreviousOfficers = () => {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${
+                            errors.officerName ? "is-invalid" : ""
+                          }`}
                           placeholder="Enter Officer's Name"
                           value={officerName}
-                          onChange={(e) => setOfficerName(e.target.value)}
+                          onChange={(e) =>
+                            handleFieldChange("officerName", e.target.value)
+                          }
                         />
+                        {errors.officerName && (
+                          <span className="text-danger">
+                            {errors.officerName}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
@@ -100,10 +134,14 @@ const AddPreviousOfficers = () => {
                       <div className="cal-icon col-md-4">
                         <Flatpickr
                           id="startDatePicker"
-                          className="flatpickr-input form-control form-control-md"
+                          className={`flatpickr-input form-control form-control-md ${
+                            errors.startDate ? "is-invalid" : ""
+                          }`}
                           placeholder="Select Start Date"
                           value={startDate}
-                          onChange={(date) => setStartDate(date[0])}
+                          onChange={(date) =>
+                            handleFieldChange("startDate", date[0])
+                          }
                           options={{
                             dateFormat: "d-m-Y",
                             monthSelectorType: "dropdown",
@@ -113,6 +151,11 @@ const AddPreviousOfficers = () => {
                               '<svg><path d="M5 5L10 10L5 15"></path></svg>',
                           }}
                         />
+                        {errors.startDate && (
+                          <span className="text-danger">
+                            {errors.startDate}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
@@ -122,10 +165,14 @@ const AddPreviousOfficers = () => {
                       <div className="cal-icon col-md-4">
                         <Flatpickr
                           id="endDatePicker"
-                          className="flatpickr-input form-control form-control-md"
+                          className={`flatpickr-input form-control form-control-md ${
+                            errors.endDate ? "is-invalid" : ""
+                          }`}
                           placeholder="Select End Date"
                           value={endDate}
-                          onChange={(date) => setEndDate(date[0])}
+                          onChange={(date) =>
+                            handleFieldChange("endDate", date[0])
+                          }
                           options={{
                             dateFormat: "d-m-Y",
                             monthSelectorType: "dropdown",
@@ -135,22 +182,32 @@ const AddPreviousOfficers = () => {
                               '<svg><path d="M5 5L10 10L5 15"></path></svg>',
                           }}
                         />
+                        {errors.endDate && (
+                          <span className="text-danger">{errors.endDate}</span>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
                       <label className="col-form-label col-lg-2">
-                        Upload Officer Image
+                        Upload Officer Image <span className="text-danger">*</span>
                       </label>
                       <div className="col-md-4">
-                        <div className="input-group mb-3">
+                        <div className="input-group ">
                           <input
                             type="file"
                             id="userfile"
                             name="userfile"
-                            className="form-control form-control-md"
+                            className={`form-control form-control-md ${
+                              errors.officerImage ? "is-invalid" : ""
+                            }`}
                             onChange={handleFileChange}
                           />
                         </div>
+                        {errors.officerImage && (
+                          <span className="text-danger">
+                            {errors.officerImage}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <input

@@ -6,9 +6,27 @@ import { Link } from "react-router-dom";
 const AddFunctions = () => {
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  const validate = () => {
+    const newErrors = {};
+    if (!heading.trim()) {
+      newErrors.heading = "Heading is required.";
+    }
+    if (!description.trim()) {
+      newErrors.description = "Description is required.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) {
+      return;
+    }
+
     const formData = {
       heading,
       description,
@@ -24,12 +42,14 @@ const AddFunctions = () => {
       if (response.status === 201) {
         setHeading("");
         setDescription("");
+        setErrors({});
         navigate("/functions");
       }
     } catch (error) {
       console.error("Error adding function:", error);
     }
   };
+
   return (
     <div>
       <div className="page-wrapper">
@@ -62,28 +82,51 @@ const AddFunctions = () => {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${
+                            errors.heading ? "is-invalid" : ""
+                          }`}
                           placeholder="Enter heading"
                           value={heading}
-                          onChange={(e) => setHeading(e.target.value)}
-                          required
+                          onChange={(e) => {
+                            setHeading(e.target.value);
+                            if (errors.heading) {
+                              setErrors((prev) => ({ ...prev, heading: "" }));
+                            }
+                          }}
                         />
+                        {errors.heading && (
+                          <div className="invalid-feedback">{errors.heading}</div>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
                       <label className="col-form-label col-lg-2">
-                        Description<span className="text-danger">*</span>
+                        Description <span className="text-danger">*</span>
                       </label>
                       <div className="col-md-4">
                         <div className="input-group mb-3">
                           <textarea
-                            className="form-control form-control-md"
+                            className={`form-control form-control-md ${
+                              errors.description ? "is-invalid" : ""
+                            }`}
                             placeholder="Enter description"
                             value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            onChange={(e) => {
+                              setDescription(e.target.value);
+                              if (errors.description) {
+                                setErrors((prev) => ({
+                                  ...prev,
+                                  description: "",
+                                }));
+                              }
+                            }}
                             rows="2"
-                            required
                           />
+                          {errors.description && (
+                            <div className="invalid-feedback">
+                              {errors.description}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>

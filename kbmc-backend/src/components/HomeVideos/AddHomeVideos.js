@@ -11,7 +11,7 @@ const AddHomeVideos = () => {
     const [description, setDescription] = useState('');
     const [publishDate, setPublishDate] = useState('');
     const [videoUrl, setVideoUrl] = useState('');
-
+    const [errors, setErrors] = useState({ description: "", publishDate: "", videoUrl: "" });
     const navigate = useNavigate();
 
     const formatDate = (date) => {
@@ -22,8 +22,27 @@ const AddHomeVideos = () => {
         return `${day}-${month}-${year}`;
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        if (!description) {
+            newErrors.description = "Home Video Description is required.";
+        }
+        if (!publishDate) {
+            newErrors.publishDate = "Publish Date is required.";
+        }
+        if (!videoUrl) {
+            newErrors.videoUrl = "Video URL is required.";
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
 
         const formattedDate = formatDate(publishDate);
 
@@ -37,6 +56,7 @@ const AddHomeVideos = () => {
             await api.post('/home-videos', videoData);
             toast.success('Video added successfully!');
             setDescription('');
+            setErrors({ description: "", publishDate: "", videoUrl: "" });
             setPublishDate('');
             setVideoUrl('');
 
@@ -66,28 +86,37 @@ const AddHomeVideos = () => {
                                     </div>
                                     <form onSubmit={handleSubmit}>
                                         <div className="form-group row">
-                                            <label className="col-form-label col-md-2">Home Video Description <span className="text-danger">*</span></label>
+                                            <label className="col-form-label col-md-3">Home Video Description <span className="text-danger">*</span></label>
                                             <div className="col-md-4">
                                                 <input
                                                     type="text"
                                                     className="form-control form-control-lg"
                                                     placeholder=""
                                                     value={description}
-                                                    onChange={(e) => setDescription(e.target.value)}
-                                                    required
+                                                    onChange={(e) => {
+                                                        setDescription(e.target.value);
+                                                        if (errors.description) {
+                                                            setErrors({ ...errors, description: "" });
+                                                        }
+                                                    }}
                                                 />
+                                                {errors.description && <small className="text-danger">{errors.description}</small>}
                                             </div>
                                         </div>
                                         <div className="form-group row">
-                                            <label className="col-form-label col-md-2">Publish Date <span className="text-danger">*</span></label>
+                                            <label className="col-form-label col-md-3">Publish Date <span className="text-danger">*</span></label>
                                             <div className="cal-icon col-md-4">
                                                 <Flatpickr
                                                     id="startDatePicker"
                                                     className="flatpickr-input form-control"
                                                     placeholder="Select Publish Date"
                                                     value={publishDate}
-                                                    onChange={(date) => setPublishDate(date[0])}
-                                                    options={{
+                                                    onChange={(date) => {
+                                                        setPublishDate(date[0]);
+                                                        if (errors.publishDate) {
+                                                            setErrors({ ...errors, publishDate: "" });
+                                                        }
+                                                    }} options={{
                                                         dateFormat: 'd-m-Y',
                                                         monthSelectorType: 'dropdown',
                                                         prevArrow:
@@ -96,21 +125,27 @@ const AddHomeVideos = () => {
                                                             '<svg><path d="M5 5L10 10L5 15"></path></svg>',
                                                     }}
                                                 />
+                                                {errors.publishDate && <small className="text-danger">{errors.publishDate}</small>}
                                             </div>
                                         </div>
                                         <div className="form-group row">
-                                            <label className="col-form-label col-lg-2">Upload URL <span className="text-danger">*</span></label>
+                                            <label className="col-form-label col-lg-3">Upload URL <span className="text-danger">*</span></label>
                                             <div className="col-md-4">
-                                                <div className="input-group mb-3">
+                                                <div className="input-group">
                                                     <input
                                                         type="text"
                                                         className="form-control col-md-12 col-xs-12 userfile"
                                                         placeholder=""
                                                         value={videoUrl}
-                                                        onChange={(e) => setVideoUrl(e.target.value)}
-                                                        required
+                                                        onChange={(e) => {
+                                                            setVideoUrl(e.target.value);
+                                                            if (errors.videoUrl) {
+                                                                setErrors({ ...errors, videoUrl: "" });
+                                                            }
+                                                        }}
                                                     />
                                                 </div>
+                                                {errors.videoUrl && <small className="text-danger">{errors.videoUrl}</small>}
                                             </div>
                                         </div>
                                         <input type="submit" className="btn btn-primary" value="Submit" />
