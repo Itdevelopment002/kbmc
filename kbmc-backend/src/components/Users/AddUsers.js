@@ -1,19 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../api";
 import { useNavigate, Link } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Import icons
 
 const AddUsers = () => {
+  const [departments, setDepartments] = useState([]);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
+    confirmPassword: "",
     department: "",
   });
-  const [success, setSuccess] = useState(false); // Success state
-  const [error, setError] = useState(""); // General error state
-  const [fieldErrors, setFieldErrors] = useState({}); // Field-specific errors
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
   const navigate = useNavigate();
 
-  // Handle field change and reset errors dynamically
+  const fetchDepartments = async () => {
+    try {
+      const response = await api.get("/departments");
+      setDepartments(response.data);
+    } catch (error) {
+      console.error("Error fetching departments", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -34,21 +51,29 @@ const AddUsers = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Form validation
-    const errors = {};
-    if (!formData.username) errors.username = "Username is required.";
-    if (!formData.password) errors.password = "Password is required.";
-    if (!formData.department) errors.department = "Department is required.";
+      const errors = {};
+  if (!formData.username) errors.username = "Username is required.";
+  if (!formData.password) errors.password = "Password is required.";
+  if (!formData.confirmPassword) errors.confirmPassword = "Confirm Password is required.";
+  if (!formData.department) errors.department = "Department is required.";
+  if (formData.password !== formData.confirmPassword) {
+    errors.confirmPassword = "Passwords do not match. Please try again.";
+  }
 
-    if (Object.keys(errors).length > 0) {
-      setFieldErrors(errors);
-      return;
-    }
+  if (Object.keys(errors).length > 0) {
+    setFieldErrors(errors); // Assuming setFieldErrors sets field-specific errors
+    return;
+  }
 
     try {
-      const response = await api.post("/users", formData);
+      const response = await api.post("/users", {
+        username: formData.username,
+        password: formData.password,
+        department: formData.department,
+      });
       console.log("User added:", response.data);
       setSuccess(true);
+      setError("");
       navigate("/user");
     } catch (error) {
       console.error("There was an error adding the user:", error);
@@ -103,25 +128,6 @@ const AddUsers = () => {
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
-                          <label>Password</label>
-                          <input
-                            type="password"
-                            className={`form-control ${
-                              fieldErrors.password ? "is-invalid" : ""
-                            }`}
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                          />
-                          {fieldErrors.password && (
-                            <div className="invalid-feedback">
-                              {fieldErrors.password}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="form-group">
                           <label>Type of Department</label>
                           <select
                             className={`form-control ${
@@ -131,19 +137,78 @@ const AddUsers = () => {
                             value={formData.department}
                             onChange={handleChange}
                           >
-                            <option value="">Select Department</option>
-                            <option value="Account Department">
-                              Account Department
+                            <option value="" disabled>
+                              Select Department
                             </option>
-                            <option value="Tax Department">
-                              Tax Department
-                            </option>
+                            {departments.map((department) => (
+                              <option value={department.name} key={department.id}>
+                                {department.name}
+                              </option>
+                            ))}
                           </select>
                           {fieldErrors.department && (
                             <div className="invalid-feedback">
                               {fieldErrors.department}
                             </div>
                           )}
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label>Password</label>
+                          <div className="input-group">
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              className={`form-control ${
+                              fieldErrors.password ? "is-invalid" : ""
+                            }`}
+                              name="password"
+                              value={formData.password}
+                              onChange={handleChange}
+                            />
+          
+                            <span
+                              className="input-group-text"
+                              onClick={() => setShowPassword(!showPassword)}
+                              style={{ cursor: "pointer" }}
+                            >
+                              {showPassword ? (
+                                <AiOutlineEyeInvisible />
+                              ) : (
+                                <AiOutlineEye />
+                              )}
+                            </span>
+                          </div>
+                           {fieldErrors.password && (
+                            <div className="invalid-feedback">
+                              {fieldErrors.password}
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label>Confirm Password</label>
+                          <div className="input-group">
+                            <input
+                              type={showConfirmPassword ? "text" : "password"}
+                              className="form-control"
+                              name="confirmPassword"
+                              value={formData.confirmPassword}
+                              onChange={handleChange}
+                            />
+                            <span
+                              className="input-group-text"
+                              onClick={() =>
+                                setShowConfirmPassword(!showConfirmPassword)
+                              }
+                              style={{ cursor: "pointer" }}
+                            >
+                              {showConfirmPassword ? (
+                                <AiOutlineEyeInvisible />
+                              ) : (
+                                <AiOutlineEye />
+                              )}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>

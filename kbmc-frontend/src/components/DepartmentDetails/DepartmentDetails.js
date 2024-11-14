@@ -24,7 +24,7 @@ const DepartmentDetails = () => {
       console.error("Error fetching photo gallery images", error);
     }
   };
-   
+
   const FetchTenders = async () => {
     try {
       const response = await api.get("/tenders");
@@ -61,7 +61,8 @@ const DepartmentDetails = () => {
 
   const getYouTubeVideoId = (url) => {
     // eslint-disable-next-line
-    const regExp =/^.*(youtu.be\/|v\/|\/u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const regExp =
+      /^.*(youtu.be\/|v\/|\/u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     const match = url.match(regExp);
     return match && match[2].length === 11 ? match[2] : null;
   };
@@ -75,7 +76,7 @@ const DepartmentDetails = () => {
 
   const handleCloseVideoModal = () => {
     setShowVideoModal(false);
-    setSelectedVideo(null); 
+    setSelectedVideo(null);
   };
 
   return (
@@ -95,14 +96,14 @@ const DepartmentDetails = () => {
                               <div className="row" id="video-01">
                                 <div className="col-4 col-md-3">
                                   <Link
-                                    onClick={() => handleOpenVideoModal(video)} 
+                                    onClick={() => handleOpenVideoModal(video)}
                                     className="lightbox"
                                     style={{ cursor: "pointer" }}
                                   >
                                     <img
                                       src={`https://img.youtube.com/vi/${getYouTubeVideoId(
                                         video.video_url
-                                      )}/0.jpg`} 
+                                      )}/0.jpg`}
                                       alt={video.description}
                                       style={{
                                         width: "100px",
@@ -136,7 +137,7 @@ const DepartmentDetails = () => {
                         <div className="col-md-6 col-12">
                           <div className="map-style">
                             <iframe
-                              title="Badlapur, Maharashtra Map" 
+                              title="Badlapur, Maharashtra Map"
                               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30149.71769291419!2d73.20470302114111!3d19.163961329513864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ed5c9bc71bbd%3A0x87d539b0621850f3!2sBadlapur%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1712733207421!5m2!1sen!2sin"
                               width="100%"
                               height="280"
@@ -217,7 +218,13 @@ const DepartmentDetails = () => {
                                 {tenders.map((tender, index) => (
                                   <li key={index}>
                                     <img src={pdficon} alt="pdficon" />
-                                    <Link to="#.">{tender.tenders}</Link>
+                                    <Link
+                                      to={`${baseURL}/${tender.pdf}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {tender.description}
+                                    </Link>
                                     {tender.status === "New" && (
                                       <img
                                         src={image}
@@ -271,7 +278,7 @@ const DepartmentDetails = () => {
               width="100%"
               height="400"
               objectFit="cover"
-              src={selectedVideo} 
+              src={selectedVideo}
               frameBorder="0"
               allowFullScreen
               title="YouTube video"

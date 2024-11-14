@@ -61,7 +61,6 @@ const CitizenCharter = () => {
     }
   };
 
-  // Handle Previous button
   const handlePreviousClick = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -91,8 +90,8 @@ const CitizenCharter = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      // Reset the form fields after successful submission
       setNewDepartment({ name: "", pdf: null });
+      setNewDepartment({ name: "", pdf: "" });
       setErrors({ name: "", pdf: "" });
       fetchDepartments();
       toast.success("Department added successfully!");
@@ -404,7 +403,10 @@ const CitizenCharter = () => {
                   <div className="modal-footer">
                     <button
                       className="btn btn-secondary btn-sm"
-                      onClick={() => setShowEditModal(false)}
+                      onClick={() => {
+                        setShowEditModal(false);
+                        setNewDepartment({ name: "", pdf: null });
+                      }}
                     >
                       Close
                     </button>
