@@ -65,8 +65,8 @@ import AddPreviousOfficers from "./components/PreviousOfficers/AddPreviousOffice
 import PreviousOfficers from "./components/PreviousOfficers/PreviousOfficers";
 import AddPreviousPresidents from "./components/PreviousPresidents/AddPreviousPresidents";
 import PreviousPresidents from "./components/PreviousPresidents/PreviousPresidents";
-import AddGeneralAdminDepartment from "./components/PublicDisclosure/AddGeneralAdminDepartment";
-import AddGeneralYear from "./components/PublicDisclosure/AddGeneralYear";
+import AddGeneralAdminDepartment from "./components/GenAdminDept/AddGeneralAdminDepartment";
+import AddGeneralYear from "./components/GenAdminDept/AddGeneralYear";
 import PublicDisclosure from "./components/PublicDisclosure/PublicDisclosure";
 import CitizenCharter from "./components/CitizenCharter/CitizenCharter";
 import AddRtsPdf from "./components/Rts/AddRtsPdf";

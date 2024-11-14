@@ -53,19 +53,32 @@ router.post('/citizen-charter', upload.single('pdf'), (req, res) => {
 router.put('/citizen-charter/:id', upload.single('pdf'), (req, res) => {
     const { id } = req.params;
     const { name } = req.body;
-    const pdfPath = req.file ? req.file.path : null; // Use req.file.path for the full path
+    const pdfPath = req.file ? req.file.path : null;
 
-    // Prepare updated charter
-    const updatedCharter = { name, ...(pdfPath ? { pdf: pdfPath } : {}) };
+    // Base query for updating the name only
+    let query = 'UPDATE `citizen-charter` SET name = ?';
+    const params = [name];
 
-    db.query('UPDATE `citizen-charter` SET name = ?, pdf = ? WHERE id = ?', [name, pdfPath || updatedCharter.pdf, id], (err) => {
+    // If a new PDF is uploaded, include it in the query
+    if (pdfPath) {
+        query += ', pdf = ?';
+        params.push(pdfPath);
+    }
+
+    query += ' WHERE id = ?';
+    params.push(id);
+
+    db.query(query, params, (err) => {
         if (err) {
             console.error('Error updating citizen charter:', err);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
-        res.json({ id, ...updatedCharter });
+
+        const response = { id, name, ...(pdfPath ? { pdf: pdfPath } : {}) };
+        res.json(response);
     });
 });
+
 
 // API to delete a citizen charter
 router.delete('/citizen-charter/:id', (req, res) => {
