@@ -5,10 +5,26 @@ import api from '../api';
 const AddGovtWebsiteLink = () => {
     const [websitelink, setLink] = useState('');
     const [websitelogo, setLogo] = useState(null);
+    const [errors, setErrors] = useState({ websitelink: '', websitelogo: '' });
     const navigate = useNavigate();
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!websitelink.trim()) {
+            newErrors.websitelink = 'Website link is required.';
+        }
+        if (!websitelogo) {
+            newErrors.websitelogo = 'Website logo is required.';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateForm()) {
+            return; // Prevent form submission if validation fails
+        }
 
         if (!websitelink || !websitelogo) {
             alert('Please provide both the website link and logo.');
@@ -61,30 +77,46 @@ const AddGovtWebsiteLink = () => {
                                     </div>
                                     <form onSubmit={handleSubmit}>
                                         <div className="form-group row">
-                                            <label className="col-form-label col-md-2">Govt. Website Link</label>
+                                            <label className="col-form-label col-md-2">Govt. Website Link <span className="text-danger">*</span></label>
                                             <div className="col-md-4">
                                                 <input
                                                     type="text"
-                                                    className="form-control"
+                                                    className={`form-control ${errors.websitelink ? 'is-invalid' : ''}`}
                                                     placeholder="Enter website link"
                                                     value={websitelink}
-                                                    onChange={(e) => setLink(e.target.value)}
-                                                    required
+                                                    onChange={(e) => {
+                                                        setLink(e.target.value);
+                                                        if (errors.websitelink) {
+                                                            setErrors({ ...errors, websitelink: "" });
+                                                        }
+                                                    }}
+
                                                 />
+                                                {errors.websitelink && (
+                                                    <div className="invalid-feedback">{errors.websitelink}</div>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="form-group row">
-                                            <label className="col-form-label col-lg-2">Govt. Website Link Logo</label>
+                                            <label className="col-form-label col-lg-2">Govt. Website Link Logo<span className="text-danger">*</span></label>
                                             <div className="col-md-4">
                                                 <div className="input-group mb-3">
                                                     <input
                                                         type="file"
                                                         id="userfile"
                                                         name="websitelogo"
-                                                        className="form-control col-md-12 col-xs-12"
-                                                        onChange={(e) => setLogo(e.target.files[0])}
-                                                        required
+                                                        className={`form-control col-md-12 col-xs-12 ${errors.websitelogo ? 'is-invalid' : ''
+                                                            }`}
+                                                        onChange={(e) => {
+                                                            setLogo(e.target.files[0]);
+                                                            if (errors.websitelogo) {
+                                                                setErrors({ ...errors, websitelogo: "" });
+                                                            }
+                                                        }}
                                                     />
+                                                    {errors.websitelogo && (
+                                                        <div className="invalid-feedback">{errors.websitelogo}</div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>

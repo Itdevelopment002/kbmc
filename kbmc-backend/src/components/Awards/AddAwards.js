@@ -5,10 +5,26 @@ import api from "../api";
 const AddAwards = () => {
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  const validate = () => {
+    const newErrors = {};
+    if (!heading.trim()) {
+      newErrors.heading = "Heading is required.";
+    }
+    if (!description.trim()) {
+      newErrors.description = "Description is required.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) {
+      return;
+    }
 
     try {
       const response = await api.post(
@@ -29,6 +45,7 @@ const AddAwards = () => {
       }
       setHeading("");
       setDescription("");
+      setErrors({});
       navigate("/awards");
     } catch (error) {
       console.error("Error:", error);
@@ -67,27 +84,52 @@ const AddAwards = () => {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${
+                            errors.heading ? "is-invalid" : ""
+                          }`}
                           value={heading}
-                          onChange={(e) => setHeading(e.target.value)}
+                          onChange={(e) => {
+                            setHeading(e.target.value);
+                            if (errors.heading) {
+                              setErrors((prev) => ({ ...prev, heading: "" }));
+                            }
+                          }}
                           placeholder="Enter award heading"
-                          required
                         />
+                        {errors.heading && (
+                          <div className="invalid-feedback">{errors.heading}</div>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label className="col-form-label col-lg-2">Description</label>
-                        <div className="col-md-4">
-                          <textarea
-                            className="form-control form-control-md"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Enter a brief description"
-                            rows="3"
-                            style={{ resize: "none" }}
-                            required
-                          />
-                        </div>
+                      <label className="col-form-label col-lg-2">
+                        Description <span className="text-danger">*</span>
+                      </label>
+                      <div className="col-md-4">
+                        <textarea
+                          className={`form-control form-control-md ${
+                            errors.description ? "is-invalid" : ""
+                          }`}
+                          value={description}
+                          onChange={(e) => {
+                            setDescription(e.target.value);
+                            if (errors.description) {
+                              setErrors((prev) => ({
+                                ...prev,
+                                description: "",
+                              }));
+                            }
+                          }}
+                          placeholder="Enter a brief description"
+                          rows="3"
+                          style={{ resize: "none" }}
+                        />
+                        {errors.description && (
+                          <div className="invalid-feedback">
+                            {errors.description}
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <input
                       type="submit"

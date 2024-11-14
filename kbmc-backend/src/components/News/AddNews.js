@@ -5,12 +5,24 @@ const AddNews = () => {
 
     const [newsDescription, setNewsDescription] = useState('');
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({ newsDescription: "" });
+    const validateForm = () => {
+        const newErrors = {};
+        if (!newsDescription) {
+            newErrors.newsDescription = "News Description is required.";
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateForm()) {
+            return;
+        }
 
         try {
-            
+
             const response = await api.post('/newsupdate', {
                 description: newsDescription,
             }, {
@@ -18,6 +30,7 @@ const AddNews = () => {
                     'Content-Type': 'application/json',
                 },
             });
+            setErrors({ newsDescription: "" });
 
             if (response.status === 200) {
                 navigate('/news');
@@ -28,7 +41,7 @@ const AddNews = () => {
             console.error('Error while adding news:', error);
         }
 
- 
+
         setNewsDescription('');
     };
     return (
@@ -58,10 +71,14 @@ const AddNews = () => {
                                                     type="text"
                                                     className="form-control form-control-lg"
                                                     placeholder=""
-                                                    value={newsDescription} 
-                                                onChange={(e) => setNewsDescription(e.target.value)} 
-                                                required
+                                                    value={newsDescription}
+                                                    onChange={(e) =>{ setNewsDescription(e.target.value);
+                                                        if (errors.newsDescription) {
+                                                            setErrors({ ...errors, newsDescription: "" });
+                                                        }
+                                                        }}
                                                 />
+                                                {errors.newsDescription && <small className="text-danger">{errors.newsDescription}</small>}
                                             </div>
                                         </div>
                                         <input type="submit" className="btn btn-primary" value="Submit" />

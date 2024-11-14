@@ -1,127 +1,165 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, Button, Table } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import api, { baseURL } from '../api';
 import { Link } from 'react-router-dom';
-import api from '../api';
+import GLightbox from 'glightbox';
+import 'glightbox/dist/css/glightbox.css';
 
-const Departments = () => {
-    const [departments, setDepartments] = useState([]);
+const GovernmentWebsiteLinks = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-    const [selectedDepartment, setSelectedDepartment] = useState(null);
-    const [editedName, setEditedName] = useState('');
-    const [editedHod, setEditedHod] = useState('');
-    const [editedLink, setEditedLink] = useState('');
+    const [editLinkData, setEditLinkData] = useState({ id: '', websitelink: '', websitelogo: '', websitelogoPreview: '' });
+    const [links, setLinks] = useState([]);
+    const [selectedLinkId, setSelectedLinkId] = useState(null);
+
     const [currentPage, setCurrentPage] = useState(1);
-    const [departmentsPerPage] = useState(5);
+    const itemsPerPage = 5;
+
+    const currentPageData = links.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    const API_URL = '/websitelinks';
 
     useEffect(() => {
-        fetchDepartments();
+        fetchLinks();
     }, []);
 
-    const fetchDepartments = async () => {
-        try {
-            const response = await api.get('/departments');
-            setDepartments(response.data);
-        } catch (error) {
-            console.error('Error fetching departments:', error);
+    useEffect(() => {
+        // Initialize GLightbox after links have been fetched and updated
+        initLightbox();
+    }, [links]);
+
+    const initLightbox = () => {
+        GLightbox({
+            selector: '.glightbox',
+        });
+    };
+
+    const fetchLinks = () => {
+        api.get(API_URL)
+            .then((response) => {
+                setLinks(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    };
+
+    const handleDeleteConfirm = () => {
+        if (selectedLinkId) {
+            api.delete(`${API_URL}/${selectedLinkId}`)
+                .then(() => {
+                    setLinks(links.filter(websitelink => websitelink.id !== selectedLinkId));
+                    setShowDeleteModal(false);
+                })
+                .catch((error) => {
+                    console.error('Error deleting websitelink:', error);
+                });
         }
     };
 
-    const handleDelete = (id) => {
-        setSelectedDepartment(id);
-        setShowDeleteModal(true);
-    };
+    const handleEditSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('websitelink', editLinkData.websitelink);
 
-    const confirmDelete = async () => {
-        try {
-            await api.delete(`/departments/${selectedDepartment}`);
-            fetchDepartments(); // Refresh the department list after deletion
-            setShowDeleteModal(false);
-        } catch (error) {
-            console.error('Error deleting department:', error);
+        // Append the new logo only if it's a file
+        if (editLinkData.websitelogo instanceof File) {
+            formData.append('websitelogo', editLinkData.websitelogo);
         }
+
+        // Optimistic UI update
+        const updatedLinks = links.map(websitelink =>
+            websitelink.id === editLinkData.id
+                ? { ...websitelink, websitelink: editLinkData.websitelink, websitelogo: editLinkData.websitelogo instanceof File ? URL.createObjectURL(editLinkData.websitelogo) : websitelink.websitelogo }
+                : websitelink
+        );
+        setLinks(updatedLinks);
+
+        api.put(`${API_URL}/${editLinkData.id}`, formData)
+            .then((response) => {
+                // Update the links state with the new data from the response
+                setLinks(links.map(websitelink => (websitelink.id === editLinkData.id ? response.data : websitelink)));
+                setShowEditModal(false);
+                fetchLinks();
+            })
+            .catch((error) => {
+                console.error('Error updating websitelink:', error);
+                // Optionally revert the optimistic update here if needed
+            });
     };
 
-    const handleEdit = (department) => {
-        setSelectedDepartment(department.id);
-        setEditedName(department.name);
-        setEditedHod(department.hod);
-        setEditedLink(department.link);
+    const openEditModal = (websitelink) => {
+        setEditLinkData({
+            id: websitelink.id,
+            websitelink: websitelink.websitelink,
+            websitelogo: websitelink.websitelogo // Keeping the logo URL to display as preview
+        });
         setShowEditModal(true);
     };
-
-    const confirmEdit = async () => {
-        try {
-            await api.put(`/departments/${selectedDepartment}`, {
-                name: editedName,
-                hod: editedHod,
-                link: editedLink,
-            });
-            fetchDepartments(); // Refresh the department list after editing
-            setShowEditModal(false);
-        } catch (error) {
-            console.error('Error editing department:', error);
-        }
-    };
-
-    // Pagination logic
-    const indexOfLastDepartment = currentPage * departmentsPerPage;
-    const indexOfFirstDepartment = indexOfLastDepartment - departmentsPerPage;
-    const currentDepartments = departments.slice(indexOfFirstDepartment, indexOfLastDepartment);
-
-    const totalPages = Math.ceil(departments.length / departmentsPerPage);
 
     return (
         <>
             <div className="page-wrapper">
                 <div className="content">
-                    {/* Breadcrumbs */}
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
-                            <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-                            <li className="breadcrumb-item active" aria-current="page">Departments</li>
+                            <li className="breadcrumb-item"><Link to="/">Home</Link> </li>
+                            <li className="breadcrumb-item active" aria-current="page">Govt. Website Link</li>
                         </ol>
                     </nav>
-                    
-                    {/* Department Table */}
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="card-box">
                                 <div className="card-block">
-                                    <h4 className="page-title">Departments</h4>
+                                    <div className="row">
+                                        <div className="col-sm-4 col-3">
+                                            <h4 className="page-title">Govt. Website Link</h4>
+                                        </div>
+                                        <div className="col-sm-8 col-9 text-right m-b-20">
+                                            <Link to="/add-gov-website-link" className="btn btn-primary btn-rounded float-right"><i className="fa fa-plus"></i> Add Link</Link>
+                                        </div>
+                                    </div>
                                     <div className="table-responsive">
                                         <table className="table table-bordered m-b-0">
                                             <thead>
                                                 <tr>
                                                     <th width="10%">Sr. No.</th>
-                                                    <th>Departments Name</th>
-                                                    <th>Name of HOD</th>
+                                                    <th>Govt. Website Link</th>
+                                                    <th>Govt. Website Logo</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {currentDepartments.map((department, index) => (
-                                                    <tr key={department.id}>
-                                                        <td>{indexOfFirstDepartment + index + 1}</td>
-                                                        <td>{department.name}</td>
-                                                        <td>{department.hod}</td>
+                                                {currentPageData.map((websitelink, index) => (
+                                                    <tr key={websitelink.id}>
+                                                        <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                                                        <td>{websitelink.websitelink}</td>
                                                         <td>
-                                                            <Button
-                                                                variant="danger"
-                                                                size="sm"
-                                                                className="me-2 m-t-10"
-                                                                onClick={() => handleDelete(department.id)}
+                                                            <Link to={`${baseURL}${websitelink.websitelogo}`}
+                                                                className="glightbox"
+                                                                data-gallery="web-links-gallery"
                                                             >
+                                                                <img
+                                                                    width="50px"
+                                                                    src={`${baseURL}${websitelink.websitelogo}`}
+                                                                    alt={websitelink.id}
+                                                                    style={{ borderRadius: '5px' }}
+                                                                />
+                                                            </Link>
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                className="btn btn-danger btn-sm m-t-10 mx-1"
+                                                                onClick={() => {
+                                                                    setSelectedLinkId(websitelink.id);
+                                                                    setShowDeleteModal(true);
+                                                                }}>
                                                                 Delete
-                                                            </Button>
-                                                            <Button
-                                                                variant="success"
-                                                                size="sm"
-                                                                className="me-2 m-t-10"
-                                                                onClick={() => handleEdit(department)}
-                                                            >
+                                                            </button>
+                                                            <button
+                                                                className="btn btn-success btn-sm m-t-10"
+                                                                onClick={() => openEditModal(websitelink)}>
                                                                 Edit
-                                                            </Button>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -133,49 +171,79 @@ const Departments = () => {
                         </div>
                     </div>
 
-                    {/* Pagination */}
                     <div>
                         <ul className="pagination">
                             <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                                 <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
                             </li>
-                            {Array.from({ length: totalPages }, (_, i) => (
+                            {Array.from({ length: Math.ceil(links.length / itemsPerPage) }, (_, i) => (
                                 <li className={`page-item ${currentPage === i + 1 ? 'active' : ''}`} key={i}>
                                     <button className="page-link" onClick={() => setCurrentPage(i + 1)}>{i + 1}</button>
                                 </li>
                             ))}
-                            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                            <li className={`page-item ${currentPage === Math.ceil(links.length / itemsPerPage) ? 'disabled' : ''}`}>
                                 <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
                             </li>
                         </ul>
                     </div>
 
                     {/* Delete Modal */}
-                    <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
-                        <Modal.Body>Are you sure you want to delete this department?</Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Close</Button>
-                            <Button variant="danger" onClick={confirmDelete}>Delete</Button>
-                        </Modal.Footer>
-                    </Modal>
+                    <div className={`modal fade ${showDeleteModal ? 'show' : ''}`} style={{ display: showDeleteModal ? 'block' : 'none' }} id="deleteModal" tabIndex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div className="modal-dialog modal-dialog-centered" role="document">
+                            <div className="modal-content">
+                                <div className="modal-body text-center">
+                                    <h4>Are you sure you want to delete this item?</h4>
+                                </div>
+                                <div className="modal-footer text-center">
+                                    <button type="button" className="btn btn-sm btn-secondary" onClick={() => setShowDeleteModal(false)}>Cancel</button>
+                                    <button type="button" className="btn btn-sm btn-danger" onClick={handleDeleteConfirm}>Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     {/* Edit Modal */}
-                    <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered>
-                        <Modal.Header closeButton>Edit Department</Modal.Header>
-                        <Modal.Body>
-                            <input type="text" value={editedName} onChange={(e) => setEditedName(e.target.value)} placeholder="Name" />
-                            <input type="text" value={editedHod} onChange={(e) => setEditedHod(e.target.value)} placeholder="HOD" />
-                            <input type="text" value={editedLink} onChange={(e) => setEditedLink(e.target.value)} placeholder="Link" />
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={() => setShowEditModal(false)}>Close</Button>
-                            <Button variant="primary" onClick={confirmEdit}>Save Changes</Button>
-                        </Modal.Footer>
-                    </Modal>
+                    <div className={`modal fade ${showEditModal ? 'show' : ''}`} style={{ display: showEditModal ? 'block' : 'none' }} id="editModal" tabIndex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div className="modal-dialog modal-dialog-centered" role="document">
+                            <div className="modal-content">
+                                <div className="modal-body">
+                                    <h5 className='mb-3'>Edit Govt. Website Link</h5>
+                                    <form onSubmit={handleEditSubmit}>
+                                        <div className="form-group">
+                                            <label htmlFor="websitelink">Website Link</label>
+                                            <input
+                                                type="text"
+                                                id="websitelink"
+                                                className="form-control"
+                                                value={editLinkData.websitelink}
+                                                onChange={(e) => setEditLinkData({ ...editLinkData, websitelink: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="websitelogo">Website Logo</label>
+                                            <input
+                                                type="file"
+                                                id="websitelogo"
+                                                className="form-control"
+                                                onChange={(e) => setEditLinkData({ ...editLinkData, websitelogo: e.target.files[0] })}
+                                            />
+                                            {editLinkData.websitelogoPreview && (
+                                                <img src={editLinkData.websitelogoPreview} alt="Preview" width="100px" className="mt-2" />
+                                            )}
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-sm btn-secondary" onClick={() => setShowEditModal(false)}>Close</button>
+                                            <button type="submit" className="btn btn-sm btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
     );
 };
 
-export default Departments;
+export default GovernmentWebsiteLinks;

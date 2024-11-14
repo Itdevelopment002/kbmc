@@ -6,13 +6,28 @@ const AddRtsPdf = ()=> {
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({ description: "", file: "" });
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
+  const validateForm = () => {
+    const newErrors = {};
+    if (!description) {
+      newErrors.description = "Description is required.";
+    }
+    if (!file) {
+      newErrors.file = "A PDF file is required.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
 
     const formData = new FormData();
     formData.append("description", description);
@@ -26,6 +41,7 @@ const AddRtsPdf = ()=> {
       });
       console.log("Response:", response.data);
       setDescription("");
+      setErrors({ description: "", file: "" });
       setFile(null);
       navigate("/rts");
     } catch (error) {
@@ -63,25 +79,32 @@ const AddRtsPdf = ()=> {
                           type="text"
                           className="form-control form-control-md"
                           placeholder="Enter description"
-                          value={description} // Change here
-                          onChange={(e) => setDescription(e.target.value)} // Change here
-                          required
+                          value={description}
+                          onChange={(e) => {
+                            setDescription(e.target.value);
+                            if (errors.description) {
+                              setErrors({ ...errors, description: "" });
+                            }
+                          }}
                         />
+                        {errors.description && (
+                          <small className="text-danger">{errors.description}</small>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
                       <label className="col-form-label col-lg-2">Upload PDF</label>
                       <div className="col-md-4">
-                        <div className="input-group mb-3">
+                        <div className="input-group">
                           <input
                             type="file"
                             id="userfile"
                             name="userfile"
                             className="form-control form-control-md"
                             onChange={handleFileChange}
-                            required
                           />
                         </div>
+                        {errors.file && <small className="text-danger">{errors.file}</small>}
                       </div>
                     </div>
                     <input

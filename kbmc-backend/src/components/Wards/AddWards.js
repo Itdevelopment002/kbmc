@@ -5,10 +5,33 @@ import api from "../api";
 const AddWards = () => {
   const [wardNo, setWardNo] = useState("");
   const [wardName, setWardName] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    const validationErrors = {};
+
+    // Ward No. validation
+    if (!wardNo) {
+      validationErrors.wardNo = "Ward No. is required.";
+    }
+
+    // Ward Name validation
+    if (!wardName) {
+      validationErrors.wardName = "Ward Name is required.";
+    }
+
+    setErrors(validationErrors);
+    return Object.keys(validationErrors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const response = await api.post("/wards", {
         ward_no: wardNo,
@@ -21,6 +44,7 @@ const AddWards = () => {
       console.error("Error adding ward:", err);
     }
   };
+
   return (
     <div>
       <div className="page-wrapper">
@@ -46,6 +70,7 @@ const AddWards = () => {
                     </div>
                   </div>
                   <form onSubmit={handleSubmit}>
+                    {/* Ward No. */}
                     <div className="form-group row">
                       <label className="col-form-label col-md-2">
                         Ward No. <span className="text-danger">*</span>
@@ -53,32 +78,54 @@ const AddWards = () => {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
-                          placeholder=""
+                          className={`form-control form-control-md ${
+                            errors.wardNo ? "is-invalid" : ""
+                          }`}
+                          placeholder="Enter Ward No."
                           value={wardNo}
-                          onChange={(e) => setWardNo(e.target.value)}
-                          required
+                          onChange={(e) => {
+                            setWardNo(e.target.value);
+                            if (errors.wardNo) {
+                                setErrors({ ...errors, wardNo: "" });
+                            }
+                        }}
                         />
+                        {errors.wardNo && (
+                          <div className="invalid-feedback">{errors.wardNo}</div>
+                        )}
                       </div>
                     </div>
-                    <div className="form-group row">
+
+                    {/* Ward Name */}
+                    <div className="form-group row mt-3">
                       <label className="col-form-label col-md-2">
                         Ward Name <span className="text-danger">*</span>
                       </label>
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
-                          placeholder=""
+                          className={`form-control form-control-md ${
+                            errors.wardName ? "is-invalid" : ""
+                          }`}
+                          placeholder="Enter Ward Name"
                           value={wardName}
-                          onChange={(e) => setWardName(e.target.value)}
-                          required
+                          onChange={(e) => {
+                            setWardName(e.target.value);
+                            if (errors.wardName) {
+                                setErrors({ ...errors, wardName: "" });
+                            }
+                        }}
                         />
+                        {errors.wardName && (
+                          <div className="invalid-feedback">{errors.wardName}</div>
+                        )}
                       </div>
                     </div>
+
+                    {/* Submit Button */}
                     <input
                       type="submit"
-                      className="btn btn-primary btn-sm"
+                      className="btn btn-primary btn-sm mt-3"
                       value="Submit"
                     />
                   </form>

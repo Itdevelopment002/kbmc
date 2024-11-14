@@ -9,11 +9,42 @@ const AddPreviousPresidents = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [presidentImage, setPresidentImage] = useState("");
+  const [errors, setErrors] = useState({
+    presidentName: "",
+    startDate: "",
+    endDate: "",
+    presidentImage: "",
+  });
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Form validation
+    let formErrors = {};
+    if (!presidentName) {
+      formErrors.presidentName = "President's Name is required.";
+    }
+
+    if (!startDate) {
+      formErrors.startDate = "Start Date is required.";
+    }
+
+    if (!endDate) {
+      formErrors.endDate = "End Date is required.";
+    }
+
+    if (!presidentImage) {
+      formErrors.presidentImage = "President Image is required.";
+    }
+
+    // If there are errors, set the error state and do not submit the form
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+
     const formattedStartDate = startDate ? formatDate(startDate) : "";
     const formattedEndDate = endDate ? formatDate(endDate) : "";
 
@@ -52,6 +83,18 @@ const AddPreviousPresidents = () => {
 
   const handleFileChange = (e) => {
     setPresidentImage(e.target.files[0]);
+    setErrors((prev) => ({ ...prev, presidentImage: "" }));
+  };
+  
+
+  // Handle input changes to remove error messages as the user types
+  const handleInputChange = (e, field) => {
+    if (e.target.value) {
+      setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
+    }
+    if (field === "presidentName") setPresidentName(e.target.value);
+    if (field === "startDate") setStartDate(e.target.value);
+    if (field === "endDate") setEndDate(e.target.value);
   };
 
   return (
@@ -86,11 +129,16 @@ const AddPreviousPresidents = () => {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control form-control-md ${
+                            errors.presidentName ? "is-invalid" : ""
+                          }`}
                           placeholder="Enter president's Name"
                           value={presidentName}
-                          onChange={(e) => setPresidentName(e.target.value)}
+                          onChange={(e) => handleInputChange(e, "presidentName")}
                         />
+                        {errors.presidentName && (
+                          <div className="text-danger">{errors.presidentName}</div>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
@@ -100,10 +148,15 @@ const AddPreviousPresidents = () => {
                       <div className="cal-icon col-md-4">
                         <Flatpickr
                           id="startDatePicker"
-                          className="flatpickr-input form-control form-control-md"
+                          className={`flatpickr-input form-control form-control-md ${
+                            errors.startDate ? "is-invalid" : ""
+                          }`}
                           placeholder="Select Start Date"
                           value={startDate}
-                          onChange={(date) => setStartDate(date[0])}
+                          onChange={(date) => { 
+                            setStartDate(date[0]);
+                            setErrors({ ...errors, startDate: "" });  
+                                                    }}
                           options={{
                             dateFormat: "d-m-Y",
                             monthSelectorType: "dropdown",
@@ -113,6 +166,9 @@ const AddPreviousPresidents = () => {
                               '<svg><path d="M5 5L10 10L5 15"></path></svg>',
                           }}
                         />
+                        {errors.startDate && (
+                          <div className="text-danger">{errors.startDate}</div>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
@@ -122,10 +178,15 @@ const AddPreviousPresidents = () => {
                       <div className="cal-icon col-md-4">
                         <Flatpickr
                           id="endDatePicker"
-                          className="flatpickr-input form-control form-control-md"
+                          className={`flatpickr-input form-control form-control-md ${
+                            errors.endDate ? "is-invalid" : ""
+                          }`}
                           placeholder="Select End Date"
                           value={endDate}
-                          onChange={(date) => setEndDate(date[0])}
+                          onChange={(date) => { 
+                            setEndDate(date[0]);
+                            setErrors({ ...errors, endDate: "" });  
+                                                    }}
                           options={{
                             dateFormat: "d-m-Y",
                             monthSelectorType: "dropdown",
@@ -135,11 +196,14 @@ const AddPreviousPresidents = () => {
                               '<svg><path d="M5 5L10 10L5 15"></path></svg>',
                           }}
                         />
+                        {errors.endDate && (
+                          <div className="text-danger">{errors.endDate}</div>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
                       <label className="col-form-label col-lg-2">
-                        Upload President Image
+                        Upload President Image<span className="text-danger">*</span>
                       </label>
                       <div className="col-md-4">
                         <div className="input-group mb-3">
@@ -147,10 +211,15 @@ const AddPreviousPresidents = () => {
                             type="file"
                             id="userfile"
                             name="userfile"
-                            className="form-control form-control-md"
+                            className={`form-control form-control-md ${
+                              errors.presidentImage ? "is-invalid" : ""
+                            }`}
                             onChange={handleFileChange}
                           />
                         </div>
+                        {errors.presidentImage && (
+                          <div className="text-danger">{errors.presidentImage}</div>
+                        )}
                       </div>
                     </div>
                     <input

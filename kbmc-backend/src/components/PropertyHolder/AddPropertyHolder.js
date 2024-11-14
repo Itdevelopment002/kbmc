@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ const AddPropertyHolder = () => {
         property: ''
     });
 
+    const [errors, setErrors] = useState({});
     const navigate = useNavigate(); // Use the useNavigate hook
 
     const handleChange = (e) => {
@@ -17,10 +18,31 @@ const AddPropertyHolder = () => {
             ...formData,
             [e.target.name]: e.target.value,
         });
+
+        // Clear errors on change
+        if (errors[e.target.name]) {
+            setErrors({
+                ...errors,
+                [e.target.name]: '',
+            });
+        }
+    };
+
+    const validate = () => {
+        const newErrors = {};
+        if (!formData.heading) newErrors.heading = 'Heading is required';
+        if (!formData.description) newErrors.description = 'Description is required';
+        if (!formData.property) newErrors.property = 'Property is required';
+        
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validate()) {
+            return;
+        }
 
         try {
             const response = await api.post('/property_holder', formData); // Adjusted URL to match your backend route
@@ -65,38 +87,45 @@ const AddPropertyHolder = () => {
                                     </div>
                                     <form onSubmit={handleSubmit}>
                                         <div className="form-group row">
-                                            <label className="col-form-label col-md-3">Heading <span className="text-danger"></span></label>
+                                            <label className="col-form-label col-md-3">Heading <span className="text-danger">*</span></label>
                                             <div className="col-md-5">
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-lg"
+                                                    className={`form-control  ${errors.heading ? 'is-invalid' : ''}`}
                                                     name="heading"
                                                     value={formData.heading}
                                                     onChange={handleChange}
                                                     placeholder=""
                                                 />
+                                                {errors.heading && <div className="invalid-feedback">{errors.heading}</div>}
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-form-label col-md-3">Description <span className="text-danger">*</span></label>
                                             <div className="col-md-5">
-                                                <input type="text"
-                                                    className="form-control form-control-lg"
+                                                <input 
+                                                    type="text"
+                                                    className={`form-control  ${errors.description ? 'is-invalid' : ''}`}
                                                     name="description"
                                                     value={formData.description}
                                                     onChange={handleChange}
-                                                    placeholder="" />
+                                                    placeholder="" 
+                                                />
+                                                {errors.description && <div className="invalid-feedback">{errors.description}</div>}
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-form-label col-md-3">Property <span className="text-danger">*</span></label>
                                             <div className="col-md-5">
-                                                <input type="text"
-                                                    className="form-control form-control-lg"
+                                                <input 
+                                                    type="text"
+                                                    className={`form-control  ${errors.property ? 'is-invalid' : ''}`}
                                                     name="property"
                                                     value={formData.property}
                                                     onChange={handleChange}
-                                                    placeholder="" />
+                                                    placeholder="" 
+                                                />
+                                                {errors.property && <div className="invalid-feedback">{errors.property}</div>}
                                             </div>
                                         </div>
                                         <input type="submit" className="btn btn-primary" value="Submit" />
@@ -111,4 +140,4 @@ const AddPropertyHolder = () => {
     )
 }
 
-export default AddPropertyHolder
+export default AddPropertyHolder;

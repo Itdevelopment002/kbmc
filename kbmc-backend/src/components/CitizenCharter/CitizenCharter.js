@@ -17,6 +17,19 @@ const CitizenCharter = () => {
     fetchDepartments();
   }, []);
 
+  const [errors, setErrors] = useState({ name: "", pdf: "" });
+  const validateForm = () => {
+    const newErrors = {};
+    if (!newDepartment.name) {
+      newErrors.name = "Department name is required.";
+    }
+    if (!newDepartment.pdf) {
+      newErrors.pdf = "PDF file is required.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const fetchDepartments = async () => {
     try {
       const response = await api.get("/citizen-charter");
@@ -60,7 +73,12 @@ const CitizenCharter = () => {
   };
 
   const handleAddDepartment = async (e) => {
+
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+
     const formData = new FormData();
     formData.append("name", newDepartment.name);
     if (newDepartment.pdf) {
@@ -75,11 +93,11 @@ const CitizenCharter = () => {
       });
       // Reset the form fields after successful submission
       setNewDepartment({ name: "", pdf: null });
+      setErrors({ name: "", pdf: "" });
       fetchDepartments();
       toast.success("Department added successfully!");
     } catch (error) {
       console.error("Error adding department:", error);
-      toast.error("Error adding department!");
     }
   };
 
@@ -96,7 +114,7 @@ const CitizenCharter = () => {
       setNewDepartment({ name: "", pdf: null });
       toast.success("Department deleted successfully!");
     } catch (error) {
-        toast.error("Error deleting department!");
+      toast.error("Error deleting department!");
     }
   };
 
@@ -165,13 +183,20 @@ const CitizenCharter = () => {
                             className="form-control form-control-md"
                             type="text"
                             value={newDepartment.name}
-                            onChange={(e) =>
+                            onChange={(e) => {
                               setNewDepartment({
                                 ...newDepartment,
                                 name: e.target.value,
-                              })
-                            }
+                              });
+                              if (errors.name) {
+                                setErrors((prevErrors) => ({ ...prevErrors, name: "" }));
+                              }
+                            }}
+
                           />
+                          {errors.name && (
+                            <small className="text-danger">{errors.name}</small>
+                          )}
                         </div>
                       </div>
                       <div className="form-group row">
@@ -183,10 +208,20 @@ const CitizenCharter = () => {
                             <input
                               type="file"
                               accept=".pdf"
-                              onChange={handleFileChange}
+                              onChange={(e) => {
+                                // Handle file selection
+                                handleFileChange(e);
+
+                                // Clear the PDF error if a file is selected
+                                if (e.target.files[0]) {
+                                  setErrors((prevErrors) => ({ ...prevErrors, pdf: "" }));
+                                }
+                              }}
                               className="form-control form-control-md"
                             />
                           </div>
+                          {errors.pdf && <small className="text-danger">{errors.pdf}</small>}
+
                         </div>
                       </div>
                       <div className="form-group row">
@@ -265,9 +300,8 @@ const CitizenCharter = () => {
                 (page) => (
                   <li
                     key={page}
-                    className={`page-item ${
-                      currentPage === page ? "active" : ""
-                    }`}
+                    className={`page-item ${currentPage === page ? "active" : ""
+                      }`}
                   >
                     <Link
                       className="page-link"
@@ -280,9 +314,8 @@ const CitizenCharter = () => {
                 )
               )}
               <li
-                className={`page-item ${
-                  currentPage === totalPages ? "disabled" : ""
-                }`}
+                className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                  }`}
               >
                 <Link className="page-link" to="#!" onClick={handleNextClick}>
                   Next

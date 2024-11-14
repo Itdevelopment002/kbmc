@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer here
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../api";
 
@@ -9,27 +9,45 @@ const AddTreeCensus = () => {
         description: "",
         total: "",
     });
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    const navigate = useNavigate();
 
     // Handle form field changes
     const handleChange = (e) => {
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [name]: value,
         });
+
+        // Clear error when user starts typing
+        if (errors[name]) {
+            setErrors({ ...errors, [name]: "" });
+        }
     };
 
-    const navigate = useNavigate();
+    // Validate inputs
+    const validateForm = () => {
+        const newErrors = {};
+        if (!formData.description.trim()) newErrors.description = "Description is required.";
+        if (!formData.total.trim())
+            newErrors.total = "Total Number is required.";
+        return newErrors;
+    };
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const newErrors = validateForm();
 
-        // Validate input
-        if (!formData.description || !formData.total) {
-            toast.error("All fields are required.");
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
             return;
         }
 
+        setLoading(true);
         try {
             const response = await api.post("/tree-census", formData, {
                 headers: {
@@ -38,23 +56,25 @@ const AddTreeCensus = () => {
             });
 
             if (response.status === 201) {
-                const data = response.data;
                 toast.success("Tree Census data added successfully!");
                 setFormData({ description: "", total: "" });
-                setTimeout(() => {
-                    navigate("/tree-census");
-                }, 5000);
+
+                navigate("/tree-census");
+
             } else {
                 toast.error("Failed to add Tree Census data.");
             }
         } catch (error) {
             console.error("Error in submission:", error);
             toast.error("Error submitting form. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <>
+            <ToastContainer />
             <div className="page-wrapper">
                 <div className="content">
                     <ol className="breadcrumb">
@@ -66,45 +86,62 @@ const AddTreeCensus = () => {
                         <div className="col-lg-12">
                             <div className="card-box">
                                 <div className="card-block">
-                                    <div className="row">
-                                        <div className="col-sm-4 col-3">
-                                            <h4 className="page-title">Add Tree Census</h4>
-                                        </div>
-                                    </div>
+                                    <h4 className="page-title">Add Tree Census</h4>
                                     <form onSubmit={handleSubmit}>
-
                                         <div className="form-group row">
-                                            <label className="col-form-label col-md-3">Description <span className="text-danger">*</span></label>
+                                            <label className="col-form-label col-md-3">
+                                                Description <span className="text-danger">*</span>
+                                            </label>
                                             <div className="col-md-5">
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-lg"
+                                                    className={`form-control ${errors.description ? "is-invalid" : ""}`}
                                                     name="description"
                                                     value={formData.description}
                                                     onChange={handleChange}
-                                                    placeholder=""
-                                                    required
-                                                />
+                                                    aria-describedby="descriptionError"
 
+                                                />
+                                                {errors.description && (
+                                                    <small id="descriptionError" className="text-danger">
+                                                        {errors.description}
+                                                    </small>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="form-group row">
-                                            <label className="col-form-label col-md-3">Total <span className="text-danger">*</span></label>
+                                            <label className="col-form-label col-md-3">
+                                                Total <span className="text-danger">*</span>
+                                            </label>
                                             <div className="col-md-5">
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-lg"
+                                                    className={`form-control ${errors.total ? "is-invalid" : ""}`}
                                                     name="total"
                                                     value={formData.total}
                                                     onChange={handleChange}
-                                                    placeholder=""
-                                                    required
+                                                    aria-describedby="totalError"
+
                                                 />
+                                                {errors.total && (
+                                                    <small id="totalError" className="text-danger">
+                                                        {errors.total}
+                                                    </small>
+                                                )}
                                             </div>
                                         </div>
-                                        <input type="submit" className="btn btn-primary" value="Submit" />
+                                        <div className="form-group row">
+                                            <div className="col-md-5">
+                                                <button
+                                                    type="submit"
+                                                    className="btn btn-primary"
+                                                    disabled={loading}
+                                                >
+                                                    {loading ? "Submitting..." : "Submit"}
+                                                </button>
+                                            </div>
+                                        </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
@@ -112,7 +149,7 @@ const AddTreeCensus = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default AddTreeCensus
+export default AddTreeCensus;

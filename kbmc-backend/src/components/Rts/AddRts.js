@@ -5,11 +5,27 @@ import api from "../api";
 const AddRts = () => {
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
+  const [errors, setErrors] = useState({ heading: "", description: "" });
 
   const navigate = useNavigate(); // Initialize useNavigate
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!heading) {
+      newErrors.heading = "Heading is required.";
+    }
+    if (!description) {
+      newErrors.description = "Description is required.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
 
     // Validate inputs
     if (!heading || !description) {
@@ -24,6 +40,7 @@ const AddRts = () => {
       });
       setHeading("");
       setDescription("");
+      setErrors({ heading: "", description: "" });
       navigate("/rts");
     } catch (error) {
       console.error("Error adding Right to Service:", error);
@@ -62,8 +79,16 @@ const AddRts = () => {
                           className="form-control form-control-md"
                           placeholder=""
                           value={heading}
-                          onChange={(e) => setHeading(e.target.value)}
+                          onChange={(e) => {
+                            setHeading(e.target.value);
+                            if (errors.heading) {
+                              setErrors({ ...errors, heading: "" });
+                            }
+                          }}
                         />
+                        {errors.heading && (
+                          <small className="text-danger">{errors.heading}</small>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
@@ -76,8 +101,16 @@ const AddRts = () => {
                           className="form-control form-control-md"
                           placeholder=""
                           value={description}
-                          onChange={(e) => setDescription(e.target.value)}
+                          onChange={(e) => {
+                            setDescription(e.target.value);
+                            if (errors.description) {
+                              setErrors({ ...errors, description: "" });
+                            }
+                          }}
                         />
+                        {errors.description && (
+                          <small className="text-danger">{errors.description}</small>
+                        )}
                       </div>
                     </div>
                     <input

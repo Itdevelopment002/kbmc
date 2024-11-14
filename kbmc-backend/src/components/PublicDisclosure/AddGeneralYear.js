@@ -25,6 +25,16 @@ const AddGeneralYear = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  const [errors, setErrors] = useState({});
+  const validateForm = () => {
+    const newErrors = {};
+    if (!year.trim()) newErrors.year = "Year is required.";
+    if (!pdfHeading.trim()) newErrors.pdfHeading = "PDF Heading is required.";
+    if (!pdfFile) newErrors.pdfFile = "PDF file is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // If no errors, form is valid
+  };
 
   const fetchData = async () => {
     try {
@@ -38,6 +48,10 @@ const AddGeneralYear = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+
     const formData = new FormData();
     formData.append("year", year);
     formData.append("meetingtype", meetingType);
@@ -53,10 +67,10 @@ const AddGeneralYear = () => {
       setMeetingType("General Meeting");
       setPdfHeading("");
       setPdfFile(null);
+      setErrors({});
       toast.success("Year added successfully!");
     } catch (error) {
       console.error("Error submitting data:", error);
-      toast.error("Error adding year!");
     }
   };
 
@@ -133,11 +147,15 @@ const AddGeneralYear = () => {
                           <label>Year</label>
                           <input
                             type="text"
-                            className="form-control form-control-md"
+                            className={`form-control form-control-md ${errors.year ? "is-invalid" : ""
+                              }`}
                             value={year}
-                            onChange={(e) => setYear(e.target.value)}
-                            placeholder="Enter Year"
+                            onChange={(e) => {
+                              setYear(e.target.value);
+                              setErrors((prev) => ({ ...prev, year: "" })); // Clear error
+                            }} placeholder="Enter Year"
                           />
+                          {errors.year && <div className="invalid-feedback">{errors.year}</div>}
                         </div>
                       </div>
                       <div class="col-md-3">
@@ -158,11 +176,18 @@ const AddGeneralYear = () => {
                           <label>PDF Heading</label>
                           <input
                             type="text"
-                            className="form-control form-control-md"
+                            className={`form-control form-control-md ${errors.pdfHeading ? "is-invalid" : ""
+                              }`}
                             value={pdfHeading}
-                            onChange={(e) => setPdfHeading(e.target.value)}
+                            onChange={(e) => {
+                              setPdfHeading(e.target.value);
+                              setErrors((prev) => ({ ...prev, pdfHeading: "" })); // Clear error
+                            }}
                             placeholder="Enter Pdf Heading"
                           />
+                          {errors.pdfHeading && (
+                            <div className="invalid-feedback">{errors.pdfHeading}</div>
+                          )}
                         </div>
                       </div>
                       <div class="col-md-3">
@@ -170,9 +195,16 @@ const AddGeneralYear = () => {
                           <label>Upload PDF</label>
                           <input
                             type="file"
-                            className="form-control form-control-md"
-                            onChange={(e) => setPdfFile(e.target.files[0])}
+                            className={`form-control form-control-md ${errors.pdfFile ? "is-invalid" : ""
+                              }`}
+                            onChange={(e) => {
+                              setPdfFile(e.target.files[0]);
+                              setErrors((prev) => ({ ...prev, pdfFile: "" })); // Clear error
+                            }}
                           />
+                          {errors.pdfFile && (
+                            <div className="invalid-feedback">{errors.pdfFile}</div>
+                          )}
                         </div>
                       </div>
                       <div class="col-md-2">
@@ -260,9 +292,8 @@ const AddGeneralYear = () => {
                   <div className="mt-4">
                     <ul className="pagination">
                       <li
-                        className={`page-item ${
-                          currentPage === 1 ? "disabled" : ""
-                        }`}
+                        className={`page-item ${currentPage === 1 ? "disabled" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -275,9 +306,8 @@ const AddGeneralYear = () => {
                         { length: Math.ceil(data.length / itemsPerPage) },
                         (_, i) => (
                           <li
-                            className={`page-item ${
-                              currentPage === i + 1 ? "active" : ""
-                            }`}
+                            className={`page-item ${currentPage === i + 1 ? "active" : ""
+                              }`}
                             key={i}
                           >
                             <button
@@ -290,11 +320,10 @@ const AddGeneralYear = () => {
                         )
                       )}
                       <li
-                        className={`page-item ${
-                          currentPage === Math.ceil(data.length / itemsPerPage)
-                            ? "disabled"
-                            : ""
-                        }`}
+                        className={`page-item ${currentPage === Math.ceil(data.length / itemsPerPage)
+                          ? "disabled"
+                          : ""
+                          }`}
                       >
                         <button
                           className="page-link"
