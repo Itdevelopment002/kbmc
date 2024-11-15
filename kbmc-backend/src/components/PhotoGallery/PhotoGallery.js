@@ -168,18 +168,19 @@ const PhotoGallery = () => {
                               </Link>
                             </td>
                             <td>
+                            <button
+                                className="btn btn-success btn-sm m-t-10"
+                                onClick={() => handleEdit(gallery)}
+                              >
+                                Edit
+                              </button>
                               <button
                                 className="btn btn-danger btn-sm m-t-10"
                                 onClick={() => handleDelete(gallery)}
                               >
                                 Delete
                               </button>
-                              <button
-                                className="btn btn-success btn-sm m-t-10"
-                                onClick={() => handleEdit(gallery)}
-                              >
-                                Edit
-                              </button>
+                              
                             </td>
                           </tr>
                         ))}
@@ -219,17 +220,17 @@ const PhotoGallery = () => {
             <div className="modal fade show" style={{ display: "block" }} tabIndex="-1" role="dialog">
               <div className="modal-dialog modal-dialog-centered" role="document">
                 <div className="modal-content">
-                  <div className="modal-body">
-                    <h4>Are you sure you want to delete this item?</h4>
+                  <div className="modal-body text-center">
+                    <h5>Are you sure you want to delete this item?</h5>
                   </div>
                   <div className="modal-footer text-center">
                     <button
                       type="button"
-                      className="btn btn-sm btn-primary btn-lg"
+                      className="btn btn-sm btn-secondary btn-lg"
                       data-dismiss="modal"
                       onClick={() => setShowDeleteModal(false)}
                     >
-                      Close
+                      Cancel
                     </button>
                     <button
                       type="button"
@@ -251,15 +252,6 @@ const PhotoGallery = () => {
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">Edit Gallery</h5>
-                    <button
-                      type="button"
-                      className="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                      onClick={() => setShowEditModal(false)}
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
                   </div>
                   <div className="modal-body">
                     <div className="form-group">
@@ -295,12 +287,12 @@ const PhotoGallery = () => {
                   <div className="modal-footer">
                     <button
                       type="button"
-                      className="btn btn-secondary"
+                      className="btn btn-sm btn-secondary"
                       onClick={() => setShowEditModal(false)}
                     >
                       Close
                     </button>
-                    <button type="button" className="btn btn-primary" onClick={handleSaveEdit}>
+                    <button type="button" className="btn btn-sm btn-primary" onClick={handleSaveEdit}>
                       Save Changes
                     </button>
                   </div>

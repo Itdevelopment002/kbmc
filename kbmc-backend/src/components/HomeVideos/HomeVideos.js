@@ -193,6 +193,13 @@ const HomeVideos = () => {
                                                                 </button>
                                                             </td>
                                                             <td>
+                                                            <button
+                                                                    type="button"
+                                                                    className="btn btn-success btn-sm m-t-10"
+                                                                    onClick={() => handleEdit(video)}
+                                                                >
+                                                                    Edit
+                                                                </button>
                                                                 <button
                                                                     type="button"
                                                                     className="btn btn-danger btn-sm m-t-10"
@@ -200,13 +207,7 @@ const HomeVideos = () => {
                                                                 >
                                                                     Delete
                                                                 </button>
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-success btn-sm m-t-10"
-                                                                    onClick={() => handleEdit(video)}
-                                                                >
-                                                                    Edit
-                                                                </button>
+                                                                
                                                             </td>
                                                         </tr>
                                                     ))
@@ -274,11 +275,11 @@ const HomeVideos = () => {
                     <div className={`modal fade ${showDeleteModal ? 'show' : ''}`} tabIndex="-1" aria-hidden={!showDeleteModal} style={{ display: showDeleteModal ? 'block' : 'none' }}>
                         <div className="modal-dialog">
                             <div className="modal-content">
-                                <div className="modal-body">
-                                    Are you sure you want to delete this item?
+                                <div className="modal-body text-center">
+                                    <h5>Are you sure you want to delete this item?</h5>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-sm btn-secondary" onClick={() => setShowDeleteModal(false)}>Close</button>
+                                    <button type="button" className="btn btn-sm btn-secondary" onClick={() => setShowDeleteModal(false)}>Cancel</button>
                                     <button type="button" className="btn btn-sm btn-danger" onClick={handleDeleteVideo} disabled={isLoading}>Delete</button>
                                 </div>
                             </div>
@@ -291,7 +292,6 @@ const HomeVideos = () => {
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title">Edit Video</h5>
-                                    <button type="button" className="btn-close" onClick={() => setShowEditModal(false)}></button>
                                 </div>
                                 <div className="modal-body">
                                     <form>

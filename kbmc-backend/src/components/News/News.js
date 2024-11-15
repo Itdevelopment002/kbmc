@@ -109,17 +109,18 @@ const News = () => {
                                                         <td>{item.description}</td>
                                                         <td>
                                                             <button
-                                                                className="btn btn-danger btn-sm m-t-10 "
-                                                                onClick={() => handleDeleteClick(item.id)}
-                                                            >
-                                                                Delete
-                                                            </button>
-                                                            <button
                                                                 className="btn btn-success btn-sm m-t-10"
                                                                 onClick={() => handleEditClick(item)}
                                                             >
                                                                 Edit
                                                             </button>
+                                                            <button
+                                                                className="btn btn-danger btn-sm m-t-10 "
+                                                                onClick={() => handleDeleteClick(item.id)}
+                                                            >
+                                                                Delete
+                                                            </button>
+
                                                         </td>
                                                     </tr>
                                                 )) : (
@@ -167,53 +168,45 @@ const News = () => {
                     </div>
 
                     {modalType && (
-    <div className="modal fade show" style={{ display: 'block' }}>
-        <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content">
-                {modalType === "delete" ? (
-                    <>
-                        <div className="modal-body">
-                            <h4>Are you sure you want to delete this item?</h4>
+                        <div className="modal fade show" style={{ display: 'block' }}>
+                            <div className="modal-dialog modal-dialog-centered" role="document">
+                                <div className="modal-content">
+                                    {modalType === "delete" ? (
+                                        <>
+                                            <div className="modal-body text-center">
+                                                <h5>Are you sure you want to delete this item?</h5>
+                                            </div>
+                                            <div className="modal-footer text-center">
+                                                <button type="button" className="btn btn-sm btn-secondary" onClick={() => setModalType(null)}>Cancel</button>
+                                                <button type="button" className="btn btn-sm btn-danger" onClick={handleDeleteConfirm}>Delete</button>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="modal-header">
+                                                <h4>Edit News</h4>
+                                            </div>
+                                            <div className="modal-body">
+                                                <label>Description</label>
+                                                <textarea
+                                                    name="description"
+                                                    value={editedData.description || ''}
+                                                    onChange={handleInputChange}
+                                                    className="form-control"
+                                                    rows="3"
+                                                    placeholder="Description"
+                                                ></textarea>
+                                            </div>
+                                            <div className="modal-footer text-center">
+                                                <button type="button" className="btn btn-sm btn-secondary" onClick={() => setModalType(null)}>Close</button>
+                                                <button type="button" className="btn btn-sm btn-primary" onClick={handleSaveEdit}>Save Changes</button>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                        <div className="modal-footer text-center">
-                            <button type="button" className="btn btn-sm btn-secondary" onClick={() => setModalType(null)}>Cancel</button>
-                            <button type="button" className="btn btn-sm btn-danger" onClick={handleDeleteConfirm}>Delete</button>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className="modal-header">
-                            <h4>Edit News</h4>
-                            <button
-                                type="button"
-                                className="close"
-                                onClick={() => setModalType(null)}
-                                aria-label="Close"
-                            >
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <label>Description</label>
-                            <textarea
-                                name="description"
-                                value={editedData.description || ''}
-                                onChange={handleInputChange}
-                                className="form-control"
-                                rows="3"
-                                placeholder="Description"
-                            ></textarea>
-                        </div>
-                        <div className="modal-footer text-center">
-                            <button type="button" className="btn btn-sm btn-secondary" onClick={() => setModalType(null)}>Close</button>
-                            <button type="button" className="btn btn-sm btn-primary" onClick={handleSaveEdit}>Save Changes</button>
-                        </div>
-                    </>
-                )}
-            </div>
-        </div>
-    </div>
-)}
+                    )}
 
                 </div>
             </div>

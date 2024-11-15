@@ -236,15 +236,15 @@ const Slider = () => {
             <div className="modal fade show" style={{ display: "block" }}>
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                  <div className="modal-body">
-                    <h4>Are you sure you want to delete this item?</h4>
+                  <div className="modal-body text-center">
+                    <h5>Are you sure you want to delete this item?</h5>
                   </div>
                   <div className="modal-footer">
                     <button
                       className="btn btn-sm btn-secondary"
                       onClick={() => setShowDeleteModal(false)}
                     >
-                      Close
+                      Cancel
                     </button>
                     <button
                       className="btn btn-sm btn-danger"
@@ -264,12 +264,6 @@ const Slider = () => {
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">Edit Slider</h5>
-                    <button
-                      className="close"
-                      onClick={() => setShowEditModal(false)}
-                    >
-                      &times;
-                    </button>
                   </div>
                   <div className="modal-body">
                     <div className="form-group">

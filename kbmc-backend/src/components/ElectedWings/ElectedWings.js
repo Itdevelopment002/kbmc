@@ -311,8 +311,8 @@ const ElectedWings = () => {
             >
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                  <div className="modal-body">
-                    Are you sure you want to delete this entry?
+                <div className="modal-body text-center">
+                    <h5>Are you sure you want to delete this item?</h5>
                   </div>
                   <div className="modal-footer">
                     <button
@@ -320,7 +320,7 @@ const ElectedWings = () => {
                       className="btn btn-secondary btn-sm"
                       onClick={() => setShowDeleteModal(false)}
                     >
-                      Close
+                      Cancel
                     </button>
                     <button
                       type="button"
