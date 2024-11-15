@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
 import {Link} from "react-router-dom"
+import {toast, ToastContainer} from "react-toastify";
 
 const Contact = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -35,8 +36,10 @@ const Contact = () => {
       );
       setShowDeleteModal(false);
       setSelectedFeedback(null);
+      toast.success("Feedback deleted successfully!")
     } catch (error) {
       console.error("Error deleting feedback.");
+      toast.error("Error deletin feedback!");
     }
   };
 
@@ -172,42 +175,42 @@ const Contact = () => {
             </ul>
           </div>
 
-          <div
-            className={`modal delete_modal fade text-center ${
-              showDeleteModal ? "show" : ""
-            }`}
-            style={{ display: showDeleteModal ? "block" : "none" }}
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden={!showDeleteModal}
-          >
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
-                <div className="modal-body">
-                  <h4>Are you sure you want to delete this item?</h4>
-                </div>
-                <div className="modal-footer text-center">
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-lg"
-                    onClick={handleCloseDeleteModal}
-                  >
-                    Close
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger btn-lg"
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </button>
+          {showDeleteModal && (
+            <div
+              className="modal fade show"
+              style={{
+                display: "block",
+                backgroundColor: "rgba(0,0,0,0.5)",
+                overflowY: "scroll",
+                scrollbarWidth: "none",
+              }}
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-body">
+                    Are you sure you want to delete this entry?
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={handleCloseDeleteModal}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

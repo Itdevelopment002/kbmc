@@ -19,10 +19,10 @@ const Contact = () => {
 
   const onSubmit = async (data) => {
     try {
-      // eslint-disable-next-line no-unused-vars
-      const response = await api.post("/contact-us", data);
+      await api.post("/contact-us", data);
+      await api.post("/email", data);
       reset();
-      toast.success("Feedback Sent successfully!");
+      toast.success("Feedback sent successfully!");
     } catch (error) {
       console.error("Error sending message:", error);
       toast.error("Error sending feedback!");

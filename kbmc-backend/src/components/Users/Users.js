@@ -17,7 +17,6 @@ const Users = () => {
   const itemsPerPage = 5;
 
   useEffect(() => {
-    // Fetch all users on component mount
     fetchUsers();
   }, []);
 
@@ -208,16 +207,6 @@ const Users = () => {
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">Edit User</h5>
-
-                    <button
-                      type="button"
-                      className="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                      onClick={() => setShowEditModal(false)}
-                    >
-                      <span aria-hidden="true">&times;</span> {/* The cross icon */}
-                    </button>
                   </div>
                   <div className="modal-body">
                     <form>
@@ -286,7 +275,6 @@ const Users = () => {
             </div>
           )}
 
-          {/* Delete Modal */}
           {showDeleteModal && (
             <div
               className="modal fade show"
@@ -295,7 +283,7 @@ const Users = () => {
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                   <div className="modal-body">
-                    <h4>Are you sure you want to delete this item?</h4>
+                    Are you sure you want to delete this user?
                   </div>
                   <div className="modal-footer">
                     <button
@@ -303,7 +291,7 @@ const Users = () => {
                       className="btn btn-sm btn-secondary"
                       onClick={() => setShowDeleteModal(false)}
                     >
-                      Close
+                      Cancel
                     </button>
                     <button
                       type="button"

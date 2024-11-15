@@ -56,6 +56,7 @@ const visitorRoutes = require('./routes/visitorRoutes');
 const pondImageRoutes = require('./routes/pondImageRoutes');
 const conditionRoutes = require('./routes/conditionRoutes');
 const policyRoutes = require('./routes/policyRoutes');
+const emailRoutes = require('./routes/emailRoutes');
 
 app.use('/api', sliderRoutes);
 app.use('/api', serviceRoutes);
@@ -104,6 +105,7 @@ app.use('/api', visitorRoutes);
 app.use('/api', pondImageRoutes);
 app.use('/api', conditionRoutes);
 app.use('/api', policyRoutes);
+app.use('/api', emailRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
