@@ -33,3 +33,16 @@
 
 
 
+.current {
+    font-weight: bold;
+    color: #007bff; /* Highlight color */
+  }
+  
+  .single-menu {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .single-menu.current {
+    color: #007bff; /* Active menu item color */
+  }

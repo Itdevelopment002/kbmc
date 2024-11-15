@@ -102,25 +102,32 @@ const Header = () => {
     }
   }, [menuData]);
 
-
   // Language translation
   useEffect(() => {
     // Check if the Google Translate script already exists
-    if (!document.querySelector('script[src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"]')) {
-      const googleTranslateScript = document.createElement('script');
-      googleTranslateScript.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    if (
+      !document.querySelector(
+        'script[src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"]'
+      )
+    ) {
+      const googleTranslateScript = document.createElement("script");
+      googleTranslateScript.src =
+        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       document.body.appendChild(googleTranslateScript);
     }
 
     window.googleTranslateElementInit = () => {
-      if (!document.getElementById('google_translate_element').childNodes.length) {
+      if (
+        !document.getElementById("google_translate_element").childNodes.length
+      ) {
         new window.google.translate.TranslateElement(
           {
-            pageLanguage: 'en',
-            includedLanguages: 'en,mr', // Only include the languages you want
-            layout: window.google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+            pageLanguage: "en",
+            includedLanguages: "en,mr", // Only include the languages you want
+            layout:
+              window.google.translate.TranslateElement.InlineLayout.HORIZONTAL,
           },
-          'google_translate_element'
+          "google_translate_element"
         );
       }
     };
@@ -128,10 +135,10 @@ const Header = () => {
 
   const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value;
-    const googleTranslateDropdown = document.querySelector('.goog-te-combo');
+    const googleTranslateDropdown = document.querySelector(".goog-te-combo");
     if (googleTranslateDropdown) {
       googleTranslateDropdown.value = selectedLanguage;
-      googleTranslateDropdown.dispatchEvent(new Event('change')); // Trigger language change
+      googleTranslateDropdown.dispatchEvent(new Event("change")); // Trigger language change
     }
   };
 
@@ -222,14 +229,20 @@ const Header = () => {
                   <li>
                     <div className="language-box">
                       <div className="select-box">
-                        <select className="selectmenu" onChange={handleLanguageChange}>
+                        <select
+                          className="selectmenu"
+                          onChange={handleLanguageChange}
+                        >
                           <option value="en">English</option>
                           <option value="mr">Marathi</option>
                         </select>
                       </div>
                     </div>
                     {/* Invisible element for Google Translate */}
-                    <div id="google_translate_element" style={{ display: "none" }}></div>
+                    <div
+                      id="google_translate_element"
+                      style={{ display: "none" }}
+                    ></div>
                   </li>
                   <li>
                     <Link to="#.">
@@ -286,67 +299,76 @@ const Header = () => {
                   >
                     <ul className="navigation clearfix">
                       {menuData.map((menuItem, index) => {
+                        const isDropdown = menuItem.mainMenuLink === "#";
+
+                        // Determine if the main menu is active for non-dropdown items
                         const isMainMenuActive =
-                          (location.pathname === "/" &&
-                            menuItem.mainMenu === "Home") ||
-                          menuItem.subMenus.some((subMenuItem) =>
-                            location.pathname.endsWith(subMenuItem.subLink)
-                          );
+                          !isDropdown &&
+                          location.pathname === menuItem.mainMenuLink;
 
                         return (
                           <li
                             key={index}
-                            className={`${menuItem.subMenus.length ? "dropdown" : ""
-                              } ${isMainMenuActive ? "current" : ""}`}
+                            className={`${isDropdown ? "dropdown" : ""} ${
+                              isMainMenuActive ? "current" : ""
+                            }`}
                           >
-                            <Link to={menuItem.mainMenu === "Home" ? "/" : "#"}>
+                            <Link
+                              to={menuItem.mainMenuLink}
+                              onClick={(e) => isDropdown && e.preventDefault()}
+                            >
                               {menuItem.mainMenu}
                             </Link>
-                            {menuItem.subMenus.length > 0 && (
+                            {isDropdown && menuItem.subMenus.length > 0 && (
                               <ul>
                                 {menuItem.subMenus.map(
-                                  (subMenuItem, subIndex) => (
-                                    <li key={subIndex}>
-                                      <Link
-                                        to={
-                                          subMenuItem.subLink.endsWith(".pdf")
-                                            ? `${baseURL}${subMenuItem.subLink}`
-                                            : subMenuItem.subLink
-                                        }
-                                        target={
-                                          subMenuItem.subLink.startsWith(
-                                            "http"
-                                          ) ||
-                                            subMenuItem.subLink.endsWith(".pdf")
-                                            ? "_blank"
-                                            : undefined
-                                        }
-                                        rel={
-                                          subMenuItem.subLink.startsWith(
-                                            "http"
-                                          ) ||
-                                            subMenuItem.subLink.endsWith(".pdf")
-                                            ? "noopener noreferrer"
-                                            : undefined
+                                  (subMenuItem, subIndex) => {
+                                    const isSubMenuActive =
+                                      location.pathname.endsWith(
+                                        subMenuItem.subLink
+                                      );
+
+                                    return (
+                                      <li
+                                        key={subIndex}
+                                        className={
+                                          isSubMenuActive ? "current" : ""
                                         }
                                       >
-                                        {subMenuItem.subMenu}
-                                      </Link>
-                                    </li>
-                                  )
+                                        <Link
+                                          to={
+                                            subMenuItem.subLink.endsWith(".pdf")
+                                              ? `${baseURL}${subMenuItem.subLink}`
+                                              : subMenuItem.subLink
+                                          }
+                                          target={
+                                            subMenuItem.subLink.startsWith(
+                                              "http"
+                                            ) ||
+                                            subMenuItem.subLink.endsWith(".pdf")
+                                              ? "_blank"
+                                              : undefined
+                                          }
+                                          rel={
+                                            subMenuItem.subLink.startsWith(
+                                              "http"
+                                            ) ||
+                                            subMenuItem.subLink.endsWith(".pdf")
+                                              ? "noopener noreferrer"
+                                              : undefined
+                                          }
+                                        >
+                                          {subMenuItem.subMenu}
+                                        </Link>
+                                      </li>
+                                    );
+                                  }
                                 )}
                               </ul>
                             )}
                           </li>
                         );
                       })}
-                      {/* <div className="menu-right-content">
-                        <div className="btn-box mx-1">
-                          <Link to="/login" className="header-btn">
-                            Login
-                          </Link>
-                        </div>
-                      </div> */}
                     </ul>
                   </div>
                 </nav>
@@ -412,57 +434,67 @@ const Header = () => {
             >
               <ul className="navigation clearfix">
                 {menuData.map((menuItem, index) => {
-                  const isMainMenuActive =
-                    (location.pathname === "/" &&
-                      menuItem.mainMenu === "Home") ||
-                    menuItem.subMenus.some((subMenuItem) =>
-                      location.pathname.endsWith(subMenuItem.subLink)
-                    );
+                  // Determine if the main menu is a dropdown
+                  const isDropdown = menuItem.mainMenuLink === "#";
+
+                  // Determine if the main menu is active
+                  const isMainMenuActive = isDropdown
+                    ? menuItem.subMenus.some((subMenuItem) =>
+                        location.pathname.endsWith(subMenuItem.subLink)
+                      )
+                    : location.pathname === menuItem.mainMenuLink;
 
                   return (
                     <li
                       key={index}
-                      className={`${menuItem.subMenus.length ? "dropdown" : ""
-                        } ${isMainMenuActive ? "current" : ""}`}
+                      className={`${isDropdown ? "dropdown" : ""} ${
+                        isMainMenuActive ? "current" : ""
+                      }`}
                     >
-                      <Link to={menuItem.mainMenu === "Home" ? "/" : "#"}>
+                      {/* Main menu link */}
+                      <Link
+                        to={isDropdown ? "#" : menuItem.mainMenuLink}
+                        onClick={(e) => isDropdown && e.preventDefault()} // Prevent default for dropdown
+                      >
                         {menuItem.mainMenu}
                       </Link>
 
-                      {menuItem.subMenus.length > 0 && (
-                        <ul>
-                          {menuItem.subMenus.map((subMenuItem, subIndex) => (
-                            <li key={subIndex}>
-                              <Link
-                                to={
-                                  subMenuItem.subLink.endsWith(".pdf")
-                                    ? `${baseURL}${subMenuItem.subLink}`
-                                    : subMenuItem.subLink
-                                }
-                                target={
-                                  subMenuItem.subLink.startsWith("http") ||
+                      {/* Dropdown submenu rendering */}
+                      {isDropdown && menuItem.subMenus.length > 0 && (
+                        <>
+                          <ul>
+                            {menuItem.subMenus.map((subMenuItem, subIndex) => (
+                              <li key={subIndex}>
+                                <Link
+                                  to={
                                     subMenuItem.subLink.endsWith(".pdf")
-                                    ? "_blank"
-                                    : undefined
-                                }
-                                rel={
-                                  subMenuItem.subLink.startsWith("http") ||
+                                      ? `${baseURL}${subMenuItem.subLink}`
+                                      : subMenuItem.subLink
+                                  }
+                                  target={
+                                    subMenuItem.subLink.startsWith("http") ||
                                     subMenuItem.subLink.endsWith(".pdf")
-                                    ? "noopener noreferrer"
-                                    : undefined
-                                }
-                              >
-                                {subMenuItem.subMenu}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
+                                      ? "_blank"
+                                      : undefined
+                                  }
+                                  rel={
+                                    subMenuItem.subLink.startsWith("http") ||
+                                    subMenuItem.subLink.endsWith(".pdf")
+                                      ? "noopener noreferrer"
+                                      : undefined
+                                  }
+                                >
+                                  {subMenuItem.subMenu}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
 
-                      {menuItem.subMenus.length > 0 && (
-                        <div className="dropdown-btn">
-                          <span className="fas fa-angle-down"></span>
-                        </div>
+                          {/* Dropdown button */}
+                          <div className="dropdown-btn">
+                            <span className="fas fa-angle-down"></span>
+                          </div>
+                        </>
                       )}
                     </li>
                   );
