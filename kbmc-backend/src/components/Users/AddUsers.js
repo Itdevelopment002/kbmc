@@ -13,9 +13,8 @@ const AddUsers = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
-  const [fieldErrors, setFieldErrors] = useState({});
   const navigate = useNavigate();
 
   const fetchDepartments = async () => {
@@ -33,37 +32,40 @@ const AddUsers = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-
-    // Clear specific field error
-    if (fieldErrors[name]) {
-      setFieldErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: "",
-      }));
-    }
+    // Clear the error for the field being edited
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-      const errors = {};
-  if (!formData.username) errors.username = "Username is required.";
-  if (!formData.password) errors.password = "Password is required.";
-  if (!formData.confirmPassword) errors.confirmPassword = "Confirm Password is required.";
-  if (!formData.department) errors.department = "Department is required.";
-  if (formData.password !== formData.confirmPassword) {
-    errors.confirmPassword = "Passwords do not match. Please try again.";
-  }
+    const newErrors = {};
 
-  if (Object.keys(errors).length > 0) {
-    setFieldErrors(errors); // Assuming setFieldErrors sets field-specific errors
-    return;
-  }
+    // Validate each field
+    if (!formData.username) newErrors.username = "Username is required.";
+    if (!formData.password) newErrors.password = "Password is required.";
+    if (!formData.confirmPassword)
+      newErrors.confirmPassword = "Confirm Password is required.";
+    if (
+      formData.password &&
+      formData.confirmPassword &&
+      formData.password !== formData.confirmPassword
+    )
+      newErrors.confirmPassword = "Passwords do not match.";
+    if (!formData.department) newErrors.department = "Department is required.";
+
+    // If there are validation errors, set the errors state and stop submission
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
     try {
       const response = await api.post("/users", {
@@ -73,11 +75,11 @@ const AddUsers = () => {
       });
       console.log("User added:", response.data);
       setSuccess(true);
-      setError("");
+      setErrors({});
       navigate("/user");
     } catch (error) {
       console.error("There was an error adding the user:", error);
-      setError("Error adding user. Please try again.");
+      setErrors({ api: "Error adding user. Please try again." });
     }
   };
 
@@ -107,31 +109,34 @@ const AddUsers = () => {
                   </div>
                   <form onSubmit={handleSubmit}>
                     <div className="row">
+                      {/* Username Field */}
                       <div className="col-md-4">
                         <div className="form-group">
                           <label>User Name</label>
                           <input
                             type="text"
                             className={`form-control ${
-                              fieldErrors.username ? "is-invalid" : ""
+                              errors.username ? "is-invalid" : ""
                             }`}
                             name="username"
                             value={formData.username}
                             onChange={handleChange}
                           />
-                          {fieldErrors.username && (
-                            <div className="invalid-feedback">
-                              {fieldErrors.username}
-                            </div>
+                          {errors.username && (
+                            <small className="text-danger">
+                              {errors.username}
+                            </small>
                           )}
                         </div>
                       </div>
+
+                      {/* Department Field */}
                       <div className="col-md-4">
                         <div className="form-group">
                           <label>Type of Department</label>
                           <select
                             className={`form-control ${
-                              fieldErrors.department ? "is-invalid" : ""
+                              errors.department ? "is-invalid" : ""
                             }`}
                             name="department"
                             value={formData.department}
@@ -141,18 +146,23 @@ const AddUsers = () => {
                               Select Department
                             </option>
                             {departments.map((department) => (
-                              <option value={department.name} key={department.id}>
+                              <option
+                                value={department.name}
+                                key={department.id}
+                              >
                                 {department.name}
                               </option>
                             ))}
                           </select>
-                          {fieldErrors.department && (
-                            <div className="invalid-feedback">
-                              {fieldErrors.department}
-                            </div>
+                          {errors.department && (
+                            <small className="text-danger">
+                              {errors.department}
+                            </small>
                           )}
                         </div>
                       </div>
+
+                      {/* Password Field */}
                       <div className="col-md-4">
                         <div className="form-group">
                           <label>Password</label>
@@ -160,13 +170,12 @@ const AddUsers = () => {
                             <input
                               type={showPassword ? "text" : "password"}
                               className={`form-control ${
-                              fieldErrors.password ? "is-invalid" : ""
-                            }`}
+                                errors.password ? "is-invalid" : ""
+                              }`}
                               name="password"
                               value={formData.password}
                               onChange={handleChange}
                             />
-          
                             <span
                               className="input-group-text"
                               onClick={() => setShowPassword(!showPassword)}
@@ -179,18 +188,24 @@ const AddUsers = () => {
                               )}
                             </span>
                           </div>
-                           {fieldErrors.password && (
-                            <div className="invalid-feedback">
-                              {fieldErrors.password}
+                          {errors.password && (
+                            <small className="text-danger">
+                              {errors.password}
+                            </small>
+                          )}
                         </div>
                       </div>
+
+                      {/* Confirm Password Field */}
                       <div className="col-md-4">
                         <div className="form-group">
                           <label>Confirm Password</label>
                           <div className="input-group">
                             <input
                               type={showConfirmPassword ? "text" : "password"}
-                              className="form-control"
+                              className={`form-control ${
+                                errors.confirmPassword ? "is-invalid" : ""
+                              }`}
                               name="confirmPassword"
                               value={formData.confirmPassword}
                               onChange={handleChange}
@@ -209,6 +224,11 @@ const AddUsers = () => {
                               )}
                             </span>
                           </div>
+                          {errors.confirmPassword && (
+                            <small className="text-danger">
+                              {errors.confirmPassword}
+                            </small>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -220,7 +240,7 @@ const AddUsers = () => {
                     {success && (
                       <p className="text-success">User added successfully!</p>
                     )}
-                    {error && <p className="text-danger">{error}</p>}
+                    {errors.api && <p className="text-danger">{errors.api}</p>}
                   </form>
                 </div>
               </div>

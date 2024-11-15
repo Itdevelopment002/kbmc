@@ -6,7 +6,7 @@ import { FaTrash } from "react-icons/fa";
 
 const AddMainMenu = () => {
   const initialMenuItems = [
-    { mainMenu: "", subMenus: [{ subMenu: "", subLink: "" }] },
+    { mainMenu: "", mainMenuLink: "", subMenus: [] }, // No need for showSubMenus here
   ];
   const [menuItems, setMenuItems] = useState(initialMenuItems);
   const navigate = useNavigate();
@@ -27,6 +27,11 @@ const AddMainMenu = () => {
 
   const handleAddMoreSubMenu = (index) => {
     const newMenuItems = [...menuItems];
+
+    if (!newMenuItems[index].mainMenuLink) {
+      newMenuItems[index].mainMenuLink = "#";
+    }
+
     newMenuItems[index].subMenus.push({ subMenu: "", subLink: "" });
     setMenuItems(newMenuItems);
   };
@@ -72,16 +77,6 @@ const AddMainMenu = () => {
                     <div className="col-sm-4 col-3">
                       <h4 className="page-title">Add Main Menu</h4>
                     </div>
-                    <div className="col-sm-8 col-9 text-right m-b-20">
-                      <button
-                        onClick={() =>
-                          handleAddMoreSubMenu(menuItems.length - 1)
-                        }
-                        className="btn btn-primary float-right"
-                      >
-                        <i className="fa fa-plus"></i> Add Sub menu
-                      </button>
-                    </div>
                   </div>
                   <form onSubmit={handleSubmit}>
                     {menuItems.map((item, index) => (
@@ -90,7 +85,7 @@ const AddMainMenu = () => {
                           <label className="col-form-label col-md-2">
                             Main Menu <span className="text-danger">*</span>
                           </label>
-                          <div className="col-md-4">
+                          <div className="col-md-3">
                             <input
                               type="text"
                               placeholder="Enter Main menu name"
@@ -100,6 +95,21 @@ const AddMainMenu = () => {
                                 handleInputChange(
                                   index,
                                   "mainMenu",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="col-md-3">
+                            <input
+                              type="text"
+                              placeholder="Enter Main menu link"
+                              className="form-control form-control-md"
+                              value={item.mainMenuLink}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  index,
+                                  "mainMenuLink",
                                   e.target.value
                                 )
                               }
@@ -156,6 +166,20 @@ const AddMainMenu = () => {
                             </div>
                           </div>
                         ))}
+
+                        <div className="form-group row">
+                          <div className="col-md-2"></div>
+                          <div className="col-md-4">
+                            <button
+                              type="button"
+                              className="btn btn-success"
+                              onClick={() => handleAddMoreSubMenu(index)}
+                              disabled={item.mainMenuLink !== ""} // Disable if mainMenuLink is not empty
+                            >
+                              <i className="fa fa-plus"></i> Add Sub menu
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     ))}
                     <input

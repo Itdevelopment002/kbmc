@@ -137,6 +137,7 @@ const MainMenu = () => {
                         <tr>
                           <th width="10%">Sr. No.</th>
                           <th>Main Menu</th>
+                          <th>Main Menu Link</th>
                           <th>Sub Menu</th>
                           <th>Sub Menu Link</th>
                           <th>Action</th>
@@ -145,19 +146,19 @@ const MainMenu = () => {
                       <tbody>
                         {menuData.map((item, index) => (
                           <React.Fragment key={item.mainMenuId}>
-                            {/* Main menu row */}
                             <tr>
                               <td>{index + 1}</td>
                               <td>{item.mainMenu}</td>
+                              <td>{item.mainMenuLink}</td>
                               <td>
                                 {item.subMenus && item.subMenus.length > 0
                                   ? item.subMenus[0].subMenu
-                                  : "No sub menu"}
+                                  : "-"}
                               </td>
                               <td>
                                 {item.subMenus && item.subMenus.length > 0
                                   ? item.subMenus[0].subLink
-                                  : "No sub menu link"}
+                                  : "-"}
                               </td>
                               <td
                                 rowSpan={
@@ -186,6 +187,7 @@ const MainMenu = () => {
                               item.subMenus.length > 1 &&
                               item.subMenus.slice(1).map((sub, subIndex) => (
                                 <tr key={sub.subMenuId}>
+                                  <td></td>
                                   <td></td>
                                   <td></td>
                                   <td>{sub.subMenu}</td>

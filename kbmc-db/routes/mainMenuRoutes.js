@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db.js');
 
-// API Route to handle form submission for adding a main menu and its submenus
 
 router.get('/main-menus', (req, res) => {
     const mainMenuQuery = 'SELECT * FROM main_menu';
@@ -67,14 +66,13 @@ router.post('/add-main-menu', (req, res) => {
         return res.status(400).send({ message: 'Menu items are required.' });
     }
 
-    const mainMenuQuery = 'INSERT INTO main_menu (mainMenu) VALUES (?)';
+    const mainMenuQuery = 'INSERT INTO main_menu (mainMenu, mainMenuLink) VALUES (?, ?)';
     const submenuQuery = 'INSERT INTO sub_menu (mainMenuId, subMenu, subLink) VALUES (?, ?, ?)';
 
     db.beginTransaction((err) => {
         if (err) return res.status(500).send(err);
 
-        // Insert the main menu
-        db.query(mainMenuQuery, [menuItems[0].mainMenu], (error, mainMenuResult) => {
+        db.query(mainMenuQuery, [menuItems[0].mainMenu, menuItems[0].mainMenuLink], (error, mainMenuResult) => {
             if (error) {
                 return db.rollback(() => res.status(500).send(error));
             }
