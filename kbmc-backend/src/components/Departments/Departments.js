@@ -113,18 +113,19 @@ const Departments = () => {
                                                         <td>{department.hod}</td>
                                                         <td>{department.link}</td>
                                                         <td>
+                                                        <button
+                                                                className="btn btn-success btn-sm m-t-10"
+                                                                onClick={() => handleEdit(department)}
+                                                            >
+                                                                Edit
+                                                            </button>
                                                             <button
                                                                 className="btn btn-danger btn-sm me-2 m-t-10"
                                                                 onClick={() => handleDelete(department.id)}
                                                             >
                                                                 Delete
                                                             </button>
-                                                            <button
-                                                                className="btn btn-success btn-sm m-t-10"
-                                                                onClick={() => handleEdit(department)}
-                                                            >
-                                                                Edit
-                                                            </button>
+                                                            
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -156,17 +157,11 @@ const Departments = () => {
                         <div className="modal show d-block" tabIndex="-1" role="dialog">
                             <div className="modal-dialog modal-dialog-centered" role="document">
                                 <div className="modal-content">
-                                    <div className="modal-header">
-                                        <h5 className="modal-title">Confirm Delete</h5>
-                                        <button type="button" className="close" onClick={() => setShowDeleteModal(false)}>
-                                            <span>&times;</span>
-                                        </button>
-                                    </div>
-                                    <div className="modal-body">
-                                        <p>Are you sure you want to delete this item?</p>
+                                    <div className="modal-body text-center">
+                                        <h5>Are you sure you want to delete this item?</h5>
                                     </div>
                                     <div className="modal-footer">
-                                        <button type="button" className="btn btn-sm btn-secondary" onClick={() => setShowDeleteModal(false)}>Close</button>
+                                        <button type="button" className="btn btn-sm btn-secondary" onClick={() => setShowDeleteModal(false)}>Cancel</button>
                                         <button type="button" className="btn btn-sm btn-danger" onClick={confirmDelete}>Delete</button>
                                     </div>
                                 </div>
@@ -181,9 +176,7 @@ const Departments = () => {
                                 <div className="modal-content">
                                     <div className="modal-header">
                                         <h5 className="modal-title">Edit Department</h5>
-                                        <button type="button" className="close" onClick={() => setShowEditModal(false)}>
-                                            <span>&times;</span>
-                                        </button>
+
                                     </div>
                                     <div className="modal-body">
                                         <form>

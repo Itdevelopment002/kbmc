@@ -273,8 +273,8 @@ const Functions = () => {
             >
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                  <div className="modal-body">
-                    Are you sure you want to delete this function?
+                  <div className="modal-body text-center">
+                    <h5>Are you sure you want to delete this function?</h5>
                   </div>
                   <div className="modal-footer">
                     <button

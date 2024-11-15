@@ -138,8 +138,8 @@ const Services = () => {
                               </Link>
                             </td>
                             <td>
+                            <button className="btn btn-success btn-sm m-t-10 mx-1" onClick={() => handleEditModalOpen(service.id)}>Edit</button>
                               <button className="btn btn-danger btn-sm m-t-10" onClick={() => handleDeleteModalOpen(service)}>Delete</button>
-                              <button className="btn btn-success btn-sm m-t-10 mx-1" onClick={() => handleEditModalOpen(service.id)}>Edit</button>
                             </td>
                           </tr>
                         ))}
@@ -157,10 +157,10 @@ const Services = () => {
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                   <div className="modal-body text-center">
-                    <h4>Are you sure you want to delete this service?</h4>
+                    <h5>Are you sure you want to delete this service?</h5>
                   </div>
-                  <div className="modal-footer justify-content-center">
-                    <button type="button" className="btn btn-sm btn-secondary" onClick={handleCloseDeleteModal}>Close</button>
+                  <div className="modal-footer justify-content-right">
+                    <button type="button" className="btn btn-sm btn-secondary" onClick={handleCloseDeleteModal}>Cancel</button>
                     <button type="button" className="btn btn-sm btn-danger" onClick={handleDelete}>Delete</button>
                   </div>
                 </div>
@@ -175,9 +175,6 @@ const Services = () => {
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">Edit Service</h5>
-                    <button type="button" className="close" onClick={handleCloseEditModal}>
-                    <span aria-hidden="true">&times;</span>
-                    </button>
                   </div>
                   <div className="modal-body">
                     <form>
