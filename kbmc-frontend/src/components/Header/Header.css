@@ -46,3 +46,54 @@
   .single-menu.current {
     color: #007bff; /* Active menu item color */
   }
+
+  /* dropdown */
+/* The dropdown icon points downward by default */
+/* Style for the dropdown icon */
+.dropdown-icon {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-left: 2px solid #003366;
+    border-bottom: 2px solid #003366;
+    transform: rotate(-45deg); /* Points downward by default */
+    margin-left: 10px;
+    margin-top: -5px;
+    vertical-align: middle;
+    transition: border-color 0.3s ease, background-color 0.3s ease; /* Smooth transition for border and background */
+  }
+  
+  /* Hover effect on the li element */
+  .main-menu .navigation .dropdown:hover .dropdown-icon {
+    border-color: #fff; /* Change border color to white */
+  }
+  
+
+  
+  /* Dropdown menu style */
+  .dropdown-menu {
+    display: none; /* Hide by default */
+    transition: opacity 0.3s ease;
+    opacity: 0; /* Hide menu initially */
+  }
+  
+  /* Show dropdown menu when the parent is active/open */
+  .dropdown.open .dropdown-menu {
+    display: block; /* Show the menu when the dropdown is active */
+    opacity: 1; /* Fade in the dropdown */
+  }
+
+
+  .navigation li {
+    margin-right: 5px !important; /* Set your desired space (default is often higher) */
+  }
+  
+  /* Optional: Remove margin on the last item to prevent extra space */
+  .navigation li:last-child {
+    margin-right: 0;
+  }
+  
+  
+
+
+  

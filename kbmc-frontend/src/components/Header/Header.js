@@ -15,6 +15,13 @@ const Header = () => {
   const [menuData, setMenuData] = useState([]);
   const location = useLocation();
 
+    // State to track dropdowns
+    const [openDropdown, setOpenDropdown] = useState(null);
+
+    const handleDropdownToggle = (index) => {
+      setOpenDropdown(openDropdown === index ? null : index); // Toggle dropdown open/close
+    };
+
   const fetchMenuData = async () => {
     try {
       const response = await api.get("/main-menus");
@@ -293,77 +300,59 @@ const Header = () => {
                   <i className="icon-bar"></i>
                 </div>
                 <nav className="main-menu navbar-expand-md navbar-light">
-                  <div
-                    className="collapse navbar-collapse show clearfix"
-                    id="navbarSupportedContent"
-                  >
+                  <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                     <ul className="navigation clearfix">
                       {menuData.map((menuItem, index) => {
                         const isDropdown = menuItem.mainMenuLink === "#";
-
-                        // Determine if the main menu is active for non-dropdown items
-                        const isMainMenuActive =
-                          !isDropdown &&
-                          location.pathname === menuItem.mainMenuLink;
+                        const isMainMenuActive = !isDropdown && location.pathname === menuItem.mainMenuLink;
+                        const isDropdownOpen = openDropdown === index; // Check if this dropdown is open
 
                         return (
                           <li
                             key={index}
-                            className={`${isDropdown ? "dropdown" : ""} ${
-                              isMainMenuActive ? "current" : ""
-                            }`}
+                            className={`${isDropdown ? "dropdown" : ""} ${isMainMenuActive ? "current" : ""} ${isDropdownOpen ? "open" : ""}`}
                           >
                             <Link
                               to={menuItem.mainMenuLink}
                               onClick={(e) => isDropdown && e.preventDefault()}
+                              onMouseEnter={() => isDropdown && setOpenDropdown(index)} // Optional hover effect for opening
+                              onMouseLeave={() => isDropdown && setOpenDropdown(null)} // Optional hover effect for closing
                             >
                               {menuItem.mainMenu}
+                              {isDropdown && <span className="dropdown-icon"></span>}
                             </Link>
-                            {isDropdown && menuItem.subMenus.length > 0 && (
-                              <ul>
-                                {menuItem.subMenus.map(
-                                  (subMenuItem, subIndex) => {
-                                    const isSubMenuActive =
-                                      location.pathname.endsWith(
-                                        subMenuItem.subLink
-                                      );
 
-                                    return (
-                                      <li
-                                        key={subIndex}
-                                        className={
-                                          isSubMenuActive ? "current" : ""
+                            {isDropdown && menuItem.subMenus.length > 0 && (
+                              <ul className="dropdown-menu">
+                                {menuItem.subMenus.map((subMenuItem, subIndex) => {
+                                  const isSubMenuActive = location.pathname.endsWith(subMenuItem.subLink);
+
+                                  return (
+                                    <li key={subIndex} className={isSubMenuActive ? "current" : ""}>
+                                      <Link
+                                        to={
+                                          subMenuItem.subLink.endsWith(".pdf")
+                                            ? `${baseURL}${subMenuItem.subLink}`
+                                            : subMenuItem.subLink
+                                        }
+                                        target={
+                                          subMenuItem.subLink.startsWith("http") ||
+                                            subMenuItem.subLink.endsWith(".pdf")
+                                            ? "_blank"
+                                            : undefined
+                                        }
+                                        rel={
+                                          subMenuItem.subLink.startsWith("http") ||
+                                            subMenuItem.subLink.endsWith(".pdf")
+                                            ? "noopener noreferrer"
+                                            : undefined
                                         }
                                       >
-                                        <Link
-                                          to={
-                                            subMenuItem.subLink.endsWith(".pdf")
-                                              ? `${baseURL}${subMenuItem.subLink}`
-                                              : subMenuItem.subLink
-                                          }
-                                          target={
-                                            subMenuItem.subLink.startsWith(
-                                              "http"
-                                            ) ||
-                                            subMenuItem.subLink.endsWith(".pdf")
-                                              ? "_blank"
-                                              : undefined
-                                          }
-                                          rel={
-                                            subMenuItem.subLink.startsWith(
-                                              "http"
-                                            ) ||
-                                            subMenuItem.subLink.endsWith(".pdf")
-                                              ? "noopener noreferrer"
-                                              : undefined
-                                          }
-                                        >
-                                          {subMenuItem.subMenu}
-                                        </Link>
-                                      </li>
-                                    );
-                                  }
-                                )}
+                                        {subMenuItem.subMenu}
+                                      </Link>
+                                    </li>
+                                  );
+                                })}
                               </ul>
                             )}
                           </li>
@@ -372,6 +361,8 @@ const Header = () => {
                     </ul>
                   </div>
                 </nav>
+
+
               </div>
             </div>
           </div>
@@ -440,16 +431,15 @@ const Header = () => {
                   // Determine if the main menu is active
                   const isMainMenuActive = isDropdown
                     ? menuItem.subMenus.some((subMenuItem) =>
-                        location.pathname.endsWith(subMenuItem.subLink)
-                      )
+                      location.pathname.endsWith(subMenuItem.subLink)
+                    )
                     : location.pathname === menuItem.mainMenuLink;
 
                   return (
                     <li
                       key={index}
-                      className={`${isDropdown ? "dropdown" : ""} ${
-                        isMainMenuActive ? "current" : ""
-                      }`}
+                      className={`${isDropdown ? "dropdown" : ""} ${isMainMenuActive ? "current" : ""
+                        }`}
                     >
                       {/* Main menu link */}
                       <Link
@@ -473,13 +463,13 @@ const Header = () => {
                                   }
                                   target={
                                     subMenuItem.subLink.startsWith("http") ||
-                                    subMenuItem.subLink.endsWith(".pdf")
+                                      subMenuItem.subLink.endsWith(".pdf")
                                       ? "_blank"
                                       : undefined
                                   }
                                   rel={
                                     subMenuItem.subLink.startsWith("http") ||
-                                    subMenuItem.subLink.endsWith(".pdf")
+                                      subMenuItem.subLink.endsWith(".pdf")
                                       ? "noopener noreferrer"
                                       : undefined
                                   }
