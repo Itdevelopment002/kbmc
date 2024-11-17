@@ -85,6 +85,12 @@ import TermsAndConditions from "./components/TermsAndConditions/TermsAndConditio
 import AddTermsAndConditions from "./components/TermsAndConditions/AddTermsAndConditions";
 import AddPrivacyPolicy from "./components/PrivacyPolicy/AddPrivacyPolicy";
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
+import Publications from "./components/Publications/Publications";
+import AddPublications from "./components/Publications/AddPublications";
+import Downloads from "./components/Downloads/Downloads";
+import AddDevelopmentDescription from "./components/DevelopmentPlan/AddDevelopmentDescription";
+import AddDevelopmentPdf from "./components/DevelopmentPlan/AddDevelopmentPdf";
+import DevelopmentPlan from "./components/DevelopmentPlan/DevelopmentPlan";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -246,6 +252,12 @@ function App() {
                   <Route path="/departments" element={<Departments />} />
                   <Route path="/add-departments" element={<AddDepartments />} />
                   <Route path="/add-pond-images" element={<AddPondsAndTalaoImages />} />
+                  <Route path="/official-publications" element={<Publications />} />
+                  <Route path="/add-official-publications" element={<AddPublications />} />
+                  <Route path="/downloads" element={<Downloads />} />
+                  <Route path="/add-development-plan-description" element={<AddDevelopmentDescription />} />
+                  <Route path="/add-development-plan-pdf" element={<AddDevelopmentPdf />} />
+                  <Route path="/development-plan" element={<DevelopmentPlan />} />
                 </Routes>
               </div>
             </div>
