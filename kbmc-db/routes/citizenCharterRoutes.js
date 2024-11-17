@@ -55,11 +55,9 @@ router.put('/citizen-charter/:id', upload.single('pdf'), (req, res) => {
     const { name } = req.body;
     const pdfPath = req.file ? req.file.path : null;
 
-    // Base query for updating the name only
     let query = 'UPDATE `citizen-charter` SET name = ?';
     const params = [name];
 
-    // If a new PDF is uploaded, include it in the query
     if (pdfPath) {
         query += ', pdf = ?';
         params.push(pdfPath);

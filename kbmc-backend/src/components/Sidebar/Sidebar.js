@@ -86,25 +86,25 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
                     onClick={() => handleItemClick("/rts")}>
                     <Link to="/rts">Right to Service</Link>
                   </li>
-                  <li className={activeItem === "#." ? "active" : ""}
-                    onClick={() => handleItemClick("#.")}>
-                    <Link to="#.">Development Plan</Link>
+                  <li className={activeItem === "/development-plan" ? "active" : ""}
+                    onClick={() => handleItemClick("/development-plan")}>
+                    <Link to="/development-plan">Development Plan</Link>
                   </li>
-                  <li className={activeItem === "#.." ? "active" : ""}
-                    onClick={() => handleItemClick("#..")}>
-                    <Link to="#.." onClick={handleItemClick}>Downloads</Link>
-                  </li>
-                  <li className={activeItem === "#..." ? "active" : ""}
-                    onClick={() => handleItemClick("#...")}>
-                    <Link to="#..." onClick={handleItemClick}>City Map</Link>
+                  <li className={activeItem === "/downloads" ? "active" : ""}
+                    onClick={() => handleItemClick("/downloads")}>
+                    <Link to="/downloads" onClick={handleItemClick}>Downloads</Link>
                   </li>
                   <li className={activeItem === "#" ? "active" : ""}
                     onClick={() => handleItemClick("#")}>
-                    <Link to="#" onClick={handleItemClick}>Elected Wing</Link>
+                    <Link to="#" onClick={handleItemClick}>City Map</Link>
                   </li>
-                  <li className={activeItem === "##" ? "active" : ""}
-                  onClick={() => handleItemClick("##")}>
-                    <Link to="##" onClick={handleItemClick}>Official Publications</Link>
+                  <li className={activeItem === "/elected-wings" ? "active" : ""}
+                    onClick={() => handleItemClick("/elected-wings")}>
+                    <Link to="/elected-wings" onClick={handleItemClick}>Elected Wing</Link>
+                  </li>
+                  <li className={activeItem === "/official-publications" ? "active" : ""}
+                  onClick={() => handleItemClick("/official-publications")}>
+                    <Link to="/official-publications" onClick={handleItemClick}>Official Publications</Link>
                   </li>
                 </ul>
               </li>
