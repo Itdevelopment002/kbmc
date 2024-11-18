@@ -273,8 +273,8 @@ const TermsAndpolicys = () => {
             >
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                  <div className="modal-body">
-                    Are you sure you want to delete this policy?
+                  <div className="modal-body text-center">
+                    <h5>Are you sure you want to delete this policy?</h5>
                   </div>
                   <div className="modal-footer">
                     <button

@@ -108,9 +108,9 @@ router.post('/add-main-menu', (req, res) => {
 // API Route to update a main menu item
 router.put('/update-main-menu/:id', (req, res) => {
     const mainMenuId = req.params.id;
-    const { mainMenu, subMenus } = req.body;
+    const { mainMenu, mainMenuLink, subMenus } = req.body; // Added mainMenuLink
 
-    const updateMainMenuQuery = 'UPDATE main_menu SET mainMenu = ? WHERE id = ?';
+    const updateMainMenuQuery = 'UPDATE main_menu SET mainMenu = ?, mainMenuLink = ? WHERE id = ?'; // Updated query
     const deleteOldSubMenusQuery = 'DELETE FROM sub_menu WHERE mainMenuId = ?';
     const insertSubMenuQuery = 'INSERT INTO sub_menu (mainMenuId, subMenu, subLink) VALUES (?, ?, ?)';
 
@@ -118,7 +118,7 @@ router.put('/update-main-menu/:id', (req, res) => {
         if (err) return res.status(500).send(err);
 
         // Update the main menu
-        db.query(updateMainMenuQuery, [mainMenu, mainMenuId], (error) => {
+        db.query(updateMainMenuQuery, [mainMenu, mainMenuLink, mainMenuId], (error) => { // Updated to include mainMenuLink
             if (error) {
                 return db.rollback(() => res.status(500).send(error));
             }
@@ -160,5 +160,6 @@ router.put('/update-main-menu/:id', (req, res) => {
         });
     });
 });
+
 
 module.exports = router;

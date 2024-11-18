@@ -149,18 +149,19 @@ const WardWiseLitigations = () => {
                                                 <td>{item.name_lawsuit}</td>
                                                 <td>{item.mob_no}</td>
                                                 <td>
+                                                <button
+                                                        className="btn btn-success btn-sm m-t-10"
+                                                        onClick={() => handleEditClick(item)}
+                                                    >
+                                                        Edit
+                                                    </button>
                                                     <button
                                                         className="btn btn-danger btn-sm m-t-10"
                                                         onClick={() => handleDeleteClick(item)}
                                                     >
                                                         Delete
                                                     </button>
-                                                    <button
-                                                        className="btn btn-success btn-sm m-t-10"
-                                                        onClick={() => handleEditClick(item)}
-                                                    >
-                                                        Edit
-                                                    </button>
+                                                    
                                                 </td>
                                             </tr>
                                         ))}
@@ -177,9 +178,7 @@ const WardWiseLitigations = () => {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLabel">Add New Litigation</h5>
-                                <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setShowAddNewModal(false)}>
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                               
                             </div>
                             <div className="modal-body">
                             <form>
@@ -250,18 +249,13 @@ const WardWiseLitigations = () => {
                 <div className="modal fade show" tabIndex="-1" style={{ display: 'block' }} aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="deleteModalLabel">Delete Litigation</h5>
-                                <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setDeleteModalOpen(false)}>
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <p>Are you sure you want to delete this litigation?</p>
+                           
+                            <div className="modal-body text-center">
+                                <h5>Are you sure you want to delete this litigation?</h5>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-sm btn-secondary" data-bs-dismiss="modal" onClick={() => setDeleteModalOpen(false)}>
-                                    Close
+                                    Cancel
                                 </button>
                                 <button type="button" className="btn btn-sm btn-danger" onClick={handleDeleteConfirm}>
                                     Delete
@@ -279,9 +273,6 @@ const WardWiseLitigations = () => {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title" id="editModalLabel">Edit Litigation</h5>
-                                <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setShowEditModal(false)}>
-                                <span aria-hidden="true">&times;</span>
-                                </button>
                             </div>
                             <div className="modal-body">
                                 <form>

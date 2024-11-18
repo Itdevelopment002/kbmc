@@ -31,19 +31,25 @@ const MainMenu = () => {
   };
 
   const handleSaveChanges = async () => {
-    if (!selectedMenu.mainMenu || !selectedMenu.subMenus.length) {
-      alert("Please fill in all fields.");
+    if (!selectedMenu.mainMenu || !selectedMenu.mainMenuLink) {
+      alert("Please fill in the Main Menu and Main Menu Link fields.");
       return;
     }
-
+  
     try {
-      await api.put(`/update-main-menu/${selectedMenu.id}`, {
+      const payload = {
         mainMenu: selectedMenu.mainMenu,
+        mainMenuLink: selectedMenu.mainMenuLink,
         subMenus: selectedMenu.subMenus.map((sub) => ({
           subMenu: sub.subMenu,
           subLink: sub.subLink,
         })),
-      });
+      };
+  
+      console.log("Payload to API:", payload);
+  
+      await api.put(`/update-main-menu/${selectedMenu.id}`, payload);
+  
       setShowEditModal(false);
       fetchMenuData();
       toast.success("Main menu updated successfully!");
@@ -52,6 +58,8 @@ const MainMenu = () => {
       toast.error("Error updating main menu!");
     }
   };
+  
+  
 
   const handleAddSubMenu = () => {
     if (newSubMenu && newSubLink) {
@@ -221,7 +229,7 @@ const MainMenu = () => {
                   </div>
                   <div className="modal-body">
                     <div className="form-group">
-                      <label style={{fontWeight: "bold"}}>Main Menu</label>
+                      <label style={{ fontWeight: "bold" }}>Main Menu</label>
                       <input
                         className="form-control form-control-md"
                         type="text"
@@ -235,7 +243,21 @@ const MainMenu = () => {
                       />
                     </div>
                     <div className="form-group">
-                      <label style={{fontWeight: "bold"}}>Sub Menus</label>
+                      <label style={{ fontWeight: "bold" }}>Main Menu Link</label>
+                      <input
+                        className="form-control form-control-md"
+                        type="text"
+                        value={selectedMenu?.mainMenuLink || ""}
+                        onChange={(e) =>
+                          setSelectedMenu((prev) => ({
+                            ...prev,
+                            mainMenuLink: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label style={{ fontWeight: "bold" }}>Sub Menus</label>
                       <ul>
                         {selectedMenu?.subMenus.map((subMenu, index) => (
                           <li key={index} className="mb-2">
