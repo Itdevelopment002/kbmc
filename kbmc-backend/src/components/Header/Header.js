@@ -3,12 +3,71 @@ import img from "../../assets/img/user.jpg";
 import { Link } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import './Header.css'
+import api from '../api';
+import { formatDistanceToNow } from 'date-fns';
 
 const Header = ({ onLogout }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isScreenLarge, setIsScreenLarge] = useState(window.innerWidth > 990);
   const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [showAll, setShowAll] = useState(false);
+  const notificationsToShow = showAll ? notifications : notifications.slice(0, 5);
+
+  // Fetch notifications on component mount
+  const fetchNotify = async () => {
+    try {
+      const response = await api.get('/notification'); // Replace with your actual backend endpoint
+      const data = response.data;
+
+      // Update notifications state
+      setNotifications(data);
+
+      // Count unread notifications and update state
+      const unreadCount = data.filter(notification => notification.readed === 0).length;
+      setUnreadCount(unreadCount);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchNotify();
+  }, []);
+
+  const handleDeleteNotification = async (id) => {
+    try {
+      // Call your API to delete the notification by ID
+      await api.delete(`/notification/${id}`); // Replace with your actual API endpoint
+
+      // Remove the deleted notification from the state
+      setNotifications(notifications.filter(notification => notification.id !== id));
+      fetchNotify();
+    } catch (error) {
+      console.error("Error deleting notification", error);
+    }
+  };
+
+
+
+  const handleMarkAsRead = async (id) => {
+    try {
+      // Call the backend to update the readed status
+      await api.put(`/update/${id}`, { readed: 1 });
+
+      // Update the state to reflect the read status change
+      const updatedNotifications = notifications.map(notification =>
+        notification.id === id ? { ...notification, readed: 1 } : notification
+      );
+      setNotifications(updatedNotifications);
+      setUnreadCount(updatedNotifications.filter(notification => notification.readed === 0).length);
+    } catch (error) {
+      console.error("Error updating notification status", error);
+    }
+  };
 
   // Toggle sidebar visibility
   const toggleSidebar = () => {
@@ -88,7 +147,9 @@ const Header = ({ onLogout }) => {
                 }}
               >
                 <i className="fa fa-bell-o"></i>
-                <span className="badge badge-pill bg-danger float-right">1</span>
+                <span className="badge badge-pill bg-danger float-right">
+                  {unreadCount}
+                </span>
               </Link>
               {isNotificationDropdownOpen && (
                 <div className="dropdown-menu notifications show notification-keep-visible">
@@ -97,102 +158,63 @@ const Header = ({ onLogout }) => {
                   </div>
                   <div className="drop-scroll">
                     <ul className="notification-list">
-                      <li className="notification-message">
-                        <Link to="activities.html">
-                          <div className="media">
-                            <span className="avatar">
-                              <img alt="John Doe" src={img} className="img-fluid" />
-                            </span>
-                            <div className="media-body">
-                              <p className="noti-details">
-                                <span className="noti-title">John Doe</span> added new task
-                                <span className="noti-title"> Patient appointment booking</span>
-                              </p>
-                              <p className="noti-time">
-                                <span className="notification-time">4 mins ago</span>
-                              </p>
+                      {notificationsToShow.map((notification) => (
+                        <li
+                          key={notification.id}
+                          className={`notification-message ${notification.readed === 0 ? "unread" : ""
+                            }`}
+                        >
+                          <Link
+                            to="#."
+                            onClick={() => handleMarkAsRead(notification.id)}
+                          >
+                            <div className="media">
+                              <span className="avatar">
+                                <img
+                                  alt="Notification"
+                                  src={notification.avatar || img} // Use a default image if avatar is undefined
+                                  className="img-fluid"
+                                  style={{ width: '40px', height: '40px' }} // Adjust size as needed
+                                />
+
+                              </span>
+                              <div className="media-body">
+                                <p className="noti-details">
+                                  <span className="noti-title">{notification.heading}</span>:{" "}
+                                  {notification.description}
+                                </p>
+                                <p className="noti-time">
+                                  <span className="notification-time">
+                                  {formatDistanceToNow(new Date(notification.created_at), { addSuffix: true })}
+                                  </span>
+                                </p>
+                              </div>
+                              <button
+                                className="btn-close"
+                                onClick={(e) => {
+                                  e.stopPropagation(); // Prevent dropdown toggle when deleting
+                                  handleDeleteNotification(notification.id);
+                                }}
+                              >
+                                &times;
+                              </button>
                             </div>
-                          </div>
-                        </Link>
-                      </li>
-                      <li className="notification-message">
-                        <Link to="activities.html">
-                          <div className="media">
-                            <span className="avatar">
-                              <img alt="John Doe" src={img} className="img-fluid" />
-                            </span>
-                            <div className="media-body">
-                              <p className="noti-details">
-                                <span className="noti-title">Tarah Shropshire</span> changed the task name
-                                <span className="noti-title">Appointment booking with payment gateway</span>
-                              </p>
-                              <p className="noti-time">
-                                <span className="notification-time">6 mins ago</span></p>
-                            </div>
-                          </div>
-                        </Link>
-                      </li>
-                      <li className="notification-message">
-                        <Link to="activities.html">
-                          <div className="media">
-                            <span className="avatar">
-                              <img alt="John Doe" src={img} className="img-fluid" />
-                            </span>
-                            <div className="media-body">
-                              <p className="noti-details">
-                                <span className="noti-title">Misty Tison</span> added
-                                <span className="noti-title">Domenic Houston</span> and
-                                <span className="noti-title">Claire Mapes</span> to project
-                                <span className="noti-title">Doctor available module</span>
-                              </p>
-                              <p className="noti-time">
-                                <span className="notification-time">8 mins ago</span></p>
-                            </div>
-                          </div>
-                        </Link>
-                      </li>
-                      <li className="notification-message">
-                        <Link to="activities.html">
-                          <div className="media">
-                            <span className="avatar">
-                              <img alt="John Doe" src={img} className="img-fluid" />
-                            </span>
-                            <div className="media-body">
-                              <p className="noti-details">
-                                <span className="noti-title">Rolland Webber</span> completed task
-                                <span className="noti-title">Patient and Doctor video conferencing</span>
-                              </p>
-                              <p className="noti-time">
-                                <span className="notification-time">12 mins ago</span></p>
-                            </div>
-                          </div>
-                        </Link>
-                      </li>
-                      <li className="notification-message">
-                        <Link to="activities.html">
-                          <div className="media">
-                            <span className="avatar">
-                              <img alt="John Doe" src={img} className="img-fluid" />
-                            </span>
-                            <div className="media-body">
-                              <p className="noti-details">
-                                <span className="noti-title">Bernardo Galaviz</span> added new task
-                                <span className="noti-title">Private chat module</span>
-                              </p>
-                              <p className="noti-time">
-                                <span className="notification-time">2 days ago</span></p>
-                            </div>
-                          </div>
-                        </Link>
-                      </li>
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                   <div className="topnav-dropdown-footer">
-                    <Link to="activities.html">View all Notifications</Link>
+                    <Link to="#." onClick={() => setShowAll((prev) => !prev)}>
+                      {showAll ? "Show Less" : "View All Notifications"}
+                    </Link>
                   </div>
                 </div>
               )}
             </li>
+
+
+
 
             {/* User Profile with Online Status */}
             <li className="nav-item dropdown d-none d-sm-block">

@@ -19,15 +19,34 @@ const Contact = () => {
 
   const onSubmit = async (data) => {
     try {
+      // Post feedback to the feedback API
       await api.post("/contact-us", data);
-      await api.post("/email", data);
+  
+      // Send email notification
+      // await api.post("/email", data);
+  
+      // Reset the form fields after successful submission
       reset();
+  
+      // Show success message
       toast.success("Feedback sent successfully!");
+  
+      // Create default notification data
+      const notificationData = {
+        heading: "Feedback Submitted",
+        description: `A new feedback was submitted by ${data.name}`,
+        readed: 0, // Default unread status
+      };
+  
+      // Post the notification data to the notification API
+      const notificationResponse = await api.post("/notification", notificationData);
+      console.log("Notification API response:", notificationResponse.data);
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("Error sending feedback or posting notification:", error);
       toast.error("Error sending feedback!");
     }
   };
+  
 
   return (
     <>

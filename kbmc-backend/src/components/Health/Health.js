@@ -146,18 +146,19 @@ const Health = () => {
                                                         <td>{index + 1}</td>
                                                         <td>{item.description}</td>
                                                         <td>
+                                                        <button
+                                                                className="btn btn-success btn-sm m-t-10"
+                                                                onClick={() => handleEditClick(item)}
+                                                            >
+                                                                Edit
+                                                            </button>
                                                             <button
                                                                 className="btn btn-danger btn-sm m-t-10"
                                                                 onClick={() => handleDeleteClick(item)}
                                                             >
                                                                 Delete
                                                             </button>
-                                                            <button
-                                                                className="btn btn-success btn-sm m-t-10"
-                                                                onClick={() => handleEditClick(item)}
-                                                            >
-                                                                Edit
-                                                            </button>
+                                                            
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -175,9 +176,6 @@ const Health = () => {
                                 <div className="modal-content">
                                     <div className="modal-header">
                                         <h5 className="modal-title">Add New Work</h5>
-                                        <button type="button" className="close" onClick={() => setShowAddNewModal(false)}>
-                                            <span>&times;</span>
-                                        </button>
                                     </div>
                                     <div className="modal-body">
                                         <form>
@@ -211,18 +209,12 @@ const Health = () => {
                         <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1" role="dialog">
                             <div className="modal-dialog modal-dialog-centered" role="document">
                                 <div className="modal-content">
-                                    <div className="modal-header">
-                                        <h5 className="modal-title">Delete Work</h5>
-                                        <button type="button" className="close" onClick={() => setDeleteModalOpen(false)}>
-                                            <span>&times;</span>
-                                        </button>
-                                    </div>
-                                    <div className="modal-body">
-                                        <p>Are you sure you want to delete this work?</p>
+                                    <div className="modal-body text-center">
+                                        <h5>Are you sure you want to delete this work?</h5>
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-sm btn-secondary" onClick={() => setDeleteModalOpen(false)}>
-                                            Close
+                                            Cancel
                                         </button>
                                         <button type="button" className="btn btn-sm btn-danger" onClick={handleDeleteConfirm}>
                                             Delete
@@ -240,9 +232,7 @@ const Health = () => {
                                 <div className="modal-content">
                                     <div className="modal-header">
                                         <h5 className="modal-title">Edit Work</h5>
-                                        <button type="button" className="close" onClick={() => setShowEditModal(false)}>
-                                            <span>&times;</span>
-                                        </button>
+                                        
                                     </div>
                                     <div className="modal-body">
                                         <form>

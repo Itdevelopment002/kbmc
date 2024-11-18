@@ -199,11 +199,11 @@ const Garden = () => {
                     <div className={`modal fade ${showDeleteModal ? 'show' : ''}`} style={{ display: showDeleteModal ? 'block' : 'none' }}>
                         <div className="modal-dialog modal-dialog-centered" role="document">
                             <div className="modal-content">
-                                <div className="modal-body">
-                                    <h4>Are you sure you want to delete this item?</h4>
+                                <div className="modal-body text-center">
+                                    <h5>Are you sure you want to delete this item?</h5>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-sm btn-primary" onClick={handleCloseDeleteModal}>Close</button>
+                                    <button type="button" className="btn btn-sm btn-secondary" onClick={handleCloseDeleteModal}>Cancel</button>
                                     <button type="button" className="btn btn-sm btn-danger" onClick={handleDeleteConfirm}>Delete</button>
                                 </div>
                             </div>
@@ -211,36 +211,38 @@ const Garden = () => {
                     </div>
 
                     {/* Edit Modal */}
-                    <div className={`modal fade ${showEditModal ? 'show' : ''}`} style={{ display: showEditModal ? 'block' : 'none' }}>
-                        <div className="modal-dialog modal-dialog-centered" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h4>Edit Garden</h4>
-                                    <button type="button" className="close" onClick={handleCloseEditModal} style={{ background: 'none', border: 'none' }}>
-                                        <FaTimes />
-                                    </button>
-                                </div>
-                                <div className="modal-body">
-                                    <form>
-                                        <div className="form-group">
-                                            <label>Garden Name <span className="text-danger">*</span></label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={selectedGarden?.heading || ''}
-                                                onChange={(e) => setSelectedGarden({ ...selectedGarden, heading: e.target.value })}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Garden Photo <span className="text-danger">*</span></label>
-                                            <input type="file" className="form-control" onChange={handleFileChange} multiple />
-                                        </div>
-                                        <button type="button" className="btn btn-sm btn-primary" onClick={handleSaveEdit}>Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                    {/* Edit Modal */}
+<div className={`modal fade ${showEditModal ? 'show' : ''}`} style={{ display: showEditModal ? 'block' : 'none' }}>
+    <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-content">
+            <div className="modal-header">
+                <h4>Edit Garden</h4>
+            </div>
+            <div className="modal-body">
+                <form>
+                    <div className="form-group">
+                        <label>Garden Name <span className="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={selectedGarden?.heading || ''}
+                            onChange={(e) => setSelectedGarden({ ...selectedGarden, heading: e.target.value })}
+                        />
                     </div>
+                    <div className="form-group">
+                        <label>Garden Photo <span className="text-danger">*</span></label>
+                        <input type="file" className="form-control" onChange={handleFileChange} multiple />
+                    </div>
+                </form>
+            </div>
+            <div className="modal-footer">
+                <button type="button" className="btn btn-sm btn-secondary" onClick={handleCloseEditModal}>Close</button>
+                <button type="button" className="btn btn-sm btn-primary" onClick={handleSaveEdit}>Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                 </div>
             </div>
         </>
