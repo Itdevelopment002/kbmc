@@ -273,8 +273,8 @@ const TermsAndConditions = () => {
             >
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                  <div className="modal-body">
-                    Are you sure you want to delete this condition?
+                  <div className="modal-body text-center">
+                    <h5>Are you sure you want to delete this condition?</h5>
                   </div>
                   <div className="modal-footer">
                     <button

@@ -127,18 +127,19 @@ const Electric = () => {
                                                         <td>{item.mobileNo}</td>
                                                         <td>{item.vendorName}</td>
                                                         <td>
+                                                        <button
+                                                                className="btn btn-sm btn-success btn-sm "
+                                                                onClick={() => handleEditModalOpen(item)}
+                                                            >
+                                                                Edit
+                                                            </button>
                                                             <button
                                                                 className="btn btn-sm btn-danger btn-sm "
                                                                 onClick={() => handleDeleteModalOpen(item.id)}
                                                             >
                                                                 Delete
                                                             </button>
-                                                            <button
-                                                                className="btn btn-sm btn-success btn-sm "
-                                                                onClick={() => handleEditModalOpen(item)}
-                                                            >
-                                                                Edit
-                                                            </button>
+                                                            
                                                         </td>
                                                     </tr>
                                                 ))
@@ -192,12 +193,12 @@ const Electric = () => {
                 >
                     <div className="modal-dialog modal-dialog-centered" role="document">
                         <div className="modal-content">
-                            <div className="modal-body">
-                                <h4>Are you sure you want to delete this item?</h4>
+                            <div className="modal-body text-center">
+                                <h5>Are you sure you want to delete this item?</h5>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-sm btn-primary" data-dismiss="modal" onClick={handleCloseDeleteModal}>
-                                    Close
+                                    Cancel
                                 </button>
                                 <button type="button" className="btn btn-sm btn-danger" onClick={handleDelete}>
                                     Delete
@@ -222,15 +223,7 @@ const Electric = () => {
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLabel">Edit Electric Item</h5>
                                 {/* Cross button to close the modal */}
-                                <button
-                                    type="button"
-                                    className="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
-                                    onClick={handleCloseEditModal} // Close the modal when clicked
-                                >
-                                    <span aria-hidden="true">&times;</span> {/* The cross icon */}
-                                </button>
+                                
                             </div>
                             <div className="modal-body">
                                 <form>

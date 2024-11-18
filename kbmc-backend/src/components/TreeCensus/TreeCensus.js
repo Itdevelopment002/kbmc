@@ -132,18 +132,19 @@ const TreeCensus = () => {
                                                             <td>{row.description}</td>
                                                             <td>{row.total}</td>
                                                             <td>
+                                                            <button
+                                                                    className="btn btn-success btn-sm m-t-10"
+                                                                    onClick={() => handleEditModalOpen(row)}
+                                                                >
+                                                                    Edit
+                                                                </button>
                                                                 <button
                                                                     className="btn btn-danger btn-sm m-t-10"
                                                                     onClick={() => handleDeleteClick(row)}
                                                                 >
                                                                     Delete
                                                                 </button>
-                                                                <button
-                                                                    className="btn btn-success btn-sm m-t-10"
-                                                                    onClick={() => handleEditModalOpen(row)}
-                                                                >
-                                                                    Edit
-                                                                </button>
+                                                                
                                                             </td>
                                                         </tr>
                                                     ))
@@ -212,8 +213,8 @@ const TreeCensus = () => {
                         >
                             <div className="modal-dialog modal-dialog-centered">
                                 <div className="modal-content">
-                                    <div className="modal-body">
-                                        <h4>Are you sure you want to delete this item?</h4>
+                                    <div className="modal-body text-center">
+                                        <h5>Are you sure you want to delete this item?</h5>
                                     </div>
                                     <div className="modal-footer text-center">
                                         <button
@@ -221,7 +222,7 @@ const TreeCensus = () => {
                                             className="btn btn-sm btn-primary btn-lg"
                                             onClick={() => setModalOpen(false)}
                                         >
-                                            Close
+                                            Cancel
                                         </button>
                                         <button
                                             type="button"
@@ -245,13 +246,7 @@ const TreeCensus = () => {
                                 <div className="modal-content">
                                     <div className="modal-header">
                                         <h5 className="modal-title">Edit Tree Census</h5>
-                                        <button
-                                            type="button"
-                                            className="close"
-                                            onClick={() => setShowEditModal(false)}
-                                        >
-                                            &times;
-                                        </button>
+                                        
                                     </div>
                                     <div className="modal-body">
                                         <form>

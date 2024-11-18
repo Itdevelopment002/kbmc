@@ -104,19 +104,20 @@ const PropertyHolder = () => {
                                                             <td>{holder.description}</td>
                                                             <td>{holder.property}</td>
                                                             <td>
-                                                                <button
-                                                                    className="btn btn-danger btn-sm m-t-10"
-                                                                    onClick={() => handleDeleteModalOpen(holder.id)}
-                                                                >
-                                                                    Delete
-                                                                </button>
-                                                                <button
+                                                            <button
                                                                     className="btn btn-success btn-sm m-t-10"
                                                                     onClick={() => handleEditModalOpen(holder)}
                                                                     style={{ marginLeft: '5px' }}
                                                                 >
                                                                     Edit
                                                                 </button>
+                                                                <button
+                                                                    className="btn btn-danger btn-sm m-t-10"
+                                                                    onClick={() => handleDeleteModalOpen(holder.id)}
+                                                                >
+                                                                    Delete
+                                                                </button>
+                                                                
                                                             </td>
                                                         </tr>
                                                     ))
@@ -166,11 +167,11 @@ const PropertyHolder = () => {
                         <div className="modal fade show d-block" role="dialog">
                             <div className="modal-dialog modal-dialog-centered" role="document">
                                 <div className="modal-content">
-                                    <div className="modal-body">
-                                        <h4>Are you sure you want to delete this item?</h4>
+                                    <div className="modal-body text-center">
+                                        <h5>Are you sure you want to delete this item?</h5>
                                     </div>
                                     <div className="modal-footer">
-                                        <button type="button" className="btn btn-sm btn-secondary" onClick={handleCloseDeleteModal}>Close</button>
+                                        <button type="button" className="btn btn-sm btn-secondary" onClick={handleCloseDeleteModal}>Cancel</button>
                                         <button type="button" className="btn btn-sm btn-danger" onClick={handleDelete}>Delete</button>
                                     </div>
                                 </div>
@@ -185,7 +186,6 @@ const PropertyHolder = () => {
                                 <div className="modal-content">
                                     <div className="modal-header">
                                         <h5 className="modal-title">Edit Property Holder</h5>
-                                        <button type="button" className="btn-close" onClick={handleCloseEditModal}></button>
                                     </div>
                                     <div className="modal-body">
                                         <form>

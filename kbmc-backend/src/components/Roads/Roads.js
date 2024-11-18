@@ -106,18 +106,19 @@ const Roads = () => {
                                                     <td>{item.description}</td>
                                                     <td>{item.length}</td>
                                                     <td>
+                                                    <button
+                                                            className="btn btn-success btn-sm"
+                                                            onClick={() => handleEditModalOpen(item)}
+                                                        >
+                                                            Edit
+                                                        </button>
                                                         <button
                                                             className="btn btn-danger btn-sm"
                                                             onClick={() => handleDeleteModalOpen(item.id)}
                                                         >
                                                             Delete
                                                         </button>
-                                                        <button
-                                                            className="btn btn-success btn-sm"
-                                                            onClick={() => handleEditModalOpen(item)}
-                                                        >
-                                                            Edit
-                                                        </button>
+                                                       
                                                     </td>
                                                 </tr>
                                             ))}
@@ -158,12 +159,10 @@ const Roads = () => {
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title" id="deleteModalLabel">Are you sure you want to delete this item?</h5>
-                                    <button type="button" className="close" onClick={() => setDeleteModalOpen(false)} aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                                   
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-sm btn-secondary" onClick={() => setDeleteModalOpen(false)}>Close</button>
+                                    <button type="button" className="btn btn-sm btn-secondary" onClick={() => setDeleteModalOpen(false)}>Cancel</button>
                                     <button type="button" className="btn btn-sm btn-danger" onClick={handleDelete}>Delete</button>
                                 </div>
                             </div>
@@ -178,9 +177,7 @@ const Roads = () => {
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title" id="editModalLabel">Edit Road</h5>
-                                    <button type="button" className="close" onClick={() => setEditModalOpen(false)} aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                                    
                                 </div>
                                 <div className="modal-body">
                                     <form onSubmit={handleEditSubmit}>

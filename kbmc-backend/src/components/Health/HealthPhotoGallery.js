@@ -15,6 +15,7 @@ const HealthPhotoGallery = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [errors, setErrors] = useState({ heading: "", img: "" });
+  const [imagePreview, setImagePreview] = useState(null);
 
   // Fetch existing photos on component mount
   useEffect(() => {
@@ -236,15 +237,7 @@ const HealthPhotoGallery = () => {
                 <h5 className="modal-title" id="addPhotoModalLabel">
                   Add Photo
                 </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => setShowAddModal(false)}
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
+
               </div>
               <div className="modal-body">
                 <form>
@@ -260,7 +253,7 @@ const HealthPhotoGallery = () => {
                       value={heading}
                       onChange={(e) => {
                         setHeading(e.target.value);
-                        setErrors((prev) => ({ ...prev, heading: "" })); 
+                        setErrors((prev) => ({ ...prev, heading: "" }));
                       }}
                     />
                     {errors.heading && (
@@ -278,7 +271,7 @@ const HealthPhotoGallery = () => {
                       id="formBasicImage"
                       onChange={(e) => {
                         setImg(e.target.files[0]);
-                        setErrors((prev) => ({ ...prev, img: "" })); 
+                        setErrors((prev) => ({ ...prev, img: "" }));
                       }}
                     />
                     {errors.img && (
@@ -307,6 +300,114 @@ const HealthPhotoGallery = () => {
           </div>
         </div>
       )}
+{showEditModal && (
+  <div
+    className="modal fade show"
+    style={{
+      display: "block",
+      backgroundColor: "rgba(0,0,0,0.5)",
+      overflowY: "scroll",
+      scrollbarWidth: "none",
+    }}
+  >
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title" id="editPhotoModalLabel">
+            Edit Photo
+          </h5>
+          
+        </div>
+        <div className="modal-body">
+          <form>
+            {/* Heading Field */}
+            <div className="mb-3">
+              <label htmlFor="editPhotoHeading" className="form-label">
+                Heading
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="editPhotoHeading"
+                value={selectedPhoto?.heading || ""}
+                onChange={(e) =>
+                  setSelectedPhoto((prev) => ({
+                    ...prev,
+                    heading: e.target.value,
+                  }))
+                }
+              />
+            </div>
+
+            {/* Image Upload Field */}
+            <div className="mb-3">
+              <label htmlFor="editPhotoImage" className="form-label">
+                Image (optional)
+              </label>
+              <input
+                type="file"
+                className="form-control"
+                id="editPhotoImage"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setImg(file); // Update the image
+                  setImagePreview(URL.createObjectURL(file)); // Update the preview
+                }}
+              />
+              {/* Show the preview or the existing image */}
+              <div style={{ marginTop: "10px" }}>
+                {imagePreview ? (
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={`${baseURL}${selectedPhoto?.img_path}`} // Existing image
+                    alt="Uploaded"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-sm btn-secondary"
+            onClick={() => {
+              setShowEditModal(false);
+              setImagePreview(null); // Reset preview
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="btn btn-sm btn-primary"
+            onClick={handleEditPhoto}
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
 
       {showDeleteModal && (
         <div
@@ -320,8 +421,8 @@ const HealthPhotoGallery = () => {
         >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
-              <div className="modal-body">
-                Are you sure you want to delete this photo?
+              <div className="modal-body text-center">
+                <h5>Are you sure you want to delete this photo?</h5>
               </div>
               <div className="modal-footer">
                 <button

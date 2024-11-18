@@ -107,12 +107,13 @@ const ZoneWiseSanitationInspectors = () => {
                                                 <td>{inspector.mob_no}</td>
                                                 <td>{inspector.ward_no}</td>
                                                 <td>
+                                                <Button className="btn btn-success btn-sm " onClick={() => handleEditClick(inspector)}>
+                                                        Edit
+                                                    </Button>
                                                     <Button className="btn btn-danger btn-sm" onClick={() => handleDeleteClick(inspector)}>
                                                         Delete
                                                     </Button>
-                                                    <Button className="btn btn-success btn-sm " onClick={() => handleEditClick(inspector)}>
-                                                        Edit
-                                                    </Button>
+                                                    
 
                                                 </td>
                                             </tr>
@@ -176,14 +177,9 @@ const ZoneWiseSanitationInspectors = () => {
                 <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1" role="dialog">
                     <div className="modal-dialog modal-dialog-centered" role="document">
                         <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Confirm Delete</h5>
-                                <button type="button" className="close" onClick={() => setShowDeleteModal(false)}>
-                                    <span>&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                Are you sure you want to delete this inspector?
+                            
+                            <div className="modal-body text-center">
+                                <h5>Are you sure you want to delete this inspector?</h5>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-sm btn-secondary" onClick={() => setShowDeleteModal(false)}>

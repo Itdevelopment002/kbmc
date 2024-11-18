@@ -150,18 +150,19 @@ const TreatmentFacility = () => {
                                                 <td>{item.intake}</td>
                                                 <td>{item.output}</td>
                                                 <td>
+                                                <button
+                                                        className="btn btn-success btn-sm m-t-10"
+                                                        onClick={() => handleEditClick(item)}
+                                                    >
+                                                        Edit
+                                                    </button>
                                                     <button
                                                         className="btn btn-danger btn-sm m-t-10"
                                                         onClick={() => handleDeleteClick(item)}
                                                     >
                                                         Delete
                                                     </button>
-                                                    <button
-                                                        className="btn btn-success btn-sm m-t-10"
-                                                        onClick={() => handleEditClick(item)}
-                                                    >
-                                                        Edit
-                                                    </button>
+                                                    
                                                 </td>
                                             </tr>
                                         ))}
@@ -178,9 +179,7 @@ const TreatmentFacility = () => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">Add New Treatment Facility</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => setShowAddNewModal(false)}>
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            
                         </div>
                         <div className="modal-body">
                             <form>
@@ -257,18 +256,12 @@ const TreatmentFacility = () => {
             <div className={`modal ${isDeleteModalOpen ? 'show' : ''}`} tabIndex="-1" role="dialog" style={{ display: isDeleteModalOpen ? 'block' : 'none' }}>
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">Confirm Deletion</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => setDeleteModalOpen(false)}>
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            Are you sure you want to delete this treatment facility?
+                        <div className="modal-body text-center">
+                            <h5>Are you sure you want to delete this treatment facility?</h5>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={() => setDeleteModalOpen(false)}>Cancel</button>
-                            <button type="button" className="btn btn-danger" onClick={handleDeleteConfirm}>Delete</button>
+                            <button type="button" className="btn btn-sm btn-secondary" onClick={() => setDeleteModalOpen(false)}>Cancel</button>
+                            <button type="button" className="btn btn-sm btn-danger" onClick={handleDeleteConfirm}>Delete</button>
                         </div>
                     </div>
                 </div>
@@ -280,9 +273,7 @@ const TreatmentFacility = () => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">Edit Treatment Facility</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => setShowEditModal(false)}>
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            
                         </div>
                         <div className="modal-body">
                             <form>
