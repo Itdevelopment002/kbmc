@@ -15,7 +15,6 @@ const DevelopmentPlan = () => {
   const [modalType, setModalType] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
   const [editData, setEditData] = useState({});
-  const [pdfPreview, setPdfPreview] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +26,7 @@ const DevelopmentPlan = () => {
     const lightbox = GLightbox({
       selector: ".glightbox",
     });
+
     return () => {
       lightbox.destroy();
     };
@@ -50,17 +50,39 @@ const DevelopmentPlan = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setEditData({ ...editData, imageFile: file });
+    }
+  };
+
+  const handlePDFChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setEditData({ ...editData, pdfFile: file });
+    }
+  };
+
   const handleDelete = async (id, type) => {
     try {
       if (type === "desc") {
         await api.delete(`/development-plan-desc/${id}`);
-        setDevelopmentData((prevData) => prevData.filter((item) => item.id !== id));
+        setDevelopmentData((prevData) =>
+          prevData.filter((item) => item.id !== id)
+        );
       } else if (type === "pdf") {
         await api.delete(`/development-plan-pdf/${id}`);
-        setDevelopmentPdfData((prevData) => prevData.filter((item) => item.id !== id));
+        setDevelopmentPdfData((prevData) =>
+          prevData.filter((item) => item.id !== id)
+        );
       }
       toast.success(
-        `${type === "desc" ? "Development Plan Description" : "Development Plan Pdf"} deleted successfully!`
+        `${
+          type === "desc"
+            ? "Development Plan Description"
+            : "Development Plan Pdf"
+        } deleted successfully!`
       );
     } catch (error) {
       console.error(error);
@@ -72,12 +94,7 @@ const DevelopmentPlan = () => {
   const openEditModal = (item, type) => {
     setSelectedItem(item);
     setEditData(
-      type === "desc"
-        ? { description: item.description }
-        : { ...item }
-    );
-    setPdfPreview(
-      type === "pdf" && item.pdf_path ? `${baseURL}/${item.pdf_path}` : ""
+      type === "desc" ? { description: item.description } : { ...item }
     );
     setModalType(type);
     setShowEditModal(true);
@@ -88,7 +105,6 @@ const DevelopmentPlan = () => {
     setShowDeleteModal(false);
     setSelectedItem(null);
     setEditData({});
-    setPdfPreview("");
   };
 
   const handleSaveChanges = async () => {
@@ -103,7 +119,11 @@ const DevelopmentPlan = () => {
         formData.append("name", editData.name);
 
         if (editData.pdfFile) {
-          formData.append("userfile", editData.pdfFile);
+          formData.append("pdf", editData.pdfFile);
+        }
+
+        if (editData.imageFile) {
+          formData.append("image", editData.imageFile);
         }
 
         await api.put(`/development-plan-pdf/${selectedItem.id}`, formData, {
@@ -115,7 +135,11 @@ const DevelopmentPlan = () => {
       }
 
       toast.success(
-        `${modalType === "desc" ? "Development plan description" : "Development plan pdf"} updated successfully!`
+        `${
+          modalType === "desc"
+            ? "Development plan description"
+            : "Development plan pdf"
+        } updated successfully!`
       );
       navigate("/development-plan");
     } catch (error) {
@@ -125,13 +149,6 @@ const DevelopmentPlan = () => {
     closeModal();
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPdfPreview(URL.createObjectURL(file)); // Set URL for preview/download
-      setEditData({ ...editData, pdfFile: file }); // Store the file in editData
-    }
-  };
   return (
     <div>
       <div className="page-wrapper">
@@ -142,7 +159,7 @@ const DevelopmentPlan = () => {
                 <Link to="/">Home</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-              Development Plan
+                Development Plan
               </li>
             </ol>
           </nav>
@@ -200,7 +217,9 @@ const DevelopmentPlan = () => {
                           ))
                         ) : (
                           <tr>
-                            <td colSpan="4">No Development plan data Available</td>
+                            <td colSpan="4">
+                              No Development plan data Available
+                            </td>
                           </tr>
                         )}
                       </tbody>
@@ -225,8 +244,8 @@ const DevelopmentPlan = () => {
                         <tr>
                           <th width="10%">Sr. No.</th>
                           <th>Description</th>
-                          <th>Uploaded PDF</th>
                           <th>Uploaded Image</th>
+                          <th>Uploaded PDF</th>
                           <th width="15%">Action</th>
                         </tr>
                       </thead>
@@ -236,6 +255,18 @@ const DevelopmentPlan = () => {
                             <tr key={item.id}>
                               <td>{index + 1}</td>
                               <td>{item.name}</td>
+                              <td>
+                              <Link
+                                to={`${baseURL}/${item.image_path}`}
+                                className="glightbox"
+                              >
+                                <img
+                                  width="100px"
+                                  src={`${baseURL}/${item.image_path}`}
+                                  alt={`pdf-image${index + 1}`}
+                                />
+                              </Link>
+                            </td>
                               <td>
                                 <Link
                                   to={`${baseURL}/${item.pdf_path}`}
@@ -258,7 +289,7 @@ const DevelopmentPlan = () => {
                                 <button
                                   onClick={() => {
                                     setSelectedItem(item);
-                                    setModalType("pdf"); 
+                                    setModalType("pdf");
                                     setShowDeleteModal(true);
                                   }}
                                   className="btn btn-danger btn-sm m-t-10"
@@ -270,7 +301,9 @@ const DevelopmentPlan = () => {
                           ))
                         ) : (
                           <tr>
-                            <td colSpan="4">No Development plan pdf Available</td>
+                            <td colSpan="4">
+                              No Development plan pdf Available
+                            </td>
                           </tr>
                         )}
                       </tbody>
@@ -295,7 +328,9 @@ const DevelopmentPlan = () => {
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">
-                      {modalType === "desc" ? "Edit Description" : "Edit Development plan pdf"}
+                      {modalType === "desc"
+                        ? "Edit Description"
+                        : "Edit Development plan pdf"}
                     </h5>
                   </div>
                   <div className="modal-body">
@@ -317,7 +352,7 @@ const DevelopmentPlan = () => {
                         </div>
                       </>
                     ) : (
-                        <>
+                      <>
                         <div className="form-group">
                           <label htmlFor="description">Name</label>
                           <input
@@ -334,23 +369,24 @@ const DevelopmentPlan = () => {
                           />
                         </div>
                         <div className="form-group">
+                          <label htmlFor="pdf">Upload Image</label>
+                          <input
+                            type="file"
+                            className="form-control form-control-md"
+                            id="image"
+                            accept="image*/"
+                            onChange={handleFileChange}
+                          />
+                        </div>
+                        <div className="form-group">
                           <label htmlFor="pdf">Upload PDF</label>
                           <input
                             type="file"
                             className="form-control form-control-md"
                             id="pdf"
                             accept="application/pdf"
-                            onChange={handleFileChange}
+                            onChange={handlePDFChange}
                           />
-                          {pdfPreview && (
-                            <Link to={pdfPreview}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{ display: "block", marginTop: "10px" }}
-                            >
-                              Preview PDF
-                            </Link>
-                          )}
                         </div>
                       </>
                     )}
