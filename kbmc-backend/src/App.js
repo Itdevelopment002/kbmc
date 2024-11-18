@@ -74,12 +74,12 @@ import AddRts from "./components/Rts/AddRts";
 import Rts from "./components/Rts/Rts";
 import AddMainMenu from "./components/MainMenu/AddMainMenu";
 import Login from "./components/Login/Login";
-import HomeVideos from './components/HomeVideos/HomeVideos';
-import AddHomeVideos from './components/HomeVideos/AddHomeVideos';
-import GovWebsiteLink from './components/GovWebsiteLink/GovWebsiteLink';
-import AddGovtWebsiteLink from './components/GovWebsiteLink/AddGovtWebsiteLink';
-import Departments from './components/Departments/Departments';
-import AddDepartments from './components/Departments/AddDepartments';
+import HomeVideos from "./components/HomeVideos/HomeVideos";
+import AddHomeVideos from "./components/HomeVideos/AddHomeVideos";
+import GovWebsiteLink from "./components/GovWebsiteLink/GovWebsiteLink";
+import AddGovtWebsiteLink from "./components/GovWebsiteLink/AddGovtWebsiteLink";
+import Departments from "./components/Departments/Departments";
+import AddDepartments from "./components/Departments/AddDepartments";
 import AddPondsAndTalaoImages from "./components/PondsAndTalao/AddPondsAndTalaoImages";
 import TermsAndConditions from "./components/TermsAndConditions/TermsAndConditions";
 import AddTermsAndConditions from "./components/TermsAndConditions/AddTermsAndConditions";
@@ -91,6 +91,9 @@ import Downloads from "./components/Downloads/Downloads";
 import AddDevelopmentDescription from "./components/DevelopmentPlan/AddDevelopmentDescription";
 import AddDevelopmentPdf from "./components/DevelopmentPlan/AddDevelopmentPdf";
 import DevelopmentPlan from "./components/DevelopmentPlan/DevelopmentPlan";
+import AddDepartmentData from "./components/DepartmentData/AddDepartmentData";
+import AddYear from "./components/DepartmentData/AddYear";
+import api from "./components/api";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -112,6 +115,24 @@ function App() {
     setIsAuthenticated(false); // Set state to unauthenticated
   };
 
+  const [departments, setDepartments] = useState([]);
+  const [departmentData, setDepartmentData] = useState([]);
+
+  const fetchDepartments = async () => {
+    const response = await api.get("/public_disclosure");
+    setDepartments(response.data);
+  };
+
+  const fetchDepartmentData = async () => {
+    const response = await api.get("/department-datas");
+    setDepartmentData(response.data);
+  };
+
+  useEffect(() => {
+    fetchDepartments();
+    fetchDepartmentData();
+  }, []);
+
   return (
     <Router>
       {!isAuthenticated ? (
@@ -130,7 +151,10 @@ function App() {
                   <Route path="/add-slider" element={<AddSlider />} />
                   <Route path="/add-user" element={<AddUsers />} />
                   <Route path="/user" element={<Users />} />
-                  <Route path="/add-privacy-policy" element={<AddPrivacyPolicy />} />
+                  <Route
+                    path="/add-privacy-policy"
+                    element={<AddPrivacyPolicy />}
+                  />
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route
                     path="/terms-and-conditions"
@@ -247,17 +271,60 @@ function App() {
                   <Route path="/rts" element={<Rts />} />
                   <Route path="/home-videos" element={<HomeVideos />} />
                   <Route path="/add-home-videos" element={<AddHomeVideos />} />
-                  <Route path="/gov-website-link" element={<GovWebsiteLink />} />
-                  <Route path="/add-gov-website-link" element={<AddGovtWebsiteLink />} />
+                  <Route
+                    path="/gov-website-link"
+                    element={<GovWebsiteLink />}
+                  />
+                  <Route
+                    path="/add-gov-website-link"
+                    element={<AddGovtWebsiteLink />}
+                  />
                   <Route path="/departments" element={<Departments />} />
                   <Route path="/add-departments" element={<AddDepartments />} />
-                  <Route path="/add-pond-images" element={<AddPondsAndTalaoImages />} />
-                  <Route path="/official-publications" element={<Publications />} />
-                  <Route path="/add-official-publications" element={<AddPublications />} />
+                  <Route
+                    path="/add-pond-images"
+                    element={<AddPondsAndTalaoImages />}
+                  />
+                  <Route
+                    path="/official-publications"
+                    element={<Publications />}
+                  />
+                  <Route
+                    path="/add-official-publications"
+                    element={<AddPublications />}
+                  />
                   <Route path="/downloads" element={<Downloads />} />
-                  <Route path="/add-development-plan-description" element={<AddDevelopmentDescription />} />
-                  <Route path="/add-development-plan-pdf" element={<AddDevelopmentPdf />} />
-                  <Route path="/development-plan" element={<DevelopmentPlan />} />
+                  <Route
+                    path="/add-development-plan-description"
+                    element={<AddDevelopmentDescription />}
+                  />
+                  <Route
+                    path="/add-development-plan-pdf"
+                    element={<AddDevelopmentPdf />}
+                  />
+                  <Route
+                    path="/development-plan"
+                    element={<DevelopmentPlan />}
+                  />
+                  {departments.map((department) =>
+                    department.department_name !==
+                    "General Admin Department" ? (
+                      <>
+                        <Route
+                          path={`/add-${department.department_name
+                            .toLowerCase()
+                            .replace(/\s+/g, "-")}`}
+                          element={<AddDepartmentData />}
+                        />
+                      </>
+                    ) : null
+                  )}
+                  {departmentData.map((departmentData) => (
+                    <Route
+                      path={`/add-${departmentData.department_heading.toLowerCase().replace(/\s+/g, "-")}`}
+                      element={<AddYear />}
+                    />
+                  ))}
                 </Routes>
               </div>
             </div>

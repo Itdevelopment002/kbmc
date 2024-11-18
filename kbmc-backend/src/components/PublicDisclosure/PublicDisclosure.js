@@ -13,14 +13,14 @@ const PublicDisclosure = () => {
   const [errors, setErrors] = useState({});
   const departmentsPerPage = 10;
 
-    const fetchDepartments = async () => {
-      const response = await api.get("/public_disclosure");
-      setDepartments(response.data);
-    };
+  const fetchDepartments = async () => {
+    const response = await api.get("/public_disclosure");
+    setDepartments(response.data);
+  };
 
-    useEffect(()=>{
-        fetchDepartments();
-    },[])
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
 
   const indexOfLastDepartment = currentPage * departmentsPerPage;
   const indexOfFirstDepartment = indexOfLastDepartment - departmentsPerPage;
@@ -48,10 +48,6 @@ const PublicDisclosure = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
-  };
-
-  const handleAdd = (id) => {
-    console.log("Add button clicked for department:", id);
   };
 
   const handleAddDepartment = async (e) => {
@@ -167,7 +163,7 @@ const PublicDisclosure = () => {
                   </div>
                   <hr />
                   <div className="card-block">
-                  <form onSubmit={handleAddDepartment}>
+                    <form onSubmit={handleAddDepartment}>
                       <div className="form-group row">
                         <label className="col-form-label col-md-2">
                           Department Name <span className="text-danger">*</span>
@@ -181,8 +177,12 @@ const PublicDisclosure = () => {
                             value={newDepartment}
                             onChange={(e) => {
                               setNewDepartment(e.target.value);
-                              setErrors((prev) => ({ ...prev, newDepartment: "" })); // Clear error
-                            }}                          />
+                              setErrors((prev) => ({
+                                ...prev,
+                                newDepartment: "",
+                              }));
+                            }}
+                          />
                           {errors.newDepartment && (
                             <div className="invalid-feedback">
                               {errors.newDepartment}
@@ -215,9 +215,16 @@ const PublicDisclosure = () => {
                             <td>{department.department_name}</td>
                             <td>
                               <Link
-                                to={department.department_name === "General Admin Department" ? "/add-general-department" : "#"}
+                                to={
+                                  department?.department_name ===
+                                  "General Admin Department"
+                                    ? "/add-general-department"
+                                    : `/add-${department.department_name
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "-")}`
+                                }
+                                state={{ id: department?.id }}
                                 className="btn btn-primary btn-sm m-t-10"
-                                onClick={() => handleAdd(department.id)}
                               >
                                 Add
                               </Link>

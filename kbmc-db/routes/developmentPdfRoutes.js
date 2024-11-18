@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 const db = require('../config/db.js');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -43,42 +44,72 @@ router.get('/development-plan-pdf', (req, res) => {
     });
 });
 
-router.put('/development_plan_pdf/:id', upload.fields([{ name: 'image' }, { name: 'pdf' }]), (req, res) => {
-    const { name } = req.body; // Assuming 'name' is the description field
-    const imagePath = req.files?.image ? req.files.image[0].path : null;
-    const pdfPath = req.files?.pdf ? req.files.pdf[0].path : null;
+router.put('/development-plan-pdf/:id', upload.fields([{ name: 'image' }, { name: 'pdf' }]), (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
 
-    if (!name && !imagePath && !pdfPath) {
-        return res.status(400).json({ message: 'No changes detected.' });
-    }
-
-    // Initialize base query
-    const baseQuery = 'UPDATE development_plan_pdf SET ';
-    let updateFields = [];
-    let params = [];
-
-    // Add fields to update if they are present
+    let updateSql = 'UPDATE development_plan_pdf SET';
+    const updateParams = [];
+    
     if (name) {
-        updateFields.push('name = ?');
-        params.push(name);
-    }
-    if (imagePath) {
-        updateFields.push('image_path = ?');
-        params.push(imagePath);
-    }
-    if (pdfPath) {
-        updateFields.push('pdf_path = ?');
-        params.push(pdfPath);
+        updateSql += ' name = ?';
+        updateParams.push(name);
     }
 
-    const sql = `${baseQuery} ${updateFields.join(', ')} WHERE id = ?`;
-    params.push(req.params.id);
+    if (req.files && req.files.image) {
+        const newImagePath = `uploads/${req.files.image[0].filename}`;
+        updateSql += updateParams.length > 0 ? ', image_path = ?' : ' image_path = ?';
+        updateParams.push(newImagePath);
+    }
 
-    db.query(sql, params, (err, result) => {
+    if (req.files && req.files.pdf) {
+        const newPdfPath = `uploads/${req.files.pdf[0].filename}`;
+        updateSql += updateParams.length > 0 ? ', pdf_path = ?' : ' pdf_path = ?';
+        updateParams.push(newPdfPath);
+    }
+
+    if (updateParams.length === 0) {
+        return res.status(400).json({ message: 'No fields to update' });
+    }
+
+    updateSql += ' WHERE id = ?';
+    updateParams.push(id);
+
+    const selectSql = 'SELECT image_path, pdf_path FROM development_plan_pdf WHERE id = ?';
+    db.query(selectSql, [id], (err, result) => {
         if (err) {
-            return res.status(500).json({ message: 'Database update failed', error: err });
+            return res.status(500).json({ message: 'Database error', error: err });
         }
-        res.json({ success: true, message: 'Record updated successfully', data: result });
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'Development Plan not found' });
+        }
+
+        const { image_path: oldFilePath, pdf_path: oldPdfPath } = result[0];
+
+        db.query(updateSql, updateParams, (err) => {
+            if (err) {
+                return res.status(500).json({ message: 'Database error', error: err });
+            }
+
+            if (req.files && req.files.image) {
+                fs.unlink(path.join(__dirname, '..', oldFilePath), (fsErr) => {
+                    if (fsErr) {
+                        console.error('Error deleting old image file:', fsErr);
+                    }
+                });
+            }
+
+            if (req.files && req.files.pdf) {
+                fs.unlink(path.join(__dirname, '..', oldPdfPath), (fsErr) => {
+                    if (fsErr) {
+                        console.error('Error deleting old PDF file:', fsErr);
+                    }
+                });
+            }
+
+            res.status(200).json({ message: 'Development Plan updated successfully' });
+        });
     });
 });
 

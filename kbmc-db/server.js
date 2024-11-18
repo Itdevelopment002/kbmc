@@ -61,6 +61,8 @@ const publicationRoutes = require('./routes/publicationRoutes');
 const downloadRoutes = require('./routes/downloadRoutes');
 const developmentRoutes = require('./routes/developmentRoutes');
 const developmentPdfRoutes = require('./routes/developmentPdfRoutes');
+const departmentDataRoutes = require('./routes/departmentDataRoutes');
+const departmentYearRoutes = require('./routes/departmentYearRoutes');
 
 app.use('/api', sliderRoutes);
 app.use('/api', serviceRoutes);
@@ -114,6 +116,8 @@ app.use('/api', publicationRoutes);
 app.use('/api', downloadRoutes);
 app.use('/api', developmentRoutes);
 app.use('/api', developmentPdfRoutes);
+app.use('/api', departmentDataRoutes);
+app.use('/api', departmentYearRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

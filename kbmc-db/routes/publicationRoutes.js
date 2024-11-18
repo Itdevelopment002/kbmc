@@ -162,6 +162,4 @@ router.put('/publications/:id', upload.fields([{ name: 'image' }, { name: 'pdf' 
     });
 });
 
-
-
 module.exports = router;
