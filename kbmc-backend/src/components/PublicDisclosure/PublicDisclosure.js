@@ -14,9 +14,20 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
   const departmentsPerPage = 10;
 
   const fetchDeptDatas = async () => {
-    const response = await api.get("/public_disclosure");
-    setDepartments(response.data);
+    try {
+      const response = await api.get("/public_disclosure");
+      setDepartments(response.data);
+      console.log(response.data);
+  
+      // Extracting all `id` values
+      const ids = response.data.map((department) => department.id);
+      console.log("Fetched IDs:", ids);
+    } catch (error) {
+      console.error("Error fetching departments:", error);
+      toast.error("Failed to fetch departments.");
+    }
   };
+  
 
   useEffect(() => {
     fetchDeptDatas();
@@ -52,44 +63,63 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
 
   const handleAddDepartment = async (e) => {
     e.preventDefault();
+  
     if (validateForm()) {
       try {
+        // Step 1: Add the new department
         const response = await api.post(
           "/public_disclosure",
           {
-            department_name: newDepartment,
+            department_name: newDepartment, // Send new department name
           },
           {
             headers: {
               "Content-Type": "application/json",
-            },
+            }
           }
         );
-
-
-        const currentDate = new Date();
-        const date = currentDate.toISOString().split("T")[0]; // Format: YYYY-MM-DD
-        const time = currentDate.toTimeString().split(" ")[0]; // Format: HH:MM:SS
   
-        // Sending notification
+        // Step 2: Get the updated departments list to find the new ID
+        const updatedDepartments = await api.get("/public_disclosure"); // Adjust endpoint if needed
+        const newDepartmentEntry = updatedDepartments.data.find(
+          (dept) => dept.department_name === newDepartment
+        );
+  
+        if (!newDepartmentEntry) {
+          throw new Error("Unable to find the added department.");
+        }
+  
+        const newId = newDepartmentEntry.id;
+  
+        // Step 3: Generate notification data
+        const currentDate = new Date();
+        const date = currentDate.toISOString().split("T")[0]; // Format date
+        const time = currentDate.toTimeString().split(" ")[0]; // Format time
+  
         const notificationData = {
-          description: `${newDepartment}`,
-          date: date,
-          time: time,
+          description: newDepartment,
+          name: "public_disclosure",
+          new_id: newId, // Use the new ID here
+          date,
+          time,
         };
+  
+        // Step 4: Post notification data to /admin-notifications
         await api.post("/admin-notifications", notificationData);
-
-
-        const data = response.data;
+  
+        // Step 5: Update the local departments state
         setDepartments([
           ...departments,
-          { id: data.id, department_name: newDepartment },
+          { id: newId, department_name: newDepartment }, // Add new department
         ]);
+  
+        // Step 6: Clear form and fetch updated data
         setNewDepartment("");
         setErrors({});
         fetchDeptDatas();
-        await fetchDepartments(); 
+        await fetchDepartments();
         await fetchDepartmentData();
+  
         toast.success("Department added successfully!");
       } catch (error) {
         console.error("Error adding department:", error);
@@ -97,6 +127,7 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
       }
     }
   };
+  
 
   const handleEditDepartment = async (e) => {
     e.preventDefault();
@@ -124,7 +155,7 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
         setIsEditModalOpen(false);
         setSelectedDepartment(null);
         toast.success("Department updated successfully!");
-        
+
       }
     } catch (error) {
       console.error("Error updating department:", error);
@@ -189,9 +220,8 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
                         <div className="col-md-4 mt-1">
                           <input
                             type="text"
-                            className={`form-control form-control-md ${
-                              errors.newDepartment ? "is-invalid" : ""
-                            }`}
+                            className={`form-control form-control-md ${errors.newDepartment ? "is-invalid" : ""
+                              }`}
                             value={newDepartment}
                             onChange={(e) => {
                               setNewDepartment(e.target.value);
@@ -223,6 +253,7 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
                         <tr>
                           <th width="10%">Sr. No.</th>
                           <th>Departments Name</th>
+                          <th width="8%">Status</th>
                           <th width="20%">Action</th>
                         </tr>
                       </thead>
@@ -232,14 +263,34 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
                             <td>{indexOfFirstDepartment + index + 1}</td>
                             <td>{department.department_name}</td>
                             <td>
+                              <span
+                                className={`badge ${department.status === 1
+                                    ? "bg-success"
+                                    : department.status === 0
+                                      ? "bg-danger"
+                                      : "bg-info"
+                                  }`}
+                                style={{
+                                  display: "inline-block",
+                                  padding: "5px 10px",
+                                  color: 'whitesmoke',
+                                }}
+                              >
+                                {department.status === 1
+                                  ? "Approved"
+                                  : department.status === 0
+                                    ? "Rejected"
+                                    : "In Progress"}
+                              </span>
+                            </td>
+                            <td>
                               <Link
                                 to={
-                                  department?.department_name ===
-                                  "General Admin Department"
+                                  department?.department_name === "General Admin Department"
                                     ? "/add-general-department"
                                     : `/add-${department.department_name
-                                        .toLowerCase()
-                                        .replace(/\s+/g, "-")}`
+                                      .toLowerCase()
+                                      .replace(/\s+/g, "-")}`
                                 }
                                 state={{ id: department?.id }}
                                 className="btn btn-primary btn-sm m-t-10"
@@ -253,9 +304,7 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
                                     setSelectedDepartment(department);
                                     setIsEditModalOpen(true);
                                   } else {
-                                    console.error(
-                                      "Invalid department selected for editing."
-                                    );
+                                    console.error("Invalid department selected for editing.");
                                   }
                                 }}
                               >
@@ -275,6 +324,7 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
                         ))}
                       </tbody>
                     </table>
+
                   </div>
                 </div>
               </div>
@@ -298,9 +348,8 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
                 (page) => (
                   <li
                     key={page}
-                    className={`page-item ${
-                      currentPage === page ? "active" : ""
-                    }`}
+                    className={`page-item ${currentPage === page ? "active" : ""
+                      }`}
                   >
                     <Link
                       className="page-link"
@@ -313,9 +362,8 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
                 )
               )}
               <li
-                className={`page-item ${
-                  currentPage === totalPages ? "disabled" : ""
-                }`}
+                className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                  }`}
               >
                 <Link className="page-link" to="#!" onClick={handleNextClick}>
                   Next

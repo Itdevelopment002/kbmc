@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db.js'); // Ensure you have your database connection setup
-
+const db = require('../config/db.js'); 
 // API to add a new department
 router.post('/public_disclosure', (req, res) => {
     const { department_name } = req.body;

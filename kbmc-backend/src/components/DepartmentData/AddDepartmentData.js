@@ -69,32 +69,61 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
     const validHeadings = newHeadings.filter(
       (h) => h.heading.trim() !== "" && h.link.trim() !== ""
     );
-
+  
     if (validHeadings.length === 0) {
       toast.error("Please fill in all heading and link fields.");
       return;
     }
-
+  
     try {
       for (let heading of validHeadings) {
-        await api.post("/department-datas", {
-          public_disclosure_id: deptData[0].id,
-          department_name: deptData[0].department_name,
-          department_heading: heading.heading,
+        // Step 1: Save the new heading
+        await api.post("/generaladmindepartment", {
+          departments_heading: heading.heading,
           heading_link: heading.link,
         });
+  
+        // Step 2: Fetch the updated list and find the newly added entry
+        const updatedHeadings = await api.get("/generaladmindepartment"); // Adjust endpoint if necessary
+        const newHeadingEntry = updatedHeadings.data.find(
+          (dept) =>
+            dept.departments_heading === heading.heading &&
+            dept.heading_link === heading.link
+        );
+  
+        if (!newHeadingEntry) {
+          throw new Error("Unable to find the added heading.");
+        }
+  
+        const newId = newHeadingEntry.id;
+  
+        // Step 3: Generate notification data
+        const currentDate = new Date();
+        const date = currentDate.toISOString().split("T")[0]; // Format date
+        const time = currentDate.toTimeString().split(" ")[0]; // Format time
+  
+        const notificationData = {
+          description: `Added '${heading.heading}' in General Admin Department`,
+          name: "generaladmindepartment",
+          new_id: newId, // Use the new ID here
+          date,
+          time,
+        };
+  
+        // Step 4: Post notification data
+        await api.post("/admin-notifications", notificationData);
       }
-      await fetchDepartments(); 
-      await fetchDepartmentData();
-      fetchDeptData();
+  
+      // Step 5: Refresh the headings list and reset input fields
       fetchHeadings();
       setNewHeadings([{ heading: "", link: "" }]);
       toast.success("Headings added successfully!");
     } catch (error) {
-      console.error("Error saving heading:", error);
+      console.error("Error saving heading:", error.message);
       toast.error("Error adding headings");
     }
   };
+  
 
   const handleDelete = async (id) => {
     try {
