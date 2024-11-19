@@ -20,7 +20,7 @@ const Header = ({ onLogout }) => {
   const fetchNotify = async () => {
     try {
       const response = await api.get('/notification'); // Replace with your actual backend endpoint
-      const data = response.data;
+      const data = response.data.reverse();
 
       // Update notifications state
       setNotifications(data);
