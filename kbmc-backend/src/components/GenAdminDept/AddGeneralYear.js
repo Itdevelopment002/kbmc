@@ -51,7 +51,7 @@ const AddGeneralYear = () => {
     if (!validateForm()) {
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("year", year);
     formData.append("meetingtype", meetingType);
@@ -59,19 +59,43 @@ const AddGeneralYear = () => {
     if (pdfFile) {
       formData.append("pdf", pdfFile);
     }
-
+  
     try {
+      // Step 1: Save the new year entry
       await api.post("/generaladminaddyear", formData);
-
+  
+      // Step 2: Fetch the updated list and find the newly added entry
+      const updatedEntries = await api.get("/generaladminaddyear"); // Adjust endpoint if necessary
+      const newEntry = updatedEntries.data.find(
+        (entry) =>
+          entry.year === year &&
+          entry.meetingtype === meetingType &&
+          entry.pdfheading === pdfHeading
+      );
+  
+      if (!newEntry) {
+        throw new Error("Unable to find the added entry.");
+      }
+  
+      const newId = newEntry.id;
+  
+      // Step 3: Generate notification data
       const currentDate = new Date();
+      const date = currentDate.toISOString().split("T")[0]; // Format date
+      const time = currentDate.toTimeString().split(" ")[0]; // Format time
+  
       const notificationData = {
-        description: `In General Admin Department new pdf '${pdfHeading}' added.`,
-        date: currentDate.toISOString().split("T")[0], // YYYY-MM-DD
-        time: currentDate.toTimeString().split(" ")[0], // HH:MM:SS
+        description: `Added year: '${year}', meeting type: '${meetingType}', and heading: '${pdfHeading}'`,
+        name: "generaladminaddyear",
+        new_id: newId, // Use the new ID here
+        date,
+        time,
       };
+  
+      // Step 4: Post notification data
       await api.post("/admin-notifications", notificationData);
-
-
+  
+      // Step 5: Reset form and reload data
       fetchData();
       setYear("");
       setMeetingType("General Meeting");
@@ -79,12 +103,12 @@ const AddGeneralYear = () => {
       setPdfFile(null);
       setErrors({});
       toast.success("Year added successfully!");
-      
-
     } catch (error) {
       console.error("Error submitting data:", error);
+      toast.error("Error adding year.");
     }
   };
+  
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
@@ -238,6 +262,7 @@ const AddGeneralYear = () => {
                           <th>Meeting Type</th>
                           <th>PDF Heading</th>
                           <th>PDF File</th>
+                          <th width="8%">Status</th>
                           <th width="20%">Action</th>
                         </tr>
                       </thead>
@@ -251,6 +276,27 @@ const AddGeneralYear = () => {
                               <td>{item.year}</td>
                               <td>{item.meetingtype}</td>
                               <td>{item.pdfheading}</td>
+                              <td>
+                              <span
+                                className={`badge ${item.status === 1
+                                    ? "bg-success"
+                                    : item.status === 0
+                                      ? "bg-danger"
+                                      : "bg-info"
+                                  }`}
+                                style={{
+                                  display: "inline-block",
+                                  padding: "5px 10px",
+                                  color: 'whitesmoke',
+                                }}
+                              >
+                                {item.status === 1
+                                  ? "Approved"
+                                  : item.status === 0
+                                    ? "Rejected"
+                                    : "In Progress"}
+                              </span>
+                            </td>
                               <td>
                                 <Link
                                   to={`${baseURL}/${item.pdf}`}

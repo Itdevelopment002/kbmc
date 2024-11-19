@@ -70,6 +70,8 @@ const AddGeneralYear = () => {
         (item) => String(item.id) === String(deptData[0]?.public_disclosure_id)
       );
       setDepartmentData(filteredData); // Set department data
+      console.log(response.data);
+      
     } catch (error) {
       console.error("Error fetching department data:", error);
     }
@@ -88,8 +90,10 @@ const AddGeneralYear = () => {
     // eslint-disable-next-line
   }, [deptData]);
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!validateForm()) {
       return;
     }
@@ -104,16 +108,44 @@ const AddGeneralYear = () => {
     }
 
     try {
-      await api.post("/department-data-year", formData);
+      // Step 1: Submit the form data to the backend
+      const response = await api.post("/department-data-year", formData);
 
+      // Step 2: Fetch the updated headings
+      const updatedHeadings = await api.get("/department-data-year"); // Adjust endpoint if necessary
+
+      // Find the newly added heading entry
+      const newHeadingEntry = updatedHeadings.data.find(
+        (dept) =>
+          dept.department_heading === deptData[0].department_heading &&
+          dept.pdfheading === pdfHeading // Assuming pdfheading is the key to identify the entry
+      );
+
+      if (!newHeadingEntry) {
+        throw new Error("Unable to find the added heading.");
+      }
+
+      const newId = newHeadingEntry.id;
+
+      // Step 3: Generate notification data
       const currentDate = new Date();
+      const date = currentDate.toISOString().split("T")[0]; // Format date
+      const time = currentDate.toTimeString().split(" ")[0]; // Format time
+
       const notificationData = {
-        description: `In ${departmentData[0]?.department_name} new pdf '${pdfHeading}' added.`,
-        date: currentDate.toISOString().split("T")[0], // YYYY-MM-DD
-        time: currentDate.toTimeString().split(" ")[0], // HH:MM:SS
+        description: `In ${deptData[0]?.department_name} new pdf '${pdfHeading}' added.`,
+        name: "department-data-year",
+        new_id: newId, // Use the new ID here
+        date,
+        time,
       };
+
+      console.log(newId);
+      
+      // Step 4: Post the notification data
       await api.post("/admin-notifications", notificationData);
 
+      // Refresh the data and clear the form
       fetchData();
       setYear("");
       setPdfHeading("");
@@ -122,6 +154,7 @@ const AddGeneralYear = () => {
       toast.success("Year added successfully!");
     } catch (error) {
       console.error("Error submitting data:", error);
+      toast.error("Error adding year!");
     }
   };
 
@@ -279,6 +312,7 @@ const AddGeneralYear = () => {
                           <th>Year</th>
                           <th>PDF Heading</th>
                           <th>PDF File</th>
+                          <th width="8%">Status</th>
                           <th width="20%">Action</th>
                         </tr>
                       </thead>
@@ -291,6 +325,27 @@ const AddGeneralYear = () => {
                               </td>
                               <td>{item.year}</td>
                               <td>{item.pdfheading}</td>
+                              <td>
+                              <span
+                                className={`badge ${item.status === 1
+                                    ? "bg-success"
+                                    : item.status === 0
+                                      ? "bg-danger"
+                                      : "bg-info"
+                                  }`}
+                                style={{
+                                  display: "inline-block",
+                                  padding: "5px 10px",
+                                  color: 'whitesmoke',
+                                }}
+                              >
+                                {item.status === 1
+                                  ? "Approved"
+                                  : item.status === 0
+                                    ? "Rejected"
+                                    : "In Progress"}
+                              </span>
+                            </td>
                               <td>
                                 <Link
                                   to={`${baseURL}/${item.pdf}`}
