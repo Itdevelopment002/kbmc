@@ -429,31 +429,44 @@ const AddGeneralAdminDepartment = () => {
   
     try {
       for (let heading of validHeadings) {
-        const response = await api.post("/generaladmindepartment", {
+        // Step 1: Save the new heading
+        await api.post("/generaladmindepartment", {
           departments_heading: heading.heading,
           heading_link: heading.link,
         });
   
-        const currentId = response?.data?.id;
-        if (!currentId) {
-          throw new Error("Failed to fetch ID from API response");
+        // Step 2: Fetch the updated list and find the newly added entry
+        const updatedHeadings = await api.get("/generaladmindepartment"); // Adjust endpoint if necessary
+        const newHeadingEntry = updatedHeadings.data.find(
+          (dept) =>
+            dept.departments_heading === heading.heading &&
+            dept.heading_link === heading.link
+        );
+  
+        if (!newHeadingEntry) {
+          throw new Error("Unable to find the added heading.");
         }
   
+        const newId = newHeadingEntry.id;
+  
+        // Step 3: Generate notification data
         const currentDate = new Date();
-        const date = currentDate.toISOString().split("T")[0];
-        const time = currentDate.toTimeString().split(" ")[0];
+        const date = currentDate.toISOString().split("T")[0]; // Format date
+        const time = currentDate.toTimeString().split(" ")[0]; // Format time
   
         const notificationData = {
           description: `Added '${heading.heading}' in General Admin Department`,
           name: "generaladmindepartment",
-          new_id: currentId,
-          date: date,
-          time: time,
+          new_id: newId, // Use the new ID here
+          date,
+          time,
         };
   
+        // Step 4: Post notification data
         await api.post("/admin-notifications", notificationData);
       }
   
+      // Step 5: Refresh the headings list and reset input fields
       fetchHeadings();
       setNewHeadings([{ heading: "", link: "" }]);
       toast.success("Headings added successfully!");
@@ -462,6 +475,7 @@ const AddGeneralAdminDepartment = () => {
       toast.error("Error adding headings");
     }
   };
+  
   
   
   const handleDelete = async (id) => {

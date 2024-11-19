@@ -69,38 +69,61 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
     const validHeadings = newHeadings.filter(
       (h) => h.heading.trim() !== "" && h.link.trim() !== ""
     );
-
+  
     if (validHeadings.length === 0) {
       toast.error("Please fill in all heading and link fields.");
       return;
     }
-
+  
     try {
       for (let heading of validHeadings) {
+        // Save the new heading
         await api.post("/department-datas", {
           public_disclosure_id: deptData[0].id,
           department_name: deptData[0].department_name,
           department_heading: heading.heading,
           heading_link: heading.link,
         });
-
-        const currentDate = new Date();
-        const date = currentDate.toISOString().split("T")[0]; // Format: YYYY-MM-DD
-        const time = currentDate.toTimeString().split(" ")[0]; // Format: HH:MM:SS
   
-        // Sending notification
+        // Fetch the updated list of headings to find the newly added entry
+        const updatedHeadings = await api.get("/department-datas");
+        const newHeadingEntry = updatedHeadings.data.find(
+          (item) =>
+            item.department_heading === heading.heading &&
+            item.heading_link === heading.link &&
+            item.public_disclosure_id === deptData[0].id
+        );
+  
+        if (!newHeadingEntry) {
+          throw new Error("Unable to find the added heading.");
+        }
+  
+        const newId = newHeadingEntry.id;
+  
+        // Generate notification data
+        const currentDate = new Date();
+        const date = currentDate.toISOString().split("T")[0]; // Format date
+        const time = currentDate.toTimeString().split(" ")[0]; // Format time
+  
         const notificationData = {
           description: `Added '${heading.heading}' in ${deptData[0].department_name}`,
-          date: date,
-          time: time,
+          name: "department-datas",
+          new_id: newId, // Use the new ID here
+          date,
+          time,
         };
+  
+        // Post notification data
         await api.post("/admin-notifications", notificationData);
-
       }
-      await fetchDepartments(); 
+  
+      // Refresh data after adding
+      await fetchDepartments();
       await fetchDepartmentData();
       fetchDeptData();
       fetchHeadings();
+  
+      // Reset form
       setNewHeadings([{ heading: "", link: "" }]);
       toast.success("Headings added successfully!");
     } catch (error) {
@@ -108,6 +131,8 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
       toast.error("Error adding headings");
     }
   };
+  
+  
 
   const handleDelete = async (id) => {
     try {
@@ -248,6 +273,7 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
                           <th width="10%">Sr. No.</th>
                           <th>Department Heading</th>
                           <th>Heading Link</th>
+                          <th width="8%">Status</th>
                           <th width="20%">Action</th>
                         </tr>
                       </thead>
@@ -259,6 +285,27 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
                             </td>
                             <td>{heading.department_heading}</td>
                             <td>{heading.heading_link}</td>
+                            <td>
+                              <span
+                                className={`badge ${heading.status === 1
+                                    ? "bg-success"
+                                    : heading.status === 0
+                                      ? "bg-danger"
+                                      : "bg-info"
+                                  }`}
+                                style={{
+                                  display: "inline-block",
+                                  padding: "5px 10px",
+                                  color: 'whitesmoke',
+                                }}
+                              >
+                                {heading.status === 1
+                                  ? "Approved"
+                                  : heading.status === 0
+                                    ? "Rejected"
+                                    : "In Progress"}
+                              </span>
+                            </td>
                             <td>
                               {heading?.heading_link && (
                                 <Link
