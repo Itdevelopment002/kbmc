@@ -15,34 +15,51 @@ const Notifications = () => {
         setNotifications(response.data.reverse());
       } catch (error) {
         console.error("Error fetching notifications:", error);
+        alert("Failed to fetch notifications. Please try again later.");
       }
     };
     fetchNotifications();
   }, []);
 
   // Approve functionality
-  const handleApprove = async (id, description) => {
+  const handleApprove = async (id, new_id, name, description) => {
     try {
+      console.log("Approving notification with:", { id, new_id, name, description });
+      
+      
+  
+      // Update the status using new_id
+      await api.put(`/edit_${name}/${new_id}`, { status: 1 });
+  
+      // Delete the notification after updating the status
       await api.delete(`/admin-notifications/${id}`);
       setNotifications(notifications.filter((notification) => notification.id !== id));
-
+  
+      // Add a notification to the notification API
       const notificationData = {
         heading: "Approved",
         description: `${description} has been successfully approved.`,
         readed: 0, // Default unread status
       };
-
-      // Post the notification data to the notification API
-      const notificationResponse = await api.post("/notification", notificationData);
-      console.log("Notification API response:", notificationResponse.data);
+  
+      await api.post("/notification", notificationData);
     } catch (error) {
-      console.error("Error deleting notification:", error);
+      console.error("Error approving notification:", error);
+      alert("Failed to approve notification. Please check the server logs.");
     }
   };
+  
 
   // Disapprove functionality
-  const handleDisapprove = (id) => {
-    setSelectedNotification(id);
+  const handleDisapprove = async ( id, new_id, name) => {
+    try {
+      // Update status to disapproved
+      await api.put(`/edit_${name}/${new_id}`, { status: 0 });
+      setSelectedNotification(id);
+    } catch (error) {
+      console.error("Error disapproving notification:", error);
+      alert("Failed to disapprove notification. Please try again.");
+    }
   };
 
   const handleModalClose = () => {
@@ -52,6 +69,7 @@ const Notifications = () => {
 
   const handleDisapproveSubmit = async () => {
     try {
+      // Update remark for the selected notification
       await api.put(`/admin-notifications/${selectedNotification}`, { remark });
       setNotifications(
         notifications.map((notification) =>
@@ -62,45 +80,30 @@ const Notifications = () => {
       );
       handleModalClose();
     } catch (error) {
-      console.error("Error updating notification:", error);
+      console.error("Error updating remark for notification:", error);
+      alert("Failed to update remark. Please try again.");
     }
   };
 
-  // Helper function to format date as "29 June 2024"
+  // Helper function to format date
   const formatDate = (dateString) => {
     if (!dateString) return "Invalid Date";
     const date = new Date(dateString);
-    if (isNaN(date.getTime())) return "Invalid Date";
-
     const options = { day: "2-digit", month: "long", year: "numeric" };
-    return date.toLocaleDateString("en-GB", options);
+    return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleDateString("en-GB", options);
   };
 
-  // Helper function to format time as "01:20:30 PM"
+  // Helper function to format time
   const formatTime = (timeString) => {
     if (!timeString) return "Invalid Time";
-
-    const timeParts = timeString.split(":");
-    if (timeParts.length !== 3) return "Invalid Time";
-
+    const [hours, minutes, seconds] = timeString.split(":");
     const now = new Date();
-    now.setHours(timeParts[0]);
-    now.setMinutes(timeParts[1]);
-    now.setSeconds(timeParts[2]);
-
-    if (isNaN(now.getTime())) return "Invalid Time";
-
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-    const ampm = hours >= 12 ? "PM" : "AM";
-
-    hours = hours % 12;
-    hours = hours ? hours : 12; // The hour '0' should be '12'
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-
-    return `${hours}:${minutes}:${seconds} ${ampm}`;
+    now.setHours(hours);
+    now.setMinutes(minutes);
+    now.setSeconds(seconds);
+    const ampm = now.getHours() >= 12 ? "PM" : "AM";
+    const formattedHours = now.getHours() % 12 || 12;
+    return `${formattedHours}:${minutes}:${seconds} ${ampm}`;
   };
 
   return (
@@ -130,8 +133,8 @@ const Notifications = () => {
                     <table className="table table-bordered m-b-0">
                       <thead>
                         <tr>
-                          <th width="8%">Sr. No.</th>
-                          <th>Notification Description</th>
+                          <th>Sr. No.</th>
+                          <th>Description</th>
                           <th>Date</th>
                           <th>Time</th>
                           <th>Remark</th>
@@ -148,14 +151,18 @@ const Notifications = () => {
                             <td>{notification.remark}</td>
                             <td>
                               <button
-                                className="btn btn-success btn-sm m-t-10"
-                                onClick={() => handleApprove(notification.id, notification.description)}
+                                className="btn btn-success btn-sm"
+                                onClick={() =>
+                                  handleApprove(notification.id,notification.new_id, notification.name, notification.description)
+                                }
                               >
                                 Approve
                               </button>{" "}
                               <button
-                                className="btn btn-danger btn-sm m-t-10"
-                                onClick={() => handleDisapprove(notification.id)}
+                                className="btn btn-danger btn-sm"
+                                onClick={() =>
+                                  handleDisapprove( notification.id, notification.new_id, notification.name)
+                                }
                               >
                                 Disapprove
                               </button>
@@ -176,15 +183,11 @@ const Notifications = () => {
               className="modal fade show"
               style={{ display: "block", background: "rgba(0, 0, 0, 0.5)" }}
             >
-              <div className="modal-dialog modal-dialog-centered" role="document">
+              <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">Disapprove Notification</h5>
-                    <button
-                      type="button"
-                      className="close"
-                      onClick={handleModalClose}
-                    >
+                    <button type="button" className="close" onClick={handleModalClose}>
                       &times;
                     </button>
                   </div>
@@ -199,19 +202,11 @@ const Notifications = () => {
                     />
                   </div>
                   <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-primary"
-                      onClick={handleModalClose}
-                    >
+                    <button className="btn btn-secondary" onClick={handleModalClose}>
                       Close
                     </button>
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-danger"
-                      onClick={handleDisapproveSubmit}
-                    >
-                      Disapprove
+                    <button className="btn btn-danger" onClick={handleDisapproveSubmit}>
+                      Submit
                     </button>
                   </div>
                 </div>

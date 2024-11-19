@@ -386,6 +386,7 @@ const AddGeneralAdminDepartment = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+
   useEffect(() => {
     fetchHeadings();
     // eslint-disable-next-line
@@ -400,6 +401,7 @@ const AddGeneralAdminDepartment = () => {
         },
       });
       setHeadings(response.data);
+      
     } catch (error) {
       console.error("Error fetching headings:", error);
     }
@@ -419,28 +421,49 @@ const AddGeneralAdminDepartment = () => {
     const validHeadings = newHeadings.filter(
       (h) => h.heading.trim() !== "" && h.link.trim() !== ""
     );
-
+  
     if (validHeadings.length === 0) {
       toast.error("Please fill in all heading and link fields.");
       return;
     }
-
+  
     try {
       for (let heading of validHeadings) {
-        await api.post("/generaladmindepartment", {
+        const response = await api.post("/generaladmindepartment", {
           departments_heading: heading.heading,
           heading_link: heading.link,
         });
+  
+        const currentId = response?.data?.id;
+        if (!currentId) {
+          throw new Error("Failed to fetch ID from API response");
+        }
+  
+        const currentDate = new Date();
+        const date = currentDate.toISOString().split("T")[0];
+        const time = currentDate.toTimeString().split(" ")[0];
+  
+        const notificationData = {
+          description: `Added '${heading.heading}' in General Admin Department`,
+          name: "generaladmindepartment",
+          new_id: currentId,
+          date: date,
+          time: time,
+        };
+  
+        await api.post("/admin-notifications", notificationData);
       }
+  
       fetchHeadings();
       setNewHeadings([{ heading: "", link: "" }]);
       toast.success("Headings added successfully!");
     } catch (error) {
-      console.error("Error saving heading:", error);
+      console.error("Error saving heading:", error.message);
       toast.error("Error adding headings");
     }
   };
-
+  
+  
   const handleDelete = async (id) => {
     try {
       await api.delete(`/generaladmindepartment/${id}`);
@@ -576,6 +599,7 @@ const AddGeneralAdminDepartment = () => {
                           <th width="10%">Sr. No.</th>
                           <th>Department Heading</th>
                           <th>Heading Link</th>
+                          <th width="8%">Status</th>
                           <th width="20%">Action</th>
                         </tr>
                       </thead>
@@ -587,6 +611,27 @@ const AddGeneralAdminDepartment = () => {
                             </td>
                             <td>{heading.departments_heading}</td>
                             <td>{heading.heading_link}</td>
+                            <td>
+                              <span
+                                className={`badge ${heading.status === 1
+                                    ? "bg-success"
+                                    : heading.status === 0
+                                      ? "bg-danger"
+                                      : "bg-info"
+                                  }`}
+                                style={{
+                                  display: "inline-block",
+                                  padding: "5px 10px",
+                                  color: 'whitesmoke',
+                                }}
+                              >
+                                {heading.status === 1
+                                  ? "Approved"
+                                  : heading.status === 0
+                                    ? "Rejected"
+                                    : "In Progress"}
+                              </span>
+                            </td>
                             <td>
                               <Link
                                 to="/add-general-department-year"

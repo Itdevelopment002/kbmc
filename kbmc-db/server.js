@@ -65,6 +65,8 @@ const departmentDataRoutes = require('./routes/departmentDataRoutes');
 const departmentYearRoutes = require('./routes/departmentYearRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const adminNotificationRoutes = require('./routes/adminNotificationRoutes');
+const notifyStatusRoutes = require('./routes/notifyStatusRoutes');
+
 
 app.use('/api', sliderRoutes);
 app.use('/api', serviceRoutes);
@@ -122,6 +124,7 @@ app.use('/api', departmentDataRoutes);
 app.use('/api', departmentYearRoutes);
 app.use('/api', notificationRoutes);
 app.use('/api', adminNotificationRoutes);
+app.use('/api', notifyStatusRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

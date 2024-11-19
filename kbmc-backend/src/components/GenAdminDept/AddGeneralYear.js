@@ -62,6 +62,16 @@ const AddGeneralYear = () => {
 
     try {
       await api.post("/generaladminaddyear", formData);
+
+      const currentDate = new Date();
+      const notificationData = {
+        description: `In General Admin Department new pdf '${pdfHeading}' added.`,
+        date: currentDate.toISOString().split("T")[0], // YYYY-MM-DD
+        time: currentDate.toTimeString().split(" ")[0], // HH:MM:SS
+      };
+      await api.post("/admin-notifications", notificationData);
+
+
       fetchData();
       setYear("");
       setMeetingType("General Meeting");
@@ -69,6 +79,8 @@ const AddGeneralYear = () => {
       setPdfFile(null);
       setErrors({});
       toast.success("Year added successfully!");
+      
+
     } catch (error) {
       console.error("Error submitting data:", error);
     }

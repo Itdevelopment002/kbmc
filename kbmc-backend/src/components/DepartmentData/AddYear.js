@@ -106,6 +106,14 @@ const AddGeneralYear = () => {
     try {
       await api.post("/department-data-year", formData);
 
+      const currentDate = new Date();
+      const notificationData = {
+        description: `In ${departmentData[0]?.department_name} new pdf '${pdfHeading}' added.`,
+        date: currentDate.toISOString().split("T")[0], // YYYY-MM-DD
+        time: currentDate.toTimeString().split(" ")[0], // HH:MM:SS
+      };
+      await api.post("/admin-notifications", notificationData);
+
       fetchData();
       setYear("");
       setPdfHeading("");

@@ -83,6 +83,19 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
           department_heading: heading.heading,
           heading_link: heading.link,
         });
+
+        const currentDate = new Date();
+        const date = currentDate.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+        const time = currentDate.toTimeString().split(" ")[0]; // Format: HH:MM:SS
+  
+        // Sending notification
+        const notificationData = {
+          description: `Added '${heading.heading}' in ${deptData[0].department_name}`,
+          date: date,
+          time: time,
+        };
+        await api.post("/admin-notifications", notificationData);
+
       }
       await fetchDepartments(); 
       await fetchDepartmentData();
