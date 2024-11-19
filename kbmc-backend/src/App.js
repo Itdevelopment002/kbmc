@@ -118,16 +118,27 @@ function App() {
   const [departments, setDepartments] = useState([]);
   const [departmentData, setDepartmentData] = useState([]);
 
+  // Fetch departments
   const fetchDepartments = async () => {
-    const response = await api.get("/public_disclosure");
-    setDepartments(response.data);
+    try {
+      const response = await api.get("/public_disclosure");
+      setDepartments(response.data);
+    } catch (error) {
+      console.error("Error fetching departments:", error);
+    }
   };
 
+  // Fetch department data
   const fetchDepartmentData = async () => {
-    const response = await api.get("/department-datas");
-    setDepartmentData(response.data);
+    try {
+      const response = await api.get("/department-datas");
+      setDepartmentData(response.data);
+    } catch (error) {
+      console.error("Error fetching department data:", error);
+    }
   };
 
+  // Fetch data on mount and when refresh changes
   useEffect(() => {
     fetchDepartments();
     fetchDepartmentData();
@@ -136,7 +147,7 @@ function App() {
   return (
     <Router>
       {!isAuthenticated ? (
-        <Login onLogin={handleLogin} /> // Render Login if not authenticated
+        <Login onLogin={handleLogin} /> 
       ) : (
         <>
           <Header onLogout={handleLogout} />
@@ -263,7 +274,8 @@ function App() {
                   />
                   <Route
                     path="/public-disclosure"
-                    element={<PublicDisclosure />}
+                    element={<PublicDisclosure fetchDepartments={fetchDepartments}
+                    fetchDepartmentData={fetchDepartmentData}/>}
                   />
                   <Route path="/citizen-charter" element={<CitizenCharter />} />
                   <Route path="/add-rts-pdf" element={<AddRtsPdf />} />
@@ -314,17 +326,25 @@ function App() {
                           path={`/add-${department.department_name
                             .toLowerCase()
                             .replace(/\s+/g, "-")}`}
-                          element={<AddDepartmentData />}
+                          element={<AddDepartmentData fetchDepartments={fetchDepartments}
+                          fetchDepartmentData={fetchDepartmentData}/>}
                         />
                       </>
                     ) : null
                   )}
-                  {departmentData.map((departmentData) => (
-                    <Route
-                      path={`/add-${departmentData.department_heading.toLowerCase().replace(/\s+/g, "-")}`}
-                      element={<AddYear />}
-                    />
-                  ))}
+                  {departmentData && departmentData.length > 0 ? (
+                    departmentData.map((data) =>
+                      data?.heading_link ? (
+                        <Route
+                          key={data?.heading_link}
+                          path={`/add-${data?.heading_link.replace(/^\//, "")}`} // Remove leading slash
+                          element={<AddYear />}
+                        />
+                      ) : null
+                    )
+                  ) : (
+                    <>Loding...</>
+                  )}
                 </Routes>
               </div>
             </div>

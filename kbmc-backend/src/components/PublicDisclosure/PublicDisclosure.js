@@ -3,7 +3,7 @@ import api from "../api";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
-const PublicDisclosure = () => {
+const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
   const [departments, setDepartments] = useState([]);
   const [newDepartment, setNewDepartment] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState(null);
@@ -13,13 +13,13 @@ const PublicDisclosure = () => {
   const [errors, setErrors] = useState({});
   const departmentsPerPage = 10;
 
-  const fetchDepartments = async () => {
+  const fetchDeptDatas = async () => {
     const response = await api.get("/public_disclosure");
     setDepartments(response.data);
   };
 
   useEffect(() => {
-    fetchDepartments();
+    fetchDeptDatas();
   }, []);
 
   const indexOfLastDepartment = currentPage * departmentsPerPage;
@@ -72,7 +72,9 @@ const PublicDisclosure = () => {
         ]);
         setNewDepartment("");
         setErrors({});
-        fetchDepartments();
+        fetchDeptDatas();
+        await fetchDepartments(); 
+        await fetchDepartmentData();
         toast.success("Department added successfully!");
       } catch (error) {
         console.error("Error adding department:", error);
@@ -103,10 +105,11 @@ const PublicDisclosure = () => {
               : dept
           )
         );
+        fetchDeptDatas();
         setIsEditModalOpen(false);
         setSelectedDepartment(null);
         toast.success("Department updated successfully!");
-        fetchDepartments();
+        
       }
     } catch (error) {
       console.error("Error updating department:", error);
@@ -123,7 +126,7 @@ const PublicDisclosure = () => {
       setIsDeleteModalOpen(false);
       setSelectedDepartment(null);
       toast.success("Department deleted successfully!");
-      fetchDepartments();
+      fetchDeptDatas();
     } catch (error) {
       console.error("Error deleting department:", error);
       toast.error("Error deleting department! Please try again.");

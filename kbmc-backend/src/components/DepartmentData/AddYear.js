@@ -13,6 +13,7 @@ const AddGeneralYear = () => {
   const [pdfHeading, setPdfHeading] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
   const [data, setData] = useState([]);
+  const [departmentData, setDepartmentData] = useState([]);
   const [deptData, setDeptData] = useState([]);
   const [editYearData, setEditYearData] = useState({
     year: "",
@@ -51,15 +52,26 @@ const AddGeneralYear = () => {
 
   const fetchData = async () => {
     try {
-      if (deptData.length === 0) return; // Wait until deptData is available
+      if (deptData.length === 0) return; 
       const response = await api.get("/department-data-year");
       const filteredData = response.data.filter(
-        (item) => item.department_heading === deptData[0]?.department_heading
+        (item) => item.department_id === deptData[0]?.id
       );
-      console.log("Filtered Data:", filteredData); // Debugging console log
       setData(filteredData);
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchDepartmentData = async () => {
+    try {
+      const response = await api.get(`public_disclosure`);
+      const filteredData = response.data.filter(
+        (item) => String(item.id) === String(deptData[0]?.public_disclosure_id)
+      );
+      setDepartmentData(filteredData); // Set department data
+    } catch (error) {
+      console.error("Error fetching department data:", error);
     }
   };
 
@@ -71,6 +83,7 @@ const AddGeneralYear = () => {
   useEffect(() => {
     if (deptData.length > 0) {
       fetchData(); // Fetch data only when deptData is available
+      fetchDepartmentData();
     }
     // eslint-disable-next-line
   }, [deptData]);
@@ -154,12 +167,12 @@ const AddGeneralYear = () => {
             </li>
             <li class="breadcrumb-item">
               <Link
-                to={`/add-${deptData[0]?.department_name
+                to={`/add-${departmentData[0]?.department_name
                   .toLowerCase()
                   .replace(/\s+/g, "-")}`}
                 state={{ id: deptData[0]?.public_disclosure_id }}
               >
-                Add {deptData[0]?.department_name}
+                Add {departmentData[0]?.department_name}
               </Link>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
