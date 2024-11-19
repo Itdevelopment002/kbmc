@@ -8,17 +8,18 @@ const GenAdminDept = () => {
   const [error, setError] = useState(null);
   const [departments, setDepartments] = useState([]);
 
-  const fetchDepartments = async () => {
+  const fetchDeptData = async () => {
     try {
-      const response = await api.get("/departments");
+      const response = await api.get(`/public_disclosure`);
       setDepartments(response.data);
     } catch (error) {
-      console.error("Error fetching departments data");
+      console.error("Error fetching department data:", error);
     }
   };
 
   useEffect(() => {
-    fetchDepartments();
+    fetchDeptData();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -100,7 +101,22 @@ const GenAdminDept = () => {
                       {departments.map((department, index) => (
                         <li key={index}>
                           {" "}
-                          <Link to={department.link}>{department.name}</Link>
+                          <Link
+                            to={
+                              department?.department_name ===
+                              "General Admin Department"
+                                ? "/general-admin-department"
+                                : department?.department_name ===
+                                  "Town Planning"
+                                ? "/town-planning"
+                                : `/${department?.department_name
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "-")}`
+                            }
+                            state={{ id: department?.id }}
+                          >
+                            {department?.department_name}
+                          </Link>
                         </li>
                       ))}
                     </ul>

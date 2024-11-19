@@ -3,7 +3,7 @@ import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
 import api, { baseURL } from "../api";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const TownPlanning = () => {
   const [departments, setDepartments] = useState([]);
@@ -12,7 +12,7 @@ const TownPlanning = () => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await api.get("/departments");
+      const response = await api.get(`/public_disclosure`);
       setDepartments(response.data);
     } catch (error) {
       console.error("Error fetching departments data");
@@ -102,26 +102,30 @@ const TownPlanning = () => {
                   <div className="row">
                     {pdf.map((pdf) => (
                       <div className="col-lg-3 town_plan">
-                      <Link
-                        to={`${baseURL}/${pdf.image_path}`}
-                        data-toggle="lightbox"
-                        data-gallery="example-gallery"
-                        className="glightbox"
-                      >
-                        <img src={`${baseURL}/${pdf.image_path}`} alt="" className="img-fluid" />
-                      </Link>
-                      <h6 className="text-center">{pdf.name}</h6>
-                      <div className="pdf-dwnl">
                         <Link
-                          to={`${baseURL}/${pdf.pdf_path}`}
-                          download
-                          target="_blank"
-                          rel="noreferrer"
+                          to={`${baseURL}/${pdf.image_path}`}
+                          data-toggle="lightbox"
+                          data-gallery="example-gallery"
+                          className="glightbox"
                         >
-                          <i className="fa fa-download"></i>
+                          <img
+                            src={`${baseURL}/${pdf.image_path}`}
+                            alt=""
+                            className="img-fluid"
+                          />
                         </Link>
+                        <h6 className="text-center">{pdf.name}</h6>
+                        <div className="pdf-dwnl">
+                          <Link
+                            to={`${baseURL}/${pdf.pdf_path}`}
+                            download
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <i className="fa fa-download"></i>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
                     ))}
                   </div>
                 </div>
@@ -135,7 +139,22 @@ const TownPlanning = () => {
                       {departments.map((department, index) => (
                         <li key={index}>
                           {" "}
-                          <Link to={department.link}>{department.name}</Link>
+                          <Link
+                            to={
+                              department?.department_name ===
+                              "General Admin Department"
+                                ? "/general-admin-department"
+                                : department?.department_name ===
+                                  "Town Planning"
+                                ? "/town-planning"
+                                : `/${department?.department_name
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "-")}`
+                            }
+                            state={{ id: department?.id }}
+                          >
+                            {department?.department_name}
+                          </Link>
                         </li>
                       ))}
                     </ul>
