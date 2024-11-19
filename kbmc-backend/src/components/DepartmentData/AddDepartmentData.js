@@ -4,7 +4,7 @@ import api from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AddDepartmentData = () => {
+const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
   const location = useLocation();
   const state = location.state || {};
   const { id } = state;
@@ -37,7 +37,7 @@ const AddDepartmentData = () => {
       if (deptData.length === 0) return; // Wait until deptData is available
       const response = await api.get("/department-datas");
       const filteredData = response.data.filter(
-        (item) => item.department_name === deptData[0]?.department_name
+        (item) => item.public_disclosure_id === deptData[0]?.id
       );
       setHeadings(filteredData);
     } catch (error) {
@@ -46,12 +46,12 @@ const AddDepartmentData = () => {
   };
 
   useEffect(() => {
-    fetchDeptData(); 
+    fetchDeptData();
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    fetchHeadings(); 
+    fetchHeadings();
     // eslint-disable-next-line
   }, [deptData]);
 
@@ -84,6 +84,9 @@ const AddDepartmentData = () => {
           heading_link: heading.link,
         });
       }
+      await fetchDepartments(); 
+      await fetchDepartmentData();
+      fetchDeptData();
       fetchHeadings();
       setNewHeadings([{ heading: "", link: "" }]);
       toast.success("Headings added successfully!");
@@ -244,13 +247,18 @@ const AddDepartmentData = () => {
                             <td>{heading.department_heading}</td>
                             <td>{heading.heading_link}</td>
                             <td>
-                            <Link
-                                to={`/add-${heading.department_heading.toLowerCase().replace(/\s+/g, "-")}`}
-                                state={{ id: heading?.id }}
-                                className="btn btn-primary btn-sm m-t-10"
-                              >
-                                Add
-                              </Link>
+                              {heading?.heading_link && (
+                                <Link
+                                  to={`/add-${heading.heading_link.replace(
+                                    /^\//,
+                                    ""
+                                  )}`}
+                                  state={{ id: heading?.id }}
+                                  className="btn btn-primary btn-sm m-t-10"
+                                >
+                                  Add
+                                </Link>
+                              )}
                               <button
                                 className="btn btn-success btn-sm m-t-10"
                                 onClick={() =>
