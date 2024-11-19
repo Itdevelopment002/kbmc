@@ -12,15 +12,18 @@ const Notifications = () => {
     const fetchNotifications = async () => {
       try {
         const response = await api.get("/admin-notifications");
-        setNotifications(response.data.reverse());
+        const reversedData = response.data.reverse();
+        setNotifications(reversedData);
       } catch (error) {
         console.error("Error fetching notifications:", error);
         alert("Failed to fetch notifications. Please try again later.");
       }
     };
+  
     fetchNotifications();
   }, []);
 
+  console.log(notifications)
   // Approve functionality
   const handleApprove = async (id, new_id, name, description) => {
     try {
