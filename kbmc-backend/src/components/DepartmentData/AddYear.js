@@ -105,6 +105,7 @@ const AddGeneralYear = () => {
 
     try {
       await api.post("/department-data-year", formData);
+
       fetchData();
       setYear("");
       setPdfHeading("");
@@ -195,9 +196,8 @@ const AddGeneralYear = () => {
                           <label>Year</label>
                           <input
                             type="text"
-                            className={`form-control form-control-md ${
-                              errors.year ? "is-invalid" : ""
-                            }`}
+                            className={`form-control form-control-md ${errors.year ? "is-invalid" : ""
+                              }`}
                             value={year}
                             onChange={(e) => {
                               setYear(e.target.value);
@@ -217,9 +217,8 @@ const AddGeneralYear = () => {
                           <label>PDF Heading</label>
                           <input
                             type="text"
-                            className={`form-control form-control-md ${
-                              errors.pdfHeading ? "is-invalid" : ""
-                            }`}
+                            className={`form-control form-control-md ${errors.pdfHeading ? "is-invalid" : ""
+                              }`}
                             value={pdfHeading}
                             onChange={(e) => {
                               setPdfHeading(e.target.value);
@@ -242,9 +241,8 @@ const AddGeneralYear = () => {
                           <label>Upload PDF</label>
                           <input
                             type="file"
-                            className={`form-control form-control-md ${
-                              errors.pdfFile ? "is-invalid" : ""
-                            }`}
+                            className={`form-control form-control-md ${errors.pdfFile ? "is-invalid" : ""
+                              }`}
                             onChange={(e) => {
                               setPdfFile(e.target.files[0]);
                               setErrors((prev) => ({ ...prev, pdfFile: "" })); // Clear error
@@ -259,10 +257,10 @@ const AddGeneralYear = () => {
                       </div>
                     </div>
                     <input
-                          type="submit"
-                          class="btn btn-primary btn-sm"
-                          value="Submit"
-                        />
+                      type="submit"
+                      class="btn btn-primary btn-sm"
+                      value="Submit"
+                    />
                   </form>
                   <hr />
                   <div class="table-responsive mt-4">
@@ -338,9 +336,8 @@ const AddGeneralYear = () => {
                   <div className="mt-4">
                     <ul className="pagination">
                       <li
-                        className={`page-item ${
-                          currentPage === 1 ? "disabled" : ""
-                        }`}
+                        className={`page-item ${currentPage === 1 ? "disabled" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -353,9 +350,8 @@ const AddGeneralYear = () => {
                         { length: Math.ceil(data.length / itemsPerPage) },
                         (_, i) => (
                           <li
-                            className={`page-item ${
-                              currentPage === i + 1 ? "active" : ""
-                            }`}
+                            className={`page-item ${currentPage === i + 1 ? "active" : ""
+                              }`}
                             key={i}
                           >
                             <button
@@ -368,11 +364,10 @@ const AddGeneralYear = () => {
                         )
                       )}
                       <li
-                        className={`page-item ${
-                          currentPage === Math.ceil(data.length / itemsPerPage)
+                        className={`page-item ${currentPage === Math.ceil(data.length / itemsPerPage)
                             ? "disabled"
                             : ""
-                        }`}
+                          }`}
                       >
                         <button
                           className="page-link"
