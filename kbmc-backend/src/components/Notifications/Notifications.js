@@ -11,7 +11,7 @@ const Notifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await api.get("/notifications");
+        const response = await api.get("/admin-notifications");
         setNotifications(response.data.reverse());
       } catch (error) {
         console.error("Error fetching notifications:", error);
@@ -23,7 +23,7 @@ const Notifications = () => {
   // Approve functionality
   const handleApprove = async (id, description) => {
     try {
-      await api.delete(`/notifications/${id}`);
+      await api.delete(`/admin-notifications/${id}`);
       setNotifications(notifications.filter((notification) => notification.id !== id));
 
       const notificationData = {
@@ -52,7 +52,7 @@ const Notifications = () => {
 
   const handleDisapproveSubmit = async () => {
     try {
-      await api.put(`/notifications/${selectedNotification}`, { remark });
+      await api.put(`/admin-notifications/${selectedNotification}`, { remark });
       setNotifications(
         notifications.map((notification) =>
           notification.id === selectedNotification

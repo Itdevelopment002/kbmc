@@ -6,7 +6,7 @@ const db = require("../config/db.js");
 router.use(express.json());
 
 // GET all notifications
-router.get("/notifications", (req, res) => {
+router.get("/admin-notifications", (req, res) => {
     const query = "SELECT * FROM admin_notification";
     db.query(query, (err, results) => {
         if (err) {
@@ -17,7 +17,7 @@ router.get("/notifications", (req, res) => {
 });
 
 // POST a new notification
-router.post("/notifications", (req, res) => {
+router.post("/admin-notifications", (req, res) => {
     const { description, date, time } = req.body;
 
     if (!description || !date || !time) {
@@ -37,7 +37,7 @@ router.post("/notifications", (req, res) => {
 });
 
 // DELETE a notification by ID
-router.delete("/notifications/:id", (req, res) => {
+router.delete("/admin-notifications/:id", (req, res) => {
     const { id } = req.params;
     const query = "DELETE FROM admin_notification WHERE id = ?";
     db.query(query, [id], (err, results) => {
@@ -52,7 +52,7 @@ router.delete("/notifications/:id", (req, res) => {
 });
 
 // UPDATE a notification's remark
-router.put("/notifications/:id", (req, res) => {
+router.put("/admin-notifications/:id", (req, res) => {
     const { id } = req.params;
     const { remark } = req.body;
 

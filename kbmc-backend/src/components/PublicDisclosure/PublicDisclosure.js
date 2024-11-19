@@ -65,6 +65,21 @@ const PublicDisclosure = () => {
             },
           }
         );
+
+
+        const currentDate = new Date();
+        const date = currentDate.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+        const time = currentDate.toTimeString().split(" ")[0]; // Format: HH:MM:SS
+  
+        // Sending notification
+        const notificationData = {
+          description: `${newDepartment}`,
+          date: date,
+          time: time,
+        };
+        await api.post("/admin-notifications", notificationData);
+
+
         const data = response.data;
         setDepartments([
           ...departments,
