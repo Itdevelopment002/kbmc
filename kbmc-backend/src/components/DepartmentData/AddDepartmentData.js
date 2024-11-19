@@ -107,7 +107,7 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
   
         const notificationData = {
           description: `Added '${heading.heading}' in ${deptData[0].department_name}`,
-          name: "department-datas",
+          name: "deptdata",
           new_id: newId, // Use the new ID here
           date,
           time,

@@ -134,7 +134,7 @@ const AddGeneralYear = () => {
 
       const notificationData = {
         description: `In ${deptData[0]?.department_name} new pdf '${pdfHeading}' added.`,
-        name: "department-data-year",
+        name: "deptdatayear",
         new_id: newId, // Use the new ID here
         date,
         time,

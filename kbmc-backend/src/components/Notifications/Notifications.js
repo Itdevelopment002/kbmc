@@ -28,9 +28,6 @@ const Notifications = () => {
   const handleApprove = async (id, new_id, name, description) => {
     try {
       console.log("Approving notification with:", { id, new_id, name, description });
-      
-      
-  
       // Update the status using new_id
       await api.put(`/edit_${name}/${new_id}`, { status: 1 });
   
@@ -54,11 +51,18 @@ const Notifications = () => {
   
 
   // Disapprove functionality
-  const handleDisapprove = async ( id, new_id, name) => {
+  const handleDisapprove = async ( id, new_id, name, description, remark) => {
     try {
       // Update status to disapproved
       await api.put(`/edit_${name}/${new_id}`, { status: 0 });
       setSelectedNotification(id);
+      const notificationData = {
+        heading: "Rejected",
+        description: `${description} has been rejected.Remark- ${remark}`,
+        readed: 0, // Default unread status
+      };
+  
+      await api.post("/notification", notificationData);
     } catch (error) {
       console.error("Error disapproving notification:", error);
       alert("Failed to disapprove notification. Please try again.");
@@ -164,7 +168,7 @@ const Notifications = () => {
                               <button
                                 className="btn btn-danger btn-sm"
                                 onClick={() =>
-                                  handleDisapprove( notification.id, notification.new_id, notification.name)
+                                  handleDisapprove( notification.id, notification.new_id, notification.name, notification.description, notification.remark)
                                 }
                               >
                                 Disapprove
