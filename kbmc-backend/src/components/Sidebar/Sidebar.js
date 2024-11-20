@@ -49,7 +49,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
             <ul>
               <li className={activeItem === "/" ? "active" : ""}
                 onClick={() => handleItemClick("/")}>
-                <Link to="/" >
+                <Link to="/home" >
                   <i className="fa fa-dashboard"></i>Main Menu
                 </Link>
               </li>

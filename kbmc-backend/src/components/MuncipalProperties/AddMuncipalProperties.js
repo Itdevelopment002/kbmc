@@ -59,7 +59,7 @@ const AddMuncipalProperties = () => {
             <div className="content">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                        <Link to="/">City Profile</Link>
+                        <Link to="/home">City Profile</Link>
                     </li>
                     <li className="breadcrumb-item">
                         <Link to="/muncipal-properties">Municipal Properties</Link>

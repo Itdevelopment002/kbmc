@@ -36,7 +36,7 @@ const AddTermsAndConditions = () => {
         <div className="content">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li className="breadcrumb-item">
               <Link to="/terms-and-conditions">Terms & Conditions</Link>

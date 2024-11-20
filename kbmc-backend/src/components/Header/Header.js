@@ -231,7 +231,7 @@ const Header = ({ onLogout }) => {
                   <img className="rounded-circle" src={img} width="24" alt="Admin" />
                   <span className="status online"></span> {/* Online status dot */}
                 </span>
-                <span>Admin</span> <i className="fa fa-angle-down ml-1"></i>
+                <span className="mx-1">Admin</span> <i className="fa fa-angle-down ml-1"></i>
               </Link>
               {isUserDropdownOpen && (
                 <div className="dropdown-menu show dropdown-keep-visible">

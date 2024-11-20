@@ -82,7 +82,7 @@ const AddElectric = () => {
             <div className="page-wrapper">
                 <div className="content">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><Link to="/">City Profile</Link></li>
+                        <li className="breadcrumb-item"><Link to="/home">City Profile</Link></li>
                         <li className="breadcrumb-item"><Link to="/electric">Electric</Link></li>
                         <li className="breadcrumb-item active" aria-current="page">Add Electric</li>
                     </ol>

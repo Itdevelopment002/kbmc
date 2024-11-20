@@ -113,7 +113,7 @@ const AddSchools = () => {
         <div className="page-wrapper">
             <div className="content">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><Link to="/">City Profile</Link></li>
+                    <li className="breadcrumb-item"><Link to="/home">City Profile</Link></li>
                     <li className="breadcrumb-item"><Link to="/schools">Schools</Link></li>
                     <li className="breadcrumb-item active" aria-current="page">Add Schools</li>
                 </ol>

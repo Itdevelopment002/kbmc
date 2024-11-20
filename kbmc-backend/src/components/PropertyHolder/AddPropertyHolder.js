@@ -72,7 +72,7 @@ const AddPropertyHolder = () => {
             <div className="page-wrapper">
                 <div className="content">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><Link to="/">City Profile</Link></li>
+                        <li className="breadcrumb-item"><Link to="/home">City Profile</Link></li>
                         <li className="breadcrumb-item"><Link to="/property-holder">Property Holder</Link></li>
                         <li className="breadcrumb-item active" aria-current="page">Add Property Holder</li>
                     </ol>

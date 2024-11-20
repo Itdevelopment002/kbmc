@@ -76,7 +76,7 @@ const AddGarden = () => {
             <div className="page-wrapper">
                 <div className="content">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><Link to="/">City Profile</Link></li>
+                        <li className="breadcrumb-item"><Link to="/home">City Profile</Link></li>
                         <li className="breadcrumb-item"><Link to="/garden">Gardens</Link></li>
                         <li className="breadcrumb-item active" aria-current="page">Add Gardens</li>
                     </ol>

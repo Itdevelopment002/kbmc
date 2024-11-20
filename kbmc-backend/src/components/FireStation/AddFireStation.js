@@ -105,7 +105,7 @@ const AddFireStation = () => {
             <div className="page-wrapper">
                 <div className="content">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><Link to="/">City Profile</Link></li>
+                        <li className="breadcrumb-item"><Link to="/home">City Profile</Link></li>
                         <li className="breadcrumb-item"><Link to="/fire-station">Fire Station</Link></li>
                         <li className="breadcrumb-item active" aria-current="page">Add Fire Station</li>
                     </ol>

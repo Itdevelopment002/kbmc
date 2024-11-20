@@ -84,7 +84,7 @@ const AddPrivateHospital = () => {
             <div className="page-wrapper">
                 <div className="content">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                        <li className="breadcrumb-item"><Link to="/home">Home</Link></li>
                         <li className="breadcrumb-item"><Link to="/private-hospital">Private Hospital</Link></li>
                         <li className="breadcrumb-item active" aria-current="page">Add Private Hospital</li>
                     </ol>
