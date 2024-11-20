@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -23,11 +24,27 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       const response = await api.get("/users");
-      setUsers(response.data);
+      const sortedUsers = response.data.sort((a, b) =>
+        a.department.localeCompare(b.department)
+      );
+      setUsers(sortedUsers);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
+
+  const fetchDepartments = async () => {
+    try {
+      const response = await api.get("/public_disclosure");
+      setDepartments(response.data);
+    } catch (error) {
+      console.error("Error fetching departments", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
 
   const handleDeleteClick = (user) => {
     setUserToDelete(user);
@@ -39,6 +56,7 @@ const Users = () => {
       await api.delete(`/users${userToDelete.id}`);
       setUsers(users.filter((user) => user.id !== userToDelete.id)); // Remove the deleted user from state
       setShowDeleteModal(false);
+      fetchUsers();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -59,6 +77,7 @@ const Users = () => {
         )
       );
       setShowEditModal(false);
+      fetchUsers();
     } catch (error) {
       console.error("Error updating user:", error);
     }
@@ -75,7 +94,7 @@ const Users = () => {
         <div className="content">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               User
@@ -121,17 +140,14 @@ const Users = () => {
                               <td>{user.department}</td>
                               <td>
                                 <button
-
                                   onClick={() => handleEditClick(user)}
                                   className="btn btn-success btn-sm m-t-10"
                                 >
                                   Edit
                                 </button>
                                 <button
-
                                   onClick={() => handleDeleteClick(user)}
                                   className="btn btn-danger btn-sm m-t-10"
-
                                 >
                                   Delete
                                 </button>
@@ -151,8 +167,9 @@ const Users = () => {
                   <div className="mt-4">
                     <ul className="pagination">
                       <li
-                        className={`page-item ${currentPage === 1 ? "disabled" : ""
-                          }`}
+                        className={`page-item ${
+                          currentPage === 1 ? "disabled" : ""
+                        }`}
                       >
                         <button
                           className="page-link"
@@ -165,8 +182,9 @@ const Users = () => {
                         { length: Math.ceil(users.length / itemsPerPage) },
                         (_, i) => (
                           <li
-                            className={`page-item ${currentPage === i + 1 ? "active" : ""
-                              }`}
+                            className={`page-item ${
+                              currentPage === i + 1 ? "active" : ""
+                            }`}
                             key={i}
                           >
                             <button
@@ -179,10 +197,11 @@ const Users = () => {
                         )
                       )}
                       <li
-                        className={`page-item ${currentPage === Math.ceil(users.length / itemsPerPage)
+                        className={`page-item ${
+                          currentPage === Math.ceil(users.length / itemsPerPage)
                             ? "disabled"
                             : ""
-                          }`}
+                        }`}
                       >
                         <button
                           className="page-link"
@@ -240,8 +259,7 @@ const Users = () => {
                       </div>
                       <div className="mb-3">
                         <label className="form-label">Department</label>
-                        <input
-                          type="text"
+                        <select
                           className="form-control"
                           value={editUserData.department}
                           onChange={(e) =>
@@ -250,7 +268,20 @@ const Users = () => {
                               department: e.target.value,
                             })
                           }
-                        />
+                        >
+                          <option value="" disabled>
+                            Select Department
+                          </option>
+                          <option value="Admin">Admin</option>
+                          {departments.map((department) => (
+                            <option
+                              value={department.department_name}
+                              key={department.id}
+                            >
+                              {department.department_name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </form>
                   </div>

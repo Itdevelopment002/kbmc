@@ -158,7 +158,7 @@ const AddGeneralYear = () => {
         <div class="content">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li class="breadcrumb-item">
               <Link to="/add-general-department">Add General Admin Department</Link>

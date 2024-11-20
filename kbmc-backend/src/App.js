@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 
 import "./App.css";
 import "./assets/css/bootstrap-datetimepicker.min.css";
@@ -96,23 +101,22 @@ import AddYear from "./components/DepartmentData/AddYear";
 import api from "./components/api";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("authToken") // Check authentication status from localStorage
+  );
 
-  // Check for a token on app load
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      setIsAuthenticated(true); // User is authenticated if a token exists
-    }
-  }, []);
+  const [userDepartment] = useState(
+    JSON.parse(localStorage.getItem("userData"))?.department || ""
+  );
 
   const handleLogin = () => {
-    setIsAuthenticated(true); // Update authentication state
+    setIsAuthenticated(true); // Update authentication state on successful login
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken"); // Clear token
-    setIsAuthenticated(false); // Set state to unauthenticated
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userData");
+    setIsAuthenticated(false);
   };
 
   const [departments, setDepartments] = useState([]);
@@ -144,10 +148,149 @@ function App() {
     fetchDepartmentData();
   }, []);
 
+  const adminRoutes = (
+    <>
+      <Route path="/home" element={<MainMenu />} />
+      <Route path="/add-main-menu" element={<AddMainMenu />} />
+      <Route path="/slider" element={<Slider />} />
+      <Route path="/add-slider" element={<AddSlider />} />
+      <Route path="/add-user" element={<AddUsers />} />
+      <Route path="/user" element={<Users />} />
+      <Route path="/add-privacy-policy" element={<AddPrivacyPolicy />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+      <Route
+        path="/add-terms-and-conditions"
+        element={<AddTermsAndConditions />}
+      />
+      <Route path="/contact-us" element={<Contact />} />
+      <Route path="/notifications" element={<Notifications />} />
+      <Route path="/property-holder" element={<PropertyHolder />} />
+      <Route path="/add-property-holder" element={<AddPropertyHolder />} />
+      <Route path="/muncipal-properties" element={<MuncipalProperties />} />
+      <Route
+        path="/add-muncipal-properties"
+        element={<AddMuncipalProperties />}
+      />
+      <Route path="/schools" element={<Schools />} />
+      <Route path="/add-schools" element={<AddSchools />} />
+      <Route path="/garden" element={<Garden />} />
+      <Route path="/add-garden" element={<AddGarden />} />
+      <Route path="/add-tenders" element={<AddTender />} />
+      <Route path="/tenders" element={<Tender />} />
+      <Route path="/news" element={<News />} />
+      <Route path="/add-news" element={<AddNews />} />
+      <Route path="/photo-gallery" element={<PhotoGallery />} />
+      <Route path="/add-photos-gallery" element={<AddPhotoGallery />} />
+      <Route path="/add-services" element={<AddServices />} />
+      <Route path="/services" element={<Services />} />
+      <Route path="/electric" element={<Electric />} />
+      <Route path="/add-electric" element={<AddElectric />} />
+      <Route path="/roads" element={<Roads />} />
+      <Route path="/add-roads" element={<AddRoads />} />
+      <Route path="/tree-census" element={<TreeCensus />} />
+      <Route path="/add-tree-census" element={<AddTreeCensus />} />
+      <Route path="/ponds-talao" element={<PondsAndTalao />} />
+      <Route path="/add-ponds-talao" element={<AddPondsAndTalao />} />
+      <Route path="/fire-station" element={<FireStation />} />
+      <Route path="/add-fire-station" element={<AddFireStation />} />
+      <Route path="/private-hospital" element={<PrivateHospital />} />
+      <Route path="/add-private-hospital" element={<AddPrivateHospital />} />
+      <Route path="/health" element={<Health />} />
+      <Route path="/history" element={<History />} />
+      <Route path="/add-co" element={<AddCo />} />
+      <Route path="/add-history" element={<AddHistory />} />
+      <Route path="/wards" element={<Wards />} />
+      <Route path="/add-wards" element={<AddWards />} />
+      <Route path="/elected-wings" element={<ElectedWings />} />
+      <Route path="/add-elected-wings" element={<AddElectedWings />} />
+      <Route path="/functions" element={<Functions />} />
+      <Route path="/add-functions" element={<AddFunctions />} />
+      <Route path="/add-awards" element={<AddAwards />} />
+      <Route path="/add-award-images" element={<AddAwardImages />} />
+      <Route path="/awards" element={<Awards />} />
+      <Route path="/add-previous-officers" element={<AddPreviousOfficers />} />
+      <Route path="/previous-officers" element={<PreviousOfficers />} />
+      <Route
+        path="/add-previous-presidents"
+        element={<AddPreviousPresidents />}
+      />
+      <Route path="/previous-presidents" element={<PreviousPresidents />} />
+      <Route
+        path="/add-general-department"
+        element={<AddGeneralAdminDepartment />}
+      />
+      <Route path="/add-general-department-year" element={<AddGeneralYear />} />
+      <Route
+        path="/public-disclosure"
+        element={
+          <PublicDisclosure
+            fetchDepartments={fetchDepartments}
+            fetchDepartmentData={fetchDepartmentData}
+          />
+        }
+      />
+      <Route path="/citizen-charter" element={<CitizenCharter />} />
+      <Route path="/add-rts-pdf" element={<AddRtsPdf />} />
+      <Route path="/add-rts" element={<AddRts />} />
+      <Route path="/rts" element={<Rts />} />
+      <Route path="/home-videos" element={<HomeVideos />} />
+      <Route path="/add-home-videos" element={<AddHomeVideos />} />
+      <Route path="/gov-website-link" element={<GovWebsiteLink />} />
+      <Route path="/add-gov-website-link" element={<AddGovtWebsiteLink />} />
+      <Route path="/departments" element={<Departments />} />
+      <Route path="/add-departments" element={<AddDepartments />} />
+      <Route path="/add-pond-images" element={<AddPondsAndTalaoImages />} />
+      <Route path="/official-publications" element={<Publications />} />
+      <Route path="/add-official-publications" element={<AddPublications />} />
+      <Route path="/downloads" element={<Downloads />} />
+      <Route
+        path="/add-development-plan-description"
+        element={<AddDevelopmentDescription />}
+      />
+      <Route path="/add-development-plan-pdf" element={<AddDevelopmentPdf />} />
+      <Route path="/development-plan" element={<DevelopmentPlan />} />
+      {departments.map((department) =>
+        department.department_name !== "General Admin Department" ? (
+          <>
+            <Route
+              path={`/add-${department.department_name
+                .toLowerCase()
+                .replace(/\s+/g, "-")}`}
+              element={
+                <AddDepartmentData
+                  fetchDepartments={fetchDepartments}
+                  fetchDepartmentData={fetchDepartmentData}
+                />
+              }
+            />
+          </>
+        ) : null
+      )}
+      {departmentData && departmentData.length > 0 ? (
+        departmentData.map((data) =>
+          data?.heading_link ? (
+            <Route
+              key={data?.heading_link}
+              path={`/add-${data?.heading_link.replace(/^\//, "")}`} // Remove leading slash
+              element={<AddYear />}
+            />
+          ) : null
+        )
+      ) : (
+        <>Loding...</>
+      )}
+    </>
+  );
+
   return (
     <Router>
       {!isAuthenticated ? (
-        <Login onLogin={handleLogin} /> 
+        <Routes>
+          <Route path="/" element={<Login onLogin={handleLogin} />} />
+          {/* Redirect all other routes to Login */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       ) : (
         <>
           <Header onLogout={handleLogout} />
@@ -156,195 +299,10 @@ function App() {
             <div>
               <div>
                 <Routes>
-                  <Route path="/" element={<MainMenu />} />
-                  <Route path="/add-main-menu" element={<AddMainMenu />} />
-                  <Route path="/slider" element={<Slider />} />
-                  <Route path="/add-slider" element={<AddSlider />} />
-                  <Route path="/add-user" element={<AddUsers />} />
-                  <Route path="/user" element={<Users />} />
-                  <Route
-                    path="/add-privacy-policy"
-                    element={<AddPrivacyPolicy />}
-                  />
-                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                  <Route
-                    path="/terms-and-conditions"
-                    element={<TermsAndConditions />}
-                  />
-                  <Route
-                    path="/add-terms-and-conditions"
-                    element={<AddTermsAndConditions />}
-                  />
-                  <Route path="/contact-us" element={<Contact />} />
-                  <Route path="/notifications" element={<Notifications />} />
-                  <Route path="/property-holder" element={<PropertyHolder />} />
-                  <Route
-                    path="/add-property-holder"
-                    element={<AddPropertyHolder />}
-                  />
-                  <Route
-                    path="/muncipal-properties"
-                    element={<MuncipalProperties />}
-                  />
-                  <Route
-                    path="/add-muncipal-properties"
-                    element={<AddMuncipalProperties />}
-                  />
-                  <Route path="/schools" element={<Schools />} />
-                  <Route path="/add-schools" element={<AddSchools />} />
-                  <Route path="/garden" element={<Garden />} />
-                  <Route path="/add-garden" element={<AddGarden />} />
-                  <Route path="/add-tenders" element={<AddTender />} />
-                  <Route path="/tenders" element={<Tender />} />
-                  <Route path="/news" element={<News />} />
-                  <Route path="/add-news" element={<AddNews />} />
-                  <Route path="/photo-gallery" element={<PhotoGallery />} />
-                  <Route
-                    path="/add-photos-gallery"
-                    element={<AddPhotoGallery />}
-                  />
-                  <Route path="/add-services" element={<AddServices />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="/electric" element={<Electric />} />
-                  <Route path="/add-electric" element={<AddElectric />} />
-                  <Route path="/roads" element={<Roads />} />
-                  <Route path="/add-roads" element={<AddRoads />} />
-                  <Route path="/tree-census" element={<TreeCensus />} />
-                  <Route path="/add-tree-census" element={<AddTreeCensus />} />
-                  <Route path="/ponds-talao" element={<PondsAndTalao />} />
-                  <Route
-                    path="/add-ponds-talao"
-                    element={<AddPondsAndTalao />}
-                  />
-                  <Route path="/fire-station" element={<FireStation />} />
-                  <Route
-                    path="/add-fire-station"
-                    element={<AddFireStation />}
-                  />
-                  <Route
-                    path="/private-hospital"
-                    element={<PrivateHospital />}
-                  />
-                  <Route
-                    path="/add-private-hospital"
-                    element={<AddPrivateHospital />}
-                  />
-                  <Route path="/health" element={<Health />} />
-                  <Route path="/history" element={<History />} />
-                  <Route path="/add-co" element={<AddCo />} />
-                  <Route path="/add-history" element={<AddHistory />} />
-                  <Route path="/wards" element={<Wards />} />
-                  <Route path="/add-wards" element={<AddWards />} />
-                  <Route path="/elected-wings" element={<ElectedWings />} />
-                  <Route
-                    path="/add-elected-wings"
-                    element={<AddElectedWings />}
-                  />
-                  <Route path="/functions" element={<Functions />} />
-                  <Route path="/add-functions" element={<AddFunctions />} />
-                  <Route path="/add-awards" element={<AddAwards />} />
-                  <Route
-                    path="/add-award-images"
-                    element={<AddAwardImages />}
-                  />
-                  <Route path="/awards" element={<Awards />} />
-                  <Route
-                    path="/add-previous-officers"
-                    element={<AddPreviousOfficers />}
-                  />
-                  <Route
-                    path="/previous-officers"
-                    element={<PreviousOfficers />}
-                  />
-                  <Route
-                    path="/add-previous-presidents"
-                    element={<AddPreviousPresidents />}
-                  />
-                  <Route
-                    path="/previous-presidents"
-                    element={<PreviousPresidents />}
-                  />
-                  <Route
-                    path="/add-general-department"
-                    element={<AddGeneralAdminDepartment />}
-                  />
-                  <Route
-                    path="/add-general-department-year"
-                    element={<AddGeneralYear />}
-                  />
-                  <Route
-                    path="/public-disclosure"
-                    element={<PublicDisclosure fetchDepartments={fetchDepartments}
-                    fetchDepartmentData={fetchDepartmentData}/>}
-                  />
-                  <Route path="/citizen-charter" element={<CitizenCharter />} />
-                  <Route path="/add-rts-pdf" element={<AddRtsPdf />} />
-                  <Route path="/add-rts" element={<AddRts />} />
-                  <Route path="/rts" element={<Rts />} />
-                  <Route path="/home-videos" element={<HomeVideos />} />
-                  <Route path="/add-home-videos" element={<AddHomeVideos />} />
-                  <Route
-                    path="/gov-website-link"
-                    element={<GovWebsiteLink />}
-                  />
-                  <Route
-                    path="/add-gov-website-link"
-                    element={<AddGovtWebsiteLink />}
-                  />
-                  <Route path="/departments" element={<Departments />} />
-                  <Route path="/add-departments" element={<AddDepartments />} />
-                  <Route
-                    path="/add-pond-images"
-                    element={<AddPondsAndTalaoImages />}
-                  />
-                  <Route
-                    path="/official-publications"
-                    element={<Publications />}
-                  />
-                  <Route
-                    path="/add-official-publications"
-                    element={<AddPublications />}
-                  />
-                  <Route path="/downloads" element={<Downloads />} />
-                  <Route
-                    path="/add-development-plan-description"
-                    element={<AddDevelopmentDescription />}
-                  />
-                  <Route
-                    path="/add-development-plan-pdf"
-                    element={<AddDevelopmentPdf />}
-                  />
-                  <Route
-                    path="/development-plan"
-                    element={<DevelopmentPlan />}
-                  />
-                  {departments.map((department) =>
-                    department.department_name !==
-                    "General Admin Department" ? (
-                      <>
-                        <Route
-                          path={`/add-${department.department_name
-                            .toLowerCase()
-                            .replace(/\s+/g, "-")}`}
-                          element={<AddDepartmentData fetchDepartments={fetchDepartments}
-                          fetchDepartmentData={fetchDepartmentData}/>}
-                        />
-                      </>
-                    ) : null
-                  )}
-                  {departmentData && departmentData.length > 0 ? (
-                    departmentData.map((data) =>
-                      data?.heading_link ? (
-                        <Route
-                          key={data?.heading_link}
-                          path={`/add-${data?.heading_link.replace(/^\//, "")}`} // Remove leading slash
-                          element={<AddYear />}
-                        />
-                      ) : null
-                    )
-                  ) : (
-                    <>Loding...</>
-                  )}
+                  {/* Conditionally render routes based on the user department */}
+                  {userDepartment === "Admin" && adminRoutes}
+                  {/* Redirect invalid routes */}
+                  {/* <Route path="*" element={<Navigate to="/home" replace />} /> */}
                 </Routes>
               </div>
             </div>

@@ -8,21 +8,26 @@ const generateUniqueId = (req, res, next) => {
     next();
 };
 
+// Login route
 router.post('/login', generateUniqueId, (req, res) => {
-    const { username, password } = req.body;
+    const { department, username, password } = req.body;
 
-    const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
-    db.query(query, [username, password], (err, result) => {
+    const query = 'SELECT * FROM users WHERE department = ? AND username = ? AND password = ?';
+    db.query(query, [department, username, password], (err, result) => {
         if (err) {
             console.error('Database query error:', err);
             return res.status(500).json({ message: 'Server error' });
         }
 
         if (result.length > 0) {
+            // Send the user data in the response
+            const user = result[0]; // Get the first user from the result
             res.json({
                 message: 'Login successful',
-                user: result[0],
-                uniqueId: req.uniqueId 
+                user: {
+                    department: user.department,
+                },
+                uniqueId: req.uniqueId, // Include the uniqueId in the response
             });
         } else {
             res.status(401).json({ message: 'Invalid credentials' });

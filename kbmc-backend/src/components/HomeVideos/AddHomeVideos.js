@@ -71,7 +71,7 @@ const AddHomeVideos = () => {
             <div className="page-wrapper">
                 <div className="content">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                        <li className="breadcrumb-item"><Link to="/home">Home</Link></li>
                         <li className="breadcrumb-item"><Link to="/home-videos">Home Video</Link></li>
                         <li className="breadcrumb-item active" aria-current="page">Add Home Video</li>
                     </ol>

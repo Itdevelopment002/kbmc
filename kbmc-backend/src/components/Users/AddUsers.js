@@ -19,7 +19,7 @@ const AddUsers = () => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await api.get("/departments");
+      const response = await api.get("/public_disclosure");
       setDepartments(response.data);
     } catch (error) {
       console.error("Error fetching departments", error);
@@ -89,7 +89,7 @@ const AddUsers = () => {
         <div className="content">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               <Link to="/user">User</Link>
@@ -145,12 +145,15 @@ const AddUsers = () => {
                             <option value="" disabled>
                               Select Department
                             </option>
+                            <option value="Admin">
+                              Admin
+                            </option>
                             {departments.map((department) => (
                               <option
-                                value={department.name}
+                                value={department.department_name}
                                 key={department.id}
                               >
-                                {department.name}
+                                {department.department_name}
                               </option>
                             ))}
                           </select>

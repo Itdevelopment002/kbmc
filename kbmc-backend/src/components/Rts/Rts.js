@@ -140,7 +140,7 @@ const Rts = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <Link to="/">Home</Link>
+                <Link to="/home">Home</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Right to Service

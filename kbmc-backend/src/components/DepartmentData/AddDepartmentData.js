@@ -193,7 +193,7 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
         <div className="content">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li className="breadcrumb-item">
               <Link to="/public-disclosure">Public Disclosure</Link>
