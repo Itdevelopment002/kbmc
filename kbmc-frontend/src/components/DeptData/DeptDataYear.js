@@ -16,7 +16,8 @@ const DeptDataYear = () => {
   const fetchDeptData = async () => {
     try {
       const response = await api.get("department-datas");
-      const filteredData = response.data.filter(
+      const filteredDepartments = response.data.filter((department) => department.status === 1);
+      const filteredData = filteredDepartments.filter(
         (item) => String(item.id) === String(id)
       );
       setDeptData(filteredData); // Set department data
@@ -29,7 +30,8 @@ const DeptDataYear = () => {
     try {
       if (deptData.length === 0) return;
       const response = await api.get("/department-data-year");
-      const filteredData = response.data.filter(
+      const filteredDepartments = response.data.filter((department) => department.status === 1);
+      const filteredData = filteredDepartments.filter(
         (item) => item.department_id === deptData[0]?.id
       );
       setData(filteredData);
@@ -41,8 +43,9 @@ const DeptDataYear = () => {
   const fetchDepartmentData = async () => {
     try {
       const response = await api.get("public_disclosure");
-      setDepartmentName(response.data);
-      const filteredData = response.data.filter(
+      const filteredDepartments = response.data.filter((department) => department.status === 1);
+      setDepartmentName(filteredDepartments);
+      const filteredData = filteredDepartments.filter(
         (item) => String(item.id) === String(deptData[0]?.public_disclosure_id)
       );
       setDepartmentData(filteredData); // Set department data
@@ -83,13 +86,13 @@ const DeptDataYear = () => {
         </div>
         <div className="auto-container">
           <div className="content-box">
-            <h1>General Admin Department</h1>
+            <h1>{departmentData[0]?.department_name}</h1>
             <ul className="bread-crumb clearfix">
               <li>
                 <Link to="/departments">Departments</Link>
               </li>
               <li>
-                <span>General Admin Department</span>
+                <span>{departmentData[0]?.department_name}</span>
               </li>
             </ul>
           </div>

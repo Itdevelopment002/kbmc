@@ -94,31 +94,28 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
         // Step 3: Generate notification data
         const currentDate = new Date();
         const date = currentDate.toISOString().split("T")[0]; // Format date
-        const time = currentDate.toTimeString().split(" ")[0]; // Format time
+        const time = currentDate.toTimeString().split(" ")[0]; 
   
         const notificationData = {
           description: newDepartment,
           name: "public_disclosure",
-          new_id: newId, // Use the new ID here
+          new_id: newId,
           date,
           time,
         };
   
-        // Step 4: Post notification data to /admin-notifications
         await api.post("/admin-notifications", notificationData);
   
-        // Step 5: Update the local departments state
         setDepartments([
           ...departments,
-          { id: newId, department_name: newDepartment }, // Add new department
+          { id: newId, department_name: newDepartment }, 
         ]);
   
-        // Step 6: Clear form and fetch updated data
         setNewDepartment("");
         setErrors({});
-        fetchDeptDatas();
-        await fetchDepartments();
         await fetchDepartmentData();
+        await fetchDepartments();
+        fetchDeptDatas();
   
         toast.success("Department added successfully!");
       } catch (error) {
@@ -151,6 +148,8 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
               : dept
           )
         );
+        await fetchDepartmentData();
+        await fetchDepartments();
         fetchDeptDatas();
         setIsEditModalOpen(false);
         setSelectedDepartment(null);
@@ -172,6 +171,8 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
       setIsDeleteModalOpen(false);
       setSelectedDepartment(null);
       toast.success("Department deleted successfully!");
+      await fetchDepartmentData();
+      await fetchDepartments();
       fetchDeptDatas();
     } catch (error) {
       console.error("Error deleting department:", error);
@@ -288,6 +289,8 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
                                 to={
                                   department?.department_name === "General Admin Department"
                                     ? "/add-general-department"
+                                    : department?.department_name === "Town Planning"
+                                    ? "/development-plan"
                                     : `/add-${department.department_name
                                       .toLowerCase()
                                       .replace(/\s+/g, "-")}`
