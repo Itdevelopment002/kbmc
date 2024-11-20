@@ -14,8 +14,9 @@ const DeptData = ({ fetchDepartments, fetchDepartmentData }) => {
   const fetchDeptData = async () => {
     try {
       const response = await api.get(`/public_disclosure`);
-      setDepartmentName(response.data);
-      const filteredData = response.data.filter(
+      const filteredDepartments = response.data.filter((department) => department.status === 1);
+      setDepartmentName(filteredDepartments);
+      const filteredData = filteredDepartments.filter(
         (item) => String(item?.id) === String(id)
       );
       setDeptData(filteredData); // Set department data
@@ -30,7 +31,8 @@ const DeptData = ({ fetchDepartments, fetchDepartmentData }) => {
       const response = await api.get("/department-datas");
       await fetchDepartmentData();
       await fetchDepartments();
-      const filteredData = response.data.filter(
+      const filteredDepartments = response.data.filter((department) => department.status === 1);
+      const filteredData = filteredDepartments.filter(
         (item) => item.public_disclosure_id === deptData[0]?.id
       );
       setHeadings(filteredData);

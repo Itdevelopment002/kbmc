@@ -10,8 +10,11 @@ const DeptLayer2 = () => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await api.get("/departments");
-      setDepartments(response.data);
+      const response = await api.get("/public_disclosure");
+      const filteredDepartments = response.data.filter(
+        (department) => department.status === 1
+      );
+      setDepartments(filteredDepartments);
     } catch (error) {
       console.error("Error fetching departments data");
     }
@@ -25,7 +28,10 @@ const DeptLayer2 = () => {
     const fetchData = async () => {
       try {
         const response = await api.get("/generaladminaddyear");
-        setData(response.data);
+        const filteredDepartments = response.data.filter(
+          (department) => department.status === 1
+        );
+        setData(filteredDepartments);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -187,7 +193,22 @@ const DeptLayer2 = () => {
                       {departments.map((department, index) => (
                         <li key={index}>
                           {" "}
-                          <Link to={department.link}>{department.name}</Link>
+                          <Link
+                            to={
+                              department?.department_name ===
+                              "General Admin Department"
+                                ? "/general-admin-department"
+                                : department?.department_name ===
+                                  "Town Planning"
+                                ? "/town-planning"
+                                : `/${department?.department_name
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "-")}`
+                            }
+                            state={{ id: department?.id }}
+                          >
+                            {department?.department_name}
+                          </Link>
                         </li>
                       ))}
                     </ul>

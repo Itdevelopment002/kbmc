@@ -7,10 +7,19 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
   const [departments, setDepartments] = useState([]);
 
   const fetchDeptDatas = async () => {
-    const response = await api.get("/public_disclosure");
-    setDepartments(response.data);
+    try {
+      const response = await api.get("/public_disclosure");
+  
+      // Filter data where status is 1
+      const filteredDepartments = response.data.filter((department) => department.status === 1);
+  
+      setDepartments(filteredDepartments);
+    } catch (error) {
+      console.error("Error fetching department data:", error);
+      alert("Failed to fetch department data. Please try again later.");
+    }
   };
-
+  
   useEffect(() => {
     fetchDeptDatas();
   }, []);

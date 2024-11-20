@@ -11,7 +11,8 @@ const GenAdminDept = () => {
   const fetchDeptData = async () => {
     try {
       const response = await api.get(`/public_disclosure`);
-      setDepartments(response.data);
+      const filteredDepartments = response.data.filter((department) => department.status === 1);
+      setDepartments(filteredDepartments);
     } catch (error) {
       console.error("Error fetching department data:", error);
     }
@@ -26,7 +27,8 @@ const GenAdminDept = () => {
     const fetchGenDepartments = async () => {
       try {
         const response = await api.get("/generaladmindepartment");
-        setGenDepartments(response.data);
+        const filteredDepartments = response.data.filter((department) => department.status === 1);
+        setGenDepartments(filteredDepartments);
       } catch (err) {
         setError(
           err.response
