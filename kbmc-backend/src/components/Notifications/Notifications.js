@@ -56,13 +56,6 @@ const Notifications = () => {
       // Update status to disapproved
       await api.put(`/edit_${name}/${new_id}`, { status: 0 });
       setSelectedNotification(id);
-      const notificationData = {
-        heading: "Rejected",
-        description: `${description} has been rejected.Remark- ${remark}`,
-        readed: 0, // Default unread status
-      };
-  
-      await api.post("/notification", notificationData);
     } catch (error) {
       console.error("Error disapproving notification:", error);
       alert("Failed to disapprove notification. Please try again.");
@@ -78,6 +71,17 @@ const Notifications = () => {
     try {
       // Update remark for the selected notification
       await api.put(`/admin-notifications/${selectedNotification}`, { remark });
+  
+      // Send disapproval notification with the remark
+      const notificationData = {
+        heading: "Rejected",
+        description: `The notification has been rejected. Remark: ${remark}`,
+        readed: 0, // Default unread status
+      };
+  
+      await api.post("/notification", notificationData);
+  
+      // Update the local state to reflect the changes
       setNotifications(
         notifications.map((notification) =>
           notification.id === selectedNotification
@@ -85,12 +89,14 @@ const Notifications = () => {
             : notification
         )
       );
+  
       handleModalClose();
     } catch (error) {
-      console.error("Error updating remark for notification:", error);
-      alert("Failed to update remark. Please try again.");
+      console.error("Error updating remark and sending notification:", error);
+      alert("Failed to update remark and send notification. Please try again.");
     }
   };
+  
 
   // Helper function to format date
   const formatDate = (dateString) => {
