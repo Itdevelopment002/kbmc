@@ -7,7 +7,6 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ onLogin }) => {
-  const navigate = useNavigate();
 
   const [departments, setDepartments] = useState([]);
   const [loginType, setLoginType] = useState("admin");
@@ -72,15 +71,6 @@ const Login = ({ onLogin }) => {
       const response = await api.post(endpoint, userData);
       localStorage.setItem("authToken", response.data.uniqueId);
       onLogin();
-      navigate("/");
-      Swal.fire({
-        icon: "success",
-        title: "Success!",
-        text: "Login Successfully",
-        timer: 1500,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
     } catch (err) {
       Swal.fire({
         icon: "error",
