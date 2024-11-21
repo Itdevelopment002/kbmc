@@ -235,9 +235,9 @@ const Header = ({ onLogout }) => {
               </Link>
               {isUserDropdownOpen && (
                 <div className="dropdown-menu show dropdown-keep-visible">
-                  <Link className="dropdown-item" to="profile.html">My Profile</Link>
-                  <Link className="dropdown-item" to="edit-profile.html">Edit Profile</Link>
-                  <Link className="dropdown-item" to="settings.html">Settings</Link>
+                  <Link className="dropdown-item" to="#.">My Profile</Link>
+                  <Link className="dropdown-item" to="#.">Edit Profile</Link>
+                  <Link className="dropdown-item" to="#.">Settings</Link>
                   <Link className="dropdown-item" onClick={onLogout}>Logout</Link>
                 </div>
               )}
@@ -257,9 +257,9 @@ const Header = ({ onLogout }) => {
               </Link>
               {isUserDropdownOpen && (
                 <div className="dropdown-menu dropdown-menu-right show mx-2 dropdown-keep-visible">
-                  <Link className="dropdown-item" to="profile.html">My Profile</Link>
-                  <Link className="dropdown-item" to="edit-profile.html">Edit Profile</Link>
-                  <Link className="dropdown-item" to="settings.html">Settings</Link>
+                  <Link className="dropdown-item" to="#.">My Profile</Link>
+                  <Link className="dropdown-item" to="#.">Edit Profile</Link>
+                  <Link className="dropdown-item" to="#.">Settings</Link>
                   <Link className="dropdown-item" onClick={onLogout}>Logout</Link>
                 </div>
               )}

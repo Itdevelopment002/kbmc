@@ -4,7 +4,6 @@ import img from "../../assets/img/kbmc_logo.jpg";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import api from "../api";
-import { useNavigate } from "react-router-dom";
 
 const Login = ({ onLogin }) => {
 
@@ -69,7 +68,8 @@ const Login = ({ onLogin }) => {
     try {
       const endpoint = "/login"; // Use the same endpoint for admin and superadmin
       const response = await api.post(endpoint, userData);
-      localStorage.setItem("authToken", response.data.uniqueId);
+      localStorage.setItem("authToken", response.data.uniqueId); // Storing token
+      localStorage.setItem("userData", JSON.stringify(response.data.user));
       onLogin();
     } catch (err) {
       Swal.fire({
