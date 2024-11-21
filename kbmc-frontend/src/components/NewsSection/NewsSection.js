@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import './NewsSection.css'; 
+import React, { useState, useEffect } from 'react';
+import './NewsSection.css';
 import api from "../api";
 
 const NewsSection = () => {
@@ -7,15 +7,15 @@ const NewsSection = () => {
 
     const fetchNews = async () => {
         try {
-          const response = await api.get("/newsupdate");
-          const reversedNewsData = response.data.reverse();
-          setNewsData(reversedNewsData);
+            const response = await api.get("/newsupdate");
+            const reversedNewsData = response.data.reverse();
+            setNewsData(reversedNewsData);
         } catch (error) {
-          console.error("Error fetching news", error);
+            console.error("Error fetching news", error);
         }
-      };
-      
-    useEffect(()=>{
+    };
+
+    useEffect(() => {
         fetchNews();
     }, [])
 
@@ -25,7 +25,10 @@ const NewsSection = () => {
                 <div className="marquee">
                     <div className="marquee-content">
                         {newsData.map((item, index) => (
-                            <div className="marquee-item" key={index}>{item.description}</div>
+                            <div className="marquee-item" key={index}>
+                                <span style={{ color: '#3EA4ED' }}>{index + 1}. </span>
+                                {item.description}
+                            </div>
                         ))}
                     </div>
                 </div>

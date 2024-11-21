@@ -17,6 +17,7 @@ import SuperAdminRoutes from "./components/SuperAdminRoutes/SuperAdminRoutes";
 import AdminRoutes from "./components/AdminRoutes/AdminRoutes";
 
 function App() {
+
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("authToken") 
   );
