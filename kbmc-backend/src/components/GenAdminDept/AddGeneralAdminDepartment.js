@@ -384,6 +384,7 @@ const AddGeneralAdminDepartment = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedHeadingId, setSelectedHeadingId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [errors, setErrors] = useState([]);
   const itemsPerPage = 10;
 
 
@@ -401,7 +402,7 @@ const AddGeneralAdminDepartment = () => {
         },
       });
       setHeadings(response.data);
-      
+
     } catch (error) {
       console.error("Error fetching headings:", error);
     }
@@ -417,16 +418,40 @@ const AddGeneralAdminDepartment = () => {
     setNewHeadings(updatedHeadings);
   };
 
+  const validateFields = () => {
+    const validationErrors = newHeadings.map((headingData) => {
+      const fieldErrors = {};
+      if (!headingData.heading.trim()) {
+        fieldErrors.heading = "Heading is required";
+      }
+      if (!headingData.link.trim()) {
+        fieldErrors.link = "Link is required";
+      }
+      return fieldErrors;
+    });
+
+    const hasErrors = validationErrors.some(
+      (error) => Object.keys(error).length > 0
+    );
+
+    setErrors(validationErrors);
+    return !hasErrors;
+  };
+
+
   const handleSaveHeadings = async () => {
+
+    if (!validateFields()) return;
+
     const validHeadings = newHeadings.filter(
       (h) => h.heading.trim() !== "" && h.link.trim() !== ""
     );
-  
+
     if (validHeadings.length === 0) {
       toast.error("Please fill in all heading and link fields.");
       return;
     }
-  
+
     try {
       for (let heading of validHeadings) {
         // Step 1: Save the new heading
@@ -434,7 +459,7 @@ const AddGeneralAdminDepartment = () => {
           departments_heading: heading.heading,
           heading_link: heading.link,
         });
-  
+
         // Step 2: Fetch the updated list and find the newly added entry
         const updatedHeadings = await api.get("/generaladmindepartment"); // Adjust endpoint if necessary
         const newHeadingEntry = updatedHeadings.data.find(
@@ -442,18 +467,18 @@ const AddGeneralAdminDepartment = () => {
             dept.departments_heading === heading.heading &&
             dept.heading_link === heading.link
         );
-  
+
         if (!newHeadingEntry) {
           throw new Error("Unable to find the added heading.");
         }
-  
+
         const newId = newHeadingEntry.id;
-  
+
         // Step 3: Generate notification data
         const currentDate = new Date();
         const date = currentDate.toISOString().split("T")[0]; // Format date
         const time = currentDate.toTimeString().split(" ")[0]; // Format time
-  
+
         const notificationData = {
           description: `Added '${heading.heading}' in General Admin Department`,
           name: "generaladmindepartment",
@@ -461,11 +486,11 @@ const AddGeneralAdminDepartment = () => {
           date,
           time,
         };
-  
+
         // Step 4: Post notification data
         await api.post("/admin-notifications", notificationData);
       }
-  
+
       // Step 5: Refresh the headings list and reset input fields
       fetchHeadings();
       setNewHeadings([{ heading: "", link: "" }]);
@@ -475,9 +500,9 @@ const AddGeneralAdminDepartment = () => {
       toast.error("Error adding headings");
     }
   };
-  
-  
-  
+
+
+
   const handleDelete = async (id) => {
     try {
       await api.delete(`/generaladmindepartment/${id}`);
@@ -565,28 +590,42 @@ const AddGeneralAdminDepartment = () => {
                         <div className="col-md-4">
                           <input
                             type="text"
-                            className="form-control form-control-sm"
+                            className={`form-control ${errors[index]?.heading ? "is-invalid" : ""
+                              }`}
                             value={headingData.heading}
-                            onChange={(e) =>
-                              handleInputChange(
-                                index,
-                                "heading",
-                                e.target.value
-                              )
-                            }
+                            onChange={(e) => {
+                              handleInputChange(index, "heading", e.target.value);
+                              if (errors[index]?.heading) {
+                                const updatedErrors = [...errors];
+                                updatedErrors[index].heading = "";
+                                setErrors(updatedErrors);
+                              }
+                            }}
                             placeholder="Enter heading"
                           />
+                          {errors[index]?.heading && (
+                            <small className="text-danger">{errors[index].heading}</small>
+                          )}
                         </div>
                         <div className="col-md-4">
                           <input
                             type="text"
-                            className="form-control form-control-sm"
+                            className={`form-control ${errors[index]?.link ? "is-invalid" : ""
+                              }`}
                             value={headingData.link}
-                            onChange={(e) =>
-                              handleInputChange(index, "link", e.target.value)
-                            }
+                            onChange={(e) => {
+                              handleInputChange(index, "link", e.target.value);
+                              if (errors[index]?.link) {
+                                const updatedErrors = [...errors];
+                                updatedErrors[index].link = "";
+                                setErrors(updatedErrors);
+                              }
+                            }}
                             placeholder="Enter link"
                           />
+                          {errors[index]?.link && (
+                            <small className="text-danger">{errors[index].link}</small>
+                          )}
                         </div>
                         <div className="col-md-2">
                           <button
@@ -628,10 +667,10 @@ const AddGeneralAdminDepartment = () => {
                             <td>
                               <span
                                 className={`badge ${heading.status === 1
-                                    ? "bg-success"
-                                    : heading.status === 0
-                                      ? "bg-danger"
-                                      : "bg-info"
+                                  ? "bg-success"
+                                  : heading.status === 0
+                                    ? "bg-danger"
+                                    : "bg-info"
                                   }`}
                                 style={{
                                   display: "inline-block",
@@ -683,9 +722,8 @@ const AddGeneralAdminDepartment = () => {
                   <div className="mt-4">
                     <ul className="pagination">
                       <li
-                        className={`page-item ${
-                          currentPage === 1 ? "disabled" : ""
-                        }`}
+                        className={`page-item ${currentPage === 1 ? "disabled" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -698,9 +736,8 @@ const AddGeneralAdminDepartment = () => {
                         { length: Math.ceil(headings.length / itemsPerPage) },
                         (_, i) => (
                           <li
-                            className={`page-item ${
-                              currentPage === i + 1 ? "active" : ""
-                            }`}
+                            className={`page-item ${currentPage === i + 1 ? "active" : ""
+                              }`}
                             key={i}
                           >
                             <button
@@ -713,12 +750,11 @@ const AddGeneralAdminDepartment = () => {
                         )
                       )}
                       <li
-                        className={`page-item ${
-                          currentPage ===
+                        className={`page-item ${currentPage ===
                           Math.ceil(headings.length / itemsPerPage)
-                            ? "disabled"
-                            : ""
-                        }`}
+                          ? "disabled"
+                          : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -803,8 +839,8 @@ const AddGeneralAdminDepartment = () => {
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                   <div className="modal-body text-center">
-                    <h5>Are you sure you want to delete this entry?</h5>           
-                          </div>
+                    <h5>Are you sure you want to delete this entry?</h5>
+                  </div>
                   <div className="modal-footer">
                     <button
                       className="btn btn-secondary btn-sm"

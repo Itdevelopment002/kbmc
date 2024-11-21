@@ -45,7 +45,7 @@ const BottomSlider = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -55,13 +55,19 @@ const BottomSlider = () => {
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 5,
+          slidesToShow: 4,
         },
       },
       {
         breakpoint: 1000,
         settings: {
           slidesToShow: 4,
+        },
+      },
+      {
+        breakpoint: 868,
+        settings: {
+          slidesToShow: 3,
         },
       },
       {
@@ -81,7 +87,7 @@ const BottomSlider = () => {
   };
 
   return (
-    <section className="client-logo-slider my-3">
+    <section className="client-logo-slider my-3 mx-5">
       <div className="content-box">
         <div className="inner-box">
           <Slider {...settings}>

@@ -19,7 +19,7 @@
 }
   
 .marquee-item {
-    padding: 0 50px; /* Space between items */
+    padding: 0 22px; /* Space between items */
     font-size: 16px; /* Font size */
     line-height: 50px; /* Vertically center text */
 }

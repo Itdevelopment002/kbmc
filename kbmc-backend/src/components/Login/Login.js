@@ -70,10 +70,9 @@ const Login = ({ onLogin }) => {
     try {
       const endpoint = "/login"; // Use the same endpoint for admin and superadmin
       const response = await api.post(endpoint, userData);
-      localStorage.setItem("authToken", response.data.uniqueId); // Storing token
-      localStorage.setItem("userData", JSON.stringify(response.data.user));
+      localStorage.setItem("authToken", response.data.uniqueId);
       onLogin();
-      navigate("/home");
+      navigate("/");
       Swal.fire({
         icon: "success",
         title: "Success!",
@@ -102,23 +101,23 @@ const Login = ({ onLogin }) => {
           <div className="form-container form-container1">
             <img src={img} alt="Logo" className="mb-4" />
             <div className="button-container mb-4 d-flex justify-content-center">
-              <button
-                className={`btn btn-primary mx-1 ${
-                  loginType === "admin" ? "active" : ""
-                }`}
-                onClick={() => handleLoginTypeChange("admin")}
-              >
-                Admin
-              </button>
-              <button
-                className={`btn btn-primary mx-1 ${
-                  loginType === "superadmin" ? "active" : ""
-                }`}
-                onClick={() => handleLoginTypeChange("superadmin")}
-              >
-                Super Admin
-              </button>
-            </div>
+      <button
+        className={`btn btn-sm mx-1 ${
+          loginType === "admin" ? "btn-primary text-white" : "bg-transparent-info"
+        }`}
+        onClick={() => handleLoginTypeChange("admin")}
+      >
+        Admin
+      </button>
+      <button
+        className={`btn btn-sm mx-1 ${
+          loginType === "superadmin" ? "btn-primary text-white" : "bg-transparent-info"
+        }`}
+        onClick={() => handleLoginTypeChange("superadmin")}
+      >
+        Super Admin
+      </button>
+    </div>
             <form>
               {loginType === "admin" && (
                 <div className="mb-3 text-start">

@@ -6,9 +6,28 @@ import { Link } from "react-router-dom";
 const AddPrivacyPolicy = () => {
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
+  const [errors, setErrors] = useState({ heading: "", description: "" });
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!heading) {
+      newErrors.heading = "Heading is required.";
+    }
+    if (!description) {
+      newErrors.description = "Description is required.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     const formData = {
       heading,
       description,
@@ -24,12 +43,16 @@ const AddPrivacyPolicy = () => {
       if (response.status === 201) {
         setHeading("");
         setDescription("");
+        setErrors({ heading: "", description: "" });
         navigate("/privacy-policy");
+      } else {
+        console.error("Failed to add privacy policy");
       }
     } catch (error) {
       console.error("Error adding privacy policy:", error);
     }
   };
+
   return (
     <div>
       <div className="page-wrapper">
@@ -62,29 +85,47 @@ const AddPrivacyPolicy = () => {
                       <div className="col-md-4">
                         <input
                           type="text"
-                          className="form-control form-control-md"
+                          className={`form-control ${
+                            errors.heading ? "is-invalid" : ""
+                          }`}
                           placeholder="Enter heading"
                           value={heading}
-                          onChange={(e) => setHeading(e.target.value)}
-                          required
+                          onChange={(e) => {
+                            setHeading(e.target.value);
+                            if (errors.heading) {
+                              setErrors({ ...errors, heading: "" });
+                            }
+                          }}
                         />
+                        {errors.heading && (
+                          <small className="text-danger">{errors.heading}</small>
+                        )}
                       </div>
                     </div>
                     <div className="form-group row">
                       <label className="col-form-label col-lg-2">
-                        Description<span className="text-danger">*</span>
+                        Description <span className="text-danger">*</span>
                       </label>
                       <div className="col-md-4">
-                        <div className="input-group mb-3">
-                          <textarea
-                            className="form-control form-control-md"
-                            placeholder="Enter description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            rows="2"
-                            required
-                          />
-                        </div>
+                        <textarea
+                          className={`form-control ${
+                            errors.description ? "is-invalid" : ""
+                          }`}
+                          placeholder="Enter description"
+                          value={description}
+                          onChange={(e) => {
+                            setDescription(e.target.value);
+                            if (errors.description) {
+                              setErrors({ ...errors, description: "" });
+                            }
+                          }}
+                          rows="2"
+                        />
+                        {errors.description && (
+                          <small className="text-danger">
+                            {errors.description}
+                          </small>
+                        )}
                       </div>
                     </div>
                     <input
