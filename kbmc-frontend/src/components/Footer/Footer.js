@@ -62,7 +62,7 @@ const Footer = () => {
           <div className="bottom-inner">
             <div className="copyright">
               <p>
-                Copyright &copy; {currentYear} <Link to="#.">KBMC</Link>. All
+                Copyright &copy; {currentYear} <Link to="/">KBMC</Link>. All
                 rights reserved.
                 <span> | </span>
                 <Link to="/privacy-policy">Privacy Policy</Link>

@@ -250,7 +250,7 @@ const DepartmentDetails = () => {
                     </h3>
                     <ul className="list-item clearfix">
                       <li>
-                        <Link to="#.">Helpline - 0251-2690271</Link>
+                        <Link to="tel:0251-2690271">Helpline - 0251-2690271</Link>
                       </li>
                       <li>
                         <Link to="#.">Emergency - </Link>
