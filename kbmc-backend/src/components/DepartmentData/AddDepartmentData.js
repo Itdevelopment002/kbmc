@@ -4,10 +4,14 @@ import api from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
+const AddDepartmentData = ({
+  departmentId,
+  fetchDepartments,
+  fetchDepartmentData,
+}) => {
   const location = useLocation();
   const state = location.state || {};
-  const { id } = state;
+  const id = departmentId || state.id;
   const [headings, setHeadings] = useState([]);
   const [deptData, setDeptData] = useState([]);
   const [newHeadings, setNewHeadings] = useState([{ heading: "", link: "" }]);
@@ -140,10 +144,10 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
       }
 
       // Refresh data after adding
-      await fetchDepartments();
-      await fetchDepartmentData();
       fetchDeptData();
       fetchHeadings();
+      await fetchDepartments();
+      await fetchDepartmentData();
 
       // Reset form
       setNewHeadings([{ heading: "", link: "" }]);
@@ -153,8 +157,6 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
       toast.error("Error adding headings");
     }
   };
-
-
 
   const handleDelete = async (id) => {
     try {
@@ -181,6 +183,8 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
         department_heading: editingTitle,
         heading_link: editingLink,
       });
+      await fetchDepartments();
+      await fetchDepartmentData();
       fetchHeadings();
       setEditingId(null);
       setEditingTitle("");
@@ -241,14 +245,22 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
                   >
                     {newHeadings.map((headingData, index) => (
                       <div className="form-group row" key={index}>
-                        <label className="col-form-label col-md-2">Add Heading</label>
+                        <label className="col-form-label col-md-2">
+                          Add Heading
+                        </label>
                         <div className="col-md-4">
                           <input
                             type="text"
-                            className={`form-control form-control-sm ${errors[index]?.heading ? "is-invalid" : ""}`}
+                            className={`form-control form-control-sm ${
+                              errors[index]?.heading ? "is-invalid" : ""
+                            }`}
                             value={headingData.heading}
                             onChange={(e) => {
-                              handleInputChange(index, "heading", e.target.value);
+                              handleInputChange(
+                                index,
+                                "heading",
+                                e.target.value
+                              );
                               if (errors[index]?.heading) {
                                 const updatedErrors = [...errors];
                                 updatedErrors[index].heading = "";
@@ -258,13 +270,17 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
                             placeholder="Enter heading"
                           />
                           {errors[index]?.heading && (
-                            <small className="text-danger">{errors[index].heading}</small>
+                            <small className="text-danger">
+                              {errors[index].heading}
+                            </small>
                           )}
                         </div>
                         <div className="col-md-4">
                           <input
                             type="text"
-                            className={`form-control form-control-sm ${errors[index]?.link ? "is-invalid" : ""}`}
+                            className={`form-control form-control-sm ${
+                              errors[index]?.link ? "is-invalid" : ""
+                            }`}
                             value={headingData.link}
                             onChange={(e) => {
                               handleInputChange(index, "link", e.target.value);
@@ -277,7 +293,9 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
                             placeholder="Enter link"
                           />
                           {errors[index]?.link && (
-                            <small className="text-danger">{errors[index].link}</small>
+                            <small className="text-danger">
+                              {errors[index].link}
+                            </small>
                           )}
                         </div>
                         <div className="col-md-2">
@@ -291,11 +309,9 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
                         </div>
                       </div>
                     ))}
-                    <div className="col-md-4 mt-3">
-                      <button type="submit" className="btn btn-primary btn-sm">
-                        Save
-                      </button>
-                    </div>
+                    <button type="submit" className="btn btn-primary btn-sm">
+                      Submit
+                    </button>
                   </form>
                   <hr />
                   <div className="table-responsive mt-4">
@@ -319,23 +335,24 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
                             <td>{heading.heading_link}</td>
                             <td>
                               <span
-                                className={`badge ${heading.status === 1
-                                  ? "bg-success"
-                                  : heading.status === 0
+                                className={`badge ${
+                                  heading.status === 1
+                                    ? "bg-success"
+                                    : heading.status === 0
                                     ? "bg-danger"
                                     : "bg-info"
-                                  }`}
+                                }`}
                                 style={{
                                   display: "inline-block",
                                   padding: "5px 10px",
-                                  color: 'whitesmoke',
+                                  color: "whitesmoke",
                                 }}
                               >
                                 {heading.status === 1
                                   ? "Approved"
                                   : heading.status === 0
-                                    ? "Rejected"
-                                    : "In Progress"}
+                                  ? "Rejected"
+                                  : "In Progress"}
                               </span>
                             </td>
                             <td>
@@ -381,8 +398,9 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
                   <div className="mt-4">
                     <ul className="pagination">
                       <li
-                        className={`page-item ${currentPage === 1 ? "disabled" : ""
-                          }`}
+                        className={`page-item ${
+                          currentPage === 1 ? "disabled" : ""
+                        }`}
                       >
                         <button
                           className="page-link"
@@ -395,8 +413,9 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
                         { length: Math.ceil(headings.length / itemsPerPage) },
                         (_, i) => (
                           <li
-                            className={`page-item ${currentPage === i + 1 ? "active" : ""
-                              }`}
+                            className={`page-item ${
+                              currentPage === i + 1 ? "active" : ""
+                            }`}
                             key={i}
                           >
                             <button
@@ -409,11 +428,12 @@ const AddDepartmentData = ({ fetchDepartments, fetchDepartmentData }) => {
                         )
                       )}
                       <li
-                        className={`page-item ${currentPage ===
-                            Math.ceil(headings.length / itemsPerPage)
+                        className={`page-item ${
+                          currentPage ===
+                          Math.ceil(headings.length / itemsPerPage)
                             ? "disabled"
                             : ""
-                          }`}
+                        }`}
                       >
                         <button
                           className="page-link"

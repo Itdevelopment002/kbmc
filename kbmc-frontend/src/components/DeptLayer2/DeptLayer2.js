@@ -1,43 +1,72 @@
 import React, { useState, useEffect } from "react";
 import api, { baseURL } from "../api";
 import innerBanner from "../../assets/images/banner/inner-banner.jpg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const DeptLayer2 = () => {
+  const location = useLocation();
+  const state = location.state || {};
+  const { id } = state;
   const [activeIndex, setActiveIndex] = useState(null);
   const [data, setData] = useState([]);
-  const [departments, setDepartments] = useState([]);
+  const [deptData, setDeptData] = useState([]);
+  const [departmentName, setDepartmentName] = useState([]);
 
-  const fetchDepartments = async () => {
+  const fetchDeptData = async () => {
     try {
-      const response = await api.get("/public_disclosure");
+      const response = await api.get("/generaladmindepartment");
       const filteredDepartments = response.data.filter(
         (department) => department.status === 1
       );
-      setDepartments(filteredDepartments);
+      const filteredData = filteredDepartments.filter(
+        (item) => String(item.id) === String(id)
+      );
+      setDeptData(filteredData); // Set department data
     } catch (error) {
-      console.error("Error fetching departments data");
+      console.error("Error fetching department data:", error);
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      if (deptData.length === 0) return;
+      const response = await api.get("/generaladminaddyear");
+      const filteredDepartments = response.data.filter(
+        (department) => department.status === 1
+      );
+      const filteredData = filteredDepartments.filter(
+        (item) => item.department_id === deptData[0]?.id
+      );
+      setData(filteredData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchDepartmentData = async () => {
+    try {
+      const response = await api.get("public_disclosure");
+      const filteredDepartments = response.data.filter(
+        (department) => department.status === 1
+      );
+      setDepartmentName(filteredDepartments);
+    } catch (error) {
+      console.error("Error fetching department data:", error);
     }
   };
 
   useEffect(() => {
-    fetchDepartments();
+    fetchDeptData(); // Fetch department data on initial render
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get("/generaladminaddyear");
-        const filteredDepartments = response.data.filter(
-          (department) => department.status === 1
-        );
-        setData(filteredDepartments);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
+    if (deptData.length > 0) {
+      fetchData();
+      fetchDepartmentData();
+    }
+    // eslint-disable-next-line
+  }, [deptData]);
 
   const handleAccordionClick = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -77,9 +106,7 @@ const DeptLayer2 = () => {
               <div className="department-details-content">
                 <div className="content-one dept_leyer_1">
                   <div className="title-box">
-                    <h3>
-                      General Meeting and Standing Committee Meeting Resolutions
-                    </h3>
+                    <h3>{deptData[0]?.departments_heading}</h3>
                     <hr />
                   </div>
                 </div>
@@ -105,7 +132,10 @@ const DeptLayer2 = () => {
                             };
                           }
                           if (item.meetingtype === "General Meeting") {
-                            acc[yearKey].generalMeetings.push(item.pdfheading);
+                            acc[yearKey].generalMeetings.push({
+                              pdf: item.pdf,
+                              pdfheading: item.pdfheading,
+                            });
                           } else if (
                             item.meetingtype === "Standing Committee Meeting"
                           ) {
@@ -190,7 +220,7 @@ const DeptLayer2 = () => {
                 <div className="category-widget">
                   <div className="widget-content">
                     <ul className="category-list clearfix">
-                      {departments.map((department, index) => (
+                      {departmentName.map((department, index) => (
                         <li key={index}>
                           {" "}
                           <Link

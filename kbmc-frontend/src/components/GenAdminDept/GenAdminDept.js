@@ -83,10 +83,10 @@ const GenAdminDept = () => {
                     {error ? (
                       <li>{error}</li>
                     ) : (
-                      genDepartments.map((genDepartment) => (
-                        <li key={genDepartment.id}>
-                          <Link to={genDepartment.heading_link}>
-                            {genDepartment.departments_heading}
+                      genDepartments.map((dept) => (
+                        <li key={dept.id}>
+                          <Link to={dept.heading_link} state={{ id: dept?.id }}>
+                            {dept.departments_heading}
                           </Link>
                         </li>
                       ))

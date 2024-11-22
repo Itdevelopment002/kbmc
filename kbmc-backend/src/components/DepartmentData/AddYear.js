@@ -145,7 +145,6 @@ const AddGeneralYear = () => {
       // Step 4: Post the notification data
       await api.post("/admin-notifications", notificationData);
 
-      // Refresh the data and clear the form
       fetchData();
       setYear("");
       setPdfHeading("");

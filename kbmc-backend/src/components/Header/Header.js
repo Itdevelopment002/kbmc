@@ -6,7 +6,7 @@ import './Header.css'
 import api from '../api';
 import { formatDistanceToNow } from 'date-fns';
 
-const Header = ({ onLogout }) => {
+const Header = ({ onLogout, userDepartment }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isScreenLarge, setIsScreenLarge] = useState(window.innerWidth > 990);
   const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false);
@@ -267,7 +267,7 @@ const Header = ({ onLogout }) => {
           </ul>
         </div>
       </div>
-      <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} />
+      <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} userDepartment={userDepartment} />
     </>
   );
 };
