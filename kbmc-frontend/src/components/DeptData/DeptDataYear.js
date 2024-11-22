@@ -15,8 +15,10 @@ const DeptDataYear = () => {
 
   const fetchDeptData = async () => {
     try {
-      const response = await api.get("department-datas");
-      const filteredDepartments = response.data.filter((department) => department.status === 1);
+      const response = await api.get("/department-datas");
+      const filteredDepartments = response.data.filter(
+        (department) => department.status === 1
+      );
       const filteredData = filteredDepartments.filter(
         (item) => String(item.id) === String(id)
       );
@@ -30,7 +32,9 @@ const DeptDataYear = () => {
     try {
       if (deptData.length === 0) return;
       const response = await api.get("/department-data-year");
-      const filteredDepartments = response.data.filter((department) => department.status === 1);
+      const filteredDepartments = response.data.filter(
+        (department) => department.status === 1
+      );
       const filteredData = filteredDepartments.filter(
         (item) => item.department_id === deptData[0]?.id
       );
@@ -43,7 +47,9 @@ const DeptDataYear = () => {
   const fetchDepartmentData = async () => {
     try {
       const response = await api.get("public_disclosure");
-      const filteredDepartments = response.data.filter((department) => department.status === 1);
+      const filteredDepartments = response.data.filter(
+        (department) => department.status === 1
+      );
       setDepartmentName(filteredDepartments);
       const filteredData = filteredDepartments.filter(
         (item) => String(item.id) === String(deptData[0]?.public_disclosure_id)
@@ -66,6 +72,22 @@ const DeptDataYear = () => {
     }
     // eslint-disable-next-line
   }, [deptData]);
+
+  const groupedData = data.reduce((acc, item) => {
+    const { year } = item;
+    if (!acc[year]) {
+      acc[year] = [];
+    }
+    acc[year].push(item);
+    return acc;
+  }, {});
+
+  // Convert grouped data to an array and sort by year descending
+  const sortedData = Object.entries(groupedData).sort(([yearA], [yearB]) => {
+    // Parse years for proper sorting
+    const parseYear = (y) => parseInt(y.match(/\d{4}/g)?.[0] || "0", 10);
+    return parseYear(yearB) - parseYear(yearA);
+  });
 
   const handleAccordionClick = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -121,19 +143,7 @@ const DeptDataYear = () => {
                 <div className="col-lg-11 col-md-11 col-sm-11 content-column">
                   <div className="content-box">
                     <ul className="accordion-box year-accordion-box">
-                      {Object.entries(
-                        data.reduce((acc, item) => {
-                          const yearKey = item.year;
-                          if (!acc[yearKey]) {
-                            acc[yearKey] = [];
-                          }
-                          acc[yearKey].push({
-                            pdf: item.pdf,
-                            pdfheading: item.pdfheading,
-                          });
-                          return acc;
-                        }, {})
-                      ).map(([year, yearData], index) => (
+                      {sortedData.map(([year, records], index) => (
                         <li
                           key={index}
                           className={`accordion block ${
@@ -156,14 +166,14 @@ const DeptDataYear = () => {
                             <div className="row">
                               <div className="col-md-6">
                                 <ul>
-                                  {yearData.map((resolution, idx) => (
+                                  {records.map((record, idx) => (
                                     <li key={idx}>
                                       <Link
-                                        to={`${baseURL}/${resolution.pdf}`}
+                                        to={`${baseURL}/${record.pdf}`}
                                         target="_blank"
                                         rel="noreferrer"
                                       >
-                                        {resolution.pdfheading}
+                                        {record.pdfheading}
                                       </Link>
                                     </li>
                                   ))}

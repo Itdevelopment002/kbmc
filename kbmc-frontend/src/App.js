@@ -55,10 +55,12 @@ import OfficialPublication from "./components/OfficialPublication/OfficialPublic
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import DeptData from "./components/DeptData/DeptData";
 import DeptDataYear from "./components/DeptData/DeptDataYear";
+import CookieConsent from "./components/CookieConsent/CookieConsent";
 
 function App() {
   const [departments, setDepartments] = useState([]);
   const [departmentData, setDepartmentData] = useState([]);
+  const [departmentDatas, setDepartmentDatas] = useState([]);
 
   // Fetch departments
   const fetchDepartments = async () => {
@@ -80,14 +82,26 @@ function App() {
     }
   };
 
+  const fetchDepartmentDatas = async () => {
+    try {
+      const response = await api.get("/generaladmindepartment");
+      setDepartmentDatas(response.data);
+    } catch (error) {
+      console.error("Error fetching department data:", error);
+    }
+  };
+
   // Fetch data on mount and when refresh changes
   useEffect(() => {
     fetchDepartments();
     fetchDepartmentData();
+    fetchDepartmentDatas();
   }, []);
+  
   return (
     <Router>
       <Header />
+      <CookieConsent />
       <Routes>
         <Route path="/" element={<MainHome />} />
         <Route path="/history" element={<History />} />
@@ -137,6 +151,19 @@ function App() {
         <Route path="/downloads" element={<Downloads />} />
         <Route path="/official-publication" element={<OfficialPublication />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        {departmentDatas && departmentDatas.length > 0 ? (
+          departmentDatas.map((data) =>
+            data?.heading_link ? (
+              <Route
+                key={data?.heading_link}
+                path={data?.heading_link} // Remove leading slash
+                element={<DeptLayer2 />}
+              />
+            ) : null
+          )
+        ) : (
+          <>Loding...</>
+        )}
         {departments.map((department) =>
           department.department_name !== "General Admin Department" ? (
             <>

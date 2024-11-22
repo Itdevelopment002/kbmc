@@ -21,16 +21,14 @@ const upload = multer({ storage: storage });
 
 // API to add a new entry with PDF
 router.post('/generaladminaddyear', upload.single('pdf'), (req, res) => {
-    const { year, meetingtype, pdfheading } = req.body; // Ensure these names match your client-side form
-    const pdfPath = req.file ? req.file.path : null; // Path to the uploaded PDF
-
-    // Check if required fields are provided
-    if (!year || !meetingtype || !pdfheading || !pdfPath) {
+    const { department_id, department_heading, year, meetingtype, pdfheading } = req.body; // Ensure these names match your client-side form
+    const pdfPath = req.file ? req.file.path : null;
+    if (!department_id || !department_heading ||!year || !meetingtype || !pdfheading || !pdfPath) {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const sql = 'INSERT INTO generaladminaddyear (year, meetingtype, pdfheading, pdf) VALUES (?, ?, ?, ?)';
-    db.query(sql, [year, meetingtype, pdfheading, pdfPath], (err, result) => {
+    const sql = 'INSERT INTO generaladminaddyear (department_id, department_heading, year, meetingtype, pdfheading, pdf) VALUES (?, ?, ?, ?, ?, ?)';
+    db.query(sql, [department_id, department_heading, year, meetingtype, pdfheading, pdfPath], (err, result) => {
         if (err) {
             return res.status(500).json({ message: 'Database error', error: err });
         }

@@ -80,8 +80,9 @@ import DevelopmentPlan from "../DevelopmentPlan/DevelopmentPlan";
 import AddDepartmentData from "../DepartmentData/AddDepartmentData";
 import AddYear from "../DepartmentData/AddYear";
 import api from "../api";
-function SuperAdminRoutes({ onLogout }) {
+function SuperAdminRoutes() {
   const [departments, setDepartments] = useState([]);
+  const [departmentDatas, setDepartmentDatas] = useState([]);
   const [departmentData, setDepartmentData] = useState([]);
 
   // Fetch departments
@@ -89,6 +90,15 @@ function SuperAdminRoutes({ onLogout }) {
     try {
       const response = await api.get("/public_disclosure");
       setDepartments(response.data);
+    } catch (error) {
+      console.error("Error fetching departments:", error);
+    }
+  };
+
+  const fetchDepartmentsData = async () => {
+    try {
+      const response = await api.get("/generaladmindepartment");
+      setDepartmentDatas(response.data);
     } catch (error) {
       console.error("Error fetching departments:", error);
     }
@@ -108,6 +118,7 @@ function SuperAdminRoutes({ onLogout }) {
   useEffect(() => {
     fetchDepartments();
     fetchDepartmentData();
+    fetchDepartmentsData();
   }, []);
 
   return (
@@ -183,12 +194,21 @@ function SuperAdminRoutes({ onLogout }) {
         <Route path="/previous-presidents" element={<PreviousPresidents />} />
         <Route
           path="/add-general-department"
-          element={<AddGeneralAdminDepartment />}
+          element={<AddGeneralAdminDepartment fetchDepartmentsData={fetchDepartmentsData} />}
         />
-        <Route
-          path="/add-general-department-year"
-          element={<AddGeneralYear />}
-        />
+        {departmentDatas && departmentDatas.length > 0 ? (
+          departmentDatas.map((data) =>
+            data?.heading_link ? (
+              <Route
+                key={data?.heading_link}
+                path={`/add-${data?.heading_link.replace(/^\//, "")}`}
+                element={<AddGeneralYear />}
+              />
+            ) : null
+          )
+        ) : (
+          <>Loding...</>
+        )}
         <Route
           path="/public-disclosure"
           element={
@@ -246,8 +266,8 @@ function SuperAdminRoutes({ onLogout }) {
             data?.heading_link ? (
               <Route
                 key={data?.heading_link}
-                path={`/add-${data?.heading_link.replace(/^\//, "")}`} // Remove leading slash
-                element={<AddYear />}
+                path={`/add-${data?.heading_link.replace(/^\//, "")}`}
+                element={<AddYear fetchDepartmentDatas={fetchDepartmentData} />}
               />
             ) : null
           )

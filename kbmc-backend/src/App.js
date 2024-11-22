@@ -21,7 +21,7 @@ function App() {
     !!localStorage.getItem("authToken") 
   );
   const [department, setDepartment] = useState(null);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("userData"));
@@ -69,7 +69,7 @@ function App() {
             <Spinner />
           ) : (
             <>
-              <Header onLogout={handleLogout} />
+              <Header onLogout={handleLogout} userDepartment={department} />
               <div>
                 <Sidebar userDepartment={department} />
                 <div>{renderRoutes()}</div>

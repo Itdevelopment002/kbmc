@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { FaFilePdf } from "react-icons/fa"; // PDF icon
 import api, { baseURL } from "../api";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddGeneralYear = () => {
+  const location = useLocation();
+  const state = location.state || {};
+  const { id } = state;
   const [year, setYear] = useState("");
-  const [meetingType, setMeetingType] = useState("General Meeting");
+  const [meetingType, setMeetingType] = useState("");
   const [pdfHeading, setPdfHeading] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
+  const [deptData, setDeptData] = useState([]);
   const [data, setData] = useState([]);
   const [editYearData, setEditYearData] = useState({
     year: "",
+    meetingtype: "",
     heading: "",
     pdf: null,
   });
@@ -29,6 +34,7 @@ const AddGeneralYear = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!year.trim()) newErrors.year = "Year is required.";
+    if (!meetingType.trim()) newErrors.meetingType = "Meeting Type is required.";
     if (!pdfHeading.trim()) newErrors.pdfHeading = "PDF Heading is required.";
     if (!pdfFile) newErrors.pdfFile = "PDF file is required.";
 
@@ -36,15 +42,45 @@ const AddGeneralYear = () => {
     return Object.keys(newErrors).length === 0; // If no errors, form is valid
   };
 
-  const fetchData = async () => {
+  const fetchDeptData = async () => {
     try {
-      const response = await api.get("/generaladminaddyear");
-      setData(response.data);
+      const response = await api.get(`generaladmindepartment`);
+      const filteredData = response.data.filter(
+        (item) => String(item.id) === String(id)
+      );
+      setDeptData(filteredData);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      toast.error("Error fetching data!");
+      console.error("Error fetching department data:", error);
     }
   };
+
+  console.log(deptData)
+
+  const fetchData = async () => {
+    try {
+      if (deptData.length === 0) return; 
+      const response = await api.get("/generaladminaddyear");
+      const filteredData = response.data.filter(
+        (item) => item.department_id === deptData[0]?.id
+      );
+      setData(filteredData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDeptData();
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (deptData.length > 0) {
+      fetchData();
+    }
+    // eslint-disable-next-line
+  }, [deptData]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +89,8 @@ const AddGeneralYear = () => {
     }
   
     const formData = new FormData();
+    formData.append("department_id", deptData[0].id);
+    formData.append("department_heading", deptData[0].department_heading);
     formData.append("year", year);
     formData.append("meetingtype", meetingType);
     formData.append("pdfheading", pdfHeading);
@@ -61,11 +99,8 @@ const AddGeneralYear = () => {
     }
   
     try {
-      // Step 1: Save the new year entry
       await api.post("/generaladminaddyear", formData);
-  
-      // Step 2: Fetch the updated list and find the newly added entry
-      const updatedEntries = await api.get("/generaladminaddyear"); // Adjust endpoint if necessary
+      const updatedEntries = await api.get("/generaladminaddyear");
       const newEntry = updatedEntries.data.find(
         (entry) =>
           entry.year === year &&
@@ -98,9 +133,10 @@ const AddGeneralYear = () => {
       // Step 5: Reset form and reload data
       fetchData();
       setYear("");
-      setMeetingType("General Meeting");
+      setMeetingType("");
       setPdfHeading("");
       setPdfFile(null);
+      document.getElementById("pdf").value = "";
       setErrors({});
       toast.success("Year added successfully!");
     } catch (error) {
@@ -114,7 +150,7 @@ const AddGeneralYear = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("year", editYearData.year);
-    formData.append("meetingtype", meetingType);
+    formData.append("meetingtype", editYearData.meetingtype);
     formData.append("pdfheading", editYearData.heading);
     if (editYearData.pdf) {
       formData.append("pdf", editYearData.pdf);
@@ -164,7 +200,7 @@ const AddGeneralYear = () => {
               <Link to="/add-general-department">Add General Admin Department</Link>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-              Add Year
+              Add {deptData[0]?.departments_heading}
             </li>
           </ol>
           <div class="row">
@@ -173,7 +209,7 @@ const AddGeneralYear = () => {
                 <div class="card-block">
                   <div class="row">
                     <div class="col-sm-4 col-3">
-                      <h4 class="page-title">Add Year</h4>
+                      <h4 class="page-title">Add {deptData[0]?.departments_heading}</h4>
                     </div>
                   </div>
                   <form onSubmit={handleSubmit}>
@@ -191,17 +227,22 @@ const AddGeneralYear = () => {
                               setErrors((prev) => ({ ...prev, year: "" })); // Clear error
                             }} placeholder="Enter Year"
                           />
-                          {errors.year && <div className="invalid-feedback">{errors.year}</div>}
+                          {errors.year && (
+                            <small className="text-danger">
+                              {errors.year}
+                            </small>
+                          )}
                         </div>
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
                           <label>Select Meeting</label>
                           <select
-                            className="form-control form-control-md"
+                            className={`form-control form-control-md`}
                             value={meetingType}
                             onChange={(e) => setMeetingType(e.target.value)}
                           >
+                            <option value="" disabled>Select Meeting</option>
                             <option>General Meeting</option>
                             <option>Standing Committee Meeting</option>
                           </select>
@@ -222,7 +263,9 @@ const AddGeneralYear = () => {
                             placeholder="Enter Pdf Heading"
                           />
                           {errors.pdfHeading && (
-                            <div className="invalid-feedback">{errors.pdfHeading}</div>
+                            <small className="text-danger">
+                              {errors.pdfHeading}
+                            </small>
                           )}
                         </div>
                       </div>
@@ -230,6 +273,7 @@ const AddGeneralYear = () => {
                         <div class="form-group">
                           <label>Upload PDF</label>
                           <input
+                            id="pdf"
                             type="file"
                             className={`form-control form-control-md ${errors.pdfFile ? "is-invalid" : ""
                               }`}
@@ -238,8 +282,10 @@ const AddGeneralYear = () => {
                               setErrors((prev) => ({ ...prev, pdfFile: "" })); // Clear error
                             }}
                           />
-                          {errors.pdfFile && (
-                            <div className="invalid-feedback">{errors.pdfFile}</div>
+                          {errors.pdfFile&& (
+                            <small className="text-danger">
+                              {errors.pdfFile}
+                            </small>
                           )}
                         </div>
                       </div>
@@ -318,6 +364,7 @@ const AddGeneralYear = () => {
                                     setCurrentEditingId(item.id);
                                     setEditYearData({
                                       year: item.year,
+                                      meetingtype: item.meetingtype,
                                       heading: item.pdfheading,
                                       pdf: null,
                                     });
@@ -340,7 +387,7 @@ const AddGeneralYear = () => {
                         ) : (
                           <tr>
                             <td colSpan="6" style={{ textAlign: "center" }}>
-                              No General depatrtment year data available
+                              No {deptData[0]?.departments_heading} data available
                             </td>
                           </tr>
                         )}
@@ -432,9 +479,15 @@ const AddGeneralYear = () => {
                         <label className="form-label">Select Meeting</label>
                         <select
                           className="form-control form-control-md"
-                          value={meetingType}
-                          onChange={(e) => setMeetingType(e.target.value)}
+                          value={editYearData.meetingtype}
+                          onChange={(e) =>
+                            setEditYearData({
+                              ...editYearData,
+                              meetingtype: e.target.value,
+                            })
+                          }
                         >
+                          <option value="" disabled>Select Meeting</option>
                           <option>General Meeting</option>
                           <option>Standing Committee Meeting</option>
                         </select>

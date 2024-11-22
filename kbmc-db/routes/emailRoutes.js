@@ -58,7 +58,7 @@ router.post("/email", async (req, res) => {
     const mailOptions = {
       from: `${name} <${process.env.USER}>`,
       replyTo: `${email}`,
-      to: "abhaysharma7905@gmail.com, admin@kbmc.gov.in",
+      to: "admin@kbmc.gov.in",
       subject: "New Feedback Received from KBMC",
       html: createEmailTemplate(req.body),
     };
