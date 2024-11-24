@@ -134,16 +134,25 @@ const AddGeneralYear = () => {
 
       const notificationData = {
         description: `In ${deptData[0]?.department_name} new pdf '${pdfHeading}' added.`,
+        role: `${deptData[0]?.department_name}`,
         name: "deptdatayear",
         new_id: newId, // Use the new ID here
         date,
         time,
       };
-
-      console.log(newId);
       
       // Step 4: Post the notification data
       await api.post("/admin-notifications", notificationData);
+
+      const notificationAdminData = {
+        heading: "Request Generated",
+        description: `In ${deptData[0]?.department_name} new pdf '${pdfHeading}' added.`,
+        role: "Admin",
+        readed: 0, 
+      };
+  
+      // eslint-disable-next-line
+      const notificationResponse = await api.post("/notification", notificationAdminData);
 
       fetchData();
       setYear("");

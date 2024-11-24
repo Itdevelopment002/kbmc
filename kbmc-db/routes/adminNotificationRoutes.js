@@ -18,19 +18,19 @@ router.get("/admin-notifications", (req, res) => {
 
 // POST a new notification
 router.post("/admin-notifications", (req, res) => {
-    const { new_id, description, name, date, time, remark } = req.body;
+    const { new_id, description, role,  name, date, time, remark } = req.body;
 
-    if (!new_id || !description || !name || !date || !time) {
+    if (!new_id || !description || !role || !name || !date || !time) {
         return res
             .status(400)
-            .json({ error: "All fields are required (new_id, description, name, date, time)" });
+            .json({ error: "All fields are required (new_id, description, role, name, date, time)" });
     }
 
     const query = `
-        INSERT INTO admin_notification (new_id, description, name, date, time, remark) 
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO admin_notification (new_id, description, role, name, date, time, remark) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
-    db.query(query, [new_id, description, name, date, time, remark || "-"], (err, results) => {
+    db.query(query, [new_id, description, role, name, date, time, remark || "-"], (err, results) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }

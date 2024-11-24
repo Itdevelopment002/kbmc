@@ -159,7 +159,7 @@ const DeptLayer2 = () => {
                             onClick={() => handleAccordionClick(index)}
                           >
                             <span className="count-text">{index + 1}</span>
-                            <h3>{`Year ${year}`}</h3>
+                            <h3>{year}</h3>
                           </div>
                           <div
                             className="acc-content"

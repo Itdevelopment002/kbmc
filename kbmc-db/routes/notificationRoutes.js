@@ -27,22 +27,22 @@ router.get('/notification/:id', (req, res) => {
 
 // POST a new notification
 router.post('/notification', (req, res) => {
-    const { heading, description, readed } = req.body;
+    const { heading, description, role, readed } = req.body;
 
     // Debug log to check the incoming request
-    console.log("Notification data received:", { heading, description, readed });
+    console.log("Notification data received:", { heading, description, role, readed });
 
     // Check if the necessary fields are present
-    if (!heading || !description) {
+    if (!heading || !description || !role) {
         return res.status(400).json({ error: "Heading and description are required." });
     }
 
-    const sql = 'INSERT INTO notification (heading, description, readed) VALUES (?, ?, ?)';
+    const sql = 'INSERT INTO notification (heading, description, role, readed) VALUES (?, ?, ?, ?)';
     
     // Debug log for the SQL query
-    console.log("Executing SQL query:", sql, [heading, description, readed || 0]);
+    console.log("Executing SQL query:", sql, [heading, description, role, readed || 0]);
 
-    db.query(sql, [heading, description, readed || 0], (err, result) => {
+    db.query(sql, [heading, description, role, readed || 0], (err, result) => {
         if (err) {
             console.error("Database error:", err); // Log the error
             return res.status(500).json({ error: err.message });
@@ -51,7 +51,7 @@ router.post('/notification', (req, res) => {
         // Debug log for result
         console.log("Inserted notification result:", result);
 
-        res.json({ id: result.insertId, heading, description, readed });
+        res.json({ id: result.insertId, heading, description, role, readed });
     });
 });
 

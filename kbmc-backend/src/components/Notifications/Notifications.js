@@ -8,50 +8,57 @@ const Notifications = () => {
   const [remark, setRemark] = useState("");
 
   // Fetch notifications from the API
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await api.get("/admin-notifications");
+      const reversedData = response.data.reverse();
+      setNotifications(reversedData);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      alert("Failed to fetch notifications. Please try again later.");
+    }
+  };
   useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await api.get("/admin-notifications");
-        const reversedData = response.data.reverse();
-        setNotifications(reversedData);
-      } catch (error) {
-        console.error("Error fetching notifications:", error);
-        alert("Failed to fetch notifications. Please try again later.");
-      }
-    };
-  
     fetchNotifications();
   }, []);
 
-  console.log(notifications)
+  console.log(notifications);
   // Approve functionality
-  const handleApprove = async (id, new_id, name, description) => {
+  const handleApprove = async (id, new_id, name, role, description) => {
     try {
-      console.log("Approving notification with:", { id, new_id, name, description });
+      console.log("Approving notification with:", {
+        id,
+        new_id,
+        name,
+        role,
+        description,
+      });
       // Update the status using new_id
       await api.put(`/edit_${name}/${new_id}`, { status: 1 });
-  
+
       // Delete the notification after updating the status
       await api.delete(`/admin-notifications/${id}`);
-      setNotifications(notifications.filter((notification) => notification.id !== id));
-  
+      setNotifications(
+        notifications.filter((notification) => notification.id !== id)
+      );
+
       // Add a notification to the notification API
       const notificationData = {
         heading: "Approved",
         description: `${description} has been successfully approved.`,
+        role: role,
         readed: 0, // Default unread status
       };
-  
+
       await api.post("/notification", notificationData);
     } catch (error) {
       console.error("Error approving notification:", error);
       alert("Failed to approve notification. Please check the server logs.");
     }
   };
-  
 
-  // Disapprove functionality
-  const handleDisapprove = async ( id, new_id, name, description, remark) => {
+  const handleDisapprove = async (id, new_id, name, role, description, remark) => {
     try {
       // Update status to disapproved
       await api.put(`/edit_${name}/${new_id}`, { status: 0 });
@@ -68,45 +75,60 @@ const Notifications = () => {
   };
 
   const handleDisapproveSubmit = async () => {
-    try {
-      // Update remark for the selected notification
-      await api.put(`/admin-notifications/${selectedNotification}`, { remark });
-  
-      // Send disapproval notification with the remark
-      const notificationData = {
-        heading: "Rejected",
-        description: `The notification has been rejected. Remark: ${remark}`,
-        readed: 0, // Default unread status
-      };
-  
-      await api.post("/notification", notificationData);
-  
-      // Update the local state to reflect the changes
-      setNotifications(
-        notifications.map((notification) =>
-          notification.id === selectedNotification
-            ? { ...notification, remark }
-            : notification
-        )
-      );
-  
-      handleModalClose();
-    } catch (error) {
-      console.error("Error updating remark and sending notification:", error);
-      alert("Failed to update remark and send notification. Please try again.");
-    }
-  };
-  
+  try {
+    const selectedNotificationData = notifications.find(
+      (notification) => notification.id === selectedNotification
+    );
 
-  // Helper function to format date
+    if (!selectedNotificationData) {
+      alert("Notification data not found.");
+      return;
+    }
+
+    const { role, description } = selectedNotificationData;
+
+    // Update the remark for the selected notification
+    await api.put(`/admin-notifications/${selectedNotification}`, { remark });
+
+    // Refresh the notifications list
+    await fetchNotifications();
+
+    // Send a notification to the role
+    const notificationData = {
+      heading: "Rejected",
+      description: `${description} has been rejected. Remark: ${remark}`,
+      role: role,
+      readed: 0, 
+    };
+
+    await api.post("/notification", notificationData);
+
+    // Update the state for remark
+    setNotifications(
+      notifications.map((notification) =>
+        notification.id === selectedNotification
+          ? { ...notification, remark }
+          : notification
+      )
+    );
+
+    handleModalClose();
+  } catch (error) {
+    console.error("Error updating remark and sending notification:", error);
+    alert("Failed to update remark and send notification. Please try again.");
+  }
+};
+
+
   const formatDate = (dateString) => {
     if (!dateString) return "Invalid Date";
     const date = new Date(dateString);
     const options = { day: "2-digit", month: "long", year: "numeric" };
-    return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleDateString("en-GB", options);
+    return isNaN(date.getTime())
+      ? "Invalid Date"
+      : date.toLocaleDateString("en-GB", options);
   };
 
-  // Helper function to format time
   const formatTime = (timeString) => {
     if (!timeString) return "Invalid Time";
     const [hours, minutes, seconds] = timeString.split(":");
@@ -166,7 +188,13 @@ const Notifications = () => {
                               <button
                                 className="btn btn-success btn-sm"
                                 onClick={() =>
-                                  handleApprove(notification.id,notification.new_id, notification.name, notification.description)
+                                  handleApprove(
+                                    notification.id,
+                                    notification.new_id,
+                                    notification.name,
+                                    notification.role,
+                                    notification.description
+                                  )
                                 }
                               >
                                 Approve
@@ -174,7 +202,14 @@ const Notifications = () => {
                               <button
                                 className="btn btn-danger btn-sm"
                                 onClick={() =>
-                                  handleDisapprove( notification.id, notification.new_id, notification.name, notification.description, notification.remark)
+                                  handleDisapprove(
+                                    notification.id,
+                                    notification.new_id,
+                                    notification.name,
+                                    notification.role,
+                                    notification.description,
+                                    notification.remark
+                                  )
                                 }
                               >
                                 Disapprove
@@ -200,7 +235,11 @@ const Notifications = () => {
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">Disapprove Notification</h5>
-                    <button type="button" className="close" onClick={handleModalClose}>
+                    <button
+                      type="button"
+                      className="close"
+                      onClick={handleModalClose}
+                    >
                       &times;
                     </button>
                   </div>
@@ -215,10 +254,16 @@ const Notifications = () => {
                     />
                   </div>
                   <div className="modal-footer">
-                    <button className="btn btn-secondary" onClick={handleModalClose}>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={handleModalClose}
+                    >
                       Close
                     </button>
-                    <button className="btn btn-danger" onClick={handleDisapproveSubmit}>
+                    <button
+                      className="btn btn-danger"
+                      onClick={handleDisapproveSubmit}
+                    >
                       Submit
                     </button>
                   </div>

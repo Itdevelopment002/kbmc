@@ -107,6 +107,7 @@ const AddGeneralAdminDepartment = ({ fetchDepartmentsData }) => {
 
         const notificationData = {
           description: `Added '${heading.heading}' in General Admin Department`,
+          role: "General Admin Department",
           name: "generaladmindepartment",
           new_id: newId, // Use the new ID here
           date,
@@ -115,6 +116,16 @@ const AddGeneralAdminDepartment = ({ fetchDepartmentsData }) => {
 
         // Step 4: Post notification data
         await api.post("/admin-notifications", notificationData);
+
+        const notificationAdminData = {
+          heading: "Request Generated",
+          description: `Added '${heading.heading}' in General Admin Department`,
+          role: "Admin",
+          readed: 0, 
+        };
+    
+        // eslint-disable-next-line
+        const notificationResponse = await api.post("/notification", notificationAdminData);
       }
 
       // Step 5: Refresh the headings list and reset input fields

@@ -133,6 +133,7 @@ const AddDepartmentData = ({
 
         const notificationData = {
           description: `Added '${heading.heading}' in ${deptData[0].department_name}`,
+          role: `${deptData[0].department_name}`,
           name: "deptdata",
           new_id: newId, // Use the new ID here
           date,
@@ -141,6 +142,16 @@ const AddDepartmentData = ({
 
         // Post notification data
         await api.post("/admin-notifications", notificationData);
+
+        const notificationAdminData = {
+          heading: "Request Generated",
+          description: `Added '${heading.heading}' in ${deptData[0].department_name}`,
+          role: "Admin",
+          readed: 0, 
+        };
+    
+        // eslint-disable-next-line
+        const notificationResponse = await api.post("/notification", notificationAdminData);
       }
 
       // Refresh data after adding

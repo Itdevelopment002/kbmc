@@ -50,7 +50,7 @@ function App() {
       return <Navigate to="/" />;
     }
     if (department === "Admin") {
-      return <SuperAdminRoutes onLogout={handleLogout} />;
+      return <SuperAdminRoutes department={department} onLogout={handleLogout} />;
     } else {
       return <AdminRoutes department={department} />;
     }
