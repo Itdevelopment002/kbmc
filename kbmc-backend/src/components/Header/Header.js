@@ -16,17 +16,32 @@ const Header = ({ onLogout, userDepartment }) => {
   const [showAll, setShowAll] = useState(false);
   const notificationsToShow = showAll ? notifications : notifications.slice(0, 5);
 
+
+  console.log(userDepartment);
   // Fetch notifications on component mount
   const fetchNotify = async () => {
     try {
+      // Fetch notifications from the API
       const response = await api.get('/notification'); // Replace with your actual backend endpoint
       const data = response.data.reverse();
 
-      // Update notifications state
-      setNotifications(data);
+      console.log(data);
+  
+      // Filter notifications by matching the role with userDepartment
+      const filteredNotifications = data?.filter(
+        (notification) => notification?.role === userDepartment
+      );
 
+      console.log(filteredNotifications);
+  
+      // Update notifications state
+      setNotifications(filteredNotifications);
+  
       // Count unread notifications and update state
-      const unreadCount = data.filter(notification => notification.readed === 0).length;
+      const unreadCount = filteredNotifications.filter(
+        (notification) => notification.readed === 0
+      ).length;
+  
       setUnreadCount(unreadCount);
     } catch (error) {
       console.error('Error fetching notifications:', error);
@@ -35,8 +50,10 @@ const Header = ({ onLogout, userDepartment }) => {
 
 
   useEffect(() => {
-    fetchNotify();
-  }, []);
+    if (userDepartment) {
+      fetchNotify();
+    }
+  }, [userDepartment]);
 
   const handleDeleteNotification = async (id) => {
     try {

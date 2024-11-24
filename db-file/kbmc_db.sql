@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2024 at 10:41 PM
+-- Generation Time: Nov 24, 2024 at 09:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Database: `kbmc_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_notification`
+--
+
+CREATE TABLE `admin_notification` (
+  `id` int(11) NOT NULL,
+  `new_id` int(11) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `role` varchar(255) NOT NULL,
+  `name` text NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `remark` varchar(255) DEFAULT '-'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_notification`
+--
+
+INSERT INTO `admin_notification` (`id`, `new_id`, `description`, `role`, `name`, `date`, `time`, `remark`) VALUES
+(103, 81, 'New Department: sfg', 'Admin', 'public_disclosure', '2024-11-24', '01:07:09', '-');
 
 -- --------------------------------------------------------
 
@@ -85,7 +109,8 @@ CREATE TABLE `ceos` (
 --
 
 INSERT INTO `ceos` (`id`, `coName`, `designation`, `email`, `image_path`, `created_at`) VALUES
-(10, 'Maruti Gaikwad', 'Chief Officer', 'support@kbmc.gov.in', '/uploads/1729583221545.jpg', '2024-10-22 07:47:01');
+(10, 'Maruti Gaikwad', 'Chief Officer', 'support@kbmc.gov.in', '/uploads/1729583221545.jpg', '2024-10-22 07:47:01'),
+(16, 'Nishant Makam', 'CEO', 'nishant@gmail.com', '/uploads/1731483834026.jpg', '2024-11-13 07:43:54');
 
 -- --------------------------------------------------------
 
@@ -120,6 +145,25 @@ INSERT INTO `citizen-charter` (`id`, `name`, `pdf`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `conditions`
+--
+
+CREATE TABLE `conditions` (
+  `id` int(11) NOT NULL,
+  `heading` varchar(255) NOT NULL,
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `conditions`
+--
+
+INSERT INTO `conditions` (`id`, `heading`, `description`) VALUES
+(1, 'Terms and Conditions', 'Kulgaon Badlapur city is just 55 km east from Mumbai. is sitting at a distance. Naturally Badlapur city is famous for its human friendly environment, clean water, pollution free environment etc. Due to this, thousands of families have migrated from Mumbai to Badlapur. Another main reason is that due to the planned development brought about by Badlapur Municipal Council, the name of Badlapur Municipal Council is being taken with great respect today. Various projects implemented by the municipal council for the service of the citizens and to maintain the balance of nature have been honored by the President of the country. All his credit goes to the first citizen of the city Hon. Mayor, Mr. The chief officer, all the members of the party have unitedly cooperated for the development of the city and the support given by the citizens of the city.');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `contact`
 --
 
@@ -137,7 +181,10 @@ CREATE TABLE `contact` (
 --
 
 INSERT INTO `contact` (`id`, `name`, `mobile`, `subject`, `email`, `feedback`) VALUES
-(6, 'Nishant Makam', '9988776655', 'Tax Enquiry', 'email@gmail.com', 'Feedback Description Here');
+(24, 'Nishant Makam', '8765432190', 'Tax Enquiry', 'nishant@gmail.com', 'Hello KBMC'),
+(34, 'Abhay Sharma', '918707031321', 'Tax Enquiry', 'abhaysharma7905@gmail.com', 'Hello'),
+(35, 'Abhay Sharma', '918707031321', 'Tax Enquiry', 'abhaysharma7905@gmail.com', 'Hello'),
+(36, 'Abhay Sharma', '8707031321', 'Tax Enquiry', 'abhaysharma7905@gmail.com', 'testing');
 
 -- --------------------------------------------------------
 
@@ -165,7 +212,7 @@ INSERT INTO `departments` (`id`, `name`, `hod`, `link`, `created_at`) VALUES
 (10, 'Town Planning', 'Amar Gadge', '/town-planning', '2024-10-28 04:56:44'),
 (15, 'Electrical Department', 'Abhijit Tamhane', '/electrical-department', '2024-10-30 19:31:53'),
 (16, 'Public Work Department (PWD)', 'Sandip Tembhekar', '/public-work-department', '2024-10-30 19:32:36'),
-(17, 'Milkat (Income)', 'Pooja Patil', '/income-department', '2024-10-30 19:33:11'),
+(17, 'Income Department', 'Pooja Patil', '/income-department', '2024-10-30 19:33:11'),
 (18, 'E-Governance Department', 'Dipali Bodke', '/egovernance-department', '2024-10-30 19:33:41'),
 (19, 'Health Department', 'Shreya Shirvatkar', '/health-department', '2024-10-30 19:34:49'),
 (20, 'WCD (Women and Child Development)', 'Shrikant Nikule', '/wcd', '2024-10-30 19:38:42'),
@@ -177,10 +224,198 @@ INSERT INTO `departments` (`id`, `name`, `hod`, `link`, `created_at`) VALUES
 (26, 'Hospital Department', 'Dr. Rajesh Ankush', '/hospital-department', '2024-10-30 19:39:41'),
 (27, 'Fire Department', 'Bhagwat Sonawane', '/fire-department', '2024-10-30 19:39:51'),
 (28, 'Legal Department', 'Megha Kadam', '/legal-department', '2024-10-30 19:40:02'),
-(29, 'Disability Welfare', 'Shrikant Nikule', '/disability-welfare-department', '2024-10-30 19:40:12'),
+(29, 'Disability Welfare Department', 'Shrikant Nikule', '/disability-welfare-department', '2024-10-30 19:40:12'),
 (30, 'Store & Records Department', 'Megha Kadam', '#.', '2024-10-30 19:40:26'),
 (31, 'Marriage Registration', 'Dr. Rajesh Ankush', '#.', '2024-10-30 19:40:36'),
 (32, 'Birth & Death Department', 'Shrikant Nikule', '/birth-death-department', '2024-10-30 19:40:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deptdata`
+--
+
+CREATE TABLE `deptdata` (
+  `id` int(11) NOT NULL,
+  `public_disclosure_id` int(11) DEFAULT NULL,
+  `department_name` varchar(255) NOT NULL,
+  `department_heading` varchar(255) NOT NULL,
+  `heading_link` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT -1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `deptdata`
+--
+
+INSERT INTO `deptdata` (`id`, `public_disclosure_id`, `department_name`, `department_heading`, `heading_link`, `status`) VALUES
+(5, 14, 'Account Department', 'Cheque Register', '/cheque-r', 1),
+(6, 14, 'Account Department', 'Fi', '/final-ye', 1),
+(7, 14, 'Account Department', 'Budget', '/budget', 1),
+(8, 14, 'Account Department', 'Income and Expenditure', '/income-and-expenditure', 1),
+(10, 25, 'Fire Department', 'qwerth', '/hello', 1),
+(11, 19, 'Public Work Department (PWD)', 'ASDCV', '/DSBGFV', 1),
+(14, 17, 'Town Planning', 'awsedfg', 'asdf', 1),
+(15, 24, 'Hospital Department', 'qwedfg', '/qwerftgh', 1),
+(16, 23, 'NULM Department', 'asdfg', '/fqawsdfg', 1),
+(17, 21, 'Health Department', 'asdfvb', '/dsafgbn', 1),
+(19, 21, 'Health Department', 'asdfgb', 'asdfb', 1),
+(20, 21, 'Health Department', 'edfsd', '/fqawedf', 1),
+(21, 21, 'Health Department', 'ASDFGH', 'ASDFVB', 1),
+(22, 21, 'Health Department', 'asdfgbn', '/sac', 1),
+(23, 23, 'NULM Department', 'asdfg', 'wedfvb', 1),
+(24, 23, 'NULM Department', 'sdfgn', 'sdfg', 1),
+(25, 23, 'NULM Department', 'awsdf', '/wqadsfgvb', 1),
+(26, 23, 'NULM Department', 'ASDFG', 'ASDFVB', 1),
+(28, 21, 'Health Department', 'WEDFG', 'ASWDFGB', 1),
+(29, 21, 'Health Department', 'ASDFB', 'WSDFGVB', 1),
+(43, 11, 'Tax Department', 'sdd', 'df', -1),
+(44, 11, 'Tax Department', 'g', 'qwer', -1),
+(45, 11, 'Tax Department', 'vcv', 'fcff', -1),
+(47, 14, 'Account Department', 'sdgf', '/rsgfhdb', 1),
+(48, 11, 'Tax Department', 'wedf', 'w2erfgb', 0),
+(49, 11, 'Tax Department', 'dfb', 'wedf', 0),
+(50, 11, 'Tax Department', 'sderfg', '/edfghj', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deptdatayear`
+--
+
+CREATE TABLE `deptdatayear` (
+  `id` int(11) NOT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  `department_heading` varchar(255) NOT NULL,
+  `year` varchar(255) NOT NULL,
+  `pdfheading` varchar(255) NOT NULL,
+  `pdf` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT -1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `deptdatayear`
+--
+
+INSERT INTO `deptdatayear` (`id`, `department_id`, `department_heading`, `year`, `pdfheading`, `pdf`, `status`) VALUES
+(2, 5, 'Cheque Register', 'Financial Year 2022 - 2023', '01-04-2022 To 13-05-2022', 'uploads\\1731959791191-01-04-2022 To 13-05-2022 (1).pdf', 1),
+(3, 5, 'Cheque Register', 'Financial Year 2022 - 2023', '13-05-2022 To 06-06-2022', 'uploads\\1731959891890-13-05-2022 To 06-06-2022 (2).pdf', 1),
+(4, 5, 'Cheque Register', 'Financial Year 2022 - 2023', '06-06-2022 To 08-07-2022', 'uploads\\1731960060773-06-06-2022 To 08-07-2022 (3).pdf', 1),
+(5, 5, 'Cheque Register', 'Financial Year 2022 - 2023', '08-07-2022 To 05-08-2022', 'uploads\\1731960329990-08-07-2022 To 05-08-2022 (4).pdf', 1),
+(6, 5, 'Cheque Register', 'Financial Year 2022 - 2023', '05-08-2022 To 06-10-2022', 'uploads\\1731960364354-05-08-2022 To 0 6-10-2022 (5).pdf', 1),
+(7, 5, 'Cheque Register', 'Financial Year 2022 - 2023', '06-10-2022 To 02-11-2022', 'uploads\\1731960452105-06-10-2022 To 02-11-2022 (6).pdf', 1),
+(8, 5, 'Cheque Register', 'Financial Year 2022 - 2023', '02-11-2022 To 13-01-2023', 'uploads\\1731960498448-02-11-2022 To 13-01-2023 (7).pdf', 1),
+(9, 5, 'Cheque Register', 'Financial Year 2022 - 2023', '13-01-2023 To 02-03-2023', 'uploads\\1731960517981-13-01-2023 To 02-03-2023 (8).pdf', 1),
+(10, 5, 'Cheque Register', 'Financial Year 2022 - 2023', '03-03-2023 To 31-03-2023', 'uploads\\1731960538690-03-03-2023 To 31-03-2023 (9).pdf', 1),
+(11, 5, 'Cheque Register', 'Financial Year 2022 - 2023', '31-03-2023 To 31-03-2023', 'uploads\\1731960580619-31-03-2023 To 31-03-2023 (10).pdf', 1),
+(13, 11, 'ASDCV', '3456', 'asdfgn', 'uploads\\1732004830030-Rishabh Sharma.pdf', 1),
+(14, 5, 'Cheque Register', 'Financial Year 2023 - 2024', '03-04-2023 to 04-07-2023', 'uploads\\1732029416626-03-04-2023 to 04-07-2023 (01).pdf', 1),
+(17, 43, 'undefined', 'sd', 'sd', 'uploads\\1732267203072-Rishabh Sharma.pdf', -1),
+(18, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267214392-Rishabh Sharma.pdf', -1),
+(19, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267215680-Rishabh Sharma.pdf', -1),
+(20, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267215838-Rishabh Sharma.pdf', -1),
+(21, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267215975-Rishabh Sharma.pdf', -1),
+(22, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267216143-Rishabh Sharma.pdf', -1),
+(23, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267216424-Rishabh Sharma.pdf', -1),
+(24, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267216670-Rishabh Sharma.pdf', -1),
+(25, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267216790-Rishabh Sharma.pdf', -1),
+(26, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267216987-Rishabh Sharma.pdf', -1),
+(27, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267217080-Rishabh Sharma.pdf', -1),
+(28, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267217222-Rishabh Sharma.pdf', -1),
+(29, 43, 'undefined', '2021 - 2020', 'sd', 'uploads\\1732267217368-Rishabh Sharma.pdf', -1),
+(30, 43, 'undefined', '2023', 'sd', 'uploads\\1732267251944-Rishabh Sharma.pdf', -1),
+(31, 43, 'undefined', '2021 - 2020', 'qwertgh', 'uploads\\1732268034505-Rishabh Sharma.pdf', -1),
+(32, 44, 'undefined', '2021 - 2020', 'awertyhj', 'uploads\\1732268155836-Rishabh Sharma.pdf', -1),
+(33, 45, 'undefined', '2021 - 2020', 'erty', 'uploads\\1732268248376-Rishabh Sharma.pdf', -1),
+(34, 5, 'undefined', 'Financial Year 2022 - 2023', 'sdfgn', 'uploads\\1732268270471-Rishabh Sharma.pdf', -1),
+(35, 5, 'undefined', 'Financial Year 2022 - 2023', 'sdfgn', 'uploads\\1732268308322-Rishabh Sharma.pdf', -1),
+(36, 5, 'undefined', 'Financial Year 2022 - 2023', 'sdfgn', 'uploads\\1732268358634-Rishabh Sharma.pdf', -1),
+(37, 5, 'undefined', 'Financial Year 2022 - 2023', 'jhfgjhfg', 'uploads\\1732268410876-Rishabh Sharma.pdf', -1),
+(38, 43, 'undefined', 'Financial Year 2022 - 2023', 'aswedrfghjm', 'uploads\\1732268532993-Rishabh Sharma.pdf', -1),
+(39, 43, 'undefined', 'Financial Year 2022 - 2023', 'aswedrfghjm', 'uploads\\1732268550921-Rishabh Sharma.pdf', -1),
+(40, 43, 'asdfgh', '2002 - 2023', 'dfgn', 'uploads\\1732268728551-Rishabh Sharma.pdf', -1),
+(41, 43, 'sdd', '2433423', 'gvc', 'uploads\\1732275355050-Rishabh Sharma.pdf', 1),
+(42, 5, 'Cheque Register', '54', 'fdv', 'uploads\\1732276847749-Rishabh Sharma.pdf', 1),
+(43, 50, 'sderfg', 'edfbves', 'sadfgbn', 'uploads\\1732473888729-Rishabh Sharma.pdf', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `development_plan`
+--
+
+CREATE TABLE `development_plan` (
+  `id` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `development_plan`
+--
+
+INSERT INTO `development_plan` (`id`, `description`, `created_at`) VALUES
+(1, 'The Urban Planning Department is responsible for creating land use policies, zoning regulations, and development plans to ensure organized and sustainable growth of the city or town. This department plays a crucial role in shaping the future growth and development of urban areas. They work on creating plans and policies that promote sustainable, well-organized, and comprehensive growth, while also taking into consideration the environment and community interests. Typically, this department consists of urban planners, landscape architects, engineers, and other professionals who collaborate to develop comprehensive plans for the future development of the community.', '2024-11-16 18:16:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `development_plan_pdf`
+--
+
+CREATE TABLE `development_plan_pdf` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `image_path` text NOT NULL,
+  `pdf_path` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `development_plan_pdf`
+--
+
+INSERT INTO `development_plan_pdf` (`id`, `name`, `image_path`, `pdf_path`, `created_at`) VALUES
+(3, 'Badlapur', 'uploads\\1731868373947.jpg', 'uploads\\1731868374020.pdf', '2024-11-17 18:32:54'),
+(4, 'Mankivali', 'uploads\\1731868824927.jpg', 'uploads\\1731868824933.pdf', '2024-11-17 18:40:24'),
+(5, 'Badlapur', 'uploads\\1731868874599.jpg', 'uploads\\1731868874607.pdf', '2024-11-17 18:41:14'),
+(6, 'Katrap', 'uploads\\1731868899984.jpg', 'uploads\\1731868899993.pdf', '2024-11-17 18:41:40'),
+(7, 'Joveli', 'uploads\\1731869030220.jpg', 'uploads\\1731869030227.pdf', '2024-11-17 18:43:50'),
+(8, 'Yernzad', 'uploads\\1731869059814.jpg', 'uploads\\1731869059819.pdf', '2024-11-17 18:44:19'),
+(9, 'Badlapur', 'uploads\\1731869266391.jpg', 'uploads\\1731869266401.pdf', '2024-11-17 18:47:46'),
+(10, 'Valivli', 'uploads\\1731869305307.jpg', 'uploads\\1731869305316.pdf', '2024-11-17 18:48:25'),
+(11, 'Belavali', 'uploads\\1731869347601.jpg', 'uploads\\1731869347609.pdf', '2024-11-17 18:49:07'),
+(12, 'Manjarli', 'uploads\\1731869386413.jpg', 'uploads\\1731869386419.pdf', '2024-11-17 18:49:46'),
+(13, 'Sonivali', 'uploads\\1731869490069.jpg', 'uploads\\1731869490075.pdf', '2024-11-17 18:51:30'),
+(14, 'Kharvai', 'uploads\\1731869526378.jpg', 'uploads\\1731869526389.pdf', '2024-11-17 18:52:06'),
+(15, 'Shirgaon', 'uploads\\1731869582722.jpg', 'uploads\\1731869582728.pdf', '2024-11-17 18:53:02'),
+(16, 'Shirgaon', 'uploads\\1731869669818.jpg', 'uploads\\1731869669827.pdf', '2024-11-17 18:54:29'),
+(17, 'Kulgaon', 'uploads\\1731869689315.jpg', 'uploads\\1731869689326.pdf', '2024-11-17 18:54:49'),
+(19, 'abhay', 'uploads/1731909465867.png', 'uploads/1731909465845.pdf', '2024-11-18 05:13:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `downloads`
+--
+
+CREATE TABLE `downloads` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `pdf` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `downloads`
+--
+
+INSERT INTO `downloads` (`id`, `name`, `pdf`, `created_at`) VALUES
+(1, 'Application form for Birth Certificate', 'uploads\\1731759036367.pdf', '2024-11-16 12:10:36'),
+(2, 'Application form for Death Certificate', 'uploads\\1731759252249.pdf', '2024-11-16 12:14:12'),
+(3, 'Application form for Property Transfer 1', 'uploads\\1731759275295.pdf', '2024-11-16 12:14:35'),
+(4, ' Application form for Property Transfer 2', 'uploads\\1731759287407.pdf', '2024-11-16 12:14:47'),
+(5, 'Application for New Assessment of Property', 'uploads\\1731759308713.pdf', '2024-11-16 12:15:08');
 
 -- --------------------------------------------------------
 
@@ -204,8 +439,7 @@ CREATE TABLE `elected_wings` (
 --
 
 INSERT INTO `elected_wings` (`id`, `correspondentName`, `wardNo`, `startDate`, `endDate`, `mobileNo`, `image_path`, `created_at`) VALUES
-(8, 'Correspondent Officer', 'Ward No. 01', '2020-01-01', '2022-05-31', '+91 99887755834', '/uploads/1730057207024.jpg', '2024-10-22 08:59:49'),
-(13, 'Correspondent Officer', 'Ward No. 02', '2024-10-01', '2024-10-31', '+91 99887755834', '/uploads/1730058389226.jpg', '2024-10-27 19:46:29');
+(8, 'Correspondent Officer', 'Ward No. 02', '2024-11-28', '2024-11-07', '+91 99887755835', '/uploads/1731753622852.jpg', '2024-10-22 08:59:49');
 
 -- --------------------------------------------------------
 
@@ -262,7 +496,7 @@ INSERT INTO `fire_station` (`id`, `heading`, `address`, `phoneNo`, `image_path`,
 CREATE TABLE `functions` (
   `id` int(11) NOT NULL,
   `heading` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL
+  `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -303,18 +537,18 @@ CREATE TABLE `gallery` (
 --
 
 INSERT INTO `gallery` (`id`, `photo_name`, `file_path`, `created_at`) VALUES
-(2, 'Photo Gallery One', '/uploads/1729710214632.jpg', '2024-10-23 14:50:07'),
-(5, 'Photo Gallery Two', '/uploads/1729710235477.jpg', '2024-10-23 16:24:50'),
-(6, 'Photo Gallery Three', '/uploads/1729710248950.jpg', '2024-10-23 19:04:08'),
-(7, 'Photo Gallery Four', '/uploads/1729710264472.jpg', '2024-10-23 19:04:24'),
-(8, 'Photo Gallery Five', '/uploads/1729710280327.jpg', '2024-10-23 19:04:40'),
-(9, 'Photo Gallery Six', '/uploads/1729710310403.jpg', '2024-10-23 19:05:10'),
-(10, 'Photo Gallery Seven', '/uploads/1729710330977.jpg', '2024-10-23 19:05:30'),
-(11, 'Photo Gallery Eight', '/uploads/1729710347624.jpg', '2024-10-23 19:05:47'),
-(12, 'Photo Gallery Nine', '/uploads/1729710385824.jpg', '2024-10-23 19:06:25'),
-(13, 'Photo Gallery Ten', '/uploads/1729710402115.jpg', '2024-10-23 19:06:42'),
-(14, 'Photo Gallery Eleven', '/uploads/1729710421737.jpg', '2024-10-23 19:07:01'),
-(15, 'Photo Gallery Twelve', '/uploads/1729710443886.jpg', '2024-10-23 19:07:23');
+(2, 'Photo Gallery One', '/uploads/1731433275630.jpg', '2024-10-23 14:50:07'),
+(5, 'Photo Gallery Two', '/uploads/1731433303234.jpg', '2024-10-23 16:24:50'),
+(6, 'Photo Gallery Three', '/uploads/1731433331575.jpg', '2024-10-23 19:04:08'),
+(7, 'Photo Gallery Four', '/uploads/1731433350599.jpg', '2024-10-23 19:04:24'),
+(8, 'Photo Gallery Five', '/uploads/1731433378786.jpg', '2024-10-23 19:04:40'),
+(9, 'Photo Gallery Six', '/uploads/1731433390171.jpg', '2024-10-23 19:05:10'),
+(10, 'Photo Gallery Seven', '/uploads/1731433398738.jpg', '2024-10-23 19:05:30'),
+(11, 'Photo Gallery Eight', '/uploads/1731433370188.jpg', '2024-10-23 19:05:47'),
+(12, 'Photo Gallery Nine', '/uploads/1731433358321.jpg', '2024-10-23 19:06:25'),
+(13, 'Photo Gallery Ten', '/uploads/1731433325271.jpg', '2024-10-23 19:06:42'),
+(14, 'Photo Gallery Eleven', '/uploads/1731433292117.jpg', '2024-10-23 19:07:01'),
+(15, 'Photo Gallery Twelve', '/uploads/1731433262065.jpg', '2024-10-23 19:07:23');
 
 -- --------------------------------------------------------
 
@@ -347,51 +581,60 @@ INSERT INTO `gardens` (`id`, `heading`, `images`) VALUES
 
 CREATE TABLE `generaladminaddyear` (
   `id` int(11) NOT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  `department_heading` varchar(255) NOT NULL,
   `year` varchar(255) NOT NULL,
   `meetingtype` varchar(255) NOT NULL,
   `pdfheading` varchar(255) NOT NULL,
-  `pdf` varchar(255) NOT NULL
+  `pdf` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT -1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `generaladminaddyear`
 --
 
-INSERT INTO `generaladminaddyear` (`id`, `year`, `meetingtype`, `pdfheading`, `pdf`) VALUES
-(9, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav April 2021', 'uploads\\1730311003753-01_Prashaskiy Tharav April - 2021.pdf'),
-(10, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav May 2021', 'uploads\\1730311042660-02_Prashaskiy Tharav May - 2021.pdf'),
-(13, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav June 2021', 'uploads\\1730311062979-03_Prashaskiy Tharav June - 2021.pdf'),
-(14, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav July 2021', 'uploads\\1730311084785-04_Prashaskiy Tharav July - 2021.pdf'),
-(15, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav August 2021', 'uploads\\1730311115777-05_Prashaskiy Tharav Aug - 2021.pdf'),
-(16, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav September 2021', 'uploads\\1730311158074-06_Prashaskiy Tharav Sept - 2021.pdf'),
-(17, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav October 2021', 'uploads\\1730311185843-07_Prashaskiy Tharav Oct - 2021.pdf'),
-(18, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav November 2021', 'uploads\\1730315213137-08_Prashaskiy Tharav Nov - 2021.pdf'),
-(19, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav December 2021', 'uploads\\1730315233707-09_Prashaskiy Tharav Dec - 2021.pdf'),
-(20, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav January 2022', 'uploads\\1730315255480-10_Prashaskiy Tharav Jan - 2022.pdf'),
-(21, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav February 2022', 'uploads\\1730315278199-11_Prashaskiy Tharav Feb - 2022.pdf'),
-(22, '2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav March 2022', 'uploads\\1730315298936-12_Prashaskiy Tharav Mar - 2022.pdf'),
-(23, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav April 2022', 'uploads\\1730315325330-01_Prashaskiy Tharav April - 2022.pdf'),
-(24, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav May 2022', 'uploads\\1730317668714-02_Prashaskiy Tharav May - 2022.pdf'),
-(25, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav June 2022', 'uploads\\1730317690591-03_Prashaskiy Tharav June - 2022.pdf'),
-(26, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav July 2022', 'uploads\\1730317720452-04_Prashaskiy Tharav July - 2022.pdf'),
-(27, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav August 2022', 'uploads\\1730317738389-05_Prashaskiy Tharav Aug - 2022.pdf'),
-(28, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav September 2022', 'uploads\\1730317763571-06_Prashaskiy Tharav Sept - 2022.pdf'),
-(29, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav October 2022', 'uploads\\1730317782130-07_Prashaskiy Tharav Oct - 2022.pdf'),
-(30, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav November 2022', 'uploads\\1730317812402-08_Prashaskiy Tharav Nov - 2022.pdf'),
-(31, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav December 2022', 'uploads\\1730317832013-09_Prashaskiy Tharav Dec - 2022.pdf'),
-(32, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav January 2023', 'uploads\\1730317854130-10_Prashaskiy Tharav Jan - 2023.pdf'),
-(33, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav February 2023', 'uploads\\1730317885540-11_Prashaskiy Tharav Feb - 2023.pdf'),
-(34, '2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav March 2023', 'uploads\\1730317902184-12_Prashaskiy Tharav Mar - 2023.pdf'),
-(35, '2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav April 2023', 'uploads\\1730318321628-01_Prashaskiy Tharav April - 2023.pdf'),
-(36, '2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav May 2023', 'uploads\\1730318347667-02_Prashaskiy Tharav May - 2023.pdf'),
-(37, '2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav June 2023', 'uploads\\1730318369093-03_Prashaskiy Tharav June - 2023.pdf'),
-(38, '2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav July 2023', 'uploads\\1730318387492-04_Prashaskiy Tharav July - 2023.pdf'),
-(39, '2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav August 2023', 'uploads\\1730318407384-05_Prashaskiy Tharav Aug - 2023.pdf'),
-(40, '2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav September 2023', 'uploads\\1730318441745-06_Prashaskiy Tharav Sapt - 2023.pdf'),
-(41, '2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav October 2023', 'uploads\\1730318460707-07_Prashaskiy Tharav Oct - 2023.pdf'),
-(42, '2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav November 2023', 'uploads\\1730318476753-08_Prashaskiy Tharav Nov -2023.pdf'),
-(43, '2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav December 2023', 'uploads\\1730318495106-09_Prashaskiy Tharav Dec - 2023.pdf'),
-(44, '2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav January 2024', 'uploads\\1730318524089-10_Prashaskiy Tharav Jan - 2024.pdf');
+INSERT INTO `generaladminaddyear` (`id`, `department_id`, `department_heading`, `year`, `meetingtype`, `pdfheading`, `pdf`, `status`) VALUES
+(9, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav April 2021', 'uploads\\1730311003753-01_Prashaskiy Tharav April - 2021.pdf', 1),
+(10, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav May 2021', 'uploads\\1730311042660-02_Prashaskiy Tharav May - 2021.pdf', 1),
+(13, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav June 2021', 'uploads\\1730311062979-03_Prashaskiy Tharav June - 2021.pdf', 1),
+(14, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav July 2021', 'uploads\\1730311084785-04_Prashaskiy Tharav July - 2021.pdf', 1),
+(15, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav August 2021', 'uploads\\1730311115777-05_Prashaskiy Tharav Aug - 2021.pdf', 1),
+(16, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav September 2021', 'uploads\\1730311158074-06_Prashaskiy Tharav Sept - 2021.pdf', 1),
+(17, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav October 2021', 'uploads\\1730311185843-07_Prashaskiy Tharav Oct - 2021.pdf', 1),
+(18, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav November 2021', 'uploads\\1730315213137-08_Prashaskiy Tharav Nov - 2021.pdf', 1),
+(19, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav December 2021', 'uploads\\1730315233707-09_Prashaskiy Tharav Dec - 2021.pdf', 1),
+(20, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav January 2022', 'uploads\\1730315255480-10_Prashaskiy Tharav Jan - 2022.pdf', 1),
+(21, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav February 2022', 'uploads\\1730315278199-11_Prashaskiy Tharav Feb - 2022.pdf', 1),
+(22, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2021 - 2022', 'Standing Committee Meeting', 'Prashaskiy Tharav March 2022', 'uploads\\1730315298936-12_Prashaskiy Tharav Mar - 2022.pdf', 1),
+(23, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav April 2022', 'uploads\\1730315325330-01_Prashaskiy Tharav April - 2022.pdf', 1),
+(24, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav May 2022', 'uploads\\1730317668714-02_Prashaskiy Tharav May - 2022.pdf', 1),
+(25, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav June 2022', 'uploads\\1730317690591-03_Prashaskiy Tharav June - 2022.pdf', 1),
+(26, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav July 2022', 'uploads\\1730317720452-04_Prashaskiy Tharav July - 2022.pdf', 1),
+(27, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav August 2022', 'uploads\\1730317738389-05_Prashaskiy Tharav Aug - 2022.pdf', 1),
+(28, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav September 2022', 'uploads\\1730317763571-06_Prashaskiy Tharav Sept - 2022.pdf', 1),
+(29, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav October 2022', 'uploads\\1730317782130-07_Prashaskiy Tharav Oct - 2022.pdf', 1),
+(30, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav November 2022', 'uploads\\1730317812402-08_Prashaskiy Tharav Nov - 2022.pdf', 1),
+(31, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav December 2022', 'uploads\\1730317832013-09_Prashaskiy Tharav Dec - 2022.pdf', 1),
+(32, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav January 2023', 'uploads\\1730317854130-10_Prashaskiy Tharav Jan - 2023.pdf', 1),
+(33, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav February 2023', 'uploads\\1730317885540-11_Prashaskiy Tharav Feb - 2023.pdf', 1),
+(34, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2022 - 2023', 'Standing Committee Meeting', 'Prashaskiy Tharav March 2023', 'uploads\\1730317902184-12_Prashaskiy Tharav Mar - 2023.pdf', 1),
+(35, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav April 2023', 'uploads\\1730318321628-01_Prashaskiy Tharav April - 2023.pdf', 1),
+(36, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav May 2023', 'uploads\\1730318347667-02_Prashaskiy Tharav May - 2023.pdf', 1),
+(37, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav June 2023', 'uploads\\1730318369093-03_Prashaskiy Tharav June - 2023.pdf', 1),
+(38, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav July 2023', 'uploads\\1730318387492-04_Prashaskiy Tharav July - 2023.pdf', 1),
+(39, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav August 2023', 'uploads\\1730318407384-05_Prashaskiy Tharav Aug - 2023.pdf', 1),
+(40, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav September 2023', 'uploads\\1730318441745-06_Prashaskiy Tharav Sapt - 2023.pdf', 1),
+(41, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav October 2023', 'uploads\\1730318460707-07_Prashaskiy Tharav Oct - 2023.pdf', 1),
+(42, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav November 2023', 'uploads\\1730318476753-08_Prashaskiy Tharav Nov -2023.pdf', 1),
+(43, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav December 2023', 'uploads\\1730318495106-09_Prashaskiy Tharav Dec - 2023.pdf', 1),
+(44, 21, 'General Meeting and Standing Committee Meeting Resolutions', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav January 2024', 'uploads\\1730318524089-10_Prashaskiy Tharav Jan - 2024.pdf', 1),
+(53, 45, 'undefined', '2021 - 2020', 'General Meeting', 'qwerg', 'uploads\\1732268135417-Rishabh Sharma.pdf', -1),
+(54, 37, 'undefined', 'hello', 'Standing Committee Meeting', 'Dummy', 'uploads\\1732295922500-dummy.pdf', 1),
+(70, 46, 'undefined', 'asdfv', 'General Meeting', 'wedf', 'uploads\\1732304829407-Rishabh Sharma.pdf', 1),
+(71, 46, 'undefined', 'asdfv', 'Standing Committee Meeting', 'wedfv', 'uploads\\1732304842818-Rishabh Sharma.pdf', 1),
+(74, 21, 'undefined', 'Year 2023 - 2024', 'Standing Committee Meeting', 'Prashaskiy Tharav Manu 2022', 'uploads\\1732345804672-Rishabh Sharma.pdf', 1),
+(75, 47, 'undefined', '2023 - 2024', 'General Meeting', 'ashdfcv', 'uploads\\1732473310817-Rishabh Sharma.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -401,15 +644,18 @@ INSERT INTO `generaladminaddyear` (`id`, `year`, `meetingtype`, `pdfheading`, `p
 
 CREATE TABLE `generaladmindepartment` (
   `id` int(11) NOT NULL,
-  `departments_heading` varchar(255) NOT NULL
+  `departments_heading` varchar(255) NOT NULL,
+  `heading_link` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT -1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `generaladmindepartment`
 --
 
-INSERT INTO `generaladmindepartment` (`id`, `departments_heading`) VALUES
-(3, 'General Meeting and Standing Committee Meeting Resolutions');
+INSERT INTO `generaladmindepartment` (`id`, `departments_heading`, `heading_link`, `status`) VALUES
+(21, 'General Meeting and Standing Committee Meeting Resolutions', '/general-meetings', 1),
+(37, 'Heading 1', '/heading-link', 1);
 
 -- --------------------------------------------------------
 
@@ -452,10 +698,10 @@ CREATE TABLE `health_photo_gallery` (
 --
 
 INSERT INTO `health_photo_gallery` (`id`, `heading`, `img_path`, `created_at`) VALUES
-(6, 'Decentralized Pit Composting Plant, Manjarli', '/uploads/1730196466697.jpg', '2024-10-29 10:07:46'),
-(7, 'Decentralized Pit Composting Plant, Manjarli', '/uploads/1730196490009.jpg', '2024-10-29 10:08:10'),
-(8, 'Decentralized Pit Composting Plant, Juveli', '/uploads/1730196509456.jpg', '2024-10-29 10:08:29'),
-(9, 'Biogas Plant, Vadavali', '/uploads/1730196525548.jpg', '2024-10-29 10:08:45');
+(14, 'Decentralized Pit Composting Plant, Manjarli', '/uploads/1731492675754.jpg', '2024-11-13 10:11:15'),
+(15, 'Decentralized Pit Composting Plant, Manjarli', '/uploads/1731492691069.jpg', '2024-11-13 10:11:31'),
+(16, 'Decentralized Pit Composting Plant, Manjarli', '/uploads/1731492711781.jpg', '2024-11-13 10:11:52'),
+(17, 'Biogas Plant, Vadavali', '/uploads/1731492738885.jpg', '2024-11-13 10:12:18');
 
 -- --------------------------------------------------------
 
@@ -531,20 +777,22 @@ INSERT INTO `litigations` (`id`, `ward_no`, `name_lawsuit`, `mob_no`) VALUES
 
 CREATE TABLE `main_menu` (
   `id` int(11) NOT NULL,
-  `mainMenu` varchar(255) NOT NULL
+  `mainMenu` varchar(255) NOT NULL,
+  `mainMenuLink` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `main_menu`
 --
 
-INSERT INTO `main_menu` (`id`, `mainMenu`) VALUES
-(15, 'Home'),
-(16, 'About KBMC'),
-(17, 'City Profile'),
-(18, 'Online Services'),
-(19, 'Schemes'),
-(20, 'Complaints');
+INSERT INTO `main_menu` (`id`, `mainMenu`, `mainMenuLink`) VALUES
+(15, 'Home', '/'),
+(16, 'About KBMC', '#'),
+(17, 'City Profile', '#'),
+(18, 'Online Services', '#'),
+(19, 'Schemes', '#'),
+(20, 'Complaints', '#'),
+(42, 'Abhay', '/abhay');
 
 -- --------------------------------------------------------
 
@@ -600,6 +848,55 @@ INSERT INTO `newsupdate` (`id`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `notification`
+--
+
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL,
+  `heading` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `role` varchar(255) NOT NULL,
+  `readed` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notification`
+--
+
+INSERT INTO `notification` (`id`, `heading`, `description`, `role`, `readed`, `created_at`) VALUES
+(82, 'Approved', 'Added \'rtyug\' in General Admin Department has been successfully approved.', 'General Admin Department', 0, '2024-11-24 18:21:45'),
+(83, 'Request Generated', 'Added year: \'2023 - 2024\', meeting type: \'General Meeting\', and heading: \'ashdfcv\'', 'Admin', 1, '2024-11-24 18:35:11'),
+(84, 'Approved', 'Added year: \'2023 - 2024\', meeting type: \'General Meeting\', and heading: \'ashdfcv\' has been successfully approved.', 'General Admin Department', 0, '2024-11-24 18:38:55'),
+(85, 'Request Generated', 'Added \'sderfg\' in Tax Department', 'Admin', 0, '2024-11-24 18:43:10'),
+(86, 'Approved', 'Added \'sderfg\' in Tax Department has been successfully approved.', 'Tax Department', 0, '2024-11-24 18:44:13'),
+(87, 'Request Generated', 'In Tax Department new pdf \'sadfgbn\' added.', 'Admin', 0, '2024-11-24 18:44:48'),
+(88, 'Approved', 'In Tax Department new pdf \'sadfgbn\' added. has been successfully approved.', 'Tax Department', 0, '2024-11-24 18:45:16'),
+(89, 'Request Generated', 'A request has been generated for New department: sfg', 'Admin', 0, '2024-11-24 19:37:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `policy`
+--
+
+CREATE TABLE `policy` (
+  `id` int(11) NOT NULL,
+  `heading` varchar(255) NOT NULL,
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `policy`
+--
+
+INSERT INTO `policy` (`id`, `heading`, `description`) VALUES
+(1, 'Disclaimer', 'Although information and contents of various departmental websites on this portal have been provided with care and diligence, Government of Maharashtra does not take responsibility on how this information is used or the consequences of its use. In case of any inconsistency/ confusion, the user should contact the concerned Department/Officer of the Government of Maharashtra for further clarifications.'),
+(3, 'Copyright Policy', 'Material featured on this portal may be reproduced free of charge in any format or media without requiring specific permission. This is subject to the material being reproduced accurately and not being used in a derogatory manner or in a misleading context. Where the material is being published or issued to others, the source must be prominently acknowledged. However, the permission to reproduce this material does not extend to any material on this site which is identified as being the copyright of the third party.');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ponds_table`
 --
 
@@ -620,6 +917,32 @@ INSERT INTO `ponds_table` (`id`, `name`) VALUES
 (12, 'Dagari Talao Badlapur Gaon'),
 (13, 'Near Juveli Shivshankar Talao'),
 (14, 'Wadwali Talao');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pond_images`
+--
+
+CREATE TABLE `pond_images` (
+  `id` int(11) NOT NULL,
+  `image_path` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pond_images`
+--
+
+INSERT INTO `pond_images` (`id`, `image_path`, `created_at`) VALUES
+(4, '/uploads/1731508325512.jpg', '2024-11-13 14:32:05'),
+(5, '/uploads/1731508333624.jpg', '2024-11-13 14:32:13'),
+(6, '/uploads/1731508345423.jpg', '2024-11-13 14:32:25'),
+(7, '/uploads/1731508356459.jpg', '2024-11-13 14:32:36'),
+(8, '/uploads/1731508364042.jpg', '2024-11-13 14:32:44'),
+(9, '/uploads/1731508370886.jpg', '2024-11-13 14:32:50'),
+(10, '/uploads/1731508375914.jpg', '2024-11-13 14:32:55'),
+(11, '/uploads/1731508380860.jpg', '2024-11-13 14:33:00');
 
 -- --------------------------------------------------------
 
@@ -664,9 +987,10 @@ CREATE TABLE `previous_chief_officer` (
 --
 
 INSERT INTO `previous_chief_officer` (`id`, `officer_name`, `start_date`, `end_date`, `image_path`, `created_at`) VALUES
-(8, 'Mr. Yogesh Godse', '2024-10-09', '2024-10-18', '/uploads/1729606866137.jpg', '2024-10-22 14:21:06'),
+(8, 'Mr. Yogesh Godse', '2024-10-10', '2024-10-11', '/uploads/1731183730600.jpeg', '2024-10-22 14:21:06'),
 (9, 'Mr. Deepak Pujari', '2024-10-02', '2024-10-17', '/uploads/1729665322633.jpg', '2024-10-23 05:23:50'),
-(14, 'Mr. Prakash N. Borse', '2024-10-08', '2024-10-10', '/uploads/1729852639240.png', '2024-10-25 10:37:19');
+(14, 'Mr. Prakash N. Borse', '2024-10-08', '2024-10-10', '/uploads/1729852639240.png', '2024-10-25 10:37:19'),
+(20, 'sdfghn', '2024-11-12', '2024-11-11', '/uploads/1731482847335.jpg', '2024-11-13 07:27:27');
 
 -- --------------------------------------------------------
 
@@ -721,30 +1045,73 @@ INSERT INTO `prvt_hospital` (`id`, `hospital_name`, `division`, `principal_docto
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `publications`
+--
+
+CREATE TABLE `publications` (
+  `id` int(11) NOT NULL,
+  `publication_name` varchar(255) NOT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `pdf_path` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `publications`
+--
+
+INSERT INTO `publications` (`id`, `publication_name`, `file_path`, `pdf_path`, `created_at`) VALUES
+(1, 'Publication One', '/uploads/1731753530650.jpeg', '/uploads/1731703351788.pdf', '2024-11-15 18:12:27'),
+(3, 'Publication Two', '/uploads/1731703380046.jpeg', '/uploads/1731703380081.pdf', '2024-11-15 20:43:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `public_disclosure`
 --
 
 CREATE TABLE `public_disclosure` (
   `id` int(11) NOT NULL,
-  `department_name` varchar(255) NOT NULL
+  `department_name` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT -1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `public_disclosure`
 --
 
-INSERT INTO `public_disclosure` (`id`, `department_name`) VALUES
-(10, 'General Admin Department'),
-(11, 'Tax Department'),
-(14, 'Account Department'),
-(17, 'Town Planning'),
-(19, 'Public Work Department (PWD)'),
-(21, 'Health Department'),
-(22, 'Education Department'),
-(23, 'NULM Department'),
-(24, 'Hospital Department'),
-(25, 'Fire Department'),
-(26, 'Birth & Death Department');
+INSERT INTO `public_disclosure` (`id`, `department_name`, `status`) VALUES
+(10, 'General Admin Department', 1),
+(11, 'Tax Department', 1),
+(14, 'Account Department', 1),
+(17, 'Town Planning', 1),
+(19, 'Public Work Department (PWD)', 1),
+(21, 'Health Department', 1),
+(22, 'Education Department', 1),
+(23, 'NULM Department', 1),
+(24, 'Hospital Department', 1),
+(25, 'Fire Department', 1),
+(36, 'Birth & Death Department', 1),
+(54, 'Audit Department', 1),
+(55, 'Electrical Department', 1),
+(56, 'Income Department', 1),
+(57, 'E-Governance Department', 1),
+(58, 'Advertisement Department', 1),
+(59, 'Security Department', 1),
+(60, 'Vehicle Department', 1),
+(61, 'Legal Department', 1),
+(62, 'Disability Welfare Department', 1),
+(63, 'Store & Records Department', 1),
+(64, 'Marriage Registration', 1),
+(65, 'WCD (Women and Child Development)', 1),
+(74, 'akhil', -1),
+(75, 'asdf', 0),
+(76, 'abhay', 1),
+(77, 'Abhay', 1),
+(78, 'wertgh', 1),
+(79, 'abhay', -1),
+(80, 'efrf', 1),
+(81, 'sfg', -1);
 
 -- --------------------------------------------------------
 
@@ -913,7 +1280,8 @@ INSERT INTO `school_images` (`id`, `image_path`, `uploaded_at`) VALUES
 (17, '/uploads/1730538886478.jpg', '2024-11-02 09:14:46'),
 (18, '/uploads/1730538899883.jpg', '2024-11-02 09:14:59'),
 (19, '/uploads/1730538917000.jpg', '2024-11-02 09:15:17'),
-(20, '/uploads/1730538932669.jpg', '2024-11-02 09:15:32');
+(20, '/uploads/1730538932669.jpg', '2024-11-02 09:15:32'),
+(23, '/uploads/1731489919674.jpg', '2024-11-13 09:25:19');
 
 -- --------------------------------------------------------
 
@@ -967,7 +1335,7 @@ INSERT INTO `slider` (`id`, `slider_name`, `file_path`, `created_at`) VALUES
 (14, 'Slider Three', '/uploads/1729500319570.jpg', '2024-10-21 08:45:19'),
 (15, 'Slider Four', '/uploads/1729500338464.jpg', '2024-10-21 08:45:38'),
 (16, 'Slider Five', '/uploads/1729500354653.jpg', '2024-10-21 08:45:54'),
-(17, 'Slider Six', '/uploads/1729500376015.jpg', '2024-10-21 08:46:16');
+(17, 'Slider Six', '/uploads/1731754282569.jpg', '2024-10-21 08:46:16');
 
 -- --------------------------------------------------------
 
@@ -1031,8 +1399,9 @@ INSERT INTO `sub_menu` (`id`, `mainMenuId`, `subMenu`, `subLink`) VALUES
 
 CREATE TABLE `tenders` (
   `id` int(11) NOT NULL,
-  `tenders` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `status` varchar(255) NOT NULL,
+  `pdf` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1040,13 +1409,13 @@ CREATE TABLE `tenders` (
 -- Dumping data for table `tenders`
 --
 
-INSERT INTO `tenders` (`id`, `tenders`, `status`, `created_at`) VALUES
-(4, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', 'New', '2024-10-21 11:41:52'),
-(5, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', 'New', '2024-10-21 11:42:49'),
-(6, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', '-', '2024-10-21 11:44:21'),
-(7, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', '-', '2024-10-22 05:36:18'),
-(8, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', '-', '2024-10-22 05:44:25'),
-(12, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur.', 'New', '2024-11-04 16:59:34');
+INSERT INTO `tenders` (`id`, `description`, `status`, `pdf`, `created_at`) VALUES
+(4, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', 'New', 'uploads\\1731576158480.pdf', '2024-10-21 11:41:52'),
+(5, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', 'New', 'uploads\\1731576165367.pdf', '2024-10-21 11:42:49'),
+(6, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', '-', 'uploads\\1731576230627.pdf', '2024-10-21 11:44:21'),
+(7, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', '-', 'uploads\\1731576236297.pdf', '2024-10-22 05:36:18'),
+(8, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur in KBMC area.', '-', 'uploads\\1731576242591.pdf', '2024-10-22 05:44:25'),
+(12, 'Appointment of Consultant for GAD approval Bid process management and supervision for the construction of Rail Over Bridge ROB between Katrap to Belvali Badlapur.', 'New', 'uploads\\1731576250097.pdf', '2024-11-04 16:59:34');
 
 -- --------------------------------------------------------
 
@@ -1117,8 +1486,30 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `department`, `created_at`) VALUES
-(6, 'Abhay', 'Abhay123', 'Tax Department', '2024-11-04 18:45:08'),
-(7, 'Aniket', 'Aniket123', 'Account Department', '2024-11-07 21:29:16');
+(6, 'Admin', 'Admin123', 'Admin', '2024-11-04 18:45:08'),
+(20, 'Abhay', 'Abhay123', 'General Admin Department', '2024-11-20 07:02:11'),
+(22, 'Abhay', 'Abhay123', 'Tax Department', '2024-11-23 05:48:04'),
+(23, 'Abhay', 'Abhay123', 'Account Department', '2024-11-23 05:48:23'),
+(24, 'Abhay', 'Abhay123', 'Town Planning', '2024-11-23 05:48:58'),
+(25, 'Abhay', 'Abhay123', 'Public Work Department (PWD)', '2024-11-23 05:49:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `visitor_count`
+--
+
+CREATE TABLE `visitor_count` (
+  `id` int(11) NOT NULL,
+  `count` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `visitor_count`
+--
+
+INSERT INTO `visitor_count` (`id`, `count`) VALUES
+(1, 160);
 
 -- --------------------------------------------------------
 
@@ -1218,6 +1609,12 @@ INSERT INTO `websitelink` (`id`, `websitelink`, `websitelogo`) VALUES
 --
 
 --
+-- Indexes for table `admin_notification`
+--
+ALTER TABLE `admin_notification`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `awards`
 --
 ALTER TABLE `awards`
@@ -1242,6 +1639,12 @@ ALTER TABLE `citizen-charter`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `conditions`
+--
+ALTER TABLE `conditions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `contact`
 --
 ALTER TABLE `contact`
@@ -1251,6 +1654,38 @@ ALTER TABLE `contact`
 -- Indexes for table `departments`
 --
 ALTER TABLE `departments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `deptdata`
+--
+ALTER TABLE `deptdata`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `public_disclosure_id` (`public_disclosure_id`);
+
+--
+-- Indexes for table `deptdatayear`
+--
+ALTER TABLE `deptdatayear`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `department_id` (`department_id`);
+
+--
+-- Indexes for table `development_plan`
+--
+ALTER TABLE `development_plan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `development_plan_pdf`
+--
+ALTER TABLE `development_plan_pdf`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `downloads`
+--
+ALTER TABLE `downloads`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1350,9 +1785,27 @@ ALTER TABLE `newsupdate`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `notification`
+--
+ALTER TABLE `notification`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `policy`
+--
+ALTER TABLE `policy`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ponds_table`
 --
 ALTER TABLE `ponds_table`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pond_images`
+--
+ALTER TABLE `pond_images`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1377,6 +1830,12 @@ ALTER TABLE `property_holder`
 -- Indexes for table `prvt_hospital`
 --
 ALTER TABLE `prvt_hospital`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `publications`
+--
+ALTER TABLE `publications`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1465,6 +1924,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `visitor_count`
+--
+ALTER TABLE `visitor_count`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `wards`
 --
 ALTER TABLE `wards`
@@ -1481,34 +1946,46 @@ ALTER TABLE `websitelink`
 --
 
 --
+-- AUTO_INCREMENT for table `admin_notification`
+--
+ALTER TABLE `admin_notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+
+--
 -- AUTO_INCREMENT for table `awards`
 --
 ALTER TABLE `awards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `award_images`
 --
 ALTER TABLE `award_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `ceos`
 --
 ALTER TABLE `ceos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `citizen-charter`
 --
 ALTER TABLE `citizen-charter`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `conditions`
+--
+ALTER TABLE `conditions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -1517,10 +1994,40 @@ ALTER TABLE `departments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
+-- AUTO_INCREMENT for table `deptdata`
+--
+ALTER TABLE `deptdata`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
+-- AUTO_INCREMENT for table `deptdatayear`
+--
+ALTER TABLE `deptdatayear`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT for table `development_plan`
+--
+ALTER TABLE `development_plan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `development_plan_pdf`
+--
+ALTER TABLE `development_plan_pdf`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `downloads`
+--
+ALTER TABLE `downloads`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `elected_wings`
 --
 ALTER TABLE `elected_wings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `electric`
@@ -1538,31 +2045,31 @@ ALTER TABLE `fire_station`
 -- AUTO_INCREMENT for table `functions`
 --
 ALTER TABLE `functions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `gardens`
 --
 ALTER TABLE `gardens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `generaladminaddyear`
 --
 ALTER TABLE `generaladminaddyear`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `generaladmindepartment`
 --
 ALTER TABLE `generaladmindepartment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `health_dep_sec`
@@ -1574,13 +2081,13 @@ ALTER TABLE `health_dep_sec`
 -- AUTO_INCREMENT for table `health_photo_gallery`
 --
 ALTER TABLE `health_photo_gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `home_videos`
@@ -1592,13 +2099,13 @@ ALTER TABLE `home_videos`
 -- AUTO_INCREMENT for table `litigations`
 --
 ALTER TABLE `litigations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `main_menu`
 --
 ALTER TABLE `main_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `muncipal`
@@ -1613,22 +2120,40 @@ ALTER TABLE `newsupdate`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT for table `notification`
+--
+ALTER TABLE `notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+
+--
+-- AUTO_INCREMENT for table `policy`
+--
+ALTER TABLE `policy`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `ponds_table`
 --
 ALTER TABLE `ponds_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `pond_images`
+--
+ALTER TABLE `pond_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `presidents`
 --
 ALTER TABLE `presidents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `previous_chief_officer`
 --
 ALTER TABLE `previous_chief_officer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `property_holder`
@@ -1640,19 +2165,25 @@ ALTER TABLE `property_holder`
 -- AUTO_INCREMENT for table `prvt_hospital`
 --
 ALTER TABLE `prvt_hospital`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `publications`
+--
+ALTER TABLE `publications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `public_disclosure`
 --
 ALTER TABLE `public_disclosure`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `righttoservices`
 --
 ALTER TABLE `righttoservices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `roads`
@@ -1664,7 +2195,7 @@ ALTER TABLE `roads`
 -- AUTO_INCREMENT for table `rts_table`
 --
 ALTER TABLE `rts_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `sanitation_inspectors`
@@ -1676,13 +2207,13 @@ ALTER TABLE `sanitation_inspectors`
 -- AUTO_INCREMENT for table `schools`
 --
 ALTER TABLE `schools`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `school_images`
 --
 ALTER TABLE `school_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -1694,19 +2225,19 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `slider`
 --
 ALTER TABLE `slider`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `sub_menu`
 --
 ALTER TABLE `sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=273;
 
 --
 -- AUTO_INCREMENT for table `tenders`
 --
 ALTER TABLE `tenders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `treatment_facility`
@@ -1724,13 +2255,19 @@ ALTER TABLE `tree_census`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `visitor_count`
+--
+ALTER TABLE `visitor_count`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `wards`
 --
 ALTER TABLE `wards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `websitelink`
@@ -1741,6 +2278,18 @@ ALTER TABLE `websitelink`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `deptdata`
+--
+ALTER TABLE `deptdata`
+  ADD CONSTRAINT `deptdata_ibfk_1` FOREIGN KEY (`public_disclosure_id`) REFERENCES `public_disclosure` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `deptdatayear`
+--
+ALTER TABLE `deptdatayear`
+  ADD CONSTRAINT `deptdatayear_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `deptdata` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sub_menu`

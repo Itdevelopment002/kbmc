@@ -120,7 +120,8 @@ const AddGeneralYear = () => {
       const time = currentDate.toTimeString().split(" ")[0]; // Format time
   
       const notificationData = {
-        description: `Added year: '${year}', meeting type: '${meetingType}', and heading: '${pdfHeading}'`,
+        description: `In General Admin Department new pdf '${pdfHeading}' added.`,
+        role: "General Admin Department",
         name: "generaladminaddyear",
         new_id: newId, // Use the new ID here
         date,
@@ -129,6 +130,16 @@ const AddGeneralYear = () => {
   
       // Step 4: Post notification data
       await api.post("/admin-notifications", notificationData);
+
+      const notificationAdminData = {
+        heading: "Request Generated",
+        description: `Added year: '${year}', meeting type: '${meetingType}', and heading: '${pdfHeading}'`,
+        role: "Admin",
+        readed: 0, // Default unread status
+      };
+  
+      // eslint-disable-next-line
+      const notificationResponse = await api.post("/notification", notificationAdminData);
   
       // Step 5: Reset form and reload data
       fetchData();

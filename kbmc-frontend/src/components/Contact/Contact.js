@@ -35,6 +35,7 @@ const Contact = () => {
       const notificationData = {
         heading: "Feedback Submitted",
         description: `A new feedback was submitted by ${data.name}`,
+        role: "Admin",
         readed: 0, // Default unread status
       };
   

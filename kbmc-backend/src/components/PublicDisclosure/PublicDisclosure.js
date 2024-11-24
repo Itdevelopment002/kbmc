@@ -97,7 +97,8 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
         const time = currentDate.toTimeString().split(" ")[0]; 
   
         const notificationData = {
-          description: newDepartment,
+          description: `New Department: ${newDepartment}`,
+          role: "Admin",
           name: "public_disclosure",
           new_id: newId,
           date,
@@ -105,6 +106,17 @@ const PublicDisclosure = ({ fetchDepartments, fetchDepartmentData }) => {
         };
   
         await api.post("/admin-notifications", notificationData);
+
+        const notificationAdminData = {
+          heading: "Request Generated",
+          description: `A request has been generated for New department: ${newDepartment}`,
+          role: "Admin",
+          readed: 0, // Default unread status
+        };
+    
+        // Post the notification data to the notification API
+        const notificationResponse = await api.post("/notification", notificationAdminData);
+        console.log("Notification API response:", notificationResponse.data);
   
         setDepartments([
           ...departments,
