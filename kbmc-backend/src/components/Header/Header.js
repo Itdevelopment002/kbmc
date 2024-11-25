@@ -19,39 +19,45 @@ const Header = ({ onLogout, userDepartment }) => {
 
   console.log(userDepartment);
   // Fetch notifications on component mount
+
   const fetchNotify = async () => {
     try {
       // Fetch notifications from the API
       const response = await api.get('/notification'); // Replace with your actual backend endpoint
       const data = response.data.reverse();
 
-      console.log(data);
-  
+      console.log("Fetched Notifications:", data);
+
       // Filter notifications by matching the role with userDepartment
-      const filteredNotifications = data?.filter(
-        (notification) => notification?.role === userDepartment
+      const filteredNotifications = data.filter(
+        (notification) => notification.role === userDepartment
       );
 
-      console.log(filteredNotifications);
-  
+      console.log("Filtered Notifications:", filteredNotifications);
+
       // Update notifications state
       setNotifications(filteredNotifications);
-  
+
       // Count unread notifications and update state
       const unreadCount = filteredNotifications.filter(
         (notification) => notification.readed === 0
       ).length;
-  
+
       setUnreadCount(unreadCount);
     } catch (error) {
-      console.error('Error fetching notifications:', error);
+      console.error("Error fetching notifications:", error);
     }
   };
-
 
   useEffect(() => {
     if (userDepartment) {
       fetchNotify();
+
+      // Set up polling to fetch notifications every 3 seconds
+      const interval = setInterval(fetchNotify, 3000);
+
+      // Cleanup on component unmount
+      return () => clearInterval(interval);
     }
   }, [userDepartment]);
 
