@@ -25,6 +25,7 @@
     "react-scripts": "5.0.1",
     "react-scrollbars-custom": "^4.1.1",
     "react-slimscroll": "^0.0.2",
+    "react-spinner": "^0.2.7",
     "react-spinners": "^0.14.1",
     "react-toastify": "^10.0.6",
     "select2": "^4.1.0-rc.0",
