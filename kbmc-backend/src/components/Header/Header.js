@@ -102,13 +102,12 @@ const Header = ({ onLogout, userDepartment }) => {
     setIsSidebarOpen(false);
   };
 
-  // Update screen size state and auto-close sidebar for large screens
   useEffect(() => {
     const handleResize = () => {
       const isLarge = window.innerWidth > 990;
       setIsScreenLarge(isLarge);
       if (isLarge) {
-        setIsSidebarOpen(false); // Auto-close sidebar on large screens
+        setIsSidebarOpen(false);
       }
     };
 
@@ -116,7 +115,6 @@ const Header = ({ onLogout, userDepartment }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Close all dropdowns when clicking outside
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (!event.target.closest(".dropdown-toggle") && !event.target.closest(".dropdown-menu")) {
@@ -215,7 +213,7 @@ const Header = ({ onLogout, userDepartment }) => {
                               <button
                                 className="btn-close"
                                 onClick={(e) => {
-                                  e.stopPropagation(); // Prevent dropdown toggle when deleting
+                                  e.stopPropagation(); 
                                   handleDeleteNotification(notification.id);
                                 }}
                               >

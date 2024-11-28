@@ -23,7 +23,8 @@ const AddServices = () => {
         return Object.keys(errors).length === 0;
     };
 
-    const handleFileChange = (file, setFile, fieldName) => {
+    const handleFileChange = (e, setFile, fieldName) => {
+        const file = e.target.files[0];
         if (file && file.type.startsWith('image/')) {
             setFile(file);
             setErrors((prev) => ({ ...prev, [fieldName]: null }));
@@ -130,7 +131,7 @@ const AddServices = () => {
                                                     name="mainIcon"
                                                     className={`form-control form-control-md ${errors.mainIcon ? 'is-invalid' : ''}`}
                                                     accept="image/*"
-                                                    onChange={(e) => handleFileChange(e.target.files[0], setMainIcon, 'mainIcon')}
+                                                    onChange={(e) => handleFileChange(e, setMainIcon, 'mainIcon')}
                                                 />
                                                 {errors.mainIcon && <span className="text-danger">{errors.mainIcon}</span>}
                                             </div>
@@ -144,7 +145,7 @@ const AddServices = () => {
                                                     name="hoverIcon"
                                                     className={`form-control form-control-md ${errors.hoverIcon ? 'is-invalid' : ''}`}
                                                     accept="image/*"
-                                                    onChange={(e) => handleFileChange(e.target.files[0], setHoverIcon, 'hoverIcon')}
+                                                    onChange={(e) => handleFileChange(e, setHoverIcon, 'hoverIcon')}
                                                 />
                                                 {errors.hoverIcon && <span className="text-danger">{errors.hoverIcon}</span>}
                                             </div>
