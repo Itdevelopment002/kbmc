@@ -20,16 +20,20 @@ const Header = ({ onLogout, userDepartment }) => {
     ? notifications
     : notifications.slice(0, 5);
 
+  console.log(userDepartment);
+
   const fetchNotify = async () => {
     try {
       const response = await api.get("/notification");
       const data = response.data.reverse();
+
+      console.log("Fetched Notifications:", data);
       const filteredNotifications = data.filter(
         (notification) => notification.role === userDepartment
       );
 
+      console.log("Filtered Notifications:", filteredNotifications);
       setNotifications(filteredNotifications);
-
       const unreadCount = filteredNotifications.filter(
         (notification) => notification.readed === 0
       ).length;
@@ -76,6 +80,7 @@ const Header = ({ onLogout, userDepartment }) => {
       console.error("Error updating notification status", error);
     }
   };
+
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
@@ -226,7 +231,6 @@ const Header = ({ onLogout, userDepartment }) => {
               )}
             </li>
 
-            {/* User Profile with Online Status */}
             <li className="nav-item dropdown d-none d-sm-block">
               <Link
                 to="#."
@@ -245,7 +249,7 @@ const Header = ({ onLogout, userDepartment }) => {
                     alt="Admin"
                   />
                   <span className="status online"></span>{" "}
-                  {/* Online status dot */}
+                  {/ Online status dot /}
                 </span>
                 <span className="mx-1">Admin</span>{" "}
                 <i className="fa fa-angle-down ml-1"></i>
@@ -268,7 +272,6 @@ const Header = ({ onLogout, userDepartment }) => {
               )}
             </li>
 
-            {/* Mobile user menu, only visible on small screens */}
             <div className="dropdown mobile-user-menu float-right d-block d-sm-none">
               <Link
                 to="#."
