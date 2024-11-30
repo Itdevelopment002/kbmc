@@ -30,10 +30,6 @@ const AddPreviousPresidents = () => {
       formErrors.startDate = "Start Date is required.";
     }
 
-    if (!endDate) {
-      formErrors.endDate = "End Date is required.";
-    }
-
     if (!presidentImage) {
       formErrors.presidentImage = "President Image is required.";
     }
@@ -44,7 +40,7 @@ const AddPreviousPresidents = () => {
     }
 
     const formattedStartDate = startDate ? formatDate(startDate) : "";
-    const formattedEndDate = endDate ? formatDate(endDate) : "";
+    const formattedEndDate = endDate ? formatDate(endDate) : "00-00-0000";
 
     const formData = new FormData();
     formData.append("presidentName", presidentName);
@@ -84,7 +80,6 @@ const AddPreviousPresidents = () => {
     setPresidentImage(e.target.files[0]);
     setErrors((prev) => ({ ...prev, presidentImage: "" }));
   };
-  
 
   const handleInputChange = (e, field) => {
     if (e.target.value) {
@@ -132,10 +127,14 @@ const AddPreviousPresidents = () => {
                           }`}
                           placeholder="Enter president's Name"
                           value={presidentName}
-                          onChange={(e) => handleInputChange(e, "presidentName")}
+                          onChange={(e) =>
+                            handleInputChange(e, "presidentName")
+                          }
                         />
                         {errors.presidentName && (
-                          <div className="text-danger">{errors.presidentName}</div>
+                          <div className="text-danger">
+                            {errors.presidentName}
+                          </div>
                         )}
                       </div>
                     </div>
@@ -151,9 +150,9 @@ const AddPreviousPresidents = () => {
                           }`}
                           placeholder="Select Start Date"
                           value={startDate}
-                          onChange={(date) => { 
+                          onChange={(date) => {
                             setStartDate(date[0]);
-                            setErrors({ ...errors, startDate: "" });  
+                            setErrors({ ...errors, startDate: "" });
                           }}
                           options={{
                             dateFormat: "d-m-Y",
@@ -181,10 +180,10 @@ const AddPreviousPresidents = () => {
                           }`}
                           placeholder="Select End Date"
                           value={endDate}
-                          onChange={(date) => { 
+                          onChange={(date) => {
                             setEndDate(date[0]);
-                            setErrors({ ...errors, endDate: "" });  
-                                                    }}
+                            setErrors({ ...errors, endDate: "" });
+                          }}
                           options={{
                             dateFormat: "d-m-Y",
                             monthSelectorType: "dropdown",
@@ -201,7 +200,8 @@ const AddPreviousPresidents = () => {
                     </div>
                     <div className="form-group row">
                       <label className="col-form-label col-lg-2">
-                        Upload President Image<span className="text-danger">*</span>
+                        Upload President Image
+                        <span className="text-danger">*</span>
                       </label>
                       <div className="col-md-4">
                         <div className="input-group mb-3">
@@ -216,7 +216,9 @@ const AddPreviousPresidents = () => {
                           />
                         </div>
                         {errors.presidentImage && (
-                          <div className="text-danger">{errors.presidentImage}</div>
+                          <div className="text-danger">
+                            {errors.presidentImage}
+                          </div>
                         )}
                       </div>
                     </div>

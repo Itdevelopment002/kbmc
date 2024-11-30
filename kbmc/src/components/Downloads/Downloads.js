@@ -51,10 +51,10 @@ const Downloads = () => {
           <div className="row clearfix">
             <div className="col-lg-12 col-md-12 col-sm-12 content-side">
               <div className="row clearfix">
-                <div className="col-md-6">
-                  <div className="department-details-content citizen-chart-pdf">
-                    <div className="content-two">
-                      {downloads.map((download) => (
+                {downloads.map((download) => (
+                  <div key={download.id} className="col-md-6">
+                    <div className="department-details-content citizen-chart-pdf">
+                      <div className="content-two">
                         <div className="download-box">
                           <div className="icon-box">
                             <img src={pdficon} alt="" />
@@ -63,6 +63,7 @@ const Downloads = () => {
                           <div className="download-btn">
                             <Link
                               to={`${baseURL}/${download.pdf}`}
+                              rel="noreferrer"
                               target="_blank"
                               className="theme-btn btn-one"
                             >
@@ -70,10 +71,10 @@ const Downloads = () => {
                             </Link>
                           </div>
                         </div>
-                      ))}
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>

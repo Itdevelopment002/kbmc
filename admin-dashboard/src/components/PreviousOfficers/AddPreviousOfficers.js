@@ -22,7 +22,7 @@ const AddPreviousOfficers = () => {
     }
 
     const formattedStartDate = startDate ? formatDate(startDate) : "";
-    const formattedEndDate = endDate ? formatDate(endDate) : "";
+    const formattedEndDate = endDate ? formatDate(endDate) : null; // Use null if endDate is not provided
 
     const formData = new FormData();
     formData.append("officerName", officerName);
@@ -31,8 +31,7 @@ const AddPreviousOfficers = () => {
     formData.append("officerImage", officerImage);
 
     try {
-      //eslint-disable-next-line
-      const response = await api.post("/chief-officers", formData, {
+      await api.post("/chief-officers", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -52,7 +51,9 @@ const AddPreviousOfficers = () => {
     const errors = {};
     if (!officerName.trim()) errors.officerName = "Officer name is required.";
     if (!startDate) errors.startDate = "Start date is required.";
-    if (!endDate) errors.endDate = "End date is required.";
+    if (endDate && new Date(endDate) < new Date(startDate)) {
+      errors.endDate = "End date cannot be before the start date.";
+    }
     if (!officerImage) errors.officerImage = "Officer image is required.";
     return errors;
   };
@@ -88,7 +89,7 @@ const AddPreviousOfficers = () => {
             </li>
             <li className="breadcrumb-item">
               <Link to="/previous-officers">
-                Previous Chief officers of the council
+                Previous Chief Officers of the Council
               </Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
@@ -145,11 +146,6 @@ const AddPreviousOfficers = () => {
                           }
                           options={{
                             dateFormat: "d-m-Y",
-                            monthSelectorType: "dropdown",
-                            prevArrow:
-                              '<svg><path d="M10 5L5 10L10 15"></path></svg>',
-                            nextArrow:
-                              '<svg><path d="M5 5L10 10L5 15"></path></svg>',
                           }}
                         />
                         {errors.startDate && (
@@ -161,7 +157,7 @@ const AddPreviousOfficers = () => {
                     </div>
                     <div className="form-group row">
                       <label className="col-form-label col-md-2">
-                        End Date <span className="text-danger">*</span>
+                        End Date
                       </label>
                       <div className="cal-icon col-md-4">
                         <Flatpickr
@@ -176,11 +172,6 @@ const AddPreviousOfficers = () => {
                           }
                           options={{
                             dateFormat: "d-m-Y",
-                            monthSelectorType: "dropdown",
-                            prevArrow:
-                              '<svg><path d="M10 5L5 10L10 15"></path></svg>',
-                            nextArrow:
-                              '<svg><path d="M5 5L10 10L5 15"></path></svg>',
                           }}
                         />
                         {errors.endDate && (
@@ -190,20 +181,19 @@ const AddPreviousOfficers = () => {
                     </div>
                     <div className="form-group row">
                       <label className="col-form-label col-lg-2">
-                        Upload Officer Image <span className="text-danger">*</span>
+                        Upload Officer Image{" "}
+                        <span className="text-danger">*</span>
                       </label>
                       <div className="col-md-4">
-                        <div className="input-group ">
-                          <input
-                            type="file"
-                            id="userfile"
-                            name="userfile"
-                            className={`form-control form-control-md ${
-                              errors.officerImage ? "is-invalid" : ""
-                            }`}
-                            onChange={handleFileChange}
-                          />
-                        </div>
+                        <input
+                          type="file"
+                          id="userfile"
+                          name="userfile"
+                          className={`form-control form-control-md ${
+                            errors.officerImage ? "is-invalid" : ""
+                          }`}
+                          onChange={handleFileChange}
+                        />
                         {errors.officerImage && (
                           <span className="text-danger">
                             {errors.officerImage}
