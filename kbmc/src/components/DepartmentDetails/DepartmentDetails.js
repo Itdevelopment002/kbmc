@@ -90,7 +90,13 @@ const DepartmentDetails = () => {
                   <section className="youtube-sec">
                     <div className="">
                       <div className="row">
-                        <div className="col-md-6">
+                        <div
+                          className="col-md-6"
+                          style={{
+                            maxHeight: "300px", 
+                            overflowY: "auto",
+                          }}
+                        >
                           {videos.map((video, index) => (
                             <React.Fragment key={index}>
                               <div className="row" id="video-01">

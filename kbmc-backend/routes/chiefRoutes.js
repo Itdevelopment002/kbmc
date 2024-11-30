@@ -23,14 +23,16 @@ const convertToMySQLDate = (dateString) => {
 
 router.post("/chief-officers", upload.single("officerImage"), (req, res) => {
   const { officerName, startDate, endDate } = req.body;
-  const formattedStartDate = convertToMySQLDate(startDate);
-  const formattedEndDate = convertToMySQLDate(endDate);
 
-  if (!officerName || !startDate || !endDate) {
+  // Validate required fields
+  if (!officerName || !startDate) {
     return res
       .status(400)
-      .json({ message: "Officer name, start date, and end date are required" });
+      .json({ message: "Officer name and start date are required" });
   }
+
+  const formattedStartDate = convertToMySQLDate(startDate);
+  const formattedEndDate = endDate ? convertToMySQLDate(endDate) : null; // Use null if endDate is not provided
 
   const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
 
@@ -44,12 +46,10 @@ router.post("/chief-officers", upload.single("officerImage"), (req, res) => {
         console.error("Database Error:", err);
         return res.status(500).json({ message: "Database error", error: err });
       }
-      res
-        .status(200)
-        .json({
-          message: "Chief officer added successfully",
-          officerId: result.insertId,
-        });
+      res.status(200).json({
+        message: "Chief officer added successfully",
+        officerId: result.insertId,
+      });
     }
   );
 });

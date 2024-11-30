@@ -24,9 +24,12 @@ const NewsSection = () => {
       <div className="container-fluid">
         <div className="marquee">
           <div className="marquee-content">
-            {newsData.map((item, index) => (
+            {/* Duplicate news items for seamless scrolling */}
+            {newsData.concat(newsData).map((item, index) => (
               <div className="marquee-item" key={index}>
-                <span style={{ color: "#3EA4ED" }}>{index + 1}. </span>
+                <span style={{ color: "#3EA4ED" }}>
+                  {(index % newsData.length) + 1}.{" "}
+                </span>
                 {item.description}
               </div>
             ))}

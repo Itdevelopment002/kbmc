@@ -203,9 +203,12 @@ const PreviousOfficers = () => {
                                   .replace(/\//g, "-")}
                               </td>
                               <td>
-                                {new Date(officer.end_date)
-                                  .toLocaleDateString("en-GB")
-                                  .replace(/\//g, "-")}
+                                {officer.end_date &&
+                                !isNaN(new Date(officer.end_date))
+                                  ? new Date(officer.end_date)
+                                      .toLocaleDateString("en-GB")
+                                      .replace(/\//g, "-")
+                                  : "Present"}
                               </td>
                               <td>
                                 <Link

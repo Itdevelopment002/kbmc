@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const PreviousChiefOfficers = () => {
   const [chiefs, setChiefs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 12;
 
   const fetchChiefs = async () => {
     try {
@@ -34,11 +34,15 @@ const PreviousChiefOfficers = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
+    if (!dateString || isNaN(date)) {
+      return "Present";
+    }
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
     return `${day}.${month}.${year}`;
   };
+  
 
   return (
     <div>

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const PreviousPresidents = () => {
   const [presidents, setPresidents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 12;
 
   const fetchPresidents = async () => {
     try {
@@ -35,6 +35,9 @@ const PreviousPresidents = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
+    if (!dateString || isNaN(date)) {
+      return "Present";
+    }
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
@@ -54,13 +57,13 @@ const PreviousPresidents = () => {
         </div>
         <div className="auto-container">
           <div className="content-box">
-            <h1>Previous President's of the council</h1>
+            <h1>Previous Presidents of the council</h1>
             <ul className="bread-crumb clearfix">
               <li>
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <span>Previous President's of the council</span>
+                <span>Previous Presidents of the council</span>
               </li>
             </ul>
           </div>

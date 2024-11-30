@@ -56,6 +56,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import DeptData from "./components/DeptData/DeptData";
 import DeptDataYear from "./components/DeptData/DeptDataYear";
 import CookieConsent from "./components/CookieConsent/CookieConsent";
+import TermsAndConditions from "./components/TermsAndConditions/TermsAndConditions";
 
 function App() {
   const [departments, setDepartments] = useState([]);
@@ -94,7 +95,7 @@ function App() {
     fetchDepartmentData();
     fetchDepartmentDatas();
   }, []);
-  
+
   return (
     <Router>
       <Header />
@@ -183,7 +184,7 @@ function App() {
             data?.heading_link ? (
               <Route
                 key={data?.heading_link}
-                path={data?.heading_link} 
+                path={data?.heading_link}
                 element={<DeptDataYear />}
               />
             ) : null
@@ -191,6 +192,7 @@ function App() {
         ) : (
           <>Loding...</>
         )}
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       </Routes>
       <ScrollToTop />
       <WhatsAppChat />

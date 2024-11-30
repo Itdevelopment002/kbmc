@@ -201,9 +201,12 @@ const PreviousPresidents = () => {
                                   .replace(/\//g, "-")}
                               </td>
                               <td>
-                                {new Date(president.end_date)
-                                  .toLocaleDateString("en-GB")
-                                  .replace(/\//g, "-")}
+                                {president.end_date &&
+                                !isNaN(new Date(president.end_date))
+                                  ? new Date(president.end_date)
+                                      .toLocaleDateString("en-GB")
+                                      .replace(/\//g, "-")
+                                  : "Present"}
                               </td>
                               <td>
                                 <Link
